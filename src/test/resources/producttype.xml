@@ -1,0 +1,12 @@
+<dataset>
+	<productType id="1"
+		name="Shak"
+		image="test"
+		icon="test"
+		sequence="1"/>
+	<productType id="2"
+		name="Sobji"
+		image="test"
+		icon="test"
+		sequence="2"/>
+</dataset>
