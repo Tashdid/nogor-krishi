@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import com.niil.nogor.krishi.repo.*;
  *
  */
 @Component
+@Profile("dev")
 public class SeedDataLoader implements ApplicationRunner {
 
 	@Autowired ProductTypeRepo productTypeRepo;
@@ -60,7 +62,7 @@ public class SeedDataLoader implements ApplicationRunner {
 				.image(getImageAsByte("seed/fruits.png"))
 				.icon(getImageAsByte("seed/icon-fruit.jpg")).build());
 	}
-	
+
 	private byte[] getImageAsByte(String image) throws IOException {
 		ClassPathResource backImgFile = new ClassPathResource(image);
 		byte[] arrayPic = new byte[(int) backImgFile.contentLength()];
