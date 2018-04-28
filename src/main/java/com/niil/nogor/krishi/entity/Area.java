@@ -15,11 +15,11 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude={"image", "icon"})
-public class ProductType {
+public class Area {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
-	private @Lob byte[] image;
-	private @Lob byte[] icon;
-	private @Column(unique=true) int sequence;
+	private Double latitude;
+	private Double longitude;
+	private int sequence;
+	private @ManyToOne City city;
 }

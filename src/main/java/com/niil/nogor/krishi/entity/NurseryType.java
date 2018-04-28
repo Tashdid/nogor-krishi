@@ -1,7 +1,5 @@
 package com.niil.nogor.krishi.entity;
 
-import java.util.List;
-
 import javax.persistence.*;
 
 import lombok.*;
@@ -17,15 +15,10 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+@ToString(exclude={"image"})
+public class NurseryType {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
-	private @Column(nullable=false) String description;
 	private @Lob byte[] image;
-	private String productivity;
-	private String benefits;
-	private int sequence;
-	private @ManyToOne ProductType productType;
-	private @ManyToOne SaleType saleType;
-	private @ManyToMany(targetEntity=Material.class) List<Material> materials;
+	private @Column(unique=true) int sequence;
 }

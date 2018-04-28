@@ -15,11 +15,14 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude={"image", "icon"})
-public class ProductType {
+public class Nursery {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
-	private @Lob byte[] image;
-	private @Lob byte[] icon;
-	private @Column(unique=true) int sequence;
+	private String address;
+	private String phone;
+	private String password;
+	private Double latitude;
+	private Double longitude;
+	private int sequence;
+	private @ManyToOne Area area;
 }

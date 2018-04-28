@@ -1,5 +1,7 @@
 package com.niil.nogor.krishi.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 
 import lombok.*;
@@ -15,11 +17,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude={"image", "icon"})
-public class ProductType {
+public class MaterialPrice {
 	private @Id @GeneratedValue Long id;
-	private @Column(nullable=false) String name;
-	private @Lob byte[] image;
-	private @Lob byte[] icon;
-	private @Column(unique=true) int sequence;
+	private BigDecimal price;
+	private @ManyToOne Material material;
+	private @ManyToOne Nursery nursery;
 }
