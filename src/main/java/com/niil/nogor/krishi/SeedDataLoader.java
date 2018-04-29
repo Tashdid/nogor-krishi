@@ -52,15 +52,30 @@ public class SeedDataLoader implements ApplicationRunner {
 		Material drum = materialRepo.save(Material.builder().name("ড্রাম").type(patroT).build());
 		Material mati = materialRepo.save(Material.builder().name("মাটি").type(matiT).build());
 		
-		ProductType shak = productTypeRepo.save(ProductType.builder().name("শাক").sequence(1)
+		ProductType shak = productTypeRepo.save(ProductType.builder().name("শাক")
+				.alternativeName("Leafy Vegetables").sequence(1)
 				.image(getImageAsByte("seed/shak.png"))
 				.icon(getImageAsByte("seed/icon-shak.jpg")).build());
-		ProductType shobji = productTypeRepo.save(ProductType.builder().name("সবজি").sequence(2)
+		ProductType shobji = productTypeRepo.save(ProductType.builder().name("সবজি")
+				.alternativeName("Vegetables").sequence(2)
 				.image(getImageAsByte("seed/vegetables.png"))
 				.icon(getImageAsByte("seed/icon-shobji.jpg")).build());
-		ProductType fruit = productTypeRepo.save(ProductType.builder().name("ফলমূল").sequence(3)
+		ProductType fruit = productTypeRepo.save(ProductType.builder().name("ফলমূল")
+				.alternativeName("Fruits").sequence(3)
 				.image(getImageAsByte("seed/fruits.png"))
 				.icon(getImageAsByte("seed/icon-fruit.jpg")).build());
+		ProductType oishodhi = productTypeRepo.save(ProductType.builder().name("ঔষধি ও রান্নার উপকরণ")
+				.alternativeName("Herbs & Ingredients").sequence(4)
+				.image(getImageAsByte("seed/herbs.png"))
+				.icon(getImageAsByte("seed/icon-herbs.jpg")).build());
+		ProductType deco = productTypeRepo.save(ProductType.builder().name("সৌন্দর্য বর্ধন (ছোট ছাদ)")
+				.alternativeName("Decorative (Small Rooftops)").sequence(5)
+				.image(getImageAsByte("seed/decorative.png"))
+				.icon(getImageAsByte("seed/icon-decorative.jpg")).build());
+		ProductType corner = productTypeRepo.save(ProductType.builder().name("কর্নার এবং ইনডোর")
+				.alternativeName("Corners & Indoors").sequence(6)
+				.image(getImageAsByte("seed/corners.png"))
+				.icon(getImageAsByte("seed/icon-corners.jpg")).build());
 	}
 
 	private byte[] getImageAsByte(String image) throws IOException {

@@ -1,0 +1,75 @@
+<div>
+	<div th:fragment="common-meta" th:remove="tag">
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<title>নগরকৃষি প্রকল্প - Nogorkrishi Prokolpo</title>
+		<link rel="shortcut icon" href="favicon.ico" />
+		<link rel="icon" href="favicon.ico" />
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" th:href="@{css/lib/bootstrap.min.css}" href="css/lib/bootstrap.min.css" />
+		<link rel="stylesheet" th:href="@{css/lib/font-awesome.min.css}" href="css/lib/font-awesome.min.css" />
+		<link rel="stylesheet" th:href="@{css/nogorkrishi-styles.css}" href="css/nogorkrishi-styles.css" />
+	</div>
+
+	<div th:fragment="common-menu" id="header-container">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4">
+					<a href="/">
+						<img th:src="@{images/nogorkrishi-header-symbol.png}" src="images/nogorkrishi-header-symbol.png" style="padding-right: 4px;" />
+						<img th:src="@{images/nogorkrishi-header-text.png}" src="images/nogorkrishi-header-text.png" />
+					</a>
+				</div>
+				<div class="col-lg-8 text-right" id="header-nav-items">
+					<img th:src="@{images/icon-ponno.png}" src="images/icon-ponno.png" />
+					<span><a href="/ponno">পণ্য </a></span>
+
+					<img th:src="@{images/icon-sheba.png}" src="images/icon-sheba.png" />
+					<span><a href="/vendors">সেবা </a></span>
+
+					<img th:src="@{images/icon-poramorsho.png}" src="images/icon-poramorsho.png" />
+					<span><a href="#">পরামর্শ</a></span>
+
+					<img th:src="@{images/icon-about.png}" src="images/icon-about.png" />
+					<span><a href="#">আমাদের সম্পর্কে </a></span>
+
+					<img th:src="@{images/icon-contact.png}" src="images/icon-contact.png" />
+					<span><a href="#">যোগাযোগ </a></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:fragment="commom-js" th:remove="tag">
+		<script th:src="@{js/lib/jquery-3.1.1.slim.min.js}" src="js/jquery-3.1.1.slim.min.js" ></script>
+		<script th:src="@{js/lib/tether.min.js}" src="js/lib/tether.min.js" ></script>
+		<script th:src="@{js/lib/bootstrap.min.js}" src="js/lib/bootstrap.min.js" ></script>
+	</div>
+
+	<div th:fragment="commom-footer" id="footer-container">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<p>
+						<img src="images/footer-logo.png" style="margin-bottom: 20px;"/>
+					</p>
+					<p>যোগাযোগ এর ঠিকানা,</p>
+					<p> ব্লগে লেখালেখি সংক্রান্ত: editor@nogorkrishi.com <br/>
+						নার্সারি সংক্রান্ত: nursery@nogorkrishi.com </p>
+					<p>
+						<a href="" class="btn btn-primary">
+							<img src="images/icon-contact.png" style="height: 16px !important;"/>  যোগাযোগ ফর্ম
+						</a>
+					</p>
+				</div>
+				<div class="col-lg-6 pt-5">
+					<p>
+						নগরকৃষী একটি ফরাসি ফিজিসিস্ট। ক্রিস্টালোগ্রাফি, রেডিয়েশন বিষয়ক গবেষণার ক্ষেত্রে পথপ্রদর্শক। রেডিয়েশন নিয়ে গবেষণার জন্য ১৯০৩ সালে নোবেল পুরষ্কার পান অরি বেক্যুইরেল আর মারিয়া সালোমেয়া স্ক্লোডোস্কার সঙ্গে যৌথ ভাবে কাজ করে।
+					</p>
+					<p>	রিস্টালোগ্রাফি, রেডিয়েশন বিষয়ক গবেষণার ক্ষেত্রে পথপ্রদর্শক। রেডিয়েশন নিয়ে গবেষণার জন্য ১৯০৩ সালে নোবেল পুরষ্কার পান।</p>
+					<p>আমাদের নিয়ে বিস্তারিত জানুন</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -17,11 +17,14 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude={"image", "icon"})
 public class Product {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
 	private @Column(nullable=false) String description;
+	private String alternativeName;
 	private @Lob byte[] image;
+	private @Lob byte[] icon;
 	private String productivity;
 	private String benefits;
 	private int sequence;
