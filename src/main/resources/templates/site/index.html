@@ -1,9 +1,9 @@
 <html>
 	<head>
-		<meta th:replace="site/common :: common-meta" th:remove="tag"/>
+		<meta th:replace="common :: common-meta" th:remove="tag"/>
 	</head>
 	<body>
-		<div th:replace="site/common :: common-menu" th:remove="tag"></div>
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 		<div id="homepage-slider" class="text-center">
 			<img th:src="@{images/hero-logo.png}" src="images/hero-logo.png" style="padding-top: 44px;" />
@@ -234,12 +234,7 @@
 			</div>
 		</div>
 
-		<div class="floral-divider">
-			<div class="text-center m-auto">
-				<img src="images/floral-divider.jpg" class="img-fluid" />
-			</div>
-		</div>
-		<div th:replace="site/common :: common-js" th:remove="tag"></div>
-		<div th:replace="site/common :: commom-footer" th:remove="tag"></div>
+		<div th:replace="common :: common-js" th:remove="tag"></div>
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
 	</body>
 </html>
