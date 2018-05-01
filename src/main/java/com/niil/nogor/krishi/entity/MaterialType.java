@@ -18,5 +18,5 @@ import lombok.*;
 public class MaterialType {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
-	private @Column(unique=true) int sequence;
+	private int sequence;
 }

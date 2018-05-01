@@ -239,3 +239,11 @@ ul.list-blogHeadline li{ margin-bottom: 34px; }
 #pclp-container p{ margin-bottom: 0.5rem; }
 
 .product-description-text p{ line-height: 36px; margin-bottom: 1.2rem !important; font-size: 18px; }
+
+.hoverme img {
+	display: none;
+}
+
+.hoverme:hover img {
+	display: block;
+}

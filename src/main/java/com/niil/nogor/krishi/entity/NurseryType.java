@@ -20,5 +20,5 @@ public class NurseryType {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
 	private @Lob byte[] image;
-	private @Column(unique=true) int sequence;
+	private int sequence;
 }

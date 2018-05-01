@@ -17,4 +17,6 @@ import com.niil.nogor.krishi.entity.ProductType;
 public interface ProductTypeRepo extends CrudRepository<ProductType, Long> {
 
 	List<ProductType> findAllByOrderBySequenceAsc();
+	
+	ProductType findTopByOrderBySequenceDesc();
 }
