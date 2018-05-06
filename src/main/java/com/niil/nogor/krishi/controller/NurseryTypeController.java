@@ -10,10 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import com.niil.nogor.krishi.entity.ProductType;
-import com.niil.nogor.krishi.repo.ProductTypeRepo;
-import com.niil.nogor.krishi.view.ProductTypeForm;
-import com.niil.nogor.krishi.view.SequenceUpdater;
+import com.niil.nogor.krishi.entity.NurseryType;
+import com.niil.nogor.krishi.repo.NurseryTypeRepo;
+import com.niil.nogor.krishi.view.*;
 
 /**
  * @author Noor
@@ -22,11 +21,11 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
  *
  */
 @Controller
-@RequestMapping(ProductTypeController.URL)
-public class ProductTypeController {
-	static final String URL = "/manage/producttype";
+@RequestMapping(NurseryTypeController.URL)
+public class NurseryTypeController {
+	static final String URL = "/manage/nurserytype";
 
-	@Autowired ProductTypeRepo productTypeRepo;
+	@Autowired NurseryTypeRepo nurseryTypeRepo;
 
 	@RequestMapping
 	public String newScreen(ModelMap model) {
@@ -35,29 +34,27 @@ public class ProductTypeController {
 
 	@RequestMapping(value="/{code}")
 	public String updateScreen(@PathVariable Long code, ModelMap model) {
-		ProductType bean = code == null ? new ProductType() : productTypeRepo.findOne(code);
-		if (bean == null) bean = new ProductType();
+		NurseryType bean = code == null ? new NurseryType() : nurseryTypeRepo.findOne(code);
+		if (bean == null) bean = new NurseryType();
 		model.addAttribute("bean", bean);
-		model.addAttribute("brand", "Product Type");
-		model.addAttribute("beans", productTypeRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("brand", "Nursery Type");
+		model.addAttribute("beans", nurseryTypeRepo.findAllByOrderBySequenceAsc());
 		return URL;
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
 	public String save(@Valid ProductTypeForm type) throws IOException {
-		ProductType bean;
-		if (type.getId() == null || (bean = productTypeRepo.findOne(type.getId())) == null) {
-			ProductType lt = productTypeRepo.findTopByOrderBySequenceDesc();
+		NurseryType bean;
+		if (type.getId() == null || (bean = nurseryTypeRepo.findOne(type.getId())) == null) {
+			NurseryType lt = nurseryTypeRepo.findTopByOrderBySequenceDesc();
 			int seq = (lt == null ? 0 : lt.getSequence()) + 1;
-			bean = ProductType.builder()
+			bean = NurseryType.builder()
 						.sequence(seq)
 						.build();
 		}
 		bean.setName(type.getName());
-		bean.setAlternativeName(type.getAlternativeName());
-		bean.setIcon(type.getIconFile() == null || type.getIconFile().isEmpty() ? bean.getIcon() : type.getIconFile().getBytes());
 		bean.setImage(type.getImageFile() == null || type.getImageFile().isEmpty() ? bean.getImage() : type.getImageFile().getBytes());
-		bean = productTypeRepo.save(bean);
+		bean = nurseryTypeRepo.save(bean);
 		return "redirect:" + URL + "/" + bean.getId();
 	}
 
@@ -65,8 +62,8 @@ public class ProductTypeController {
 	@ResponseBody
 	public boolean tableDataPost(SequenceUpdater updater) {
 		if (updater != null) {
-			productTypeRepo.save(updater.getData().entrySet().stream().map(e -> {
-				ProductType bean = productTypeRepo.findOne(e.getKey());
+			nurseryTypeRepo.save(updater.getData().entrySet().stream().map(e -> {
+				NurseryType bean = nurseryTypeRepo.findOne(e.getKey());
 				bean.setSequence(e.getValue());
 				return bean;
 			}).collect(Collectors.toList()));
@@ -77,7 +74,7 @@ public class ProductTypeController {
 	@RequestMapping(value="/{code}", method=RequestMethod.POST)
 	@ResponseBody
 	public Boolean delete(@PathVariable Long code) {
-		productTypeRepo.delete(code);
+		nurseryTypeRepo.delete(code);
 		return true;
 	}
 }

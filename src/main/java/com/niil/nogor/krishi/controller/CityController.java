@@ -10,9 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import com.niil.nogor.krishi.entity.ProductType;
-import com.niil.nogor.krishi.repo.ProductTypeRepo;
-import com.niil.nogor.krishi.view.ProductTypeForm;
+import com.niil.nogor.krishi.entity.City;
+import com.niil.nogor.krishi.repo.CityRepo;
 import com.niil.nogor.krishi.view.SequenceUpdater;
 
 /**
@@ -22,11 +21,11 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
  *
  */
 @Controller
-@RequestMapping(ProductTypeController.URL)
-public class ProductTypeController {
-	static final String URL = "/manage/producttype";
+@RequestMapping(CityController.URL)
+public class CityController {
+	static final String URL = "/manage/city";
 
-	@Autowired ProductTypeRepo productTypeRepo;
+	@Autowired CityRepo cityRepo;
 
 	@RequestMapping
 	public String newScreen(ModelMap model) {
@@ -35,29 +34,26 @@ public class ProductTypeController {
 
 	@RequestMapping(value="/{code}")
 	public String updateScreen(@PathVariable Long code, ModelMap model) {
-		ProductType bean = code == null ? new ProductType() : productTypeRepo.findOne(code);
-		if (bean == null) bean = new ProductType();
+		City bean = code == null ? new City() : cityRepo.findOne(code);
+		if (bean == null) bean = new City();
 		model.addAttribute("bean", bean);
-		model.addAttribute("brand", "Product Type");
-		model.addAttribute("beans", productTypeRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("brand", "City");
+		model.addAttribute("beans", cityRepo.findAllByOrderBySequenceAsc());
 		return URL;
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public String save(@Valid ProductTypeForm type) throws IOException {
-		ProductType bean;
-		if (type.getId() == null || (bean = productTypeRepo.findOne(type.getId())) == null) {
-			ProductType lt = productTypeRepo.findTopByOrderBySequenceDesc();
+	public String save(@Valid City type) throws IOException {
+		City bean;
+		if (type.getId() == null || (bean = cityRepo.findOne(type.getId())) == null) {
+			City lt = cityRepo.findTopByOrderBySequenceDesc();
 			int seq = (lt == null ? 0 : lt.getSequence()) + 1;
-			bean = ProductType.builder()
+			bean = City.builder()
 						.sequence(seq)
 						.build();
 		}
 		bean.setName(type.getName());
-		bean.setAlternativeName(type.getAlternativeName());
-		bean.setIcon(type.getIconFile() == null || type.getIconFile().isEmpty() ? bean.getIcon() : type.getIconFile().getBytes());
-		bean.setImage(type.getImageFile() == null || type.getImageFile().isEmpty() ? bean.getImage() : type.getImageFile().getBytes());
-		bean = productTypeRepo.save(bean);
+		bean = cityRepo.save(bean);
 		return "redirect:" + URL + "/" + bean.getId();
 	}
 
@@ -65,8 +61,8 @@ public class ProductTypeController {
 	@ResponseBody
 	public boolean tableDataPost(SequenceUpdater updater) {
 		if (updater != null) {
-			productTypeRepo.save(updater.getData().entrySet().stream().map(e -> {
-				ProductType bean = productTypeRepo.findOne(e.getKey());
+			cityRepo.save(updater.getData().entrySet().stream().map(e -> {
+				City bean = cityRepo.findOne(e.getKey());
 				bean.setSequence(e.getValue());
 				return bean;
 			}).collect(Collectors.toList()));
@@ -77,7 +73,9 @@ public class ProductTypeController {
 	@RequestMapping(value="/{code}", method=RequestMethod.POST)
 	@ResponseBody
 	public Boolean delete(@PathVariable Long code) {
-		productTypeRepo.delete(code);
+		cityRepo.delete(code);
 		return true;
 	}
 }
+
+

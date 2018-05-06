@@ -1,8 +1,11 @@
 package com.niil.nogor.krishi.repo;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.niil.nogor.krishi.entity.Area;
 import com.niil.nogor.krishi.entity.Nursery;
 
 /**
@@ -12,6 +15,10 @@ import com.niil.nogor.krishi.entity.Nursery;
  *
  */
 @Repository
-public interface NurseryRepo extends CrudRepository<Nursery, Long> {
+public interface NurseryRepo extends JpaRepository<Nursery, Long> {
+
+	List<Nursery> findAllByAreaOrderBySequenceAsc(Area area);
+	
+	Nursery findTopByAreaOrderBySequenceDesc(Area area);
 
 }

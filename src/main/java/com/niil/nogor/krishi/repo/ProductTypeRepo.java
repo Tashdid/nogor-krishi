@@ -2,7 +2,7 @@ package com.niil.nogor.krishi.repo;
 
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.niil.nogor.krishi.entity.ProductType;
@@ -14,7 +14,7 @@ import com.niil.nogor.krishi.entity.ProductType;
  *
  */
 @Repository
-public interface ProductTypeRepo extends CrudRepository<ProductType, Long> {
+public interface ProductTypeRepo extends JpaRepository<ProductType, Long> {
 
 	List<ProductType> findAllByOrderBySequenceAsc();
 	

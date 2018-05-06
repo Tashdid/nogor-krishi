@@ -1,6 +1,8 @@
 package com.niil.nogor.krishi;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -22,12 +24,17 @@ import com.niil.nogor.krishi.repo.*;
 @Profile("dev")
 public class SeedDataLoader implements ApplicationRunner {
 
-	@Autowired ProductTypeRepo productTypeRepo;
 	@Autowired SaleTypeRepo saleTypeRepo;
 	@Autowired CityRepo cityRepo;
 	@Autowired AreaRepo areaRepo;
 	@Autowired MaterialTypeRepo materialTypeRepo;
 	@Autowired MaterialRepo materialRepo;
+	@Autowired NurseryTypeRepo nurseryTypeRepo;
+	@Autowired NurseryRepo nurseryRepo;
+	@Autowired ProductTypeRepo productTypeRepo;
+	@Autowired ProductRepo productRepo;
+	@Autowired MaterialPriceRepo materialPriceRepo;
+	@Autowired ProductPriceRepo productPriceRepo;
 
 	@SuppressWarnings("unused")
 	public void run(ApplicationArguments args) throws IOException {
@@ -76,6 +83,51 @@ public class SeedDataLoader implements ApplicationRunner {
 				.alternativeName("Corners & Indoors").sequence(6)
 				.image(getImageAsByte("seed/corners.png"))
 				.icon(getImageAsByte("seed/icon-corners.jpg")).build());
+
+		Product lalshak = productRepo.save(Product.builder().name("লাল শাক")
+				.alternativeName("Red Leaf").sequence(1)
+				.description("জনপ্রিয় শাকের মধ্যে লাল শাক অন্যতম। খেতেও যেমন সুস্বাদু তেমনি পুষ্টিগুণে ভরপুর। পুষ্টিগুণ এবং রোগ প্রতিরোধের দিক দিয়ে লাল শাকের চেয়ে যোজন যোজন দূরে অন্যান্য শাক।\n\nলাল শাক রূপে যেমন মনোহারী গুণেও তেমন কার্যকরী। পাতের ভাতকে নতুন রূপ দিতেও সেরা। ছোট বড় সবাই এর স্বাদের ভক্ত।\n\nলাল শাক, ডাঁটা শাক বা ডাঙ্গা শাক, এরা সবই একই গোত্রের এবং এদের প্রজাতিও একই। বিশ্বের অন্য দেশে এদেরকে ফুলের গাছ হিসাবে ব্যবহার করা হলেও আমাদের বাংলাদেশে কিন্তু আমরা একে সবজি হিসাবে ব্যবহার করি।")
+				.image(getImageAsByte("seed/tree-lal-shak.png"))
+				.productivity("২ কেজি প্রতি মাস")
+				.benefits("ভিটামিন এ, বি ও কে দিয়ে ভরপুর, নতুন রক্ত হতে সাহায্যয় করে, ইমিউনিটি বাড়ায়।")
+				.icon(getImageAsByte("seed/icon-herbs.jpg"))
+				.type(shak).saleType(chara).materials(Arrays.asList(tob, mati)).build());
+		Product mulashak = productRepo.save(Product.builder().name("মুলা শাক")
+				.alternativeName("Mula Shak").sequence(2)
+				.description("জনপ্রিয় শাকের মধ্যে মুলা শাক অন্যতম। খেতেও যেমন সুস্বাদু তেমনি পুষ্টিগুণে ভরপুর। পুষ্টিগুণ এবং রোগ প্রতিরোধের দিক দিয়ে লাল শাকের চেয়ে যোজন যোজন দূরে অন্যান্য শাক।\n\nলাল শাক রূপে যেমন মনোহারী গুণেও তেমন কার্যকরী। পাতের ভাতকে নতুন রূপ দিতেও সেরা। ছোট বড় সবাই এর স্বাদের ভক্ত।\n\nলাল শাক, ডাঁটা শাক বা ডাঙ্গা শাক, এরা সবই একই গোত্রের এবং এদের প্রজাতিও একই। বিশ্বের অন্য দেশে এদেরকে ফুলের গাছ হিসাবে ব্যবহার করা হলেও আমাদের বাংলাদেশে কিন্তু আমরা একে সবজি হিসাবে ব্যবহার করি।")
+				.image(getImageAsByte("seed/tree-kochu.png"))
+				.productivity("১ কেজি প্রতি মাস")
+				.benefits("এই শাকটিকে অ্যান্টিক্যান্সার উপাদান সমৃদ্ধ সবজির তালিকায় ব্রোকলি এবং কপির পাশাপাশি অবস্থান দেওয়া যেতে পারে। মুলা শাক গ্রহণ করলে অ্যালার্জি ও হৃদপিণ্ডের বিভিন্ন রোগ থেকে সুরক্ষা পাওয়া সম্ভব।")
+				.icon(getImageAsByte("seed/icon-herbs.jpg"))
+				.type(shak).saleType(bij).materials(Arrays.asList(drum, mati)).build());
+
+		NurseryType gov = nurseryTypeRepo.save(NurseryType.builder().name("সরকারী")
+				.image(getImageAsByte("seed/nursery-logo-govt.jpg"))
+				.sequence(1).build());
+		NurseryType priv = nurseryTypeRepo.save(NurseryType.builder().name("বেসরকারী")
+				.image(getImageAsByte("seed/nursery-logo-private.png"))
+				.sequence(2).build());
+
+		Nursery s1 = nurseryRepo.save(Nursery.builder().name("Test Nursery")
+				.type(gov).area(uttara).address("Sector 11")
+				.phone("123456578").sequence(1)
+				.latitude(23.873751).longitude(90.396454).build());
+		Nursery s2 = nurseryRepo.save(Nursery.builder().name("Test Nursery 2")
+				.type(gov).area(uttara).address("Sector 12")
+				.phone("123456578").sequence(2)
+				.latitude(23.746466).longitude(90.376015).build());
+
+		materialPriceRepo.save(MaterialPrice.builder().material(tob).nursery(s1).price(new BigDecimal("80")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(drum).nursery(s1).price(new BigDecimal("200")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(mati).nursery(s1).price(new BigDecimal("50")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(tob).nursery(s2).price(new BigDecimal("70")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(drum).nursery(s2).price(new BigDecimal("180")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(mati).nursery(s2).price(new BigDecimal("40")).build());
+
+		productPriceRepo.save(ProductPrice.builder().product(lalshak).nursery(s1).price(new BigDecimal("20")).build());
+		productPriceRepo.save(ProductPrice.builder().product(mulashak).nursery(s1).price(new BigDecimal("20")).build());
+		productPriceRepo.save(ProductPrice.builder().product(lalshak).nursery(s2).price(new BigDecimal("25")).build());
+		productPriceRepo.save(ProductPrice.builder().product(mulashak).nursery(s2).price(new BigDecimal("25")).build());
 	}
 
 	private byte[] getImageAsByte(String image) throws IOException {

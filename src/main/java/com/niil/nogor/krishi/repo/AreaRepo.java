@@ -1,9 +1,12 @@
 package com.niil.nogor.krishi.repo;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.niil.nogor.krishi.entity.Area;
+import com.niil.nogor.krishi.entity.City;
 
 /**
  * @author Noor
@@ -12,6 +15,10 @@ import com.niil.nogor.krishi.entity.Area;
  *
  */
 @Repository
-public interface AreaRepo extends CrudRepository<Area, Long> {
+public interface AreaRepo extends JpaRepository<Area, Long> {
+
+	List<Area> findAllByCityOrderBySequenceAsc(City city);
+	
+	Area findTopByCityOrderBySequenceDesc(City city);
 
 }

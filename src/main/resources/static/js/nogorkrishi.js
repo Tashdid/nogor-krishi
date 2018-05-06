@@ -5,7 +5,25 @@ $(document).ready(function() {
 	if (parts.length > 3) {
 		path = "/" + parts[1] + "/" + parts[2];
 	}
-	$(".nav-link[href='" + path + "']").addClass("active");
+	$(".dropdown-item[href='" + path + "']").addClass("active");
+
+	$("body").on("click", ".rmvbtn", function(){
+		var btn = $(this);
+		bootbox.confirm("Are you sure?", function(rs) {
+			if (!rs) return;
+			$.post(btn.data("remote"), function(dlrs) {
+				var rmme = btn.parents(".rememberme");
+				if (rmme.length > 0 && rmme.find(".clickme").length > 0) {
+					$.cookie("clickme", rmme.find(".clickme").attr("id"));
+				} else {
+					$.removeCookie("clickme");
+				}
+				location.reload();
+			}).fail(function() {
+				bootbox.alert("Failed to delete!");
+			});
+		});
+	});
 
 	$(".uploadimg").on("change", function(){
 		showImage(this);
@@ -25,7 +43,7 @@ $(document).ready(function() {
 		var flds = tbl.data("columndefs").split(",");
 		for (var i in flds) {
 			var itm = flds[i].split('-');
-			dfs.push({data: itm[0], visible: (itm.length > 1 ? itm[1] === "true" : true)});
+			dfs.push({data: itm[0], visible: (itm.length > 1 ? itm[1] === "true" : true), className: (itm.length > 2 ? itm[2] : "")});
 		}
 
 		var supportsReOrdering = tbl.is('.reorder') && tbl.data("actionurl") !== undefined;
@@ -33,9 +51,38 @@ $(document).ready(function() {
 
 		var dttblref = tbl.DataTable( {
 			columns: dfs,
-			rowReorder: rwrord
+			rowReorder: rwrord,
+			initComplete: function () {
+				var count = 0;
+				this.api().columns(".filter").every( function () {
+					var column = this;
+					var select = $('<select></select>')
+						.appendTo( $(column.header()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+							);
+
+							column
+								.search( val ? '^'+val+'$' : '', true, false )
+								.draw();
+						});
+
+					if ($(column.header()).is(".all")) {
+						select.append( '<option value="">All</option>' );
+					}
+
+					column.data().unique().sort().each( function ( d, j ) {
+						select.append( '<option value="'+d+'">'+d+'</option>' )
+					});
+					count++;
+				});
+				if (count > 0) {
+					tbl.find("th.filter select option").trigger("change");
+				}
+			}
 		});
-		
+
 		if (supportsReOrdering) {
 			dttblref.on( 'row-reorder', function (e, diff, edit) {
 				var ien=diff.length;
@@ -50,6 +97,16 @@ $(document).ready(function() {
 			});
 		}
 	});
+
+	var rmmeco = $.cookie("clickme");
+	console.log(rmmeco);
+	if (rmmeco) {
+		console.log("I am at here");
+		$.removeCookie("clickme");
+		$("#" + rmmeco).trigger("click");
+	} else if ($(".clickonload").length > 0) {
+		$(".clickonload").trigger("click");
+	}
 });
 
 function showImage(input) {

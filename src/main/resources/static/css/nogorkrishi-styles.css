@@ -247,3 +247,15 @@ ul.list-blogHeadline li{ margin-bottom: 34px; }
 .hoverme:hover img {
 	display: block;
 }
+
+#brand-text {
+	--font-family: SiyamRupali;
+	font-size: 16px;
+	color: #FFFFFF;
+	letter-spacing: 0px;
+}
+
+.ngkrishi {
+	background: #345C05;
+	color: #FFFFFF;
+}

@@ -52,9 +52,30 @@
 						<img th:src="@{/images/nogorkrishi-header-text.png}" src="images/nogorkrishi-header-text.png" />
 					</a>
 				</div>
-				<div class="col-lg-8 text-right" id="header-nav-items">
-					<span><a href="/manage/productType">পণ্যের ধরন পণ্য </a></span>
-					<span><a href="/manage/product">পণ্য </a></span>
+				<div class="col-lg-4">
+					<span class="navbar-brand" id="brand-text" th:text="${brand}">Sale Type</span>
+				</div>
+				<div class="col-lg-4 text-right">
+					<div class="btn-group">
+						<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Actions
+						</button>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item" th:href="@{/manage/product}" href="/manage/product">Product</a>
+							<a class="dropdown-item" th:href="@{/manage/producttype}" href="/manage/producttype">Product Type</a>
+							<a class="dropdown-item" th:href="@{/manage/saletype}" href="/manage/saletype">Sale Type</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/manage/nursery}" href="/manage/nursery">Nursery</a>
+							<a class="dropdown-item" th:href="@{/manage/nurserytype}" href="/manage/nurserytype">Nursery Type</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/manage/area}" href="/manage/area">Area</a>
+							<a class="dropdown-item" th:href="@{/manage/city}" href="/manage/city">City</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/manage/material}" href="/manage/material">Material</a>
+							<a class="dropdown-item" th:href="@{/manage/materialtype}" href="/manage/materialtype">Material Type</a>
+							<div class="dropdown-divider"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -62,6 +83,7 @@
 
 	<div th:fragment="common-js" th:remove="tag">
 		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <!-- 		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script> -->
 <!-- 		<script th:src="@{/js/lib/jquery-3.1.1.slim.min.js}" src="js/jquery-3.1.1.slim.min.js" ></script> -->
 		<script th:src="@{/js/lib/tether.min.js}" src="js/lib/tether.min.js" ></script>
@@ -70,6 +92,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/fileinput.min.js"></script>
 		<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 		<script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
+		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
 		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
 	</div>
 
@@ -105,21 +128,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="col-sm-2" th:fragment="common-left" style="text-align: left;">
-		<ul class="nav flex-sm-column nav-pills">
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/manage/producttype}" href="/manage/producttype">Product Type</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/manage/product}" href="/manage/product">Product</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/manage/materialtype}" href="/manage/materialtype">Material Type</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/manage/material}" href="/manage/material">Material</a>
-			</li>
-		</ul>
 	</div>
 </div>

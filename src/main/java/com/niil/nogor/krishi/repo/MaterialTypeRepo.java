@@ -1,6 +1,8 @@
 package com.niil.nogor.krishi.repo;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.niil.nogor.krishi.entity.MaterialType;
@@ -12,6 +14,10 @@ import com.niil.nogor.krishi.entity.MaterialType;
  *
  */
 @Repository
-public interface MaterialTypeRepo extends CrudRepository<MaterialType, Long> {
+public interface MaterialTypeRepo extends JpaRepository<MaterialType, Long> {
+
+	List<MaterialType> findAllByOrderBySequenceAsc();
+	
+	MaterialType findTopByOrderBySequenceDesc();
 
 }

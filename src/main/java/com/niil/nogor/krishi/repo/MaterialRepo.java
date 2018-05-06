@@ -1,6 +1,6 @@
 package com.niil.nogor.krishi.repo;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.niil.nogor.krishi.entity.Material;
@@ -12,6 +12,6 @@ import com.niil.nogor.krishi.entity.Material;
  *
  */
 @Repository
-public interface MaterialRepo extends CrudRepository<Material, Long> {
+public interface MaterialRepo extends JpaRepository<Material, Long> {
 
 }

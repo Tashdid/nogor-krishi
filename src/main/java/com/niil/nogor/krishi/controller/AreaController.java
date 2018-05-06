@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import com.niil.nogor.krishi.entity.ProductType;
-import com.niil.nogor.krishi.repo.ProductTypeRepo;
-import com.niil.nogor.krishi.view.ProductTypeForm;
+import com.niil.nogor.krishi.entity.Area;
+import com.niil.nogor.krishi.repo.AreaRepo;
+import com.niil.nogor.krishi.repo.CityRepo;
 import com.niil.nogor.krishi.view.SequenceUpdater;
 
 /**
@@ -22,11 +22,12 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
  *
  */
 @Controller
-@RequestMapping(ProductTypeController.URL)
-public class ProductTypeController {
-	static final String URL = "/manage/producttype";
+@RequestMapping(AreaController.URL)
+public class AreaController {
+	static final String URL = "/manage/area";
 
-	@Autowired ProductTypeRepo productTypeRepo;
+	@Autowired AreaRepo areaRepo;
+	@Autowired CityRepo cityRepo;
 
 	@RequestMapping
 	public String newScreen(ModelMap model) {
@@ -35,29 +36,30 @@ public class ProductTypeController {
 
 	@RequestMapping(value="/{code}")
 	public String updateScreen(@PathVariable Long code, ModelMap model) {
-		ProductType bean = code == null ? new ProductType() : productTypeRepo.findOne(code);
-		if (bean == null) bean = new ProductType();
+		Area bean = code == null ? new Area() : areaRepo.findOne(code);
+		if (bean == null) bean = new Area();
 		model.addAttribute("bean", bean);
-		model.addAttribute("brand", "Product Type");
-		model.addAttribute("beans", productTypeRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("brand", "Area");
+		model.addAttribute("beans", areaRepo.findAll());
+		model.addAttribute("cities", cityRepo.findAllByOrderBySequenceAsc());
 		return URL;
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public String save(@Valid ProductTypeForm type) throws IOException {
-		ProductType bean;
-		if (type.getId() == null || (bean = productTypeRepo.findOne(type.getId())) == null) {
-			ProductType lt = productTypeRepo.findTopByOrderBySequenceDesc();
+	public String save(@Valid Area type) throws IOException {
+		Area bean;
+		if (type.getId() == null || (bean = areaRepo.findOne(type.getId())) == null) {
+			Area lt = areaRepo.findTopByCityOrderBySequenceDesc(type.getCity());
 			int seq = (lt == null ? 0 : lt.getSequence()) + 1;
-			bean = ProductType.builder()
+			bean = Area.builder()
 						.sequence(seq)
 						.build();
 		}
 		bean.setName(type.getName());
-		bean.setAlternativeName(type.getAlternativeName());
-		bean.setIcon(type.getIconFile() == null || type.getIconFile().isEmpty() ? bean.getIcon() : type.getIconFile().getBytes());
-		bean.setImage(type.getImageFile() == null || type.getImageFile().isEmpty() ? bean.getImage() : type.getImageFile().getBytes());
-		bean = productTypeRepo.save(bean);
+		bean.setCity(type.getCity());
+		bean.setLatitude(type.getLatitude());
+		bean.setLongitude(type.getLongitude());
+		bean = areaRepo.save(bean);
 		return "redirect:" + URL + "/" + bean.getId();
 	}
 
@@ -65,8 +67,8 @@ public class ProductTypeController {
 	@ResponseBody
 	public boolean tableDataPost(SequenceUpdater updater) {
 		if (updater != null) {
-			productTypeRepo.save(updater.getData().entrySet().stream().map(e -> {
-				ProductType bean = productTypeRepo.findOne(e.getKey());
+			areaRepo.save(updater.getData().entrySet().stream().map(e -> {
+				Area bean = areaRepo.findOne(e.getKey());
 				bean.setSequence(e.getValue());
 				return bean;
 			}).collect(Collectors.toList()));
@@ -77,7 +79,9 @@ public class ProductTypeController {
 	@RequestMapping(value="/{code}", method=RequestMethod.POST)
 	@ResponseBody
 	public Boolean delete(@PathVariable Long code) {
-		productTypeRepo.delete(code);
+		areaRepo.delete(code);
 		return true;
 	}
 }
+
+

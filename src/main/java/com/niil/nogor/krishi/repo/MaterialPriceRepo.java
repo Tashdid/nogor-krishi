@@ -1,9 +1,11 @@
 package com.niil.nogor.krishi.repo;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.niil.nogor.krishi.entity.MaterialPrice;
+import com.niil.nogor.krishi.entity.*;
 
 /**
  * @author Noor
@@ -12,6 +14,9 @@ import com.niil.nogor.krishi.entity.MaterialPrice;
  *
  */
 @Repository
-public interface MaterialPriceRepo extends CrudRepository<MaterialPrice, Long> {
+public interface MaterialPriceRepo extends JpaRepository<MaterialPrice, Long> {
 
+	public List<MaterialPrice> findAllByNursery(Nursery nursery);
+
+	public List<MaterialPrice> findAllByMaterial(Material material);
 }

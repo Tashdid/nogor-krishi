@@ -24,5 +24,6 @@ public class Nursery {
 	private Double latitude;
 	private Double longitude;
 	private int sequence;
+	private @ManyToOne NurseryType type;
 	private @ManyToOne Area area;
 }

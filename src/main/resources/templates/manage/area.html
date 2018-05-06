@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<meta th:replace="common :: common-meta" th:remove="tag"/>
+
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css" />
+
+	</head>
+	<body>
+		<div th:replace="common :: common-manage-menu" th:remove="tag"></div>
+
+		<div class="container" style="margin-top: 15px;">
+			<div class="row">
+				<div class="col-sm-4">
+					<form class="form-horizontal" th:action="@{'/manage/area'}" th:object="${bean}" method="post">
+						<div class="form-group row" th:if="${bean.id ne null}">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="id">Code:</label>
+							<div class="col-sm-2">
+								<p class="form-control-static form-control-sm" th:text="${bean.id}"></p>
+							</div>
+							<input type="hidden" th:field="*{id}" />
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="name">Name:</label>
+							<div class="col-sm-8">
+								<input required="" type="text" class="form-control form-control-sm" th:field="*{name}" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="city">City:</label>
+							<div class="col-sm-8">
+								<select th:field="*{city}">
+									<option th:each="ct : ${cities}" th:value="${ct.id}" th:text="${ct.name}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="latitude">Latitude:</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control form-control-sm" th:field="*{latitude}" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="longitude">Longitude:</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control form-control-sm" th:field="*{longitude}" />
+							</div>
+						</div>
+						<div class="col-sm-6 offset-sm-6">
+							<div class="form-group">
+								<a th:if="${bean.id ne null}" type="button" href="/manage/area" class="btn btn-warning">New</a>
+								<button type="submit" class="btn btn-success">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-sm-8">
+					<table th:if="${beans ne null and !#lists.isEmpty(beans)}"
+						class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
+						data-columndefs="sequence,name,city-true-filter,latitude,longitude,buttons,id-false"
+						th:attr="data-actionurl=@{/manage/area/table}">
+						<thead>
+							<tr>
+								<th>Order</th>
+								<th>Name</th>
+								<th>City</th>
+								<th>Latitude</th>
+								<th>Longitude</th>
+								<th></th>
+								<th>Code</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="bean : ${beans}">
+								<td th:text="${bean.sequence}"></td>
+								<td th:text="${bean.name}"></td>
+								<td th:text="${bean.city.name}"></td>
+								<td th:text="${bean.latitude}"></td>
+								<td th:text="${bean.longitude}"></td>
+								<td>
+									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/area/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+									<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/area/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>
+								</td>
+								<td th:text="${bean.id}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div th:replace="common :: common-js" th:remove="tag"></div>
+
+			<div th:replace="common :: commom-footer" th:remove="tag"></div>
+		</div>
+	</body>
+</html>

@@ -1,6 +1,8 @@
 package com.niil.nogor.krishi.repo;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.niil.nogor.krishi.entity.NurseryType;
@@ -12,6 +14,10 @@ import com.niil.nogor.krishi.entity.NurseryType;
  *
  */
 @Repository
-public interface NurseryTypeRepo extends CrudRepository<NurseryType, Long> {
+public interface NurseryTypeRepo extends JpaRepository<NurseryType, Long> {
+
+	List<NurseryType> findAllByOrderBySequenceAsc();
+	
+	NurseryType findTopByOrderBySequenceDesc();
 
 }
