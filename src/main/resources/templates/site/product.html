@@ -1,0 +1,69 @@
+<div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+	<div class="col-3">
+		<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid w-100 pt-2" />
+	</div>
+	<div class="col-9" id=" product-description-container">
+		<div class="product-description-text">
+			<p th:each="dsc : ${#strings.listSplit(product.description, '&#10;')}" th:text="${dsc}">জনপ্রিয় শাকের মধ্যে লাল শাক অন্যতম। খেতেও যেমন সুস্বাদু তেমনি
+				পুষ্টিগুণে ভরপুর। পুষ্টিগুণ এবং রোগ প্রতিরোধের দিক দিয়ে লাল শাকের
+				চেয়ে যোজন যোজন দূরে অন্যান্য শাক।</p>
+			<p th:remove="all">লাল শাক রূপে যেমন মনোহারী গুণেও তেমন কার্যকরী। পাতের ভাতকে
+				নতুন রূপ দিতেও সেরা। ছোট বড় সবাই এর স্বাদের ভক্ত।</p>
+			<p th:remove="all">লাল শাক, ডাঁটা শাক বা ডাঙ্গা শাক, এরা সবই একই গোত্রের এবং এদের
+				প্রজাতিও একই। বিশ্বের অন্য দেশে এদেরকে ফুলের গাছ হিসাবে ব্যবহার করা
+				হলেও আমাদের বাংলাদেশে কিন্তু আমরা একে সবজি হিসাবে ব্যবহার করি।</p>
+		</div>
+
+		<div class="form-group col-5 pl-0 d-inline-block pt-5 mt-3">
+			<label class="color-red small" for="">এই নার্সারিগুলিতে পাওয়া যেতে পারে, </label>
+			<select class="form-control" id="areaselection">
+				<option value="">এলাকা বাছাই করুন</option>
+				<option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.name}">2</option>
+				<option th:remove="all">3</option>
+				<option th:remove="all">4</option>
+				<option th:remove="all">5</option>
+			</select>
+		</div>
+
+		<hr />
+
+		<div th:each="nursery : ${nurseries}">
+			<div class="row no-gutters nurseries" th:classappend="${nursery.area.id}">
+				<div class="col-1">
+					<i class="fa fa-leaf"
+						style="font-size: 20px; color: #345C05; margin-top: 14px;"></i>
+				</div>
+				<div class="col-6 pl-0 d-inline-block">
+					<div class="mt-2">
+						<p class="color-green lead" th:text="${nursery.name}">মোল্লাপারা সরকারী নার্সারি</p>
+						<span th:remove="tag" th:text="${nursery.address}">১০ কাজিপারা এভিনিউ, মিরপুর ১০২০</span><br /> ফোন : <span th:remove="tag" th:text="${nursery.phone}">+৮৮ ০১৭২৩ ৫৭২৮৯৬</span>
+					</div>
+				</div>
+	
+				<div class="col-4 text-right d-inline-block mt-2" style="vertical-align: top;">
+					<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(nursery.type.image)}" src="images/nursery-logo-govt.jpg"/>
+				</div>
+			</div>
+
+			<hr class="nurseries" th:classappend="${nursery.area.id}" />
+		</div>
+
+		<div class="row no-gutters" th:remove="all">
+			<div class="col-1">
+				<i class="fa fa-leaf"
+					style="font-size: 20px; color: #345C05; margin-top: 14px;"></i>
+			</div>
+			<div class="col-6 pl-0 d-inline-block">
+				<div class="mt-2 ">
+					<p class="color-green lead ">কিবরিয়া গাছ ভাণ্ডার</p>
+					২৩ শেওরাপারা, মিরপুর ১০২০ <br /> ফোন : +৮৮ ০১৮৪৯ ৫৪৭৭৮৯
+				</div>
+			</div>
+
+			<div class="col-4 text-right d-inline-block mt-2"
+				style="vertical-align: top;">
+				<img src="images/nursery-private.png"/>
+			</div>
+		</div>
+	</div>
+</div>

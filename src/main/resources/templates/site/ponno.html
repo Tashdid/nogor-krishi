@@ -2,7 +2,7 @@
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
 	</head>
-	<body>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 		<div class="container">
@@ -13,18 +13,15 @@
 			</div>
 		</div>
 
-
 		<div class="container">
 			<div class="row">
 
 				<div class="col-lg-3 product-background" style="position: relative;">
 					<p class="mb-2">পণ্য বাছাই করুন</p>
 
-					<img src="images/icon-product-shak.png" /><a href="">শাক </a> <br/>
-					<img src="images/icon-product-shobji.png" /><a href="">সবজি </a> <br/>
-					<img src="images/icon-product-fruit.png" /><a href="">ফল-মূল  </a> <br/>
-					<img src="images/icon-product-oushodhi.png" /><a href="">ঔষধি </a> <br/>
-					<img src="images/icon-product-ingredient.png" /><a href="">উপকরণ </a>
+					<div th:each="tp : ${types}" th:remove="tag">
+						<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.icon)}" src="images/icon-product-shak.png" /><a th:href="@{'/ponno/' + ${tp.id}}" class="types" th:text="${tp.name}">শাক </a> <br/>
+					</div>
 
 					<div style="position: absolute; bottom: 0; width: 85%;" class="pb-4">
 						<p class="mb-0 color-red small">  এখানে গাছ সরাসরি খুঁজতে পারেন, </p>
@@ -46,116 +43,128 @@
 						<input type="text" class="form-control w-100" placeholder="গাছের নাম লিখুন " />
 					</div>
 
-
 					<!-- breadcrumb & page selection -->
 					<div class="row mt-4 mb-4">
 
 						<div class="col-8">
-							<p class="color-muted lead mb-0">
+							<p id="allponno" class="color-muted lead mb-0 alltype singleproduct">
 								সব গাছ দেখানো হচ্ছে। বা-দিক থেকে গাছ টাইপ সেলেক্ট করতে পারেন।
+							</p>
+							<p id="alltype" class="lead mb-0 mt-3 allponno singleproduct" style="display: none;">
+								<span class="mr-2 text-muted">শাক</span>
+							</p>
+							<p id="singleproduct" class="lead mb-0 mt-3 allponno alltype" style="display: none;">
+								<span class="mr-2"><a class="types" id="typetext" href="">শাক</a></span>
+								<span class="mr-2 small"><i class="fa fa-chevron-right"></i> </span>
+								<span class="mr-2 text-muted" id="producttext">লাল শাক</span>
 							</p>
 						</div>
 
-						<div class="col-4 text-right">
+						<div class="col-4 text-right pagestoshow">
 							<div class="form form-inline d-inline-block">
 								<label for="" class=" d-inline-block">প্রতি পৃষ্ঠা  : </label>
-								<select class="form-control" id="">
-									<option>10</option>
-									<option>25</option>
-									<option>50</option>
-									<option>100</option>
-									<option>All</option>
+								<select class="form-control pg pg2" id="pg1">
+									<option value="10">10</option>
+									<option value="25">25</option>
+									<option value="50">50</option>
+									<option value="100">100</option>
+									<option value="9999999">All</option>
 								</select>
 							</div>
 						</div>
-
 					</div>
 					<!-- end - breadcrumb & page selection -->
 
-
 					<!-- product list -->
 					<div class="row" id="pclp-container">
-						<div class="col-3">
+						<div th:remove="tag" th:fragment="products" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+							<input type="hidden" id="totalproducts" th:value="${#lists.size(products)}"/>
+							<div class="col-3 ponnoitems" th:each="prd, stat : ${products}" th:attr="data-index=${stat.index}">
+								<a class="products" th:href="@{'/ponno/product/' + ${prd.id}}" th:attr="data-typehref=@{'/ponno/' + ${prd.type.id}}, data-typetext=${prd.type.name}">
+									<p><img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.image)}" src="images/tree-lal-shak.png" class="img-fluid"/></p>
+									<p class="productname" th:text="${' ' + prd.name}"> লাল শাক  </p>
+								</a>
+							</div>
+						</div>
+						<div class="col-3" th:remove="all">
 							<a href="all-ponno-lal-shak.php">
 								<p><img src="images/tree-lal-shak.png" class="img-fluid"/></p>
 								<p> লাল শাক  </p>
 							</a>
 						</div>
-						<div class="col-3">
+						<div class="col-3" th:remove="all">
 							<a href="">
 							<p><img src="images/tree-kochu.png" class="img-fluid"/></p>
 							<p> কচু  </p>
 							</a>
 						</div>
-						<div class="col-3">
+						<div class="col-3" th:remove="all">
 							<a href="">
 								<p><img src="images/tree-kola.png" class="img-fluid"/></p>
 								<p> কলা </p>
 							</a>
 						</div>
-						<div class="col-3">
+						<div class="col-3" th:remove="all">
 							<a href="">
 								<p><img src="images/tree-pepe.png" class="img-fluid"/></p>
 								<p> পেঁপে  </p>
 							</a>
 						</div>
-						<div class="col-3">
+						<div class="col-3" th:remove="all">
 							<a href="">
 								<p><img src="images/tree-pui.png" class="img-fluid"/></p>
 								<p> পুই শাক  </p>
 							</a>
 						</div>
-						<div class="col-3">
+						<div class="col-3" th:remove="all">
 							<a href="">
 								<p><img src="images/tree-kola.png" class="img-fluid"/></p>
 								<p> কলা </p>
 							</a>
 						</div>
-						<div class="col-3">
+						<div class="col-3" th:remove="all">
 							<a href="">
 								<p><img src="images/tree-kochu.png" class="img-fluid"/></p>
 								<p> কচু  </p>
 							</a>
 						</div>
-						<div class="col-3">
+						<div class="col-3" th:remove="all">
 							<a href="">
 								<p><img src="images/tree-lal-shak.png" class="img-fluid"/></p>
 								<p> লাল শাক  </p>
 							</a>
 						</div>
-						<div class="col-3">
+						<div class="col-3" th:remove="all">
 							<a href="">
 								<p><img src="images/tree-pepe.png" class="img-fluid"/></p>
 								<p> পেঁপে  </p>
 							</a>
 						</div>
-						<div class="col-3">
+						<div class="col-3" th:remove="all">
 							<a href="">
 								<p><img src="images/tree-pui.png" class="img-fluid"/></p>
 								<p> পুই শাক  </p>
 							</a>
 						</div>
-
 					</div>
 
-
-					<div class="row mt-5">
+					<div id="paginationdiv" class="row mt-5">
 						<nav aria-label="" class="m-auto">
 							<ul class="pagination">
-								<li class="page-item disabled">
-									<a class="page-link" href="#" tabindex="-1">
+								<li class="page-item left disabled">
+									<a class="page-link arrows leftarrow" href="#" tabindex="-1">
 										<i class="fa fa-chevron-left"></i>
 									</a>
 								</li>
-								<li class="page-item disabled">
+								<li class="page-item pages disabled">
 									<a class="page-link" href="#">১</a></li>
-								<li class="page-item ">
+								<li class="page-item pages">
 									<a class="page-link" href="#">২ </a>
 								</li>
-								<li class="page-item">
+								<li class="page-item pages">
 									<a class="page-link" href="#">৩</a></li>
-								<li class="page-item">
-									<a class="page-link" href="#">
+								<li class="page-item right">
+									<a class="page-link arrows rightarrow" href="#">
 										<i class="fa fa-chevron-right"></i>
 									</a>
 								</li>
@@ -163,21 +172,21 @@
 						</nav>
 					</div>
 
-					<div class="row mt-4 mb-5 ">
+					<div class="row mt-4 mb-5 pagestoshow">
 						<div class="col-4 offset-4 text-center">
 							<div class="form form-inline d-inline-block">
 								<label for="" class=" d-inline-block">প্রতি পৃষ্ঠা  : </label>
-								<select class="form-control" id="">
-									<option>10</option>
-									<option>25</option>
-									<option>50</option>
-									<option>100</option>
-									<option>All</option>
+								<select class="form-control pg pg1" id="pg2">
+									<option value="10">10</option>
+									<option value="25">25</option>
+									<option value="50">50</option>
+									<option value="100">100</option>
+									<option value="9999999">All</option>
 								</select>
 							</div>
 						</div>
 					</div>
-					<div class="row mt-5 mb-5">&nbsp;</div>
+					<div class="row mt-5 mb-5 pagestoshow">&nbsp;</div>
 				</div>
 			</div>
 		</div>

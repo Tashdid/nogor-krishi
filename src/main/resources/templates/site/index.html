@@ -2,7 +2,7 @@
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
 	</head>
-	<body>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 		<div id="homepage-slider" class="text-center">
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 
-			<div class="row" id="gardens" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+			<div class="row" id="gardens">
 				<div class="col-lg-3" th:each="tp : ${types}">
 					<a href="predefined-layout.php">
 						<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.image)}" src="images/shak.png" class="img-responsive" />
