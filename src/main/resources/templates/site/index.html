@@ -1,0 +1,239 @@
+<html>
+	<head>
+		<meta th:replace="common :: common-meta" th:remove="tag"/>
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+		<div id="homepage-slider" class="text-center">
+			<img th:src="@{images/hero-logo.png}" src="images/hero-logo.png" style="padding-top: 44px;" />
+			<div class="homepage-slider-slogan">
+				<p>ছাদে বাগান করুন, নিজের বাগানের তাজা সবজি খান </p>
+			</div>
+		</div>
+
+		<div class="container" id="gardens-container">
+			<div class="row">
+				<div class="col-lg-12">
+					<h3 style="margin-top:70px;" class="text-center">পছন্দমত বাগানের লে-আউট সেলেক্ট করুন  </h3>
+				</div>
+				<div class="col-lg-8 offset-lg-2">
+					<p class="text-center text-muted" style="margin-top: 20px;">
+						যেকোন লে-আউট প্ল্যানে জানতে পারবেন কি কি গাছ লাগানো সম্ভব, ওতে কি উপকরণ লাগে, কতখানি যায়গা লাগে, কি কি যন্ত্রপাতি দরকার, এবং অন্য অনেক উপকারী তথ্য
+						- নিজের বাগানটি এবার শুরু করেই ফেলুন। </p>
+				</div>
+			</div>
+
+			<div class="row" id="gardens">
+				<div class="col-lg-3" th:each="tp : ${types}">
+					<a href="predefined-layout.php">
+						<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.image)}" src="images/shak.png" class="img-responsive" />
+						<p class="text-center garden-label"><span th:text="${tp.name}" th:remove="tag">শাক</span><br/><span class="english" th:text="${tp.alternativeName}">Leafy Vegetables</span></p>
+					</a>
+				</div>
+
+				<div class="col-lg-3" th:remove="all">
+					<a href="predefined-layout.php">
+						<img src="images/vegetables.png"/>
+						<p class="text-center garden-label">সবজি ও ফল<br/><span class="english">Vegetables &amp; Fruits</span></p>
+					</a>
+				</div>
+
+				<div class="col-lg-3" th:remove="all">
+					<img src="images/fruits.png"/>
+					<p class="text-center garden-label"><a href="#">ফল-মূল<br/><span class="english">Fruits</span></a></p>
+				</div>
+		
+				<div class="col-lg-3" th:remove="all">
+					<img src="images/herbs.png"/>
+					<p class="text-center garden-label"><a href="#">ঔষধি ও রান্নার উপকরণ <br/><span class="english">Herbs &amp; Ingredients</span></a></p>
+				</div>
+		
+				<div class="col-lg-3" th:remove="all">
+					<img src="images/decorative.png"/>
+					<p class="text-center garden-label"><a href="#">সৌন্দর্য বর্ধন (ছোট ছাদ) <br/><span class="english">Decorative (Small Rooftops)</span></a></p>
+				</div>
+		
+				<div class="col-lg-3" th:remove="all">
+					<img src="images/corners.png"/>
+					<p class="text-center garden-label"><a href="#">কর্নার এবং ইনডোর <br/><span class="english">Corners &amp; Indoors</span></a></p>
+				</div>
+		
+				<div class="col-lg-6">
+					<div id="gardens-make-your-own">
+						<div class="row no-gutter">
+		
+							<div class="">
+								<img src="images/icon-make-your-own-garden.png" style="padding-left: 40px; padding-top: 24px; padding-right: 5px;" />
+							</div>
+		
+							<div class="col">
+								<p class="headline3" style="margin-top: 27px;">ঘরে বসে নিজের বাগান পছন্দমত সাজানোর জন্য প্লানিং করুন </p>
+								<ul class="create-garden" style="font-size: 14px;">
+									<li>নিজস্ব যায়গার মাপ মত লে-আউট </li>
+									<li>পছন্দ-মত গাছ বসাতে পারবেন</li>
+									<li>জিনিসের তালিকা পাবেন</li>
+									<li>তা কোথায় পাওয়া যায় </li>
+								</ul>
+							</div>
+		
+						</div>
+						<div class="gardens-create-cta text-center">
+		
+							<a href="#"><p>
+									<img src="images/icon-sm-make-own-garden.png"/>নিজের বাগান সাজাতে, এখানে ক্লিক করুন
+								</p></a>
+		
+						</div>
+		
+					</div>
+				</div>
+		
+			</div>
+		</div>
+		
+		
+		<div class="full-width-section-header">
+			<div class="container">
+				<div class="row">
+		
+					<div class="col-lg-8">
+						<h3 style="margin-top:36px;">ছাদে বাগান বানানোর ও পরিচর্যা করার কিছু টিপস </h3>
+						<div style="margin-top:16px; width: 60%;">
+							<p class="lead">ঘরে বসে নিজের বাগান পছন্দমত সাজানোর জন্য প্লানিং করুন</p>
+						</div>
+					</div>
+		
+					<div class="col text-right">
+						<img src="images/icon-tips-section.png" class="img-fluid"/>
+					</div>
+		
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6" style="margin-top: 52px;">
+		
+					<ul class="list-blogHeadline">
+						<li>
+							<div>
+								<a href="">১০টি জিনিস যা জানতে হবে ছাদে বাগান করার আগে</a>
+								<br/>
+								<span class="badge badge-blogTag">Tips</span>
+								<span class="badge badge-blogTag">Garden</span>
+								<span class="badge badge-blogTag">General</span>
+							</div>
+						</li>
+						<li>
+							<div>
+								<a href="">এই রমজানে কিভাবে পুদিনা চাষ করতে পাড়বেন</a>
+								<br/>
+								<span class="badge badge-blogTag">Tips</span>
+								<span class="badge badge-blogTag">Pudina</span>
+		
+							</div>
+						</li>
+						<li>
+							<div>
+								<a href="">১০টি জিনিস যা জানতে হবে ছাদে বাগান করার আগে</a>
+								<br/>
+								<span class="badge badge-blogTag">Tips</span>
+								<span class="badge badge-blogTag">Garden</span>
+								<span class="badge badge-blogTag">General</span>
+							</div>
+						</li>
+						<li>
+							<div>
+								<a href="">১০টি জিনিস যা জানতে হবে ছাদে বাগান করার আগে</a>
+								<br/>
+								<span class="badge badge-blogTag">Tips</span>
+								<span class="badge badge-blogTag">Garden</span>
+								<span class="badge badge-blogTag">General</span>
+							</div>
+						</li>
+					</ul>
+		
+				</div>
+				<div class="col-lg-6" style="margin-top: 52px;">
+					আমাদের সব লেখা এবং টিপস এর ব্যপারে জানতে <br/> এখানে ক্লিক করুন,
+					<br/>
+		
+					<a href="" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 30px;">সব লেখা পড়তে চাই </a>
+					<br/>
+		
+					যদি কোন একটি বিষয়ে জানতে ছান,<br/> সেটি ক্লিক করুন,<br/>
+		
+					<div style="height: 8px; width: 20px;"></div>
+		
+					<span class="badge badge-blogTag">Tips</span>
+					<span class="badge badge-blogTag">Garden</span>
+					<span class="badge badge-blogTag">General</span>
+					<span class="badge badge-blogTag">Tips</span>
+					<span class="badge badge-blogTag">Garden</span>
+					<span class="badge badge-blogTag">General</span>
+					<span class="badge badge-blogTag">Tips</span>
+					<span class="badge badge-blogTag">Garden</span>
+					<span class="badge badge-blogTag">General</span>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="floral-divider">
+			<div class="text-center m-auto">
+				<img src="images/floral-divider.jpg" class="img-fluid" />
+			</div>
+		</div>
+		
+		
+		<div class="full-width-section-header">
+			<div class="container">
+				<div class="row">
+		
+					<div class="col-4">
+						<img src="images/icon-nursery-around-you.jpg" class="img-fluid"/>
+					</div>
+		
+					<div class="col-lg-8 text-right">
+						<h3 style="margin-top:36px;">আপনার আশেপাশে নার্সারি দেখুন ও যোগাযোগ করুন  </h3>
+						<div style="margin-top:16px;">
+							<p class="lead">আর নয় অন্ধের মত ছোটাছুটি</p>
+						</div>
+					</div>
+		
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12" style="margin-top: 45px;">
+					<p>নিম্ন তালিকা থেকে আপনার এলাকা বেছে নিন, </p>
+				</div>
+				<div class="col-lg-4">
+					<select class="form-control" id="exampleSelect1">
+						<option>এলাকা বেছে নিন</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
+				</div>
+				<div class="col-lg-8" style="padding-top: 6px;">
+					<a href="" >আমি সব নার্সারির তালিকা দেখতে চাই </a>
+				</div>
+		
+				<div class="col-lg-12" style="margin-top:25px;">
+					<!-- map goes here -->
+					<img src="images/map-bitmap.jpg" />
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="common :: common-js" th:remove="tag"></div>
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+	</body>
+</html>

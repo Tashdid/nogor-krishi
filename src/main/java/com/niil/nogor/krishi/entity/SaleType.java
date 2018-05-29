@@ -1,11 +1,8 @@
 package com.niil.nogor.krishi.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-import lombok.Data;
+import lombok.*;
 
 /**
  * @author Noor
@@ -15,6 +12,9 @@ import lombok.Data;
  */
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SaleType {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;

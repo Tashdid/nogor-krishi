@@ -1,13 +1,8 @@
 package com.niil.nogor.krishi.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * @author Noor
@@ -17,11 +12,15 @@ import lombok.ToString;
  */
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude={"image", "icon"})
 public class ProductType {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
+	private @Column(nullable=false) String alternativeName;
 	private @Lob byte[] image;
 	private @Lob byte[] icon;
-	private @Column(unique=true) int sequence;
+	private int sequence;
 }

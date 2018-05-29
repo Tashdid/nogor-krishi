@@ -1,6 +1,6 @@
 package com.niil.nogor.krishi.repo;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.niil.nogor.krishi.entity.SaleType;
@@ -12,6 +12,6 @@ import com.niil.nogor.krishi.entity.SaleType;
  *
  */
 @Repository
-public interface SaleTypeRepo extends CrudRepository<SaleType, Long> {
+public interface SaleTypeRepo extends JpaRepository<SaleType, Long> {
 
 }

@@ -1,7 +1,5 @@
 package com.niil.nogor.krishi.repo;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +25,13 @@ public class ProductTypeRepoTest {
 	public void testProductTypeAdd() {
 		ProductType productType = new ProductType();
 		productType.setName("shak");
-		productType.setSequence(1);
+		productType.setAlternativeName("Shak");
+		ProductType lastEntry = productTypeRepo.findTopByOrderBySequenceDesc();
+		productType.setSequence((lastEntry == null ? 0 : lastEntry.getSequence()) + 1);
 		
 		productTypeRepo.save(productType);
 		
-		((ArrayList<ProductType>) productTypeRepo.findAll()).stream().forEach(System.out::println);;
+		productTypeRepo.findAll().stream().forEach(System.out::println);;
 	}
 
 }

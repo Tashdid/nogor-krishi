@@ -1,13 +1,10 @@
 package com.niil.nogor.krishi.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import java.util.List;
 
-import lombok.Data;
+import javax.persistence.*;
+
+import lombok.*;
 
 /**
  * @author Noor
@@ -17,14 +14,22 @@ import lombok.Data;
  */
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude={"image", "icon"})
 public class Product {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
-	private @Column(nullable=false) String description;
+	private @Column(nullable=false, length=10485760) String description;
+	private String alternativeName;
 	private @Lob byte[] image;
+	private @Lob byte[] icon;
 	private String productivity;
+	@Column(length=10485760)
 	private String benefits;
 	private int sequence;
-	private @ManyToOne ProductType productType;
+	private @ManyToOne ProductType type;
 	private @ManyToOne SaleType saleType;
+	private @ManyToMany(targetEntity=Material.class) List<Material> materials;
 }
