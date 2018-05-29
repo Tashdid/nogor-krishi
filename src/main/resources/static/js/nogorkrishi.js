@@ -175,38 +175,56 @@ $(document).ready(function() {
 			setLayoutCellHeight();
 		}
 	});
-	
+
+	var counts = [ 0 ];
+	var resizeOpts = {
+		handles : "all",
+		autoHide : true
+	};
 	$('.draggable').draggable({
-		cursor: "move",
-		cursorAt: { top: 56, left: 56 },
-		revert: "invalid",
-		stack: ".draggable",
-		helper: 'clone'
+		helper: 'clone',
+		start: function() { counts[0]++; }
 	});
-		$('.droppable').droppable({
-		  accept: ".draggable",
-		  drop: function(event, ui) {
-		    var droppable = $(this);
-		    var draggable = ui.draggable;
-		    // Move draggable into droppable
-		    var drag = $('.droppable').has(ui.draggable).length ? draggable : draggable.clone().draggable({
-		      revert: "invalid",
-		      stack: ".draggable",
-//		      helper: 'clone',
-	    	  helper: 'original',
-              containment: '.droppable',
-              tolerance: 'fit'
-		    });
-		    drag.appendTo(droppable);
-//		    draggable.css({
-//		      float: 'left'
-//		    });
-		    drag.resizable({
-                minHeight: 40,
-                minWidth: 50
-            });
-		  }
+	$(".droppable").droppable({
+		drop : function(e, ui) {
+			if (ui.draggable.hasClass("draggable")) {
+				var orit = $(ui.helper);
+				var orimg = orit.find(".img");
+				orit.clone().appendTo($(this));
+				$(".droppable .draggable").addClass("item-" + counts[0]);
+				var addedItem = $(".droppable .item-" + counts[0]);
+				var addedImg = addedItem.find(".img");
+				addedImg.addClass("imgSize-" + counts[0])
+						.css("border", "2px solid black")
+						.width(orimg.width())
+						.height(orimg.height());
+
+				addedItem.find("a").remove();
+				addedItem.find("span").remove();
+				var cx = e.pageX;
+				var dvx = $("#tableov").offset().left;
+				addedItem.width("").height("");
+				addedItem.css("left", e.pageX - dvx - (addedItem.width()/2)).css("top", e.pageY - $("#tableov").offset().top - (addedItem.height()/2));
+				addedItem.removeClass("draggable ui-draggable ui-draggable-dragging tab-content-plant");
+
+				$(".item-" + counts[0]).dblclick(function() {
+					$(this).remove();
+				});
+				make_draggable($(".item-" + counts[0]));
+				addedImg.resizable(resizeOpts);
+			}
+		}
+	});
+
+	var zIndex = 0;
+	function make_draggable(elements) {	
+		elements.draggable({
+			containment: '.droppable',
+			start:function(e,ui){ ui.helper.css('z-index',++zIndex); },
+			stop:function(e,ui){
+			}
 		});
+	}
 });
 
 function setLayoutCellHeight() {
