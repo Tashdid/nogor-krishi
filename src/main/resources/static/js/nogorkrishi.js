@@ -1,3 +1,4 @@
+var conv = {'5': '৫', '10': '১০', '15': '১৫', '20': '২০', '25': '২৫', '30': '৩০', '35': '৩৫', '40': '৪০', '45': '৪৫', '50': '৫০', '55': '৫৫', '60': '৬০', '65': '৬৫', '70': '৭০', '75': '৭৫', '80': '৮০', '85': '৮৫', '90': '৯০', '95': '৯৫', '100': '১০০'}
 
 $(document).ready(function() {
 	var path = window.location.pathname;
@@ -138,9 +139,87 @@ $(document).ready(function() {
 		var cp = parseInt($(".pagination > .pages.disabled").data("page"));
 		showPage((cp + ($(this).is(".leftarrow") ? -1 : 1)));
 		return false;
+	}).on("change", ".layoutgen", function() {
+		if ($("#layoutlength").val().length > 0 && $("#layoutwidth").val().length > 0) {
+			var lng = parseInt($("#layoutlength").val()) + 1;
+			var wdt = parseInt($("#layoutwidth").val()) + 1;
+			var tbl = "";
+			for(var i = 0; i < lng; i++) {
+				tbl += '<div class="tr">';
+				for(var j = 0; j < wdt; j++) {
+					tbl += '<div class="td"><div class="inner">';
+					if (i === 0 && j > 1 && j%5 === 0) {
+						tbl += '<span>' + conv[(j/5) * 5] + '`</span>';
+					} else if (j === 0 && i > 1 && i%5 === 0) {
+						tbl += '<span>' + conv[(i/5) * 5] + '`</span>';
+					}
+					tbl += '</div></div>';
+				}
+				tbl += '</div>';
+			}
+			$("div.table").html(tbl);
+		} else {
+			$("div.table").html("");
+		}
+		setLayoutCellHeight();
 	});
 	loadPagination();
+	
+	var lo = $("div.table");
+	if (lo.length === 1) {
+		setLayoutCellHeight();
+	}
+	
+	$( window ).resize(function() {
+		if (lo.length === 1) {
+			setLayoutCellHeight();
+		}
+	});
+	
+	$('.draggable').draggable({
+		cursor: "move",
+		cursorAt: { top: 56, left: 56 },
+		revert: "invalid",
+		stack: ".draggable",
+		helper: 'clone'
+	});
+		$('.droppable').droppable({
+		  accept: ".draggable",
+		  drop: function(event, ui) {
+		    var droppable = $(this);
+		    var draggable = ui.draggable;
+		    // Move draggable into droppable
+		    var drag = $('.droppable').has(ui.draggable).length ? draggable : draggable.clone().draggable({
+		      revert: "invalid",
+		      stack: ".draggable",
+//		      helper: 'clone',
+	    	  helper: 'original',
+              containment: '.droppable',
+              tolerance: 'fit'
+		    });
+		    drag.appendTo(droppable);
+//		    draggable.css({
+//		      float: 'left'
+//		    });
+		    drag.resizable({
+                minHeight: 40,
+                minWidth: 50
+            });
+		  }
+		});
 });
+
+function setLayoutCellHeight() {
+	var lo = $("div.table");
+	if (lo.width() === 0) {
+		$("#tableov").width(0).height(0);
+		return;
+	}
+	var wdth = lo.width() / lo.find("div.tr:first > div.td").length;
+	var hght = wdth > 50 ? 50 : wdth;
+	lo.find("div.tr > div.td").height(hght);
+	$("#tableov").width(lo.width() - wdth).height(lo.height() - hght).css("margin-left", wdth).css("margin-top", hght);
+}
 
 function showPage(pageno) {
 	if ($("[data-page='" + pageno + "']").length === 0) return false;

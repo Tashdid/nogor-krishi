@@ -259,3 +259,53 @@ ul.list-blogHeadline li{ margin-bottom: 34px; }
 	background: #345C05;
 	color: #FFFFFF;
 }
+
+div.table  {
+	display: table;
+	width: 100%;
+}
+
+div.tr {
+	display: table-row;
+}
+
+div.td {
+	display: table-cell;
+	position: relative;
+	border-right: 1px solid lightgrey;
+	border-bottom: 1px solid lightgrey;
+	width: auto;
+}
+
+div.tr>div.td:nth-child(5n + 1) {
+	border-right: 1px solid black;
+}
+
+div.tr:nth-child(5n + 1)>div.td {
+	border-bottom: 1px solid black;
+}
+
+div.inner {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+div.tr>div.td:first-child>div.inner>span {
+	position:absolute;
+	bottom:0;
+}
+
+div.tr:first-child>div.td>div.inner>span {
+	position:absolute;
+	right:0;
+}
+
+#tableov {
+	position: absolute;
+	z-index: 1;
+	opacity: 0.5;
+	background-color: pink;
+}

@@ -1,0 +1,163 @@
+<html>
+	<head>
+		<meta th:replace="common :: common-meta" th:remove="tag"/>
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+<!-- 		<div id="page-container"> -->
+		<div class="container" style="margin-top: 50px;">
+			<div class="row">
+			<!-- garden grid -->
+			<div class="col-lg-9">
+		
+				<div class="ml-5">
+					<p class="lead text-muted w-50 float-left">পছন্দমত ছাদ-বাগান লে-আউট </p>
+
+					<select class="form-control float-right w-25 mr-4">
+						<option>শাক </option>
+						<option>শাক </option>
+						<option>শাক </option>
+						<option>শাক </option>
+						<option>শাক </option>
+						<option>শাক </option>
+						<option>শাক </option>
+					</select>
+					<div class="clearfix"></div>
+<!-- 					<h1>শাক</h1> -->
+				</div>
+
+				<div class="row">
+					<div class="col-sm-4 offset-sm-2">
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutlength">Length:</label>
+							<div class="col-sm-5">
+								<input required="" type="text" class="form-control form-control-sm layoutgen" id="layoutlength" />
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutwidth">Width:</label>
+							<div class="col-sm-5">
+								<input required="" type="text" class="form-control form-control-sm layoutgen" id="layoutwidth" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="tableov" class="droppable"></div>
+				<div class="table"></div>
+
+				<div class="ml-5 mt-5 mb-5">
+					<div class="instructions">
+						<p class="color-red">কিভাবে ব্যবহার করবেন</p>
+						<ul style="margin-bottom: 0">
+							<li>নিম্ন লে-আউট এর প্রতিটি সাদা বাক্স ১ স্কোয়ার ফুট, এবং সাদা যায়গা ফাঁকা</li>
+							<li>যেকোন রঙ্গিন বাক্স তে মাউস (হোভার) নিলে গাছটির নাম দেখতে পারবেন</li>
+							<li>বাক্সে ক্লিক করলে গাছটির বিস্তারিত বর্ননা দেখতে পারবেন</li>
+							<li>বামে "গাছের তালিকা" থেকেও গাছের বিস্তারিত বর্ননা দেখতে পারবেন</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="ml-5 pt-4 text-center">
+					<h3 class="text-center border-bottom-2px d-inline-block">বাগানের উৎপাদন ক্ষমতা ও উপকারিতা</h3>
+				</div>
+
+				<div class="ml-5 mt-4">
+					<table class="table">
+						<thead>
+						<tr class="color-red small">
+							<th style="width: 18%;">গাছের নাম </th>
+							<th style="width: 22%;">উৎপাদন ক্ষমতা </th>
+							<th>উপকারিতা </th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>লাল শাক  </td>
+							<td>২ কেজি প্রতি মাস  </td>
+							<td>ভিটামিন এ, বি ও কে দিয়ে ভরপুর, নতুন রক্ত হতে সাহায্যয় করে, ইমিউনিটি বাড়ায়। </td>
+						</tr>
+						<tr>
+							<td>মুলা শাক </td>
+							<td>১ কেজি প্রতি মাস  </td>
+							<td>এই শাকটিকে অ্যান্টিক্যান্সার উপাদান সমৃদ্ধ সবজির তালিকায় ব্রোকলি এবং কপির পাশাপাশি অবস্থান দেওয়া যেতে পারে। মুলা শাক গ্রহণ করলে অ্যালার্জি ও হৃদপিণ্ডের বিভিন্ন রোগ থেকে সুরক্ষা পাওয়া সম্ভব।</td>
+						</tr>
+						<tr>
+							<td>পালং শাক </td>
+							<td>১ কেজি প্রতি মাস  </td>
+							<td>এই শাকটিকে অ্যান্টিক্যান্সার উপাদান সমৃদ্ধ সবজির তালিকায় ব্রোকলি এবং কপির পাশাপাশি অবস্থান দেওয়া যেতে পারে। </td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- tab -->
+			<div class="col-lg-3">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#home" role="tab">
+							<i class="fa fa-list"></i> গাছের তালিকা </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#profile" role="tab">
+							<i class="fa  fa-file-text-o"></i> বিস্তারিত বর্ননা </a>
+					</li>
+				</ul>
+		
+				<!-- Tab panes -->
+				<div class="tab-content sidebar-tab-content">
+					<div class="tab-pane active" id="home" role="tabpanel">
+		
+						<div class="tab-content-plant draggable">
+							<img src="images/icon-oushodhi.jpg"/>
+							<a href=""><span>তুলশী </span></a>
+							<span class="float-right text-muted">ঔষধি </span>
+						</div>
+		
+						<div class="tab-content-plant">
+							<img src="images/icon-shak.jpg"/>
+							<a href=""><span>লাল শাক  </span></a>
+							<span class="float-right text-muted">শাক </span>
+						</div>
+		
+						<div class="tab-content-plant">
+							<img src="images/icon-shobji.jpg"/>
+							<a href=""><span>ঢেঁড়স  </span></a>
+							<span class="float-right text-muted">সবজি </span>
+						</div>
+						<div class="tab-content-plant">
+							<img src="images/icon-fruit.jpg"/>
+							<a href=""><span>পেয়েরা </span></a>
+							<span class="float-right text-muted">ফল-মূল </span>
+						</div>
+						<div class="tab-content-plant">
+							<img src="images/icon-ingredient.jpg"/>
+							<a href=""><span>ধনেপাতা </span></a>
+							<span class="float-right text-muted">উপকরণ </span>
+						</div>
+						<a href="">
+							<img src="images/btn-create-own-garden.jpg" class="img-fluid w-100 pl-3 pr-3 mt-5 mb-5" /></a>
+					</div>
+					<div class="tab-pane" id="profile" role="tabpanel">...</div>
+				</div>
+
+				<!-- this is outside tabs -->
+				<div class="pt-2 text-center">
+					<a href="save-garden.php">
+						<i class="fa  fa-floppy-o"></i> বাগান সংরক্ষণ করুন
+					</a>
+				</div>
+			</div>
+			</div>
+		</div>
+
+
+		<div th:replace="common :: common-js" th:remove="tag"></div>
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+	</body>
+</html>

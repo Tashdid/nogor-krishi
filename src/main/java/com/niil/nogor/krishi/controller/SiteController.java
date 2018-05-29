@@ -49,6 +49,10 @@ public class SiteController {
 	public String products(@PathVariable ProductType type, final ModelMap model) {
 		model.addAttribute("type", type);
 		List<Product> list = type == null ? productRepo.findAll() : productRepo.findAllByTypeOrderBySequenceAsc(type);
+		list.addAll(list);
+		list.addAll(list);
+		list.addAll(list);
+		list.addAll(list);
 		model.addAttribute("products", list);
 		return "site/ponno :: products";
 	}
@@ -65,6 +69,11 @@ public class SiteController {
 				.sorted(Comparator.comparing(Area::getSequence))
 				.collect(Collectors.toList()));
 		return "site/product";
+	}
+
+	@RequestMapping("/layout")
+	public String layout(final ModelMap model) {
+		return "site/layout";
 	}
 
 }
