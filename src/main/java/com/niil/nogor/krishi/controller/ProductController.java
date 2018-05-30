@@ -49,7 +49,7 @@ public class ProductController {
 		model.addAttribute("saletypes", saleTypeRepo.findAll());
 		List<Material> exMats = bean.getMaterials() == null ? new ArrayList<>() : bean.getMaterials();
 		model.addAttribute("materials", ((ArrayList<Material>) materialRepo.findAll()).stream().filter(mt -> exMats.stream().noneMatch(pmt -> pmt.getId().equals(mt.getId()))).collect(Collectors.toList()));
-		return URL;
+		return "manage/product";
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
