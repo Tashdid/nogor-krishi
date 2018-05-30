@@ -39,7 +39,7 @@ public class CityController {
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "City");
 		model.addAttribute("beans", cityRepo.findAllByOrderBySequenceAsc());
-		return URL;
+		return URL.substring(1);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)

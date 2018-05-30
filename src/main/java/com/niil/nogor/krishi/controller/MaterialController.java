@@ -40,7 +40,7 @@ public class MaterialController {
 		model.addAttribute("brand", "Material");
 		model.addAttribute("beans", materialRepo.findAll());
 		model.addAttribute("materialtypes", materialTypeRepo.findAll());
-		return URL;
+		return URL.substring(1);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)

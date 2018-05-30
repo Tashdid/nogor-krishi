@@ -40,7 +40,7 @@ public class ProductTypeController {
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Product Type");
 		model.addAttribute("beans", productTypeRepo.findAllByOrderBySequenceAsc());
-		return URL;
+		return URL.substring(1);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)

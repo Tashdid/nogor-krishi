@@ -26,7 +26,7 @@
 
 			<div class="row" id="gardens">
 				<div class="col-lg-3" th:each="tp : ${types}">
-					<a href="predefined-layout.php">
+					<a href="predefined-layout.php" th:href="@{'/ponno?type=' + ${tp.id}}">
 						<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.image)}" src="images/shak.png" class="img-responsive" />
 						<p class="text-center garden-label"><span th:text="${tp.name}" th:remove="tag">শাক</span><br/><span class="english" th:text="${tp.alternativeName}">Leafy Vegetables</span></p>
 					</a>
@@ -80,7 +80,7 @@
 						</div>
 						<div class="gardens-create-cta text-center">
 		
-							<a href="#"><p>
+							<a href="#" th:href="@{/layout}"><p>
 									<img src="images/icon-sm-make-own-garden.png"/>নিজের বাগান সাজাতে, এখানে ক্লিক করুন
 								</p></a>
 		

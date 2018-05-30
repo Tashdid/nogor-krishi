@@ -37,7 +37,7 @@ public class SaleTypeController {
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Sale Type");
 		model.addAttribute("beans", saleTypeRepo.findAll());
-		return URL;
+		return URL.substring(1);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)

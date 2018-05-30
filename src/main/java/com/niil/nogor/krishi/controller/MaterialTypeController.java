@@ -39,7 +39,7 @@ public class MaterialTypeController {
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Material Type");
 		model.addAttribute("beans", materialTypeRepo.findAllByOrderBySequenceAsc());
-		return URL;
+		return URL.substring(1);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)

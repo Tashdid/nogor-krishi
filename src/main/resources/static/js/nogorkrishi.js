@@ -108,12 +108,18 @@ $(document).ready(function() {
 	}
 
 	$("body").on("click", ".types", function() {
-		$("#pclp-container").load($(this).attr("href"));
+		var cont = $("#pclp-container");
+		cont.block({
+			message : '<h1>Loading.......</h1>'
+		});
+		cont.load($(this).attr("href"), function(){
+			cont.unblock();
+			loadPagination();
+		});
 		$("#alltype").text($(this).text()).show();
 		$(".alltype").hide();
 		$("#paginationdiv").show();
 		$(".pagestoshow").show();
-		loadPagination();
 		return false;
 	}).on("click", ".products", function() {
 		var ob = $(this);
@@ -199,6 +205,7 @@ $(document).ready(function() {
 						.width(orimg.width())
 						.height(orimg.height());
 
+				addedItem.attr("title", addedItem.data("name"));
 				addedItem.find("a").remove();
 				addedItem.find("span").remove();
 				var cx = e.pageX;
@@ -209,9 +216,11 @@ $(document).ready(function() {
 
 				$(".item-" + counts[0]).dblclick(function() {
 					$(this).remove();
+					loadGardenDetails();
 				});
 				make_draggable($(".item-" + counts[0]));
 				addedImg.resizable(resizeOpts);
+				loadGardenDetails();
 			}
 		}
 	});
@@ -226,6 +235,19 @@ $(document).ready(function() {
 		});
 	}
 });
+
+function loadGardenDetails() {
+	var prods = [];
+	var gd = "";
+	$("#tableov").find(".ui-draggable-handle").each(function(){
+		var prd = $(this);
+		if ($.inArray(prd.data("id"), prods) === -1) {
+			prods.push(prd.data("id"));
+			gd += '<tr><td>' + prd.data("name") + '</td><td>' + prd.data("prod") + '</td><td>' + prd.data("ben") + '</td></tr>';
+		}
+	});
+	$("#gdetails").html(gd);
+}
 
 function setLayoutCellHeight() {
 	var lo = $("div.table");

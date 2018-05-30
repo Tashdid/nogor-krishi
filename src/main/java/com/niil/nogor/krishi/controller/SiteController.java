@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import com.niil.nogor.krishi.AppConfig;
 import com.niil.nogor.krishi.entity.*;
 import com.niil.nogor.krishi.repo.*;
 
@@ -22,6 +22,8 @@ import com.niil.nogor.krishi.repo.*;
 @Controller
 @RequestMapping
 public class SiteController {
+
+	@Autowired AppConfig appConfig;
 
 	private Comparator<Nursery> byNurseryType = Comparator.comparing(
 			parent -> parent.getType().getSequence()
@@ -38,10 +40,10 @@ public class SiteController {
 	}
 
 	@RequestMapping("/ponno")
-	public String ponnoPage(final ModelMap model) {
+	public String ponnoPage(@RequestParam(required=false) ProductType type, final ModelMap model) {
 		List<ProductType> types = productTypeRepo.findAllByOrderBySequenceAsc();
 		model.addAttribute("types", types);
-		products(null, model);
+		products(type, model);
 		return "site/ponno";
 	}
 
@@ -49,10 +51,12 @@ public class SiteController {
 	public String products(@PathVariable ProductType type, final ModelMap model) {
 		model.addAttribute("type", type);
 		List<Product> list = type == null ? productRepo.findAll() : productRepo.findAllByTypeOrderBySequenceAsc(type);
-		list.addAll(list);
-		list.addAll(list);
-		list.addAll(list);
-		list.addAll(list);
+		if (appConfig.isCopyProductList()) {
+			list.addAll(list);
+			list.addAll(list);
+			list.addAll(list);
+			list.addAll(list);
+		}
 		model.addAttribute("products", list);
 		return "site/ponno :: products";
 	}
@@ -73,6 +77,13 @@ public class SiteController {
 
 	@RequestMapping("/layout")
 	public String layout(final ModelMap model) {
+		List<ProductType> types = productTypeRepo.findAllByOrderBySequenceAsc();
+		model.addAttribute("types", types.stream().collect(Collectors.toMap(t -> t.getId(), t -> t.getName())));
+		if (!types.isEmpty()) {
+			List<Product> list = productRepo.findAll();
+			list.forEach(p -> p.setImage(null));
+			model.addAttribute("products", list);
+		}
 		return "site/layout";
 	}
 

@@ -42,7 +42,7 @@ public class AreaController {
 		model.addAttribute("brand", "Area");
 		model.addAttribute("beans", areaRepo.findAll());
 		model.addAttribute("cities", cityRepo.findAllByOrderBySequenceAsc());
-		return URL;
+		return URL.substring(1);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)

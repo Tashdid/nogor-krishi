@@ -61,7 +61,7 @@ public class NurseryController {
 					.filter(p -> pplist.stream().noneMatch(pp -> pp.getProduct().getId().equals(p.getId())))
 					.collect(Collectors.toList()));
 		}
-		return URL;
+		return URL.substring(1);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)

@@ -47,11 +47,11 @@
 					<div class="row mt-4 mb-4">
 
 						<div class="col-8">
-							<p id="allponno" class="color-muted lead mb-0 alltype singleproduct">
+							<p id="allponno" class="color-muted lead mb-0 alltype singleproduct" th:styleappend="'display: ' + ${type eq null ? 'block' : 'none'}">
 								সব গাছ দেখানো হচ্ছে। বা-দিক থেকে গাছ টাইপ সেলেক্ট করতে পারেন।
 							</p>
-							<p id="alltype" class="lead mb-0 mt-3 allponno singleproduct" style="display: none;">
-								<span class="mr-2 text-muted">শাক</span>
+							<p id="alltype" class="lead mb-0 mt-3 allponno singleproduct" th:styleappend="'display: ' + ${type ne null ? 'block' : 'none'}">
+								<span class="mr-2 text-muted" th:text="${type eq null ? '' : type.name}">শাক</span>
 							</p>
 							<p id="singleproduct" class="lead mb-0 mt-3 allponno alltype" style="display: none;">
 								<span class="mr-2"><a class="types" id="typetext" href="">শাক</a></span>
@@ -85,6 +85,9 @@
 									<p class="productname" th:text="${' ' + prd.name}"> লাল শাক  </p>
 								</a>
 							</div>
+						
+							<a href="" th:href="@{/layout}">
+								<img src="images/btn-create-own-garden.jpg" class="img-fluid w-100 pl-3 pr-3 mt-5 mb-5" /></a>
 						</div>
 						<div class="col-3" th:remove="all">
 							<a href="all-ponno-lal-shak.php">

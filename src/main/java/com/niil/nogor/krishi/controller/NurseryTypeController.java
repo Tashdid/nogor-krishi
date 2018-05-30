@@ -39,7 +39,7 @@ public class NurseryTypeController {
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Nursery Type");
 		model.addAttribute("beans", nurseryTypeRepo.findAllByOrderBySequenceAsc());
-		return URL;
+		return URL.substring(1);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)

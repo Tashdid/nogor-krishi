@@ -5,7 +5,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.http.HttpMethod;
 
 /**
  * @author Noor
@@ -19,8 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 			.inMemoryAuthentication()
-				.withUser("user").password("user").roles("USER").and()
-				.withUser("admin").password("admin").roles("USER", "ADMIN");
+				.withUser("user").password("ngkrishiUser!123").roles("USER").and()
+				.withUser("admin").password("ngkrishiAdmin@321").roles("USER", "ADMIN");
 	}
 
 	@Override
@@ -28,8 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.httpBasic().and()
 			.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/rest/**").permitAll()
-				.anyRequest().fullyAuthenticated().and()
+				.antMatchers("/manage/**", "/rest/**").fullyAuthenticated()
+				.anyRequest().permitAll().and()
 			.csrf().disable();
 	}
 }
