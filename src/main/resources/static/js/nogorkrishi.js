@@ -1,4 +1,6 @@
 var conv = {'5': '৫', '10': '১০', '15': '১৫', '20': '২০', '25': '২৫', '30': '৩০', '35': '৩৫', '40': '৪০', '45': '৪৫', '50': '৫০', '55': '৫৫', '60': '৬০', '65': '৬৫', '70': '৭০', '75': '৭৫', '80': '৮০', '85': '৮৫', '90': '৯০', '95': '৯৫', '100': '১০০'}
+var map;
+var nurseries = {};
 
 $(document).ready(function() {
 	var path = window.location.pathname;
@@ -109,11 +111,9 @@ $(document).ready(function() {
 
 	$("body").on("click", ".types", function() {
 		var cont = $("#pclp-container");
-		cont.block({
-			message : '<h1>Loading.......</h1>'
-		});
+		blockui(cont);
 		cont.load($(this).attr("href"), function(){
-			cont.unblock();
+			unblockui(cont);
 			loadPagination();
 		});
 		$("#alltype").text($(this).text()).show();
@@ -123,7 +123,11 @@ $(document).ready(function() {
 		return false;
 	}).on("click", ".products", function() {
 		var ob = $(this);
-		$("#pclp-container").load(ob.attr("href"));
+		var cont = $("#pclp-container");
+		blockui(cont);
+		cont.load(ob.attr("href"), function() {
+			unblockui(cont);
+		});
 		$("#typetext").attr("href", ob.data("typehref")).text(ob.data("typetext"));
 		$("#producttext").text($(".productname", ob).text());
 		$("#singleproduct").show();
@@ -168,7 +172,16 @@ $(document).ready(function() {
 			$("div.table").html("");
 		}
 		setLayoutCellHeight();
+	}).on("change", "#areaselection", function() {
+		var ar = $(this).val();
+		$.each(nurseries, function(key, value) {
+			var show = ar === "" || ar === key;
+			$.each(value, function(ik, iv) {
+				iv.setVisible(show);
+			});
+		});
 	});
+
 	loadPagination();
 	
 	var lo = $("div.table");
@@ -344,4 +357,44 @@ function showImage(input) {
 
 		reader.readAsDataURL(input.files[0]);
 	}
+}
+
+function initMap() {
+	// The location of Dhaka
+	var dhaka = {
+		lat : 23.810332,
+		lng : 90.412518
+	};
+	// The map, centered in Dhaka
+	map = new google.maps.Map(document.getElementById('nurseriesmap'), {
+		zoom : 10,
+		center : dhaka
+	});
+	var infowindow = new google.maps.InfoWindow();
+	$.get("/nurseries", function(rs) {
+		$.each(rs, function(fk, fv) {
+			var area = [];
+			$.each(fv, function(sk, it) {
+				var marker = new google.maps.Marker({position: {lat: it.latitude, lng: it.longitude}, map: map});
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.setContent('<div><p class="color-green lead">' + it.name
+							+ '</p>' + it.address + '<br>' + it.area.name + ', ' + it.area.city.name
+							+ '<br>ফোন : ' + it.phone + '</div>');
+					infowindow.open(map, this);
+				});
+				area.push(marker);
+			});
+			nurseries[fk] = area;
+		});
+	});
+}
+
+function blockui(target) {
+	target.block({
+		message : '<h1>Loading.......</h1>'
+	});
+}
+
+function unblockui(target) {
+	target.unblock();
 }

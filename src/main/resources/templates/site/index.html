@@ -214,19 +214,16 @@
 					<p>নিম্ন তালিকা থেকে আপনার এলাকা বেছে নিন, </p>
 				</div>
 				<div class="col-lg-4">
-					<select class="form-control" id="exampleSelect1">
-						<option>এলাকা বেছে নিন</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
+					<select class="form-control" id="areaselection">
+						<option value="">এলাকা বেছে নিন</option>
+						<option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.name}">2</option>
 					</select>
 				</div>
 				<div class="col-lg-8" style="padding-top: 6px;">
 					<a href="" >আমি সব নার্সারির তালিকা দেখতে চাই </a>
 				</div>
 		
-				<div class="col-lg-12" style="margin-top:25px;">
+				<div id="nurseriesmap" class="col-lg-12" style="margin-top:25px; height: 400px;">
 					<!-- map goes here -->
 					<img src="images/map-bitmap.jpg" />
 				</div>
@@ -235,5 +232,7 @@
 
 		<div th:replace="common :: common-js" th:remove="tag"></div>
 		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+		<script async="async" defer="defer"
+				th:src="@{https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuIoWq7e51lQ0AMUQVlKwU038aZBa23c&amp;callback=initMap}"></script>
 	</body>
 </html>

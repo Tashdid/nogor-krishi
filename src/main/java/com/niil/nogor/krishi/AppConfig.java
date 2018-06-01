@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AppConfig {
-	private boolean copyProductList = true;
+	private boolean copyProductList = false;
 
 	public boolean isCopyProductList() {
 		return copyProductList;

@@ -1,7 +1,6 @@
 package com.niil.nogor.krishi.controller;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +31,13 @@ public class SiteController {
 	@Autowired ProductTypeRepo productTypeRepo;
 	@Autowired ProductRepo productRepo;
 	@Autowired ProductPriceRepo productPriceRepo;
+	@Autowired NurseryRepo nurseryRepo;
+	@Autowired AreaRepo areaRepo;
 
 	@RequestMapping
 	public String homePage(final ModelMap model) {
 		model.addAttribute("types", productTypeRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("areas", areaRepo.findAll());
 		return "site/index";
 	}
 
@@ -52,7 +54,6 @@ public class SiteController {
 		model.addAttribute("type", type);
 		List<Product> list = type == null ? productRepo.findAll() : productRepo.findAllByTypeOrderBySequenceAsc(type);
 		if (appConfig.isCopyProductList()) {
-			list.addAll(list);
 			list.addAll(list);
 			list.addAll(list);
 			list.addAll(list);
@@ -85,6 +86,12 @@ public class SiteController {
 			model.addAttribute("products", list);
 		}
 		return "site/layout";
+	}
+
+	@ResponseBody
+	@RequestMapping("/nurseries")
+	public Map<Object, List<Nursery>> nurseries() {
+		return nurseryRepo.findAll().stream().collect(Collectors.groupingBy(n -> n.getArea().getId(), Collectors.toList()));
 	}
 
 }
