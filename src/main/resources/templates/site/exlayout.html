@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<meta th:replace="common :: common-meta" th:remove="tag"/>
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center" style="padding-top: 70px; padding-bottom: 20px;">
+					<h5><i class="fa fa-check"></i> বাগান সংরক্ষণ সফল হয়েছে </h5>
+				</div>
+		
+				<div class="col-lg-10 offset-lg-1">
+					<div class="alert alert-success text-center">
+						 আপনার বাগান নং - <span class="bagan-code" th:text="${layout.id}">25491324964</span> <br/>
+						পরবর্তিতে আপনার সাজানো বাগানের গাছের তালিকা পেতে এই নম্বরটি সংরক্ষণ করুন।
+					</div>
+				</div>
+		
+				<div class="col-lg-10 offset-lg-1 pt-4 mb-5 text-center">
+					<h3 class="text-center border-bottom-2px d-inline-block">বাগানের গাছের তালিকা ও বিবরণ  </h3>
+				</div>
+		
+		
+				<!-- Lal Shak Start -->
+				<div th:each="block, stat : ${blocks}" th:remove="tag">
+					<div class="col-lg-8 offset-lg-2 mt-4 mb-4 pb-0 border-bottom-2px">
+						<h4 class="text-gray-dark float-left" th:text="${block.product.name}">লাল শাক </h4>
+						<span class="text-muted float-right" th:text="${stat.count + ' / ' + #lists.size(blocks)}">১ / ৩ </span>
+						<div class="clearfix"></div>
+					</div>
+					<div class="col-lg-8 offset-lg-2">
+						<div class="row">
+							<div class="col-8">
+								<div class="form-group col-5 pl-0 d-inline-block">
+									<label class="color-red small" for="">এলাকা : </label>
+									<select class="form-control" id="">
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</select>
+								</div>
+								<div class="form-group col-6 d-inline-block">
+									<label class="color-red small" for="">নার্সারি : </label>
+									<select class="form-control" id="">
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</select>
+								</div>
+								<div class="col-6 pl-0 d-inline-block">
+									<div class="mt-2">
+										<p class="color-green">মোল্লাপারা সরকারী নার্সারি</p>
+										১০ কাজিপারা এভিনিউ, মিরপুর ১০২০<br/>
+										ফোন : +৮৮ ০১৭২৩ ৫৭২৮৯৬
+									</div>
+								</div>
+								<div class="col-5 text-right d-inline-block mt-2" style="vertical-align: top;">
+									<img src="images/nursery-logo-govt.jpg"/>
+								</div>
+							</div>
+							<div class="col-4">
+								<table class="table">
+									<thead>
+									<tr class="color-red small">
+										<th class="text-left" style="width: ;">বর্ননা  </th>
+										<th class="text-right" style="width: ;">মূল্য  </th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td>চাড়া </td>
+										<td class="text-right">৮০ </td>
+									</tr>
+									<tr>
+										<td> টব </td>
+										<td class="text-right">২০০  </td>
+									</tr>
+									<tr>
+										<td> মাটি </td>
+										<td class="text-right">২০  </td>
+									</tr>
+									<tr>
+										<td>  </td>
+										<td class="text-right"> = ৳২০০  </td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="common :: common-js" th:remove="tag"></div>
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+	</body>
+</html>

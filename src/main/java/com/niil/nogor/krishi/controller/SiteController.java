@@ -3,6 +3,8 @@ package com.niil.nogor.krishi.controller;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.niil.nogor.krishi.AppConfig;
 import com.niil.nogor.krishi.entity.*;
 import com.niil.nogor.krishi.repo.*;
+import com.niil.nogor.krishi.view.LayoutRQ;
 
 /**
  * @author Noor
@@ -33,6 +36,8 @@ public class SiteController {
 	@Autowired ProductPriceRepo productPriceRepo;
 	@Autowired NurseryRepo nurseryRepo;
 	@Autowired AreaRepo areaRepo;
+	@Autowired GardenLayoutRepo gardenLayoutRepo;
+	@Autowired GardenBlockRepo gardenBlockRepo;
 
 	@RequestMapping
 	public String homePage(final ModelMap model) {
@@ -86,6 +91,27 @@ public class SiteController {
 			model.addAttribute("products", list);
 		}
 		return "site/layout";
+	}
+
+	@RequestMapping(value="/layout", method=RequestMethod.POST)
+	public String layoutSave(@Valid LayoutRQ layout, final ModelMap model) {
+		GardenLayout gl = new GardenLayout();
+		gl.setLength(layout.getLength());
+		gl.setWidth(layout.getWidth());
+		GardenLayout sgl = gardenLayoutRepo.save(gl);
+		layout.getBlocks().forEach(bl -> {
+			bl.setGardenLayout(sgl);
+			gardenBlockRepo.save(bl);
+		});
+		return "redirect:/layout/" + sgl.getId();
+	}
+
+	@RequestMapping(value="/layout/{layout}")
+	public String showLlayout(@PathVariable GardenLayout layout, final ModelMap model) {
+		model.addAttribute("layout", layout);
+		model.addAttribute("blocks", gardenBlockRepo.findAllByGardenLayout(layout));
+		model.addAttribute("nurseries", nurseries());
+		return "site/exlayout";
 	}
 
 	@ResponseBody

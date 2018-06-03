@@ -180,6 +180,19 @@ $(document).ready(function() {
 				iv.setVisible(show);
 			});
 		});
+	}).on("click", "#savelayout", function() {
+		var btn = $(this);
+		btn.prop("disabled", true);
+		$("#tableov").find(".ui-draggable-handle").each(function(i, vl) {
+			var ob = $(vl);
+			ob.append('<input type="hidden" name="blocks[' + i + '].product" value="' + ob.data("id") + '"/>');
+			ob.append('<input type="hidden" name="blocks[' + i + '].top" value="' + ob.position().top + '"/>');
+			ob.append('<input type="hidden" name="blocks[' + i + '].left" value="' + ob.position().left + '"/>');
+			ob.append('<input type="hidden" name="blocks[' + i + '].height" value="' + ob.height() + '"/>');
+			ob.append('<input type="hidden" name="blocks[' + i + '].width" value="' + ob.width() + '"/>');
+		});
+		btn.parents("form").submit();
+		return false;
 	});
 
 	loadPagination();
