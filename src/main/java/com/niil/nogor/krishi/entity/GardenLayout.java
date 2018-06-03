@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.*;
 
 /**
@@ -18,7 +20,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GardenLayout {
-	private @Id @GeneratedValue Long id;
+	@Id
+	@GenericGenerator(name = "seq", strategy = "com.niil.nogor.krishi.entity.LayoutIdGenerator")
+	@GeneratedValue(generator="seq")
+	private Long id;
 	private @Column(nullable=false) Integer length;
 	private @Column(nullable=false) Integer width;
 	private LocalDateTime createdOn;

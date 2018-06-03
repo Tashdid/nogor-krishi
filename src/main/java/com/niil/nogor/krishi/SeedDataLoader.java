@@ -110,7 +110,7 @@ public class SeedDataLoader implements ApplicationRunner {
 				.type(shak).saleType(bij).materials(Arrays.asList(drum, mati)).build());
 
 		Product pepe = productRepo.save(Product.builder().name("পেঁপে")
-				.alternativeName("Papaya").sequence(2)
+				.alternativeName("Papaya").sequence(1)
 				.description("এটি একটি ছোট আকৃতির অশাখ বৃক্ষবিশেষ। লম্বা বো‍টাঁযুক্ত ছত্রাকার পাতা বেশ বড় হয় এবং সর্পিল আকারে কান্ডের উপরি অংশে সজ্জিত থাকে। প্রায় সারা বছরেই ফুল ও ফল হয়। কাচাঁ ফল সবুজ, পাকা ফল হলুদ বা পীত বর্ণের। এটি পথ্য হিসেবে ও ব্যবহার হয়। কাচা পাকা দু ভাবেই খাওয়া যায়, তরে কাচা অবস্থায় সব্জি এবং পাকলে ফল। কাচা ফল বাইরের দিক গাঢ় কালচে সবুজ এবং পাকলে খোসা সহ কমলা রং ধারন করে।\n\nপেঁপে বাংলাদেশ, ভারত, আমেরিকা, ব্রাজিল ইত্যাদি দেশে হয়ে থাকে।\n\nবাংলাদেশের সর্বত্রই সবজি এবং ফলের জন্য চাষ করা হয়।")
 				.image(getImageAsByte("seed/tree-pepe.png"))
 				.productivity("২ কেজি প্রতি মাস")
@@ -133,14 +133,22 @@ public class SeedDataLoader implements ApplicationRunner {
 				.image(getImageAsByte("seed/nursery-logo-private.png"))
 				.sequence(2).build());
 
-		Nursery s1 = nurseryRepo.save(Nursery.builder().name("Test Nursery")
+		Nursery s1 = nurseryRepo.save(Nursery.builder().name("Uttara 11")
 				.type(gov).area(uttara).address("Sector 11")
-				.phone("123456578").sequence(1)
-				.latitude(23.873751).longitude(90.396454).build());
-		Nursery s2 = nurseryRepo.save(Nursery.builder().name("Test Nursery 2")
-				.type(gov).area(uttara).address("Sector 12")
-				.phone("123456578").sequence(2)
-				.latitude(23.746466).longitude(90.376015).build());
+				.phone("+88 02 784354").sequence(1)
+				.latitude(23.877316).longitude(90.39014).build());
+		Nursery s2 = nurseryRepo.save(Nursery.builder().name("Uttara 3")
+				.type(priv).area(uttara).address("Sector 3")
+				.phone("+88 02 774354").sequence(2)
+				.latitude(23.8654).longitude(90.397205).build());
+		Nursery s3 = nurseryRepo.save(Nursery.builder().name("Dhanmondi 27")
+				.type(gov).area(dhanmondi).address("Dhanmondi 27")
+				.phone("+88 02 874354").sequence(1)
+				.latitude(23.756242).longitude(90.375461).build());
+		Nursery s4 = nurseryRepo.save(Nursery.builder().name("Dhanmondi Road 2")
+				.type(priv).area(dhanmondi).address("Dhanmondi 2 no road")
+				.phone("+88 02 884354").sequence(2)
+				.latitude(23.739449).longitude(90.383057).build());
 
 		materialPriceRepo.save(MaterialPrice.builder().material(tob).nursery(s1).price(new BigDecimal("80")).build());
 		materialPriceRepo.save(MaterialPrice.builder().material(drum).nursery(s1).price(new BigDecimal("200")).build());
@@ -148,18 +156,36 @@ public class SeedDataLoader implements ApplicationRunner {
 		materialPriceRepo.save(MaterialPrice.builder().material(tob).nursery(s2).price(new BigDecimal("70")).build());
 		materialPriceRepo.save(MaterialPrice.builder().material(drum).nursery(s2).price(new BigDecimal("180")).build());
 		materialPriceRepo.save(MaterialPrice.builder().material(mati).nursery(s2).price(new BigDecimal("40")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(tob).nursery(s3).price(new BigDecimal("65")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(drum).nursery(s3).price(new BigDecimal("190")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(mati).nursery(s3).price(new BigDecimal("55")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(tob).nursery(s4).price(new BigDecimal("75")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(drum).nursery(s4).price(new BigDecimal("210")).build());
+		materialPriceRepo.save(MaterialPrice.builder().material(mati).nursery(s4).price(new BigDecimal("45")).build());
 
 		productPriceRepo.save(ProductPrice.builder().product(lalshak).nursery(s1).price(new BigDecimal("20")).build());
 		productPriceRepo.save(ProductPrice.builder().product(puishak).nursery(s1).price(new BigDecimal("20")).build());
 		productPriceRepo.save(ProductPrice.builder().product(kochushak).nursery(s1).price(new BigDecimal("12")).build());
 		productPriceRepo.save(ProductPrice.builder().product(pepe).nursery(s1).price(new BigDecimal("30")).build());
 		productPriceRepo.save(ProductPrice.builder().product(kola).nursery(s1).price(new BigDecimal("50")).build());
-		
+
 		productPriceRepo.save(ProductPrice.builder().product(lalshak).nursery(s2).price(new BigDecimal("25")).build());
 		productPriceRepo.save(ProductPrice.builder().product(puishak).nursery(s2).price(new BigDecimal("25")).build());
 		productPriceRepo.save(ProductPrice.builder().product(kochushak).nursery(s2).price(new BigDecimal("15")).build());
 		productPriceRepo.save(ProductPrice.builder().product(pepe).nursery(s2).price(new BigDecimal("25")).build());
 		productPriceRepo.save(ProductPrice.builder().product(kola).nursery(s2).price(new BigDecimal("40")).build());
+
+		productPriceRepo.save(ProductPrice.builder().product(lalshak).nursery(s3).price(new BigDecimal("30")).build());
+		productPriceRepo.save(ProductPrice.builder().product(puishak).nursery(s3).price(new BigDecimal("30")).build());
+		productPriceRepo.save(ProductPrice.builder().product(kochushak).nursery(s3).price(new BigDecimal("10")).build());
+		productPriceRepo.save(ProductPrice.builder().product(pepe).nursery(s3).price(new BigDecimal("20")).build());
+		productPriceRepo.save(ProductPrice.builder().product(kola).nursery(s3).price(new BigDecimal("45")).build());
+
+		productPriceRepo.save(ProductPrice.builder().product(lalshak).nursery(s4).price(new BigDecimal("22")).build());
+		productPriceRepo.save(ProductPrice.builder().product(puishak).nursery(s4).price(new BigDecimal("27")).build());
+		productPriceRepo.save(ProductPrice.builder().product(kochushak).nursery(s4).price(new BigDecimal("14")).build());
+		productPriceRepo.save(ProductPrice.builder().product(pepe).nursery(s4).price(new BigDecimal("23")).build());
+		productPriceRepo.save(ProductPrice.builder().product(kola).nursery(s4).price(new BigDecimal("55")).build());
 	}
 
 	private byte[] getImageAsByte(String image) throws IOException {

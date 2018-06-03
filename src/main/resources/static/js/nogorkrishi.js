@@ -186,13 +186,29 @@ $(document).ready(function() {
 		$("#tableov").find(".ui-draggable-handle").each(function(i, vl) {
 			var ob = $(vl);
 			ob.append('<input type="hidden" name="blocks[' + i + '].product" value="' + ob.data("id") + '"/>');
-			ob.append('<input type="hidden" name="blocks[' + i + '].top" value="' + ob.position().top + '"/>');
-			ob.append('<input type="hidden" name="blocks[' + i + '].left" value="' + ob.position().left + '"/>');
-			ob.append('<input type="hidden" name="blocks[' + i + '].height" value="' + ob.height() + '"/>');
-			ob.append('<input type="hidden" name="blocks[' + i + '].width" value="' + ob.width() + '"/>');
+			ob.append('<input type="hidden" name="blocks[' + i + '].ptop" value="' + ob.position().top + '"/>');
+			ob.append('<input type="hidden" name="blocks[' + i + '].pleft" value="' + ob.position().left + '"/>');
+			ob.append('<input type="hidden" name="blocks[' + i + '].cheight" value="' + ob.height() + '"/>');
+			ob.append('<input type="hidden" name="blocks[' + i + '].cwidth" value="' + ob.width() + '"/>');
 		});
 		btn.parents("form").submit();
 		return false;
+	}).on("change", ".area", function() {
+		var ar = $(this);
+		var arid = ar.val();
+		var prnt = ar.parents(".col-12");
+		prnt.find(".nurseries").attr("style", "display: none !important");
+		prnt.find(".nurseries.ar" + arid).show();
+		prnt.find(".nurseries.ar" + arid).find(".nursery").trigger("change");
+	}).on("change", ".nursery", function() {
+		var nr = $(this);
+		var nrid = nr.val();
+		var prnt = nr.parents(".col-lg-8");
+		var arid = prnt.find(".area").val();
+		prnt.find(".nd").hide();
+		prnt.find(".nd.ar" + arid + ".nr" + nrid).show();
+		prnt.find(".table").hide();
+		prnt.find(".table.ar" + arid + ".nr" + nrid).show();
 	});
 
 	loadPagination();

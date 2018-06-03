@@ -17,10 +17,10 @@ import lombok.*;
 @AllArgsConstructor
 public class GardenBlock {
 	private @Id @GeneratedValue Long id;
-	private @Column(nullable=false) Double top;
-	private @Column(nullable=false) Double left;
-	private @Column(nullable=false) Double height;
-	private @Column(nullable=false) Double width;
+	private @Column(nullable=false) Double ptop;
+	private @Column(nullable=false) Double pleft;
+	private @Column(nullable=false) Double cheight;
+	private @Column(nullable=false) Double cwidth;
 	private @ManyToOne Product product;
 	private @ManyToOne GardenLayout gardenLayout;
 }

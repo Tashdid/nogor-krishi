@@ -24,73 +24,71 @@
 		
 		
 				<!-- Lal Shak Start -->
-				<div th:each="block, stat : ${blocks}" th:remove="tag">
+				<div th:each="pe, stat : ${ncc}" th:remove="tag">
 					<div class="col-lg-8 offset-lg-2 mt-4 mb-4 pb-0 border-bottom-2px">
-						<h4 class="text-gray-dark float-left" th:text="${block.product.name}">লাল শাক </h4>
-						<span class="text-muted float-right" th:text="${stat.count + ' / ' + #lists.size(blocks)}">১ / ৩ </span>
+						<h4 class="text-gray-dark float-left" th:text="${pe.key.name}">লাল শাক </h4>
+						<span class="text-muted float-right" th:text="${stat.count + ' / ' + #maps.size(ncc)}">১ / ৩ </span>
 						<div class="clearfix"></div>
 					</div>
 					<div class="col-lg-8 offset-lg-2">
 						<div class="row">
 							<div class="col-8">
-								<div class="form-group col-5 pl-0 d-inline-block">
-									<label class="color-red small" for="">এলাকা : </label>
-									<select class="form-control" id="">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-									</select>
-								</div>
-								<div class="form-group col-6 d-inline-block">
-									<label class="color-red small" for="">নার্সারি : </label>
-									<select class="form-control" id="">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-									</select>
-								</div>
-								<div class="col-6 pl-0 d-inline-block">
-									<div class="mt-2">
-										<p class="color-green">মোল্লাপারা সরকারী নার্সারি</p>
-										১০ কাজিপারা এভিনিউ, মিরপুর ১০২০<br/>
-										ফোন : +৮৮ ০১৭২৩ ৫৭২৮৯৬
+								<div class="col-12">
+									<div class="form-group col-5 pl-0 d-inline-block">
+										<label class="color-red small" for="">এলাকা : </label>
+										<select class="form-control area" id="">
+											<option th:each="are : ${pe.value}" th:value="${are.key.id}" th:text="${are.key.name}">1</option>
+										</select>
+									</div>
+									<div th:each="are : ${pe.value}" th:remove="tag">
+										<div class="form-group col-6 d-inline-block nurseries" th:classappend="${'ar' + are.key.id}" th:styleappend="'display: ' + ${areStat.index eq 0 ? 'block' : 'none !important'}">
+											<label class="color-red small" for="">নার্সারি : </label>
+											<select class="form-control nursery" id="">
+												<option th:each="nre : ${are.value}" th:value="${nre.key.id}" th:text="${nre.key.name}">1</option>
+											</select>
+										</div>
 									</div>
 								</div>
-								<div class="col-5 text-right d-inline-block mt-2" style="vertical-align: top;">
-									<img src="images/nursery-logo-govt.jpg"/>
+								<div th:each="are : ${pe.value}" th:remove="tag">
+									<div th:each="nre : ${are.value}" class="col-12 nd" th:classappend="${'ar' + are.key.id + ' nr' + nre.key.id}" th:styleappend="'display: ' + ${areStat.index eq 0 and nreStat.index eq 0 ? 'block' : 'none !important'}">
+										<div class="col-6 pl-0 d-inline-block ndetails">
+											<div class="mt-2">
+												<p class="color-green" th:text="${nre.key.name}">মোল্লাপারা সরকারী নার্সারি</p>
+												<span th:text="${nre.key.address}" th:remove="tag">১০ কাজিপারা এভিনিউ, মিরপুর ১০২০</span><br/>
+												ফোন : <span th:text="${nre.key.phone}" th:remove="tag">+৮৮ ০১৭২৩ ৫৭২৮৯৬</span>
+											</div>
+										</div>
+										<div class="col-5 text-right d-inline-block mt-2 ntimg" style="vertical-align: top;">
+											<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(nre.key.type.image)}" src="images/nursery-logo-govt.jpg"/>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-4">
-								<table class="table">
-									<thead>
-									<tr class="color-red small">
-										<th class="text-left" style="width: ;">বর্ননা  </th>
-										<th class="text-right" style="width: ;">মূল্য  </th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td>চাড়া </td>
-										<td class="text-right">৮০ </td>
-									</tr>
-									<tr>
-										<td> টব </td>
-										<td class="text-right">২০০  </td>
-									</tr>
-									<tr>
-										<td> মাটি </td>
-										<td class="text-right">২০  </td>
-									</tr>
-									<tr>
-										<td>  </td>
-										<td class="text-right"> = ৳২০০  </td>
-									</tr>
-									</tbody>
-								</table>
+								<div th:each="are : ${pe.value}" th:remove="tag">
+									<table class="table" th:each="nre : ${are.value}" th:classappend="${'ar' + are.key.id + ' nr' + nre.key.id}" th:styleappend="${not (areStat.index eq 0 and nreStat.index eq 0) ? 'display: none' : ''}">
+										<thead>
+											<tr class="color-red small">
+												<th class="text-left" style="width: ;">বর্ননা  </th>
+												<th class="text-right" style="width: ;">মূল্য  </th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td th:text="${nre.value.productPrice.product.saleType.name}">চাড়া </td>
+												<td class="text-right" th:text="${nre.value.productPrice.price}">৮০ </td>
+											</tr>
+											<tr th:each="mp : ${nre.value.materialPrices}">
+												<td th:text="${mp.material.name}"> টব </td>
+												<td class="text-right" th:text="${mp.price}">২০০  </td>
+											</tr>
+											<tr>
+												<td>  </td>
+												<td class="text-right"> = ৳<span th:text="${nre.value.total}" th:remove="tag">200</span> </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
