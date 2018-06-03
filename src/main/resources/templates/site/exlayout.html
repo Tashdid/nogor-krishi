@@ -27,7 +27,7 @@
 				<div th:each="pe, stat : ${ncc}" th:remove="tag">
 					<div class="col-lg-8 offset-lg-2 mt-4 mb-4 pb-0 border-bottom-2px">
 						<h4 class="text-gray-dark float-left" th:text="${pe.key.name}">লাল শাক </h4>
-						<span class="text-muted float-right" th:text="${stat.count + ' / ' + #maps.size(ncc)}">১ / ৩ </span>
+						<span class="text-muted float-right" th:text="${beans.e2bconv.getBengali(stat.count) + ' / ' + beans.e2bconv.getBengali(#maps.size(ncc))}">১ / ৩ </span>
 						<div class="clearfix"></div>
 					</div>
 					<div class="col-lg-8 offset-lg-2">
@@ -76,15 +76,15 @@
 										<tbody>
 											<tr>
 												<td th:text="${nre.value.productPrice.product.saleType.name}">চাড়া </td>
-												<td class="text-right" th:text="${nre.value.productPrice.price}">৮০ </td>
+												<td class="text-right" th:text="${beans.e2bconv.getBengali(nre.value.productPrice.price)}">৮০ </td>
 											</tr>
 											<tr th:each="mp : ${nre.value.materialPrices}">
 												<td th:text="${mp.material.name}"> টব </td>
-												<td class="text-right" th:text="${mp.price}">২০০  </td>
+												<td class="text-right" th:text="${beans.e2bconv.getBengali(mp.price)}">২০০  </td>
 											</tr>
 											<tr>
 												<td>  </td>
-												<td class="text-right"> = ৳<span th:text="${nre.value.total}" th:remove="tag">200</span> </td>
+												<td class="text-right"> = ৳<span th:text="${beans.e2bconv.getBengali(nre.value.total)}" th:remove="tag">200</span> </td>
 											</tr>
 										</tbody>
 									</table>
