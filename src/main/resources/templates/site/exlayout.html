@@ -55,7 +55,7 @@
 											<div class="mt-2">
 												<p class="color-green" th:text="${nre.key.name}">মোল্লাপারা সরকারী নার্সারি</p>
 												<span th:text="${nre.key.address}" th:remove="tag">১০ কাজিপারা এভিনিউ, মিরপুর ১০২০</span><br/>
-												ফোন : <span th:text="${nre.key.phone}" th:remove="tag">+৮৮ ০১৭২৩ ৫৭২৮৯৬</span>
+												ফোন : <span th:text="${beans.e2bconv.getBengali(nre.key.phone)}" th:remove="tag">+৮৮ ০১৭২৩ ৫৭২৮৯৬</span>
 											</div>
 										</div>
 										<div class="col-5 text-right d-inline-block mt-2 ntimg" style="vertical-align: top;">

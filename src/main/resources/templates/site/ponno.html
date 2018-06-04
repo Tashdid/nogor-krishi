@@ -50,10 +50,10 @@
 							<p id="allponno" class="color-muted lead mb-0 alltype singleproduct" th:styleappend="'display: ' + ${type eq null ? 'block' : 'none'}">
 								সব গাছ দেখানো হচ্ছে। বা-দিক থেকে গাছ টাইপ সেলেক্ট করতে পারেন।
 							</p>
-							<p id="alltype" class="lead mb-0 mt-3 allponno singleproduct" th:styleappend="'display: ' + ${type ne null ? 'block' : 'none'}">
+							<p id="alltype" class="lead mb-0 allponno singleproduct" th:styleappend="'display: ' + ${type ne null ? 'block' : 'none'}">
 								<span class="mr-2 text-muted" th:text="${type eq null ? '' : type.name}">শাক</span>
 							</p>
-							<p id="singleproduct" class="lead mb-0 mt-3 allponno alltype" style="display: none;">
+							<p id="singleproduct" class="lead mb-0 allponno alltype" style="display: none;">
 								<span class="mr-2"><a class="types" id="typetext" href="">শাক</a></span>
 								<span class="mr-2 small"><i class="fa fa-chevron-right"></i> </span>
 								<span class="mr-2 text-muted" id="producttext">লাল শাক</span>
