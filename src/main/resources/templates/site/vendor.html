@@ -1,0 +1,79 @@
+<div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+	<div class="col-lg-6 pl-5 removeme" id="vendors-container">
+		<div class="row mt-4" th:with="area=${vendor.area}">
+			<div class="col-8">
+				<p class="lead mb-0 mt-3">
+					<span class="mr-2" th:text="${area.city.name}">ঢাকা</span>
+					<span class="mr-2 small"><i class="fa fa-chevron-right"></i> </span>
+					<span class="mr-2 text-muted" th:text="${area.name}">মিরপুর </span>
+				</p>
+			</div>
+		</div>
+		<div class="row no-gutters">
+			<div class="col-6 pl-0 d-inline-block">
+				<div class="mt-2">
+					<p class="color-green lead mb-0">
+						<i class="fa fa-leaf" style="font-size: 20px;color: #345C05; margin-top: 14px;"></i><span th:remove="tag" th:text="${vendor.name}"> মোল্লাপারা সরকারী নার্সারি </span>
+					</p>
+				</div>
+			</div>
+			<div class="col-5 text-right d-inline-block mt-2" style="vertical-align: top;">
+				<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(vendor.type.image)}" src="images/nursery-logo-govt.jpg"/>
+			</div>
+		</div>
+		<hr/>
+		<div class="row">
+			<div class="col text-muted">
+				<span th:text="${vendor.address}" th:remove="tag">১০ কাজিপারা এভিনিউ, মিরপুর ১০২০</span><br/>
+				ফোন : <span th:text="${beans.e2bconv.getBengali(vendor.phone)}" th:remove="tag">+৮৮ ০১৭২৩ ৫৭২৮৯৬</span>
+			</div>
+		</div>
+		<div class="row mt-5">
+			<div class="col-4" th:each="prod : ${products}">
+				<table class="table">
+					<thead>
+						<tr class="color-red ">
+							<th th:text="${prod.key.name}">গাছের নাম </th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="p : ${prod.value}">
+							<td th:text="${p.product.name}">লাল শাক  </td>
+						</tr>
+						<tr th:remove="all">
+							<td>লাল শাক  </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-4">
+				<table class="table">
+					<thead class="font-weight-normal">
+						<tr class="color-red font-weight-normal ">
+							<th>সরঞ্জাম </th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="material : ${materials}">
+							<td th:text="${material.material.name}">লাল শাক  </td>
+						</tr>
+						<tr th:remove="all">
+							<td>লাল শাক  </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- product grid ends here -->
+
+	<!-- supplier map start -->
+	<div class="col-lg-3 removeme" id="vendormap" style="height: 600px;">
+		<img src="images/vendor-map.jpg" class="img-fluid"/>
+		<input type="hidden" id="vlat" th:value="${vendor.latitude}"/>
+		<input type="hidden" id="vlon" th:value="${vendor.longitude}"/>
+	</div>
+	<!-- supplier map end -->
+	<script async="async" defer="defer"
+				th:src="@{https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuIoWq7e51lQ0AMUQVlKwU038aZBa23c&amp;callback=initVendorMap}"></script>
+</div>

@@ -135,6 +135,17 @@ $(document).ready(function() {
 		$("#paginationdiv").hide();
 		$(".pagestoshow").hide();
 		return false;
+	}).on("click", ".areas, .vendor", function() {
+		var ob = $(this);
+		var cont = $("#vendors-container");
+		blockui(cont);
+		$.get(ob.attr("href"), function(rs) {
+			unblockui(cont);
+			var prnt = cont.parent();
+			prnt.find(".removeme").remove();
+			prnt.append(rs);
+		});
+		return false;
 	}).on("click", "#areaselection", function() {
 		var ar = $(this);
 		$(".nurseries").show();
@@ -416,6 +427,19 @@ function initMap() {
 			nurseries[fk] = area;
 		});
 	});
+}
+
+function initVendorMap() {
+	var vloc = {
+		lat : parseFloat($("#vlat").val()),
+		lng : parseFloat($("#vlon").val())
+	};
+	// The map, centered at the Nursery
+	var vmap = new google.maps.Map(document.getElementById('vendormap'), {
+		zoom : 18,
+		center : vloc
+	});
+	var marker = new google.maps.Marker({position: vloc, map: vmap});
 }
 
 function blockui(target) {

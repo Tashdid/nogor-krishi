@@ -7,7 +7,6 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,6 @@ import com.niil.nogor.krishi.repo.*;
  *
  */
 @Component
-@Profile("dev")
 public class SeedDataLoader implements ApplicationRunner {
 
 	@Autowired SaleTypeRepo saleTypeRepo;
@@ -39,6 +37,7 @@ public class SeedDataLoader implements ApplicationRunner {
 	@SuppressWarnings("unused")
 	public void run(ApplicationArguments args) throws IOException {
 
+		if (!saleTypeRepo.findAll().isEmpty()) return;
 		// Sale Type Entry
 		SaleType chara = saleTypeRepo.save(SaleType.builder().name("চারা").build());
 		SaleType bij = saleTypeRepo.save(SaleType.builder().name("বীজ").build());
