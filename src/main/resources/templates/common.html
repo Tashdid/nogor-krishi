@@ -5,11 +5,9 @@
 		<title>নগরকৃষি প্রকল্প - Nogorkrishi Prokolpo</title>
 		<link rel="shortcut icon" th:href="@{favicon.ico}" href="favicon.ico" />
 		<link rel="icon" href="favicon.ico" />
-		<!-- Bootstrap CSS -->
-<!-- 		<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" /> -->
-		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
-		<link rel="stylesheet" th:href="@{/css/lib/bootstrap.min.css}" href="css/lib/bootstrap.min.css" />
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+		<link th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/webjars/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/webjars/datatables/css/jquery.dataTables.min.css}" rel="stylesheet" media="screen" />
 		<link rel="stylesheet" th:href="@{/css/lib/font-awesome.min.css}" href="css/lib/font-awesome.min.css" />
 		<link rel="stylesheet" th:href="@{/css/lib/glyphicons.css}" href="css/lib/glyphicons.css" />
 		<link rel="stylesheet" th:href="@{/css/nogorkrishi-styles.css}" href="css/nogorkrishi-styles.css" />
@@ -84,17 +82,14 @@
 
 	<div th:fragment="common-js" th:remove="tag">
 		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-		<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-		<script src="https://malsup.github.io/jquery.blockUI.js" type="text/javascript"></script>
-<!-- 		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script> -->
-<!-- 		<script th:src="@{/js/lib/jquery-3.1.1.slim.min.js}" src="js/jquery-3.1.1.slim.min.js" ></script> -->
-		<script th:src="@{/js/lib/tether.min.js}" src="js/lib/tether.min.js" ></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-		<script th:src="@{/js/lib/bootstrap.min.js}" src="js/lib/bootstrap.min.js" ></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/fileinput.min.js"></script>
-		<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-		<script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
+		<script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
+		<script th:src="@{/webjars/jquery-cookie/jquery.cookie.js}"></script>
+		<script th:src="@{/webjars/jquery-blockui/jquery.blockUI.js}"></script>
+		<script th:src="@{/webjars/tether/dist/js/tether.min.js}"></script>
+		<script th:src="@{/webjars/popper.js/dist/popper.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/datatables/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/webjars/datatables-rowreorder/js/dataTables.rowReorder.js}"></script>
 		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
 		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
 	</div>

@@ -32,13 +32,6 @@ $(document).ready(function() {
 		showImage(this);
 	});
 
-	$(".flupl").fileinput({
-		browseClass : "btn btn-primary btn-block",
-		showCaption : false,
-		showRemove : false,
-		showUpload : false
-	});
-
 	$('table.dttable').each(function() {
 		var tbl = $(this);
 
