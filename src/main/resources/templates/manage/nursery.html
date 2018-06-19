@@ -1,10 +1,6 @@
 <html>
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
-
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
-		<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css" />
-
 	</head>
 	<body>
 		<div th:replace="common :: common-manage-menu" th:remove="tag"></div>
@@ -62,15 +58,11 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-form-label col-form-label-sm col-sm-3" for="latitude">Latitude:</label>
+											<label class="col-form-label col-form-label-sm col-sm-3" for="location">Location:</label>
+											<input type="hidden" class="form-control form-control-sm" th:field="*{latitude}" />
+											<input type="hidden" class="form-control form-control-sm" th:field="*{longitude}" />
 											<div class="col-sm-9">
-												<input type="text" class="form-control form-control-sm" th:field="*{latitude}" />
-											</div>
-										</div>
-										<div class="form-group row">
-											<label class="col-form-label col-form-label-sm col-sm-3" for="longitude">Longitude:</label>
-											<div class="col-sm-9">
-												<input type="text" class="form-control form-control-sm" th:field="*{longitude}" />
+												<div id="locationmap" style="height: 200px; width: 100%"></div>
 											</div>
 										</div>
 										<div class="col-sm-6 offset-sm-6">
@@ -231,5 +223,7 @@
 
 			<div th:replace="common :: commom-footer" th:remove="tag"></div>
 		</div>
+		<script async="async" defer="defer"
+						th:src="@{https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuIoWq7e51lQ0AMUQVlKwU038aZBa23c&amp;callback=initLocationMap}"></script>
 	</body>
 </html>

@@ -30,7 +30,7 @@ public class VendorsController {
 
 	@RequestMapping({"/vendors", "/vendors/{area}"})
 	public String vendors(@PathVariable(required=false) Area area, final ModelMap model) {
-		List<Area> areas = areaRepo.findAll();
+		List<Area> areas = areaRepo.findAllByOrderBySequenceAsc();
 		model.addAttribute("areas", areas);
 		Area ar = area == null ? areas.get(0) : area;
 		model.addAttribute("area", ar);

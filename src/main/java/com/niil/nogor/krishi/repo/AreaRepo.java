@@ -17,6 +17,8 @@ import com.niil.nogor.krishi.entity.City;
 @Repository
 public interface AreaRepo extends JpaRepository<Area, Long> {
 
+	List<Area> findAllByOrderBySequenceAsc();
+
 	List<Area> findAllByCityOrderBySequenceAsc(City city);
 	
 	Area findTopByCityOrderBySequenceDesc(City city);

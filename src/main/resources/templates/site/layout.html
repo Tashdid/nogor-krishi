@@ -2,7 +2,7 @@
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
 	</head>
-	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="layout">
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 		<form th:action="@{/layout}" method="post">

@@ -2,7 +2,7 @@
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
 	</head>
-	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="ponno">
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 		<div class="container">
@@ -64,11 +64,11 @@
 							<div class="form form-inline d-inline-block">
 								<label for="" class=" d-inline-block">প্রতি পৃষ্ঠা  : </label>
 								<select class="form-control pg pg2" id="pg1">
-									<option value="10">10</option>
-									<option value="25">25</option>
-									<option value="50">50</option>
-									<option value="100">100</option>
-									<option value="9999999">All</option>
+									<option value="10" th:text="${beans.e2bconv.getBengali(10)}">10</option>
+									<option value="25" th:text="${beans.e2bconv.getBengali(25)}">25</option>
+									<option value="50" th:text="${beans.e2bconv.getBengali(50)}">50</option>
+									<option value="100" th:text="${beans.e2bconv.getBengali(100)}">100</option>
+									<option value="99999">All</option>
 								</select>
 							</div>
 						</div>
@@ -180,11 +180,11 @@
 							<div class="form form-inline d-inline-block">
 								<label for="" class=" d-inline-block">প্রতি পৃষ্ঠা  : </label>
 								<select class="form-control pg pg1" id="pg2">
-									<option value="10">10</option>
-									<option value="25">25</option>
-									<option value="50">50</option>
-									<option value="100">100</option>
-									<option value="9999999">All</option>
+									<option value="10" th:text="${beans.e2bconv.getBengali(10)}">10</option>
+									<option value="25" th:text="${beans.e2bconv.getBengali(25)}">25</option>
+									<option value="50" th:text="${beans.e2bconv.getBengali(50)}">50</option>
+									<option value="100" th:text="${beans.e2bconv.getBengali(100)}">100</option>
+									<option value="99999">All</option>
 								</select>
 							</div>
 						</div>
