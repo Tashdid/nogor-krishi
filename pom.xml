@@ -4,12 +4,25 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.niil</groupId>
-	<artifactId>nogor.krishi</artifactId>
+	<artifactId>nogor-krishi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>nogor-krishi</name>
 	<description>Nogor Krishi</description>
+
+	<developers>
+		<developer>
+			<id>noor</id>
+			<name>Md. Noor Mohammad Siddique</name>
+			<email>niildu@gmail.com</email>
+			<roles>
+				<role>Application Architect</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>+6</timezone>
+		</developer>
+	</developers>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

@@ -1,6 +1,5 @@
 package com.niil.nogor.krishi.repo;
 
-import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.niil.nogor.krishi.entity.GardenLayout;
-import com.niil.nogor.krishi.entity.SaleType;
 
 /**
  * @author Noor
@@ -28,14 +26,14 @@ public class GardenLayoutRepoTest {
 
 	@Test
 	public void testGardenLayoutAdd() {
-		((ArrayList<SaleType>) saleTypeRepo.findAll()).stream().forEach(System.out::println);;
+		saleTypeRepo.findAll().stream().forEach(System.out::println);
 		GardenLayout lo = new GardenLayout();
 		lo.setLength(20);
 		lo.setWidth(15);
 
 		gardenLayoutRepo.save(lo);
 		
-		((ArrayList<GardenLayout>) gardenLayoutRepo.findAll()).stream().forEach(System.out::println);;
+		gardenLayoutRepo.findAll().stream().forEach(System.out::println);
 	}
 
 }
