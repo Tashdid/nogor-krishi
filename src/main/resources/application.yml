@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: prod
   data:
     rest:
       base-path: /rest
@@ -17,6 +17,3 @@ spring:
     url: "jdbc:mysql://localhost:3306/nogorkrishi?useUnicode=yes&characterEncoding=UTF-8"
     username: root
     password: root
-
-server:
-  port: 80
