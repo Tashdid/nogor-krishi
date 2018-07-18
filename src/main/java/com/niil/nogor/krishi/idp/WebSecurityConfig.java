@@ -217,7 +217,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public ExtendedMetadataDelegate a2iExtendedMetadataProvider()
 			throws MetadataProviderException {
-		String idpSSOCircleMetadataURL = "http://a2i-idp.gov.bd/simplesaml/saml2/idp/metadata.php";
+		String idpSSOCircleMetadataURL = "http://a2i-idp.gov.bd:8081/simplesaml/saml2/idp/metadata.php";
 		HTTPMetadataProvider httpMetadataProvider = new HTTPMetadataProvider(
 				this.backgroundTaskTimer, httpClient(), idpSSOCircleMetadataURL);
 		httpMetadataProvider.setParserPool(parserPool());
@@ -240,7 +240,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public MetadataGenerator metadataGenerator() {
 		MetadataGenerator metadataGenerator = new MetadataGenerator();
-		metadataGenerator.setEntityId("nogorkrishi.gov.bd");
+		metadataGenerator.setEntityId("nogorkrishi");
 		metadataGenerator.setEntityBaseURL("http://nogorkrishi.gov.bd:8080");
 		return metadataGenerator;
 	}
@@ -256,7 +256,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler() {
 		SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-		successRedirectHandler.setDefaultTargetUrl("/landing");
+		successRedirectHandler.setDefaultTargetUrl("/manage");
 		return successRedirectHandler;
 	}
 
