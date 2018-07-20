@@ -76,9 +76,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-2">
+				<div class="col-lg-2 text-right">
 					<div class="btn-group">
-						<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${loggeduser.name}">
+						<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${#authentication.principal.username}">
 							Actions
 						</button>
 						<div class="dropdown-menu dropdown-menu-right">

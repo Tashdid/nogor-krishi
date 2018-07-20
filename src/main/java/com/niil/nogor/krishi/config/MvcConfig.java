@@ -1,4 +1,4 @@
-package com.niil.nogor.krishi.idp;
+package com.niil.nogor.krishi.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

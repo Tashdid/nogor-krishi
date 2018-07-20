@@ -1,4 +1,4 @@
-package com.niil.nogor.krishi;
+package com.niil.nogor.krishi.config;
 
 import org.springframework.stereotype.Component;
 

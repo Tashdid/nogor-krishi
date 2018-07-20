@@ -1,4 +1,4 @@
-package com.niil.nogor.krishi.idp;
+package com.niil.nogor.krishi.config;
 
 import java.util.*;
 
@@ -9,15 +9,15 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.app.VelocityEngine;
 import org.opensaml.saml2.metadata.provider.*;
 import org.opensaml.xml.parse.ParserPool;
 import org.opensaml.xml.parse.StaticBasicParserPool;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +26,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.saml.SAMLDiscovery;
 import org.springframework.security.saml.*;
 import org.springframework.security.saml.context.SAMLContextProviderImpl;
 import org.springframework.security.saml.key.JKSKeyManager;
@@ -47,13 +46,35 @@ import org.springframework.security.web.authentication.logout.*;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+@Profile("saml")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SAMLSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private Timer backgroundTaskTimer;
 	private MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager;
+
+	@Value("${server.port:8080}")
+	String port;
+
+	@Value("${saml.entityid:nogorkrishi}")
+	String entityId;
+
+	@Value("${saml.entitybaseurl:}")
+	String entityBaseUrl;
+
+	@Value("${saml.idp.metadata:http://a2i-idp.gov.bd:8081/simplesaml/saml2/idp/metadata.php}")
+	String idpMetadata;
+
+	@Value("${saml.keystore.file:classpath:/saml/samlKeystore.jks}")
+	String keystoreFile;
+
+	@Value("${saml.keystore.key:apollo}")
+	String keystoreKey;
+
+	@Value("${saml.keystore.pass:nalle123}")
+	String keystorePass;
 
 	@PostConstruct
 	public void init() {
@@ -160,12 +181,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public KeyManager keyManager() {
 		DefaultResourceLoader loader = new DefaultResourceLoader();
-		Resource storeFile = loader.getResource("classpath:/saml/samlKeystore.jks");
-		String storePass = "nalle123";
+		Resource storeFile = loader.getResource(keystoreFile);
 		Map<String, String> passwords = new HashMap<String, String>();
-		passwords.put("apollo", "nalle123");
-		String defaultKey = "apollo";
-		return new JKSKeyManager(storeFile, storePass, passwords, defaultKey);
+		passwords.put(keystoreKey, keystorePass);
+		return new JKSKeyManager(storeFile, keystorePass, passwords, keystoreKey);
 	}
 
 	// Setup TLS Socket Factory
@@ -215,11 +234,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public ExtendedMetadataDelegate a2iExtendedMetadataProvider()
+	public ExtendedMetadataDelegate idpMetadataProvider()
 			throws MetadataProviderException {
-		String idpSSOCircleMetadataURL = "http://a2i-idp.gov.bd:8081/simplesaml/saml2/idp/metadata.php";
 		HTTPMetadataProvider httpMetadataProvider = new HTTPMetadataProvider(
-				this.backgroundTaskTimer, httpClient(), idpSSOCircleMetadataURL);
+				this.backgroundTaskTimer, httpClient(), idpMetadata);
 		httpMetadataProvider.setParserPool(parserPool());
 		ExtendedMetadataDelegate extendedMetadataDelegate = 
 				new ExtendedMetadataDelegate(httpMetadataProvider, extendedMetadata());
@@ -232,7 +250,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public CachingMetadataManager metadata() throws MetadataProviderException {
 		List<MetadataProvider> providers = new ArrayList<MetadataProvider>();
-		providers.add(a2iExtendedMetadataProvider());
+		providers.add(idpMetadataProvider());
 		return new CachingMetadataManager(providers);
 	}
 
@@ -240,9 +258,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public MetadataGenerator metadataGenerator() {
 		MetadataGenerator metadataGenerator = new MetadataGenerator();
-		metadataGenerator.setEntityId("nogorkrishi");
-		metadataGenerator.setEntityBaseURL("http://nogorkrishi.gov.bd:8080");
+		metadataGenerator.setEntityId(entityId);
+		metadataGenerator.setEntityBaseURL(getEntityBaseUrl());
 		return metadataGenerator;
+	}
+
+	private String getEntityBaseUrl() {
+		return StringUtils.isEmpty(entityBaseUrl) ? ("http://nogorkrishi.gov.bd:" + port) : entityBaseUrl;
 	}
 
 	// The filter is waiting for connections on URL suffixed with filterSuffix
