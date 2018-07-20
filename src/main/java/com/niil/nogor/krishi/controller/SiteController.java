@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import com.niil.nogor.krishi.AppConfig;
+import com.niil.nogor.krishi.config.AppConfig;
 import com.niil.nogor.krishi.entity.*;
 import com.niil.nogor.krishi.repo.*;
 import com.niil.nogor.krishi.view.LayoutRQ;
