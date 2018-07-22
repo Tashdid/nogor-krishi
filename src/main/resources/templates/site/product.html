@@ -1,12 +1,10 @@
 <div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
-	<div class="col-2">
-		<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid w-100 pt-2" />
-	</div>
-	<div class="col-5" id=" product-description-container">
+	<div id="product-description-container" class="col-7">
 		<div class="product-description-text">
-			<p th:each="dsc : ${#strings.listSplit(product.description, '&#10;')}" th:text="${dsc}">জনপ্রিয় শাকের মধ্যে লাল শাক অন্যতম। খেতেও যেমন সুস্বাদু তেমনি
-				পুষ্টিগুণে ভরপুর। পুষ্টিগুণ এবং রোগ প্রতিরোধের দিক দিয়ে লাল শাকের
-				চেয়ে যোজন যোজন দূরে অন্যান্য শাক।</p>
+			<p th:each="dsc, stat : ${#strings.listSplit(product.description, '&#10;')}" >
+				<img th:if="${stat.index eq 0}" width="30%" height="100vw" style="margin-right: 25px; margin-bottom: 5px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2 float-left" />
+				<span th:text="${dsc}" th:remove="tag"></span>
+			</p>
 			<p th:remove="all">লাল শাক রূপে যেমন মনোহারী গুণেও তেমন কার্যকরী। পাতের ভাতকে
 				নতুন রূপ দিতেও সেরা। ছোট বড় সবাই এর স্বাদের ভক্ত।</p>
 			<p th:remove="all">লাল শাক, ডাঁটা শাক বা ডাঙ্গা শাক, এরা সবই একই গোত্রের এবং এদের
