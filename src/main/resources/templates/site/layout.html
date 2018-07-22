@@ -98,7 +98,7 @@
 				<div class="tab-content sidebar-tab-content">
 					<div class="tab-pane active" id="home" role="tabpanel">
 						<div th:each="prd : ${products}" class="tab-content-plant draggable" th:attr="data-id=${prd.id}, data-name=${prd.name}, data-prod=${prd.productivity}, data-ben=${prd.benefits}">
-							<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.icon)}" class="img" src="images/icon-oushodhi.jpg"/>
+							<img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.icon)}" class="img" src="images/icon-oushodhi.jpg"/>
 							<a href=""><span th:text="${prd.name}">তুলশী </span></a>
 							<span class="float-right text-muted" th:text="${prd.type.name}">ঔষধি </span>
 						</div>

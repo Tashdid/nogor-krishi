@@ -74,7 +74,7 @@
 												<label class="control-label col-form-label-sm col-sm-3" for="icon">Icon:</label>
 												<div class="col-sm-9">
 													<input id="icon" th:required="${bean.id eq null}" type="file" accept=".jpg,.png" class="form-control form-control-sm uploadimg" name="iconFile" />
-													<img height="50px" width="50px" name="icon" id="iconimage" class="imgtoshow pull-right" th:src="${bean.icon eq null ? '' : ('data:image/png;base64,' + BASE64.encodeBase64String(bean.icon))}" />
+													<img height="35px" width="35px" name="icon" id="iconimage" class="imgtoshow pull-right" th:src="${bean.icon eq null ? '' : ('data:image/png;base64,' + BASE64.encodeBase64String(bean.icon))}" />
 												</div>
 											</div>
 											<div class="form-group row">
@@ -166,8 +166,8 @@
 												<td th:text="${bean.saleType.name}"></td>
 												<td th:attr="title=${bean.productivity}" th:text="${#strings.length(bean.productivity) gt 15 ? (#strings.substring(bean.productivity, 0, 15) + '...') : bean.productivity}"></td>
 												<td th:attr="title=${bean.benefits}" th:text="${#strings.length(bean.benefits) gt 15 ? (#strings.substring(bean.benefits, 0, 15) + '...') : bean.benefits}"></td>
-												<td><img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.icon)}"/></td>
-												<td class="hoverme">Hover here<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.image)}"/></td>
+												<td><img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.icon)}"/></td>
+												<td class="hoverme">Hover here<img height="165px" width="165px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.image)}"/></td>
 												<td>
 													<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/product/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
 													<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/product/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>

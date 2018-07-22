@@ -309,3 +309,19 @@ div.tr:first-child>div.td>div.inner>span {
 	opacity: 0.5;
 	background-color: #beb2bb;
 }
+
+.rmvme {
+	display: none;
+	position: absolute;
+	top: -8px;
+	right: -4px;
+	z-index: 1001;
+}
+
+.rmvme>i {
+	color: red;
+}
+
+.gardenitem:hover .rmvme {
+	display: block;
+}

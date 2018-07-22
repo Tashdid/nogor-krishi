@@ -151,7 +151,7 @@ $("[data-page='layout']").on("init", function() {
 						.width(orimg.width())
 						.height(orimg.height());
 
-				addedItem.attr("title", addedItem.data("name"));
+				addedItem.addClass("gardenitem").attr("title", addedItem.data("name"));
 				addedItem.find("a").remove();
 				addedItem.find("span").remove();
 				var cx = e.pageX;
@@ -160,11 +160,12 @@ $("[data-page='layout']").on("init", function() {
 				addedItem.css("left", e.pageX - dvx - (addedItem.width()/2)).css("top", e.pageY - $("#tableov").offset().top - (addedItem.height()/2));
 				addedItem.removeClass("draggable ui-draggable ui-draggable-dragging tab-content-plant");
 
-				$(".item-" + counts[0]).dblclick(function() {
-					$(this).remove();
+				addedItem.prepend('<a class="rmvme"><i class="glyphicon glyphicon-remove"/></a>');
+				$(".rmvme", addedItem).click(function() {
+					$(this).parent().remove();
 					loadGardenDetails();
 				});
-				make_draggable($(".item-" + counts[0]));
+				make_draggable(addedItem);
 				addedImg.resizable(resizeOpts);
 				loadGardenDetails();
 			}
@@ -209,10 +210,14 @@ function loadGardenDetails() {
 		var prd = $(this);
 		if ($.inArray(prd.data("id"), prods) === -1) {
 			prods.push(prd.data("id"));
-			gd += '<tr><td>' + prd.data("name") + '</td><td>' + prd.data("prod") + '</td><td>' + prd.data("ben") + '</td></tr>';
+			gd += '<tr><td>' + checkAndGet(prd.data("name")) + '</td><td>' + checkAndGet(prd.data("prod")) + '</td><td>' + checkAndGet(prd.data("ben")) + '</td></tr>';
 		}
 	});
 	$("#gdetails").html(gd);
+}
+
+function checkAndGet(text) {
+	return text === undefined ? "" : text;
 }
 
 function setLayoutCellHeight() {
