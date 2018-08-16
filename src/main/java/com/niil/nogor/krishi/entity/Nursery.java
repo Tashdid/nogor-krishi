@@ -1,5 +1,7 @@
 package com.niil.nogor.krishi.entity;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import lombok.*;
@@ -26,4 +28,6 @@ public class Nursery {
 	private int sequence;
 	private @ManyToOne NurseryType type;
 	private @ManyToOne Area area;
+	private @OneToMany(mappedBy="nursery", cascade=CascadeType.ALL, orphanRemoval=true) List<ProductPrice> productPrices;
+	private @OneToMany(mappedBy="nursery", cascade=CascadeType.ALL, orphanRemoval=true) List<MaterialPrice> materialPrices;
 }

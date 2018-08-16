@@ -1,5 +1,7 @@
 package com.niil.nogor.krishi.entity;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import lombok.*;
@@ -19,4 +21,5 @@ public class Material {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
 	private @ManyToOne MaterialType type;
+	private @OneToMany(mappedBy="material", cascade=CascadeType.ALL, orphanRemoval=true) List<MaterialPrice> prices;
 }

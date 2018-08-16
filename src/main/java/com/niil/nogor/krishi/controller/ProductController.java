@@ -65,6 +65,15 @@ public class ProductController {
 		bean.setName(product.getName());
 		bean.setAlternativeName(product.getAlternativeName());
 		bean.setDescription(product.getDescription());
+		bean.setUsefulVarieties(product.getUsefulVarieties());
+		bean.setSuitableTime(product.getSuitableTime());
+		bean.setLandPreparation(product.getLandPreparation());
+		bean.setSeedlingType(product.getSeedlingType());
+		bean.setCareness(product.getCareness());
+		bean.setPlace(product.getPlace());
+		bean.setHormone(product.getHormone());
+		bean.setPesticides(product.getPesticides());
+		bean.setCaution(product.getCaution());
 		bean.setProductivity(product.getProductivity());
 		bean.setBenefits(product.getBenefits());
 		bean.setType(product.getType());

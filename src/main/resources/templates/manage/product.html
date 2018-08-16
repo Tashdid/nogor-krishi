@@ -31,15 +31,63 @@
 												</div>
 											</div>
 											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="alternativeName">Alternative Name:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="alternativeName">English Name:</label>
 												<div class="col-sm-9">
 													<input required="" type="text" class="form-control form-control-sm" th:field="*{alternativeName}" />
 												</div>
 											</div>
 											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="description">Description:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="usefulVarieties">ছাদের উপযোগী জাত:</label>
 												<div class="col-sm-9">
-													<textarea required="" class="form-control form-control-sm" rows="10" th:field="*{description}"></textarea>
+													<textarea class="form-control form-control-sm" th:field="*{usefulVarieties}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="suitableTime">লাগানোর উপযুক্ত সময়ঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{suitableTime}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="landPreparation">মাটি তৈরিঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{landPreparation}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="seedlingType">চারার ধরণঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{seedlingType}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="careness">পরিচর্যাঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{careness}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="place">স্হানঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{place}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="hormone">হরমোনঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{hormone}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="pesticides">কীটনাশক বা ছত্রাকনাশকঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{pesticides}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="caution">সতর্কতাঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{caution}"></textarea>
 												</div>
 											</div>
 											<div class="form-group row">
@@ -138,14 +186,14 @@
 								<div class="col-sm-12" style="margin-top: 15px;">
 									<table th:if="${beans ne null and !#lists.isEmpty(beans)}"
 										class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
-										data-columndefs="sequence,name,alternativeName,description,type-true-filter,saleType-true-filter all,productivity,benefits,icon,image,buttons,id-false"
+										data-columndefs="sequence,name,alternativeName,details,type-true-filter,saleType-true-filter all,productivity,benefits,icon,image,buttons,id-false"
 										th:attr="data-actionurl=@{/manage/product/table}">
 										<thead>
 											<tr>
 												<th>Order</th>
 												<th>Name</th>
 												<th>Alt Name</th>
-												<th>Description</th>
+												<th>details</th>
 												<th>Type</th>
 												<th>Sale as</th>
 												<th>Productivity</th>
@@ -161,7 +209,7 @@
 												<td th:text="${bean.sequence}"></td>
 												<td th:text="${bean.name}"></td>
 												<td th:text="${bean.alternativeName}"></td>
-												<td th:attr="title=${bean.description}" th:text="${#strings.length(bean.description) gt 15 ? (#strings.substring(bean.description, 0, 15) + '...') : bean.description}"></td>
+												<td th:attr="title=${bean.details}" th:text="${#strings.length(bean.details) gt 15 ? (#strings.substring(bean.details, 0, 15) + '...') : bean.details}"></td>
 												<td th:text="${bean.type.name}"></td>
 												<td th:text="${bean.saleType.name}"></td>
 												<td th:attr="title=${bean.productivity}" th:text="${#strings.length(bean.productivity) gt 15 ? (#strings.substring(bean.productivity, 0, 15) + '...') : bean.productivity}"></td>
