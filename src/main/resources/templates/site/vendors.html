@@ -56,7 +56,7 @@
 									</div>
 									<div class="col-6 pl-0 d-inline-block">
 										<div class="mt-2">
-											<p class="color-green lead"><a class="vendor" th:href="@{'/vendor/' + ${vendor.id}}" th:text="${vendor.name}"> মোল্লাপারা সরকারী নার্সারি </a></p>
+											<p class="color-green lead"><a class="vendor" th:href="@{'/vendor/' + ${vendor.id}}" th:text="${vendor.name}" onclick="return false;"> মোল্লাপারা সরকারী নার্সারি </a></p>
 											<span th:text="${vendor.address}" th:remove="tag">১০ কাজিপারা এভিনিউ, মিরপুর ১০২০</span><br/>
 											ফোন : <span th:text="${beans.e2bconv.getBengali(vendor.phone)}" th:remove="tag">+৮৮ ০১৭২৩ ৫৭২৮৯৬</span>
 										</div>

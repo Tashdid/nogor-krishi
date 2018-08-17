@@ -46,7 +46,7 @@ public class NurseryController {
 		if (bean == null) bean = new Nursery();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Nursery");
-		model.addAttribute("beans", nurseryRepo.findAll());
+		model.addAttribute("allbeans", nurseryRepo.findAll());
 		model.addAttribute("types", nurseryTypeRepo.findAllByOrderBySequenceAsc());
 		model.addAttribute("areas", areaRepo.findAll());
 		if (bean.getId() != null) {

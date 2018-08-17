@@ -18,28 +18,48 @@
 									<div class="col-sm-8" style="margin-left: 25px;">
 										<form class="form-horizontal" th:action="@{'/manage/product'}" th:object="${bean}" method="post" enctype="multipart/form-data">
 											<div class="form-group row" th:if="${bean.id ne null}">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="id">Code:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="id">কোডঃ</label>
 												<div class="col-sm-2">
-													<p class="form-control-static form-control-sm" th:text="${bean.id}"></p>
+													<p class="form-control-static form-control-sm" th:text="${beans.e2bconv.getBengali(bean.id)}"></p>
 												</div>
 												<input type="hidden" th:field="*{id}" />
 											</div>
 											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="name">Name:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="type">শ্রেণীঃ</label>
+												<div class="col-sm-9">
+													<select th:field="*{type}" class="form-control form-control-sm">
+														<option th:each="tp : ${types}" th:value="${tp.id}" th:text="${tp.name}"></option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="name">নামঃ</label>
 												<div class="col-sm-9">
 													<input required="" type="text" class="form-control form-control-sm" th:field="*{name}" />
 												</div>
 											</div>
 											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="alternativeName">English Name:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="alternativeName">ইংরেজি নামঃ</label>
 												<div class="col-sm-9">
-													<input required="" type="text" class="form-control form-control-sm" th:field="*{alternativeName}" />
+													<input type="text" class="form-control form-control-sm" th:field="*{alternativeName}" />
 												</div>
 											</div>
 											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="usefulVarieties">ছাদের উপযোগী জাত:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="benefits">পুষ্টিগুণঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{benefits}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="usefulVarieties">ছাদের উপযোগী জাতঃ</label>
 												<div class="col-sm-9">
 													<textarea class="form-control form-control-sm" th:field="*{usefulVarieties}"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-3" for="suitableContainer">উপযোগী পাত্রঃ</label>
+												<div class="col-sm-9">
+													<textarea class="form-control form-control-sm" th:field="*{suitableContainer}"></textarea>
 												</div>
 											</div>
 											<div class="form-group row">
@@ -91,15 +111,13 @@
 												</div>
 											</div>
 											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="type">Type:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="productivity">ফলনঃ</label>
 												<div class="col-sm-9">
-													<select th:field="*{type}" class="form-control form-control-sm">
-														<option th:each="tp : ${types}" th:value="${tp.id}" th:text="${tp.name}"></option>
-													</select>
+													<textarea class="form-control form-control-sm" th:field="*{productivity}"></textarea>
 												</div>
 											</div>
 											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="saleType">Sale as:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="saleType">বিক্রয়ের ধরণঃ</label>
 												<div class="col-sm-9">
 													<select th:field="*{saleType}" class="form-control form-control-sm">
 														<option th:each="st : ${saletypes}" th:value="${st.id}" th:text="${st.name}"></option>
@@ -107,26 +125,14 @@
 												</div>
 											</div>
 											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="productivity">Productivity:</label>
-												<div class="col-sm-9">
-													<textarea class="form-control form-control-sm" th:field="*{productivity}"></textarea>
-												</div>
-											</div>
-											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="benefits">Benefits:</label>
-												<div class="col-sm-9">
-													<textarea class="form-control form-control-sm" th:field="*{benefits}"></textarea>
-												</div>
-											</div>
-											<div class="form-group row">
-												<label class="control-label col-form-label-sm col-sm-3" for="icon">Icon:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="icon">আইকনঃ</label>
 												<div class="col-sm-9">
 													<input id="icon" th:required="${bean.id eq null}" type="file" accept=".jpg,.png" class="form-control form-control-sm uploadimg" name="iconFile" />
 													<img height="35px" width="35px" name="icon" id="iconimage" class="imgtoshow pull-right" th:src="${bean.icon eq null ? '' : ('data:image/png;base64,' + BASE64.encodeBase64String(bean.icon))}" />
 												</div>
 											</div>
 											<div class="form-group row">
-												<label class="control-label col-form-label-sm col-sm-3" for="image">Image:</label>
+												<label class="col-form-label col-form-label-sm col-sm-3" for="image">ছবিঃ</label>
 												<div class="col-sm-9">
 													<input id="image" th:required="${bean.id eq null}" type="file" accept=".jpg,.png" class="form-control form-control-sm uploadimg" name="imageFile" />
 													<img height="165px" width="165px" id="imageimage" class="imgtoshow pull-right" th:src="${bean.image eq null ? '' : ('data:image/png;base64,' + BASE64.encodeBase64String(bean.image))}" />
@@ -134,8 +140,8 @@
 											</div>
 											<div class="col-sm-4 offset-sm-8">
 												<div class="form-group">
-													<a th:if="${bean.id ne null}" type="button" href="/manage/product" class="btn btn-warning">New</a>
-													<button type="submit" class="btn btn-success">Save</button>
+													<a th:if="${bean.id ne null}" type="button" href="/manage/product" class="btn btn-warning">নতুন</a>
+													<button type="submit" class="btn btn-success">সংরক্ষন</button>
 												</div>
 											</div>
 										</form>
@@ -184,7 +190,7 @@
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
 							<div class="card-body">
 								<div class="col-sm-12" style="margin-top: 15px;">
-									<table th:if="${beans ne null and !#lists.isEmpty(beans)}"
+									<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 										class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
 										data-columndefs="sequence,name,alternativeName,details,type-true-filter,saleType-true-filter all,productivity,benefits,icon,image,buttons,id-false"
 										th:attr="data-actionurl=@{/manage/product/table}">
@@ -200,12 +206,14 @@
 												<th>Benefits</th>
 												<th>Icon</th>
 												<th>Image</th>
-												<th></th>
+												<th>
+													<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/product'}"><span class="glyphicon glyphicon-plus"></span></a>
+												</th>
 												<th>Code</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="bean : ${beans}">
+											<tr th:each="bean : ${allbeans}">
 												<td th:text="${bean.sequence}"></td>
 												<td th:text="${bean.name}"></td>
 												<td th:text="${bean.alternativeName}"></td>

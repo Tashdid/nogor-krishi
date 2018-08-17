@@ -36,7 +36,7 @@ public class SaleTypeController {
 		if (bean == null) bean = new SaleType();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Sale Type");
-		model.addAttribute("beans", saleTypeRepo.findAll());
+		model.addAttribute("allbeans", saleTypeRepo.findAll());
 		return URL.substring(1);
 	}
 

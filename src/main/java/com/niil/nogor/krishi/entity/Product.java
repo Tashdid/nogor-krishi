@@ -26,6 +26,7 @@ public class Product {
 	private String alternativeName;
 	private @Column(length=10485760) String description;
 	private @Column(length=10485760) String usefulVarieties;
+	private @Column(length=10485760) String suitableContainer;
 	private @Column(length=10485760) String suitableTime;
 	private @Column(length=10485760) String landPreparation;
 	private @Column(length=10485760) String seedlingType;
@@ -50,6 +51,7 @@ public class Product {
 		StringBuilder dt = new StringBuilder();
 		if (StringUtils.isNotEmpty(description)) dt.append(description).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(usefulVarieties)) dt.append("ছাদের উপযোগী জাতঃ").append(lnsp).append(usefulVarieties).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(suitableContainer)) dt.append("উপযোগী পাত্রঃ").append(lnsp).append(suitableContainer).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(suitableTime)) dt.append("লাগানোর উপযুক্ত সময়ঃ").append(lnsp).append(suitableTime).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(landPreparation)) dt.append("মাটি তৈরিঃ").append(lnsp).append(landPreparation).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(seedlingType)) dt.append("চারার ধরণঃ").append(lnsp).append(seedlingType).append(lnsp).append(lnsp);

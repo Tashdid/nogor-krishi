@@ -38,7 +38,7 @@ public class MaterialTypeController {
 		if (bean == null) bean = new MaterialType();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Material Type");
-		model.addAttribute("beans", materialTypeRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("allbeans", materialTypeRepo.findAllByOrderBySequenceAsc());
 		return URL.substring(1);
 	}
 

@@ -39,18 +39,20 @@
 					</form>
 				</div>
 				<div class="col-sm-6">
-					<table th:if="${beans ne null and !#lists.isEmpty(beans)}"
+					<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 						class="dttable table table-striped table-bordered" cellspacing="0" width="100%">
 						<thead>
 							<tr>
 								<th>Code</th>
 								<th>Name</th>
 								<th>Type</th>
-								<th></th>
+								<th>
+									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/material'}"><span class="glyphicon glyphicon-plus"></span></a>
+								</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="bean : ${beans}">
+							<tr th:each="bean : ${allbeans}">
 								<td th:text="${bean.id}"></td>
 								<td th:text="${bean.name}"></td>
 								<td th:text="${bean.type.name}"></td>

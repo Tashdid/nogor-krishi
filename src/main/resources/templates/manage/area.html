@@ -47,7 +47,7 @@
 					</form>
 				</div>
 				<div class="col-sm-8">
-					<table th:if="${beans ne null and !#lists.isEmpty(beans)}"
+					<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 						class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
 						data-columndefs="sequence,name,city-true-filter,latitude,longitude,buttons,id-false"
 						th:attr="data-actionurl=@{/manage/area/table}">
@@ -58,12 +58,14 @@
 								<th>City</th>
 								<th>Latitude</th>
 								<th>Longitude</th>
-								<th></th>
+								<th>
+									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/area'}"><span class="glyphicon glyphicon-plus"></span></a>
+								</th>
 								<th>Code</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="bean : ${beans}">
+							<tr th:each="bean : ${allbeans}">
 								<td th:text="${bean.sequence}"></td>
 								<td th:text="${bean.name}"></td>
 								<td th:text="${bean.city.name}"></td>

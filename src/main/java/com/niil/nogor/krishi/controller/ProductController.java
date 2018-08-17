@@ -44,7 +44,7 @@ public class ProductController {
 		if (bean == null) bean = new Product();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Product");
-		model.addAttribute("beans", productRepo.findAll());
+		model.addAttribute("allbeans", productRepo.findAll());
 		model.addAttribute("types", productTypeRepo.findAllByOrderBySequenceAsc());
 		model.addAttribute("saletypes", saleTypeRepo.findAll());
 		List<Material> exMats = bean.getMaterials() == null ? new ArrayList<>() : bean.getMaterials();
@@ -66,6 +66,7 @@ public class ProductController {
 		bean.setAlternativeName(product.getAlternativeName());
 		bean.setDescription(product.getDescription());
 		bean.setUsefulVarieties(product.getUsefulVarieties());
+		bean.setSuitableContainer(product.getSuitableContainer());
 		bean.setSuitableTime(product.getSuitableTime());
 		bean.setLandPreparation(product.getLandPreparation());
 		bean.setSeedlingType(product.getSeedlingType());

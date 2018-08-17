@@ -83,7 +83,7 @@
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
 							<div class="card-body" style="margin-top: 15px;">
 								<div class="col-sm-12" style="margin-top: 15px;">
-									<table th:if="${beans ne null and !#lists.isEmpty(beans)}"
+									<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 										class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
 										data-columndefs="sequence,name,area-true-filter,type-true-filter all,address,phone,latitude,longitude,buttons,id-false"
 										th:attr="data-actionurl=@{/manage/nursery/table}">
@@ -97,12 +97,14 @@
 												<th>Phone</th>
 												<th>Latitude</th>
 												<th>Longitude</th>
-												<th></th>
+												<th>
+													<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/nursery'}"><span class="glyphicon glyphicon-plus"></span></a>
+												</th>
 												<th>Code</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="bean : ${beans}">
+											<tr th:each="bean : ${allbeans}">
 												<td th:text="${bean.sequence}"></td>
 												<td th:text="${bean.name}"></td>
 												<td th:text="${bean.area.name}"></td>

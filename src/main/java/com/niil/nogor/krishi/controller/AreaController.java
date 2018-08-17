@@ -40,7 +40,7 @@ public class AreaController {
 		if (bean == null) bean = new Area();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Area");
-		model.addAttribute("beans", areaRepo.findAll());
+		model.addAttribute("allbeans", areaRepo.findAll());
 		model.addAttribute("cities", cityRepo.findAllByOrderBySequenceAsc());
 		return URL.substring(1);
 	}

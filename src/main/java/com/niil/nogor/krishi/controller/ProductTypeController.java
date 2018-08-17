@@ -39,7 +39,7 @@ public class ProductTypeController {
 		if (bean == null) bean = new ProductType();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Product Type");
-		model.addAttribute("beans", productTypeRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("allbeans", productTypeRepo.findAllByOrderBySequenceAsc());
 		return URL.substring(1);
 	}
 

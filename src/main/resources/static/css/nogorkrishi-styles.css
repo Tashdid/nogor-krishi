@@ -325,3 +325,5 @@ div.tr:first-child>div.td>div.inner>span {
 .gardenitem:hover .rmvme {
 	display: block;
 }
+
+.col-form-label { text-align: right }

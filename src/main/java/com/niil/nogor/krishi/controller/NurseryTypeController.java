@@ -38,7 +38,7 @@ public class NurseryTypeController {
 		if (bean == null) bean = new NurseryType();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Nursery Type");
-		model.addAttribute("beans", nurseryTypeRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("allbeans", nurseryTypeRepo.findAllByOrderBySequenceAsc());
 		return URL.substring(1);
 	}
 

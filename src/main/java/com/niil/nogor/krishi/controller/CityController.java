@@ -38,7 +38,7 @@ public class CityController {
 		if (bean == null) bean = new City();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "City");
-		model.addAttribute("beans", cityRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("allbeans", cityRepo.findAllByOrderBySequenceAsc());
 		return URL.substring(1);
 	}
 

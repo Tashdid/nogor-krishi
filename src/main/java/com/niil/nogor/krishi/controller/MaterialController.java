@@ -38,7 +38,7 @@ public class MaterialController {
 		if (bean == null) bean = new Material();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Material");
-		model.addAttribute("beans", materialRepo.findAll());
+		model.addAttribute("allbeans", materialRepo.findAll());
 		model.addAttribute("materialtypes", materialTypeRepo.findAll());
 		return URL.substring(1);
 	}

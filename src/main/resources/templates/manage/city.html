@@ -31,7 +31,7 @@
 					</form>
 				</div>
 				<div class="col-sm-6">
-					<table th:if="${beans ne null and !#lists.isEmpty(beans)}"
+					<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 						class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
 						data-columndefs="sequence,name,buttons,id-false"
 						th:attr="data-actionurl=@{/manage/city/table}">
@@ -39,12 +39,14 @@
 							<tr>
 								<th>Order</th>
 								<th>Name</th>
-								<th></th>
+								<th>
+									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/city'}"><span class="glyphicon glyphicon-plus"></span></a>
+								</th>
 								<th>Code</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="bean : ${beans}">
+							<tr th:each="bean : ${allbeans}">
 								<td th:text="${bean.sequence}"></td>
 								<td th:text="${bean.name}"></td>
 								<td>
