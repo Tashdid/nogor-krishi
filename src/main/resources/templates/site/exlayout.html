@@ -17,12 +17,15 @@
 						পরবর্তিতে আপনার সাজানো বাগানের গাছের তালিকা পেতে এই নম্বরটি সংরক্ষণ করুন।
 					</div>
 				</div>
-		
+
+				<div th:if="${layout.image ne null}" class="col-lg-10 offset-lg-1 text-center">
+					<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(layout.image)}" />
+				</div>
+
 				<div class="col-lg-10 offset-lg-1 pt-4 mb-5 text-center">
 					<h3 class="text-center border-bottom-2px d-inline-block">বাগানের গাছের তালিকা ও বিবরণ  </h3>
 				</div>
-		
-		
+
 				<!-- Lal Shak Start -->
 				<div th:each="pe, stat : ${ncc}" th:remove="tag">
 					<div class="col-lg-8 offset-lg-2 mt-4 mb-4 pb-0 border-bottom-2px">

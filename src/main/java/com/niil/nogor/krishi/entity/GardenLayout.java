@@ -28,6 +28,7 @@ public class GardenLayout {
 	private @Column(nullable=false) Integer width;
 	private LocalDateTime createdOn;
 	private LocalDateTime modifiedOn;
+	private @Lob byte[] image;
 
 	@PrePersist
 	private void preAdd() {
