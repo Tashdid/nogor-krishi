@@ -111,7 +111,12 @@ $("[data-page='layout']").on("init", function() {
 			ob.append('<input type="hidden" name="blocks[' + i + '].cheight" value="' + ob.height() + '"/>');
 			ob.append('<input type="hidden" name="blocks[' + i + '].cwidth" value="' + ob.width() + '"/>');
 		});
-		btn.parents("form").submit();
+		html2canvas(document.getElementById("lyout")).then(function(canvas) {
+			var imgbinary = canvas.toDataURL();
+			imgbinary = imgbinary.substr(imgbinary.indexOf('base64,') + 7);
+			$("#image").val(imgbinary);
+			btn.parents("form").submit();
+		});
 		return false;
 	});
 

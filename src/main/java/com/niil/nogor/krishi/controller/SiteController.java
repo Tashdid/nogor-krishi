@@ -100,6 +100,7 @@ public class SiteController {
 		GardenLayout gl = new GardenLayout();
 		gl.setLength(layout.getLength());
 		gl.setWidth(layout.getWidth());
+		gl.setImage(Base64.getDecoder().decode(layout.getEncodedImage()));
 		GardenLayout sgl = gardenLayoutRepo.save(gl);
 		layout.getBlocks().forEach(bl -> {
 			bl.setGardenLayout(sgl);
