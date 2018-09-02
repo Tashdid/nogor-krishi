@@ -10,7 +10,12 @@ $(document).ready(function() {
 		var btn = $(this);
 		bootbox.confirm("Are you sure?", function(rs) {
 			if (!rs) return;
+			blockui();
 			$.post(btn.data("remote"), function(dlrs) {
+				if (dlrs !== true) {
+					bootbox.alert(dlrs);
+					return false;
+				}
 				var rmme = btn.parents(".rememberme");
 				if (rmme.length > 0 && rmme.find(".clickme").length > 0) {
 					$.cookie("clickme", rmme.find(".clickme").attr("id"));
@@ -20,6 +25,8 @@ $(document).ready(function() {
 				location.reload();
 			}).fail(function() {
 				bootbox.alert("Failed to delete!");
+			}).always(function() {
+				unblockui();
 			});
 		});
 	});

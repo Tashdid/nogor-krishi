@@ -2,7 +2,7 @@
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
 	</head>
-	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="layout">
+	<body data-page="layout">
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 		<form th:action="@{/layout}" method="post">
@@ -15,8 +15,8 @@
 				<div class="ml-5">
 					<p class="lead text-muted w-50 float-left">পছন্দমত ছাদ-বাগান লে-আউট </p>
 
-					<select class="form-control float-right w-25 mr-4 layoutptypes">
-						<option th:each="tp : ${types}" th:value="${tp.key}" th:text="${tp.value}">শাক </option>
+					<select id="types" class="form-control float-right w-25 mr-4 layoutptypes">
+						<option th:each="tp : ${types}" th:attr="data-remote=@{'/layout/items/' + ${tp.key}}" th:value="${tp.key}" th:text="${tp.value}">শাক </option>
 						<option th:remove="all">শাক </option>
 						<option th:remove="all">শাক </option>
 						<option th:remove="all">শাক </option>
@@ -24,13 +24,12 @@
 						<option th:remove="all">শাক </option>
 					</select>
 					<div class="clearfix"></div>
-<!-- 					<h1>শাক</h1> -->
 				</div>
 
 				<div class="row">
 					<div class="col-sm-4 offset-sm-2">
 						<div class="form-group row">
-							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutlength">Length:</label>
+							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutlength">দৈর্ঘ্য:</label>
 							<div class="col-sm-5">
 								<input required="" name="length" type="text" class="form-control form-control-sm layoutgen" id="layoutlength" />
 							</div>
@@ -38,7 +37,7 @@
 					</div>
 					<div class="col-sm-4">
 						<div class="form-group row">
-							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutwidth">Width:</label>
+							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutwidth">প্রস্থ:</label>
 							<div class="col-sm-5">
 								<input required="" name="width" type="text" class="form-control form-control-sm layoutgen" id="layoutwidth" />
 							</div>
@@ -90,22 +89,19 @@
 						<a class="nav-link active" data-toggle="tab" href="#home" role="tab">
 							<i class="fa fa-list"></i> গাছের তালিকা </a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#profile" role="tab">
-							<i class="fa  fa-file-text-o"></i> বিস্তারিত বর্ননা </a>
-					</li>
 				</ul>
 		
 				<!-- Tab panes -->
 				<div class="tab-content sidebar-tab-content">
 					<div class="tab-pane active" id="home" role="tabpanel">
-						<div th:each="prd : ${products}" class="tab-content-plant draggable" th:attr="data-id=${prd.id}, data-name=${prd.name}, data-prod=${prd.productivity}, data-ben=${prd.benefits}">
-							<img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.icon)}" class="img" src="images/icon-oushodhi.jpg"/>
-							<a href=""><span th:text="${prd.name}">তুলশী </span></a>
-							<span class="float-right text-muted" th:text="${prd.type.name}">ঔষধি </span>
+						<div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" th:fragment="products">
+							<div th:each="prd : ${products}" class="tab-content-plant draggable" th:attr="data-id=${prd.id}, data-name=${prd.name}, data-prod=${prd.productivity}, data-ben=${prd.benefits}">
+								<img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.icon)}" class="img" src="images/icon-oushodhi.jpg"/>
+								<a href=""><span th:text="${prd.name}">তুলশী </span></a>
+								<span class="float-right text-muted" th:text="${prd.type.name}">ঔষধি </span>
+							</div>
 						</div>
 					</div>
-					<div class="tab-pane" id="profile" role="tabpanel">Nothing right now! But you will see desired content very soon..</div>
 				</div>
 
 				<!-- this is outside tabs -->
@@ -119,8 +115,7 @@
 		</div>
 		</form>
 
-
-		<div th:replace="common :: common-js" th:remove="tag"></div>
 		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+		<div th:replace="common :: common-js" th:remove="tag"></div>
 	</body>
 </html>

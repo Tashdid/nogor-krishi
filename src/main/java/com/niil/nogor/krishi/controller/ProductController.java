@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
  *
  */
 @Controller
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping(ProductController.URL)
 public class ProductController {
 	static final String URL = "/manage/product";

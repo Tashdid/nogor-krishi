@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<meta th:replace="common :: common-meta" th:remove="tag"/>
+	</head>
+	<body>
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+		<div class="container" style="margin-top: 15px;">
+			<div class="row">
+				<div class="col-sm-12 alert alert-warning" style="text-align: center;">
+					<span>আপনার সংরক্ষিত বাগানের তালিকা</span>
+				</div>
+				<div class="col-sm-12">
+					<table class="dttable table table-striped table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>তারিখ</th>
+								<th style="text-align: right;">দৈর্ঘ্য</th>
+								<th style="text-align: right;">প্রস্থ</th>
+								<th style="text-align: right;">ব্লক সংখ্যা</th>
+								<th>
+									<a class="btn btn-sm pull-right" th:href="@{'/layout'}"><span class="glyphicon glyphicon-plus"></span></a>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="bean : ${layouts}">
+								<td th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(bean.createdOn, 'dd MMMM yyyy hh:mm a'))}"></td>
+								<td th:text="${beans.e2bconv.getBengali(bean.length)}" style="text-align: right;"></td>
+								<td th:text="${beans.e2bconv.getBengali(bean.width)}" style="text-align: right;"></td>
+								<td th:text="${beans.e2bconv.getBengali(#lists.size(bean.blocks))}" style="text-align: right;"></td>
+								<td>
+									<a class="btn btn-sm pull-right" th:href="@{'/exlayout/' + ${bean.id}}"><span class="glyphicon glyphicon-eye-open"></span></a>
+									<button type="button" class="btn btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/exlayout/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+		<div th:replace="common :: common-js" th:remove="tag"></div>
+	</body>
+</html>

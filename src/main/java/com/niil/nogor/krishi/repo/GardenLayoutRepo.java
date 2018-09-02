@@ -1,9 +1,12 @@
 package com.niil.nogor.krishi.repo;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.niil.nogor.krishi.entity.GardenLayout;
+import com.niil.nogor.krishi.entity.User;
 
 /**
  * @author Noor
@@ -13,5 +16,5 @@ import com.niil.nogor.krishi.entity.GardenLayout;
  */
 @Repository
 public interface GardenLayoutRepo extends JpaRepository<GardenLayout, Long> {
-
+	List<GardenLayout> findByUserOrderByCreatedOnDesc(User user);
 }

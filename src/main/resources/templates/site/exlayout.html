@@ -7,14 +7,20 @@
 
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12 text-center" style="padding-top: 70px; padding-bottom: 20px;">
+				<div th:if="${newlayout ne null}" class="col-lg-12 text-center" style="padding-top: 70px; padding-bottom: 20px;">
 					<h5><i class="fa fa-check"></i> বাগান সংরক্ষণ সফল হয়েছে </h5>
 				</div>
 		
-				<div class="col-lg-10 offset-lg-1">
+				<div th:if="${newlayout ne null}" class="col-lg-10 offset-lg-1">
 					<div class="alert alert-success text-center">
 						 আপনার বাগান নং - <span class="bagan-code" th:text="${layout.id}">25491324964</span> <br/>
 						পরবর্তিতে আপনার সাজানো বাগানের গাছের তালিকা পেতে এই নম্বরটি সংরক্ষণ করুন।
+					</div>
+				</div>
+		
+				<div th:if="${newlayout eq null}" class="col-lg-10 offset-lg-1" style="padding-top: 70px; padding-bottom: 20px;">
+					<div class="alert alert-success text-center">
+						বাগান নং - <span class="bagan-code" th:text="${layout.id}">25491324964</span>
 					</div>
 				</div>
 
@@ -99,7 +105,7 @@
 			</div>
 		</div>
 
-		<div th:replace="common :: common-js" th:remove="tag"></div>
 		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+		<div th:replace="common :: common-js" th:remove="tag"></div>
 	</body>
 </html>

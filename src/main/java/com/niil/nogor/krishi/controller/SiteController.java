@@ -3,16 +3,20 @@ package com.niil.nogor.krishi.controller;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.niil.nogor.krishi.config.AppConfig;
 import com.niil.nogor.krishi.entity.*;
 import com.niil.nogor.krishi.repo.*;
+import com.niil.nogor.krishi.service.SecurityService;
 import com.niil.nogor.krishi.view.LayoutRQ;
 import com.niil.nogor.krishi.view.NurseryPrices;
 
@@ -25,6 +29,8 @@ import com.niil.nogor.krishi.view.NurseryPrices;
 @Controller
 @RequestMapping
 public class SiteController {
+	private static final String ERROR_PAGE = "error";
+	private static final String LAYOUT_NOT_FOUND = "দুঃখিত, বাগান লে-আউট পাওয়া যায় নাই!";
 
 	@Autowired AppConfig appConfig;
 
@@ -40,11 +46,14 @@ public class SiteController {
 	@Autowired GardenLayoutRepo gardenLayoutRepo;
 	@Autowired GardenBlockRepo gardenBlockRepo;
 	@Autowired MaterialPriceRepo materialPriceRepo;
+	@Autowired SecurityService securityService;
 
 	@RequestMapping
 	public String homePage(final ModelMap model) {
-		model.addAttribute("types", productTypeRepo.findAllByOrderBySequenceAsc());
-		model.addAttribute("areas", areaRepo.findAll());
+		List<ProductType> types = productTypeRepo.findAllByOrderBySequenceAsc();
+		model.addAttribute("types", types);
+		List<Area> areas = areaRepo.findAll();
+		model.addAttribute("areas", areas);
 		return "site/index";
 	}
 
@@ -88,15 +97,29 @@ public class SiteController {
 		List<ProductType> types = productTypeRepo.findAllByOrderBySequenceAsc();
 		model.addAttribute("types", types.stream().collect(Collectors.toMap(t -> t.getId(), t -> t.getName())));
 		if (!types.isEmpty()) {
-			List<Product> list = productRepo.findAll();
-			list.forEach(p -> p.setImage(null));
-			model.addAttribute("products", list);
+			typeProducts(types.get(0), model);
 		}
 		return "site/layout";
 	}
 
+	@ResponseBody
+	@RequestMapping("/nurseries")
+	public Map<Object, List<Nursery>> nurseries() {
+		Map<Object, List<Nursery>> nurseries = nurseryRepo.findAll().stream().collect(Collectors.groupingBy(n -> n.getArea().getId(), Collectors.toList()));
+		return nurseries;
+	}
+
+	@RequestMapping("/layout/items/{type}")
+	public String typeProducts(@PathVariable ProductType type, final ModelMap model) {
+		List<Product> list = productRepo.findAllByTypeOrderBySequenceAsc(type);
+		list.forEach(p -> p.setImage(null));
+		model.addAttribute("products", list);
+		return "site/layout :: products";
+	}
+
 	@RequestMapping(value="/layout", method=RequestMethod.POST)
-	public String layoutSave(@Valid LayoutRQ layout, final ModelMap model) {
+	public String layoutSave(@Valid LayoutRQ layout, final ModelMap model,
+			HttpServletResponse response, final RedirectAttributes redirectAttrs) {
 		GardenLayout gl = new GardenLayout();
 		gl.setLength(layout.getLength());
 		gl.setWidth(layout.getWidth());
@@ -106,12 +129,41 @@ public class SiteController {
 			bl.setGardenLayout(sgl);
 			gardenBlockRepo.save(bl);
 		});
-		return "redirect:/layout/" + sgl.getId();
+
+		User user = securityService.findLoggedInUser();
+		if (user == null) {
+			Cookie foo = new Cookie("lastLayout", sgl.getId().toString());
+			foo.setMaxAge(3600); //set expire time to 1 hour
+			response.addCookie(foo);
+		} else {
+			sgl.setUser(user);
+			gardenLayoutRepo.save(sgl);
+		}
+		redirectAttrs.addFlashAttribute("newlayout", true);
+		return "redirect:/exlayout/" + sgl.getId();
 	}
 
-	@RequestMapping(value="/layout/{layout}")
-	public String showLlayout(@PathVariable GardenLayout layout, final ModelMap model) {
+	@RequestMapping(value="/exlayout/{layout}")
+	public String showLayout(@PathVariable(required=false) GardenLayout layout,
+			@CookieValue(value = "lastLayout", required=false) String lastLayout,
+			HttpServletResponse response, final ModelMap model) {
+		if (layout == null) {
+			model.addAttribute("msg", LAYOUT_NOT_FOUND);
+			return ERROR_PAGE;
+		}
 		model.addAttribute("layout", layout);
+		User user = securityService.findLoggedInUser();
+		if (layout.getUser() == null && lastLayout != null && user != null && lastLayout.equals(layout.getId().toString())) {
+			layout.setUser(user);
+			gardenLayoutRepo.save(layout);
+			Cookie foo = new Cookie("lastLayout", null);
+			foo.setMaxAge(0);
+			response.addCookie(foo);
+			model.addAttribute("newlayout", true);
+		} else if (layout.getUser() == null || (user != null && !user.getId().equals(layout.getUser().getId()))) {
+			model.addAttribute("msg", LAYOUT_NOT_FOUND);
+			return ERROR_PAGE;
+		}
 		List<Product> prods = gardenBlockRepo.findAllByGardenLayout(layout).stream().map(b -> b.getProduct()).distinct().collect(Collectors.toList());
 		List<MaterialPrice> mprices = prods.stream().flatMap(p -> p.getMaterials().stream()).distinct().flatMap(m -> materialPriceRepo.findAllByMaterial(m).stream()).collect(Collectors.toList());
 		prods.stream().flatMap(p -> p.getMaterials().stream()).distinct().collect(Collectors.toMap(m -> m.getId(), m -> {
@@ -142,10 +194,19 @@ public class SiteController {
 		return "site/exlayout";
 	}
 
-	@ResponseBody
-	@RequestMapping("/nurseries")
-	public Map<Object, List<Nursery>> nurseries() {
-		return nurseryRepo.findAll().stream().collect(Collectors.groupingBy(n -> n.getArea().getId(), Collectors.toList()));
+	@RequestMapping(value="/exlayout/list")
+	public String myLayouts(final ModelMap model) {
+		model.addAttribute("layouts", gardenLayoutRepo.findByUserOrderByCreatedOnDesc(securityService.findLoggedInUser()));
+		return "site/exlayoutlist";
 	}
 
+	@ResponseBody
+	@RequestMapping(value="/exlayout/{layout}", method=RequestMethod.POST)
+	public Object deleteLayout(@PathVariable(required=false) GardenLayout layout) {
+		if (layout == null || !securityService.findLoggedInUser().getId().equals(layout.getUser().getId()))
+			return LAYOUT_NOT_FOUND;
+
+		gardenLayoutRepo.delete(layout);
+		return true;
+	}
 }

@@ -20,6 +20,6 @@ import lombok.*;
 public class ProductPrice {
 	private @Id @GeneratedValue Long id;
 	private BigDecimal price;
-	private @ManyToOne Product product;
-	private @ManyToOne Nursery nursery;
+	private @ManyToOne(targetEntity=Product.class) Product product;
+	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;
 }

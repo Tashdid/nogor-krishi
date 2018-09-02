@@ -42,4 +42,25 @@ public class EngToBengali {
 		}
 		return rsp;
 	}
+
+	public String getDateAsBangla(String date) {
+		String bng = getBengali(date);
+		bng = bng.replace("January", "জানুয়ারি");
+		bng = bng.replace("February", "ফেব্রুয়ারি");
+		bng = bng.replace("March", "মার্চ");
+		bng = bng.replace("April", "এপ্রিল");
+		bng = bng.replace("May", "মে");
+		bng = bng.replace("June", "জুন");
+		bng = bng.replace("July", "জুলাই");
+		bng = bng.replace("August", "আগস্ট");
+		bng = bng.replace("September", "সেপ্টেম্বর");
+		bng = bng.replace("October", "অক্টোবর");
+		bng = bng.replace("November", "নভেম্বর");
+		bng = bng.replace("December", "ডিসেম্বর");
+		bng = bng.replace("AM", "পূর্বাহ্ণ");
+		bng = bng.replace("PM", "অপরাহ্ন");
+		bng = bng.replace("am", "পূর্বাহ্ণ");
+		bng = bng.replace("pm", "অপরাহ্ন");
+		return bng;
+	}
 }

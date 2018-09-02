@@ -100,10 +100,20 @@ $("[data-page='layout']").on("init", function() {
 			$("div.table").html("");
 		}
 		setLayoutCellHeight();
+	}).on("change", "#types", function() {
+		$("#home").load($(this).find("option:selected").data("remote"), function() {
+			console.log("Should be loaded!");
+			initDraggable();
+		});
 	}).on("click", "#savelayout", function() {
 		var btn = $(this);
-		btn.prop("disabled", true);
-		$("#tableov").find(".ui-draggable-handle").each(function(i, vl) {
+		var blocks = $("#tableov").find(".ui-draggable-handle");
+		if (blocks.length === 0) {
+			bootbox.alert("বাগান লে-আউট তৈরি করে সংরক্ষণ করুন");
+			return false;
+		}
+		blockui();
+		blocks.each(function(i, vl) {
 			var ob = $(vl);
 			ob.append('<input type="hidden" name="blocks[' + i + '].product" value="' + ob.data("id") + '"/>');
 			ob.append('<input type="hidden" name="blocks[' + i + '].ptop" value="' + ob.position().top + '"/>');
@@ -137,10 +147,14 @@ $("[data-page='layout']").on("init", function() {
 		autoHide : true
 	};
 
-	$('.draggable').draggable({
-		helper: 'clone',
-		start: function() { counts[0]++; }
-	});
+	function initDraggable() {
+		$('.draggable').draggable({
+			helper: 'clone',
+			start: function() { counts[0]++; }
+		});
+	}
+
+	initDraggable();
 
 	$(".droppable").droppable({
 		drop : function(e, ui) {
@@ -341,14 +355,4 @@ function initVendorMap() {
 		center : vloc
 	});
 	var marker = new google.maps.Marker({position: vloc, map: vmap});
-}
-
-function blockui(target) {
-	target.block({
-		message : '<h1>Loading.......</h1>'
-	});
-}
-
-function unblockui(target) {
-	target.unblock();
 }

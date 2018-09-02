@@ -1,15 +1,11 @@
 spring:
   profiles:
-    active: prod
+    active: prod, saml
   data:
     rest:
       base-path: /rest
   thymeleaf:
     cache: false
----
-
-spring:
-  profiles: prod
   jpa:
     hibernate.ddl-auto: update
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
@@ -17,3 +13,13 @@ spring:
     url: "jdbc:mysql://localhost:3306/nogorkrishi?useUnicode=yes&characterEncoding=UTF-8"
     username: root
     password: root
+---
+
+spring:
+  profiles: dev
+  jpa:
+    show-sql: true
+
+saml:
+  entityid: nogorkrishi-dev
+  entitybaseurl: http://localhost:8080

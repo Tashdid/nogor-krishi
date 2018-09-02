@@ -1,6 +1,7 @@
 package com.niil.nogor.krishi.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -29,6 +30,9 @@ public class GardenLayout {
 	private LocalDateTime createdOn;
 	private LocalDateTime modifiedOn;
 	private @Lob byte[] image;
+	private @ManyToOne User user;
+	@OneToMany(targetEntity=GardenBlock.class, mappedBy="gardenLayout", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<GardenBlock> blocks;
 
 	@PrePersist
 	private void preAdd() {

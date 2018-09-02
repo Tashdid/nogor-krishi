@@ -22,7 +22,7 @@
 						<img th:src="@{/images/nogorkrishi-header-text.png}" src="images/nogorkrishi-header-text.png" />
 					</a>
 				</div>
-				<div class="col-lg-8 text-right" id="header-nav-items">
+				<div class="col-lg-7 text-right" id="header-nav-items">
 					<img th:src="@{/images/icon-ponno.png}" src="images/icon-ponno.png" />
 					<span><a href="/ponno">পণ্য </a></span>
 
@@ -37,6 +37,27 @@
 
 					<img th:src="@{/images/icon-contact.png}" src="images/icon-contact.png" />
 					<span><a href="#">যোগাযোগ </a></span>
+				</div>
+
+				<div sec:authorize="!isAuthenticated() or isAuthenticated()" id="lgnmn" class="col-lg-1 text-right">
+					<div class="btn-group">
+						<button style="padding-top: 4px !important;" type="button" class="btn dropdown-toggle ngkrishi"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
+								sec:authorize="!isAuthenticated()"
+								style="height: 17px; position: relative;"
+								th:src="@{/images/login-icon.png}"/><img
+								sec:authorize="isAuthenticated()"
+								style="height: 17px; position: relative;"
+								th:src="@{/images/login-icon-green.png}"/></button>
+						<div class="dropdown-menu dropdown-menu-right">
+							<div sec:authorize="!isAuthenticated()" th:remove="tag">
+								<a class="dropdown-item" href="#" th:href="@{/login}">লগইন</a>
+							</div>
+							<div sec:authorize="isAuthenticated()" th:remove="tag">
+								<a class="dropdown-item" href="#" th:href="@{/exlayout/list}">উদ্যান তালিকা</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -93,22 +114,26 @@
 	<div th:fragment="common-js" th:remove="tag">
 		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 		<script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
-		<script th:src="@{/webjars/jquery-cookie/jquery.cookie.js}"></script>
 		<script th:src="@{/webjars/jquery-blockui/jquery.blockUI.js}"></script>
+		<script th:src="@{/webjars/jquery-cookie/jquery.cookie.js}"></script>
 		<script th:src="@{/webjars/tether/dist/js/tether.min.js}"></script>
 		<script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
 		<script th:src="@{/webjars/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js}"></script>
 		<script th:src="@{/webjars/datatables/js/jquery.dataTables.min.js}"></script>
 		<script th:src="@{/webjars/datatables-rowreorder/js/dataTables.rowReorder.js}"></script>
 		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
-		<script th:src="@{/js/lib/dom-to-image.min.js}" src="js/lib/dom-to-image.min.js" ></script>
 		<script th:src="@{/js/lib/html2canvas.min.js}" src="js/lib/html2canvas.min.js" ></script>
+		<script th:src="@{/js/lib/zxcvbn.js}" src="js/lib/zxcvbn.js" ></script>
 		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
 		<script th:src="@{/js/manage.js}" src="js/manage.js" ></script>
 		<script th:src="@{/js/site.js}" src="js/site.js" ></script>
 	</div>
 
 	<div th:fragment="commom-footer" th:remove="tag">
+		<div id="block-ui" style="z-index: 2055; display: none;">
+			<div class="updateProgress"><i class="fa fa-spin fa-spinner"></i></div>
+			<div class="updateBackground"></div>
+		</div>
 		<div class="floral-divider">
 			<div class="text-center m-auto">
 				<img th:src="@{/images/floral-divider.jpg}" src="images/floral-divider.jpg" class="img-fluid" />

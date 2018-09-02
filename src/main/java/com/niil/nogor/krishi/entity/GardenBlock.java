@@ -22,5 +22,6 @@ public class GardenBlock {
 	private @Column(nullable=false) Double cheight;
 	private @Column(nullable=false) Double cwidth;
 	private @ManyToOne Product product;
-	private @ManyToOne GardenLayout gardenLayout;
+	@ManyToOne(targetEntity=GardenLayout.class)
+	private GardenLayout gardenLayout;
 }
