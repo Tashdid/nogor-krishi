@@ -196,7 +196,8 @@ public class SiteController {
 
 	@RequestMapping(value="/exlayout/list")
 	public String myLayouts(final ModelMap model) {
-		model.addAttribute("layouts", gardenLayoutRepo.findByUserOrderByCreatedOnDesc(securityService.findLoggedInUser()));
+		User user = securityService.findLoggedInUser();
+		model.addAttribute("layouts", user == null ? Collections.emptyList() : gardenLayoutRepo.findByUserOrderByCreatedOnDesc(user));
 		return "site/exlayoutlist";
 	}
 

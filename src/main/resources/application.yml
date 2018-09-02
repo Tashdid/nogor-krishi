@@ -4,8 +4,6 @@ spring:
   data:
     rest:
       base-path: /rest
-  thymeleaf:
-    cache: false
   jpa:
     hibernate.ddl-auto: update
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
@@ -17,6 +15,8 @@ spring:
 
 spring:
   profiles: dev
+  thymeleaf:
+    cache: false
   jpa:
     show-sql: true
 

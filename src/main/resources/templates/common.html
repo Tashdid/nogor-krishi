@@ -51,7 +51,7 @@
 								th:src="@{/images/login-icon-green.png}"/></button>
 						<div class="dropdown-menu dropdown-menu-right">
 							<div sec:authorize="!isAuthenticated()" th:remove="tag">
-								<a class="dropdown-item" href="#" th:href="@{/login}">লগইন</a>
+								<a class="dropdown-item" href="#" th:href="@{/login}">লগ ইন</a>
 							</div>
 							<div sec:authorize="isAuthenticated()" th:remove="tag">
 								<a class="dropdown-item" href="#" th:href="@{/exlayout/list}">উদ্যান তালিকা</a>
@@ -122,8 +122,6 @@
 		<script th:src="@{/webjars/datatables/js/jquery.dataTables.min.js}"></script>
 		<script th:src="@{/webjars/datatables-rowreorder/js/dataTables.rowReorder.js}"></script>
 		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
-		<script th:src="@{/js/lib/html2canvas.min.js}" src="js/lib/html2canvas.min.js" ></script>
-		<script th:src="@{/js/lib/zxcvbn.js}" src="js/lib/zxcvbn.js" ></script>
 		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
 		<script th:src="@{/js/manage.js}" src="js/manage.js" ></script>
 		<script th:src="@{/js/site.js}" src="js/site.js" ></script>

@@ -10,19 +10,35 @@ $(document).ready(function() {
 		$("#header-nav-items").removeClass("col-lg-7").addClass("col-lg-8");
 	}
 
-	$("body").on("click", "#registerformbtn", function() {
+	$("body").on("click", ".rmvbtn", function(){
+		var btn = $(this);
+		bootbox.confirm("Are you sure?", function(rs) {
+			if (!rs) return;
+			blockui();
+			$.post(btn.data("remote"), function(dlrs) {
+				if (dlrs !== true) {
+					bootbox.alert(dlrs);
+					return false;
+				}
+				var rmme = btn.parents(".rememberme");
+				if (rmme.length > 0 && rmme.find(".clickme").length > 0) {
+					$.cookie("clickme", rmme.find(".clickme").attr("id"));
+				} else {
+					$.removeCookie("clickme");
+				}
+				location.reload();
+			}).fail(function() {
+				bootbox.alert("Failed to delete!");
+			}).always(function() {
+				unblockui();
+			});
+		});
+	}).on("click", "#registerformbtn", function() {
 		var btn = $(this);
 		var pswd = $("#password").val();
 		var cnpswd = $("#confirmPassword").val();
 		if (pswd !== cnpswd) {
 			alert("Passwords are not same!");
-			return false;
-		}
-		var result  = zxcvbn(pswd),
-			score   = result.score,
-			message = result.feedback.warning || 'The password is weak';
-		if (score < 3) {
-			bootbox.alert(message);
 			return false;
 		}
 		blockui();

@@ -6,31 +6,6 @@ $(document).ready(function() {
 	}
 	$(".dropdown-item[href='" + path + "']").addClass("active");
 
-	$("body").on("click", ".rmvbtn", function(){
-		var btn = $(this);
-		bootbox.confirm("Are you sure?", function(rs) {
-			if (!rs) return;
-			blockui();
-			$.post(btn.data("remote"), function(dlrs) {
-				if (dlrs !== true) {
-					bootbox.alert(dlrs);
-					return false;
-				}
-				var rmme = btn.parents(".rememberme");
-				if (rmme.length > 0 && rmme.find(".clickme").length > 0) {
-					$.cookie("clickme", rmme.find(".clickme").attr("id"));
-				} else {
-					$.removeCookie("clickme");
-				}
-				location.reload();
-			}).fail(function() {
-				bootbox.alert("Failed to delete!");
-			}).always(function() {
-				unblockui();
-			});
-		});
-	});
-
 	$(".uploadimg").on("change", function(){
 		showImage(this);
 	});
