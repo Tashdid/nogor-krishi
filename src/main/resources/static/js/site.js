@@ -94,6 +94,12 @@ $("[data-page='exlayout']").on("init", function() {
 	});
 });
 
+$("[data-page='exlayoutlist']").on("init", function() {
+	setTimeout(function() {
+		$("#layoutslisttable").find("th:first").click();
+	}, 500);
+});
+
 function showPage(pageno) {
 	if ($("[data-page='" + pageno + "']").length === 0) return false;
 

@@ -25,9 +25,13 @@ $("[data-page='layout']").on("init", function() {
 		}
 		setLayoutCellHeight();
 	}).on("change", "#types", function() {
-		$("#home").load($(this).find("option:selected").data("remote"), function() {
-			console.log("Should be loaded!");
+		var dvtld = $("#home");
+		blockui(dvtld);
+		$.get($(this).find("option:selected").data("remote"), function(rsp) {
+			dvtld.html(rsp);
 			initDraggable();
+		}).always(function() {
+			unblockui(dvtld);
 		});
 	}).on("click", "#savelayout", function() {
 		var btn = $(this);
