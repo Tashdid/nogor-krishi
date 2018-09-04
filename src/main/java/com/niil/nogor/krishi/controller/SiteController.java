@@ -13,7 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.niil.nogor.krishi.config.AppConfig;
 import com.niil.nogor.krishi.entity.*;
 import com.niil.nogor.krishi.repo.*;
 import com.niil.nogor.krishi.service.SecurityService;
@@ -31,8 +30,6 @@ import com.niil.nogor.krishi.view.NurseryPrices;
 public class SiteController {
 	private static final String ERROR_PAGE = "error";
 	private static final String LAYOUT_NOT_FOUND = "দুঃখিত, বাগান লে-আউট পাওয়া যায় নাই!";
-
-	@Autowired AppConfig appConfig;
 
 	private Comparator<Nursery> byNurseryType = Comparator.comparing(
 			parent -> parent.getType().getSequence()
@@ -68,13 +65,7 @@ public class SiteController {
 	@RequestMapping("/ponno/{type}")
 	public String products(@PathVariable ProductType type, final ModelMap model) {
 		model.addAttribute("type", type);
-		List<Product> list = type == null ? productRepo.findAll() : productRepo.findAllByTypeOrderBySequenceAsc(type);
-		if (appConfig.isCopyProductList()) {
-			list.addAll(list);
-			list.addAll(list);
-			list.addAll(list);
-		}
-		model.addAttribute("products", list);
+		model.addAttribute("products", type == null ? productRepo.findAll() : productRepo.findAllByTypeOrderBySequenceAsc(type));
 		return "site/ponno :: products";
 	}
 

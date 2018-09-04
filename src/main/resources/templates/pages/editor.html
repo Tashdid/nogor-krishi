@@ -1,0 +1,103 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<title>নগরকৃষি প্রকল্প - Nogorkrishi Prokolpo</title>
+		<link rel="shortcut icon" th:href="@{favicon.ico}" href="favicon.ico" />
+		<link th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/webjars/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+		<link rel="stylesheet" th:href="@{/css/lib/font-awesome.min.css}" href="css/lib/font-awesome.min.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/glyphicons.css}" href="css/lib/glyphicons.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/codemirror.min.css}" href="css/lib/codemirror.min.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/froala_editor.pkgd.min.css}" href="css/lib/froala_editor.pkgd.min.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/froala_style.min.css}" href="css/lib/froala_style.min.css" />
+		<link rel="stylesheet" th:href="@{/css/nogorkrishi-styles.css}" href="css/nogorkrishi-styles.css" />
+	</head>
+	<body data-page="editor">
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+		<div class="container" style="margin-top: 30px;">
+			<div class="row">
+				<div class="col-lg-3">
+					<table th:if="${pages ne null and !#lists.isEmpty(pages)}"
+						class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
+						data-columndefs="page">
+						<thead>
+							<tr>
+								<th style="width: 90%;">পেইজ তালিকা</th>
+								<th style="width: 10%;">
+									<a class="btn btn-info btn-sm pull-right" th:href="@{/pages/editor}"><span class="glyphicon glyphicon-plus"></span></a>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="page : ${pages}">
+								<td th:text="${page.title}"></td>
+								<td>
+									<a class="btn btn-info btn-sm pull-right" th:href="@{'/pages/editor/' + ${page.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-lg-9">
+					<form class="form-horizontal" th:action="@{'/pages'}" th:object="${bean}" method="post">
+						<div th:if="${error ne null}" class="col-sm-12 alert alert-danger" style="text-align: center; padding: 5px;">
+							<span th:text="${error}">Error</span>
+						</div>
+						<div class="form-group row" th:if="${bean.id ne null}">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="id">পেইজ আইডি</label>
+							<div class="col-sm-2">
+								<p class="form-control-static form-control-sm" th:text="${bean.id}"></p>
+							</div>
+							<input type="hidden" th:field="*{id}" />
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="menu">মেনু</label>
+							<div class="col-sm-6" th:with="MN=${T(com.niil.nogor.krishi.entity.Menu)}">
+								<select th:field="*{menu}">
+									<option th:each="mn : ${MN.values()}" th:value="${mn.name()}" th:text="${mn.title()}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="title">পেইজ টাইটেল</label>
+							<div class="col-sm-6">
+								<input required="" type="text" class="form-control form-control-sm" th:field="*{title}" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="published">প্রকাশিত</label>
+							<div class="col-sm-1">
+								<input type="checkbox" class="form-control form-control-sm" th:field="*{published}"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<textarea th:field="*{content}"></textarea>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-3"></label>
+							<div class="col-sm-9" style="text-align: center;">
+								<button type="submit" class="btn btn-primary pull-right">সংরক্ষণ করুন</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="common :: commom-footer" th:remove="tag">সংরক্ষণ করুন</div>
+
+		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
+		<script th:src="@{/webjars/jquery-blockui/jquery.blockUI.js}"></script>
+		<script th:src="@{/webjars/tether/dist/js/tether.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
+		<script th:src="@{/js/lib/codemirror.min.js}" src="js/lib/codemirror.min.js" ></script>
+		<script th:src="@{/js/lib/xml.min.js}" src="js/lib/xml.min.js" ></script>
+		<script th:src="@{/js/lib/froala_editor.pkgd.min.js}" src="js/lib/froala_editor.pkgd.min.js" ></script>
+		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
+		<script th:src="@{/js/editor.js}" src="js/editor.js" ></script>
+	</body>
+</html>

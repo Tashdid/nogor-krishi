@@ -259,6 +259,9 @@ ul.list-blogHeadline li{ margin-bottom: 34px; }
 .ngkrishi {
 	background: #345C05;
 	color: #FFFFFF;
+	padding-top: 4px !important;
+	padding-left: 4px !important;
+	padding-right: 4px !important;
 }
 
 div.table  {
@@ -358,4 +361,9 @@ div.tr:first-child>div.td>div.inner>span {
 .modal-title {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+#header-nav-items a.dropdown-item {
+	color: black;
+	background-color: white;
 }

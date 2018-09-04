@@ -6,10 +6,6 @@ var dhaka = {
 $(document).ready(function() {
 	$("[data-page]").trigger("init");
 
-	if ($("#lgnmn").length === 0 && $("#header-nav-items").length > 0) {
-		$("#header-nav-items").removeClass("col-lg-7").addClass("col-lg-8");
-	}
-
 	$("body").on("click", ".rmvbtn", function(){
 		var btn = $(this);
 		bootbox.confirm("Are you sure?", function(rs) {

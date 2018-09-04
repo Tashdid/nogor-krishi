@@ -16,45 +16,113 @@
 	<div th:fragment="common-menu" id="header-container">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-4">
+				<div class="col-lg-3">
 					<a href="/">
 						<img th:src="@{/images/nogorkrishi-header-symbol.png}" src="images/nogorkrishi-header-symbol.png" style="padding-right: 4px;" />
 						<img th:src="@{/images/nogorkrishi-header-text.png}" src="images/nogorkrishi-header-text.png" />
 					</a>
 				</div>
-				<div class="col-lg-7 text-right" id="header-nav-items">
-					<img th:src="@{/images/icon-ponno.png}" src="images/icon-ponno.png" />
-					<span><a href="/ponno">পণ্য </a></span>
-
-					<img th:src="@{/images/icon-sheba.png}" src="images/icon-sheba.png" />
-					<span><a href="/vendors">সেবা </a></span>
-
-					<img th:src="@{/images/icon-poramorsho.png}" src="images/icon-poramorsho.png" />
-					<span><a href="#">পরামর্শ</a></span>
-
-					<img th:src="@{/images/icon-about.png}" src="images/icon-about.png" />
-					<span><a href="#">আমাদের সম্পর্কে </a></span>
-
-					<img th:src="@{/images/icon-contact.png}" src="images/icon-contact.png" />
-					<span><a href="#">যোগাযোগ </a></span>
-				</div>
-
-				<div sec:authorize="!isAuthenticated() or isAuthenticated()" id="lgnmn" class="col-lg-1 text-right">
-					<div class="btn-group">
-						<button style="padding-top: 4px !important;" type="button" class="btn dropdown-toggle ngkrishi"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-								sec:authorize="!isAuthenticated()"
-								style="height: 17px; position: relative;"
-								th:src="@{/images/login-icon.png}"/><img
-								sec:authorize="isAuthenticated()"
-								style="height: 17px; position: relative;"
-								th:src="@{/images/login-icon-green.png}"/></button>
-						<div class="dropdown-menu dropdown-menu-right">
-							<div sec:authorize="!isAuthenticated()" th:remove="tag">
-								<a class="dropdown-item" href="#" th:href="@{/login}">লগ ইন</a>
+				<div class="col-lg-9 text-right" id="header-nav-items" th:with="MN=${T(com.niil.nogor.krishi.entity.Menu)}">
+					<div th:with="lst=${pagesMap[MN.PRODUCT]}" th:remove="tag">
+						<div th:if="${#lists.isEmpty(lst)}" th:remove="tag">
+							<img th:src="@{/images/icon-ponno.png}" src="images/icon-ponno.png" />
+							<span><a href="/ponno">পণ্য</a></span>
+						</div>
+						<div th:unless="${#lists.isEmpty(lst)}" class="btn-group">
+							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
+									th:src="@{/images/icon-ponno.png}"/>পণ্য</button>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item" href="#" th:href="@{/ponno}">গাছ</a>
+								<a th:each="it : ${lst}" class="dropdown-item" href="#"
+									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
+									th:text="${it.title}">গাছ</a>
 							</div>
-							<div sec:authorize="isAuthenticated()" th:remove="tag">
-								<a class="dropdown-item" href="#" th:href="@{/exlayout/list}">উদ্যান তালিকা</a>
+						</div>
+					</div>
+
+					<div th:with="lst=${pagesMap[MN.SERVICE]}" th:remove="tag">
+						<div th:if="${#lists.isEmpty(lst)}" th:remove="tag">
+							<img th:src="@{/images/icon-sheba.png}" src="images/icon-sheba.png" />
+							<span><a href="/vendors">সেবা</a></span>
+						</div>
+						<div th:unless="${#lists.isEmpty(lst)}" class="btn-group">
+							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
+									th:src="@{/images/icon-sheba.png}"/>সেবা</button>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item" href="#" th:href="@{/vendors}">নার্সারির তথ্য</a>
+								<a th:each="it : ${lst}" class="dropdown-item" href="#"
+									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
+									th:text="${it.title}">গাছ</a>
+							</div>
+						</div>
+					</div>
+
+					<div th:with="lst=${pagesMap[MN.SUGGESTION]}" th:remove="tag">
+						<div th:if="${#lists.isEmpty(lst) or #lists.size(lst) eq 1}" th:remove="tag">
+							<img th:src="@{/images/icon-poramorsho.png}" src="images/icon-poramorsho.png" />
+							<span><a href="#" th:href="@{'' + (${#lists.isEmpty(lst)} ? '#' : ('/pages/' + ${lst[0].id} + '/' + ${beans.vutil.titleToPath(lst[0].title)}))}">পরামর্শ</a></span>
+						</div>
+						<div th:if="${#lists.size(lst) gt 1}" class="btn-group">
+							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
+									th:src="@{/images/icon-poramorsho.png}"/>পরামর্শ</button>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a th:each="it : ${lst}" class="dropdown-item" href="#"
+									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
+									th:text="${it.title}">গাছ</a>
+							</div>
+						</div>
+					</div>
+
+					<div th:with="lst=${pagesMap[MN.ABOUTUS]}" th:remove="tag">
+						<div th:if="${#lists.isEmpty(lst) or #lists.size(lst) eq 1}" th:remove="tag">
+							<img th:src="@{/images/icon-about.png}" src="images/icon-about.png" />
+							<span><a href="#" th:href="@{'' + (${#lists.isEmpty(lst)} ? '#' : ('/pages/' + ${lst[0].id} + '/' + ${beans.vutil.titleToPath(lst[0].title)}))}">আমাদের সম্পর্কে</a></span>
+						</div>
+						<div th:if="${#lists.size(lst) gt 1}" class="btn-group">
+							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
+									th:src="@{/images/icon-about.png}"/>আমাদের সম্পর্কে</button>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a th:each="it : ${lst}" class="dropdown-item" href="#"
+									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
+									th:text="${it.title}">গাছ</a>
+							</div>
+						</div>
+					</div>
+
+					<div th:with="lst=${pagesMap[MN.CONTACT]}" th:remove="tag">
+						<div th:if="${#lists.isEmpty(lst) or #lists.size(lst) eq 1}" th:remove="tag">
+							<img th:src="@{/images/icon-contact.png}" src="images/icon-contact.png" />
+							<span><a href="#" th:href="@{'' + (${#lists.isEmpty(lst)} ? '#' : ('/pages/' + ${lst[0].id} + '/' + ${beans.vutil.titleToPath(lst[0].title)}))}">যোগাযোগ</a></span>
+						</div>
+						<div th:if="${#lists.size(lst) gt 1}" class="btn-group">
+							<button type="button"
+								class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
+									th:src="@{/images/icon-contact.png}"/>যোগাযোগ</button>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a th:each="it : ${lst}" class="dropdown-item" href="#"
+									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
+									th:text="${it.title}">গাছ</a>
+							</div>
+						</div>
+					</div>
+
+					<div sec:authorize="!isAuthenticated() or isAuthenticated()" th:remove="tag">
+						<div class="btn-group">
+							<button style="padding-top: 4px !important;" type="button" class="btn dropdown-toggle ngkrishi"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
+									sec:authorize="!isAuthenticated()"
+									style="height: 17px; position: relative;"
+									th:src="@{/images/login-icon.png}"/><img
+									sec:authorize="isAuthenticated()"
+									style="height: 17px; position: relative;"
+									th:src="@{/images/login-icon-green.png}"/></button>
+							<div class="dropdown-menu dropdown-menu-right">
+								<div sec:authorize="!isAuthenticated()" th:remove="tag">
+									<a class="dropdown-item" href="#" th:href="@{/login}">লগ ইন</a>
+								</div>
+								<div sec:authorize="isAuthenticated()" th:remove="tag">
+									<a class="dropdown-item" href="#" th:href="@{/exlayout/list}">উদ্যান তালিকা</a>
+								</div>
 							</div>
 						</div>
 					</div>

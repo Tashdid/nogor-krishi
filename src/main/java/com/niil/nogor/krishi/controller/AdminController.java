@@ -2,7 +2,7 @@ package com.niil.nogor.krishi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.niil.nogor.krishi.config.AppConfig;
 
@@ -20,11 +20,5 @@ public class AdminController {
 	@RequestMapping
 	public String manageHome() {
 		return "redirect:/manage/product";
-	}
-
-	@RequestMapping("/change/{value}")
-	public @ResponseBody Boolean changeCopyProducts(@PathVariable Boolean value) {
-		appConfig.setCopyProductList(value);
-		return appConfig.isCopyProductList();
 	}
 }
