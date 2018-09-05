@@ -23,7 +23,7 @@
 					</a>
 				</div>
 				<div class="col-lg-9 text-right" id="header-nav-items" th:with="MN=${T(com.niil.nogor.krishi.entity.Menu)}">
-					<div th:with="lst=${pagesMap[MN.PRODUCT]}" th:remove="tag">
+					<div th:with="lst=${beans.vutil.getPages(pagesMap, MN.PRODUCT)}" th:remove="tag">
 						<div th:if="${#lists.isEmpty(lst)}" th:remove="tag">
 							<img th:src="@{/images/icon-ponno.png}" src="images/icon-ponno.png" />
 							<span><a href="/ponno">পণ্য</a></span>
@@ -40,7 +40,7 @@
 						</div>
 					</div>
 
-					<div th:with="lst=${pagesMap[MN.SERVICE]}" th:remove="tag">
+					<div th:with="lst=${beans.vutil.getPages(pagesMap, MN.SERVICE)}" th:remove="tag">
 						<div th:if="${#lists.isEmpty(lst)}" th:remove="tag">
 							<img th:src="@{/images/icon-sheba.png}" src="images/icon-sheba.png" />
 							<span><a href="/vendors">সেবা</a></span>
@@ -57,10 +57,10 @@
 						</div>
 					</div>
 
-					<div th:with="lst=${pagesMap[MN.SUGGESTION]}" th:remove="tag">
+					<div th:with="lst=${beans.vutil.getPages(pagesMap, MN.SUGGESTION)}" th:remove="tag">
 						<div th:if="${#lists.isEmpty(lst) or #lists.size(lst) eq 1}" th:remove="tag">
 							<img th:src="@{/images/icon-poramorsho.png}" src="images/icon-poramorsho.png" />
-							<span><a href="#" th:href="@{'' + (${#lists.isEmpty(lst)} ? '#' : ('/pages/' + ${lst[0].id} + '/' + ${beans.vutil.titleToPath(lst[0].title)}))}">পরামর্শ</a></span>
+							<span><a href="#" th:href="@{${beans.vutil.genUrl(lst)}}">পরামর্শ</a></span>
 						</div>
 						<div th:if="${#lists.size(lst) gt 1}" class="btn-group">
 							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
@@ -73,10 +73,10 @@
 						</div>
 					</div>
 
-					<div th:with="lst=${pagesMap[MN.ABOUTUS]}" th:remove="tag">
+					<div th:with="lst=${beans.vutil.getPages(pagesMap, MN.ABOUTUS)}" th:remove="tag">
 						<div th:if="${#lists.isEmpty(lst) or #lists.size(lst) eq 1}" th:remove="tag">
 							<img th:src="@{/images/icon-about.png}" src="images/icon-about.png" />
-							<span><a href="#" th:href="@{'' + (${#lists.isEmpty(lst)} ? '#' : ('/pages/' + ${lst[0].id} + '/' + ${beans.vutil.titleToPath(lst[0].title)}))}">আমাদের সম্পর্কে</a></span>
+							<span><a href="#" th:href="@{${beans.vutil.genUrl(lst)}}">আমাদের সম্পর্কে</a></span>
 						</div>
 						<div th:if="${#lists.size(lst) gt 1}" class="btn-group">
 							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
@@ -89,10 +89,10 @@
 						</div>
 					</div>
 
-					<div th:with="lst=${pagesMap[MN.CONTACT]}" th:remove="tag">
+					<div th:with="lst=${beans.vutil.getPages(pagesMap, MN.CONTACT)}" th:remove="tag">
 						<div th:if="${#lists.isEmpty(lst) or #lists.size(lst) eq 1}" th:remove="tag">
 							<img th:src="@{/images/icon-contact.png}" src="images/icon-contact.png" />
-							<span><a href="#" th:href="@{'' + (${#lists.isEmpty(lst)} ? '#' : ('/pages/' + ${lst[0].id} + '/' + ${beans.vutil.titleToPath(lst[0].title)}))}">যোগাযোগ</a></span>
+							<span><a href="#" th:href="@{${beans.vutil.genUrl(lst)}}">যোগাযোগ</a></span>
 						</div>
 						<div th:if="${#lists.size(lst) gt 1}" class="btn-group">
 							<button type="button"
