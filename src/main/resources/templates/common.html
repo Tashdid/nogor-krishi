@@ -122,6 +122,8 @@
 								</div>
 								<div sec:authorize="isAuthenticated()" th:remove="tag">
 									<a class="dropdown-item" href="#" th:href="@{/exlayout/list}">উদ্যান তালিকা</a>
+									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="#" th:href="@{/pages/editor}">সিএমএস</a>
+									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="#" th:href="@{/manage/product}">ডাটা ম্যানেজমেন্ট</a>
 								</div>
 							</div>
 						</div>

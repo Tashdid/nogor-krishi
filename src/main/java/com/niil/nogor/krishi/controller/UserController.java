@@ -26,7 +26,7 @@ import com.nulabinc.zxcvbn.Zxcvbn;
  *
  */
 @Controller
-public class UserController {
+public class UserController extends AbstractController {
 
 	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 

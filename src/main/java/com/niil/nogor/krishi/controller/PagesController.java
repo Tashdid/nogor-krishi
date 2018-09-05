@@ -38,7 +38,7 @@ import com.niil.nogor.krishi.view.ImageUploadResponse;
  */
 @Controller
 @RequestMapping("/pages")
-public class PagesController {
+public class PagesController extends AbstractController {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired Path imagePath;

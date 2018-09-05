@@ -1,4 +1,4 @@
-package com.niil.nogor.krishi.config;
+package com.niil.nogor.krishi.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.niil.nogor.krishi.entity.Menu;
@@ -19,8 +18,7 @@ import com.niil.nogor.krishi.repo.PageRepo;
  * @since Sep 5, 2018
  *
  */
-@ControllerAdvice
-public class ControllersAdvice {
+public abstract class AbstractController {
 	@Autowired PageRepo pageRepo;
 
 	@ModelAttribute("pagesMap")

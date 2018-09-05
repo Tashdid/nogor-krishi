@@ -367,3 +367,7 @@ div.tr:first-child>div.td>div.inner>span {
 	color: black;
 	background-color: white;
 }
+
+.note-editor.note-frame.card {
+	width: 100%;
+}

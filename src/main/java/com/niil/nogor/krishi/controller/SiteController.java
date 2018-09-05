@@ -27,7 +27,7 @@ import com.niil.nogor.krishi.view.NurseryPrices;
  */
 @Controller
 @RequestMapping
-public class SiteController {
+public class SiteController extends AbstractController {
 	private static final String ERROR_PAGE = "error";
 	private static final String LAYOUT_NOT_FOUND = "দুঃখিত, বাগান লে-আউট পাওয়া যায় নাই!";
 

@@ -7,7 +7,6 @@
 		<link th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
 		<link th:href="@{/webjars/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
 		<link rel="stylesheet" th:href="@{/css/lib/font-awesome.min.css}" href="css/lib/font-awesome.min.css" />
-		<link rel="stylesheet" th:href="@{/css/lib/froala_style.min.css}" href="css/lib/froala_style.min.css" />
 		<link rel="stylesheet" th:href="@{/css/nogorkrishi-styles.css}" href="css/nogorkrishi-styles.css" />
 	</head>
 	<body>
@@ -15,8 +14,8 @@
 
 		<div class="container" style="margin-top: 30px;">
 			<div class="row">
-				<div class="col-lg-9 col-sm-12 fr-view" th:utext="${page.content}">
-					Here comes the HTML edited with the Froala rich text editor.
+				<div class="col-lg-9 col-sm-12" th:utext="${page.content}">
+					Page contents should be here....
 				</div>
 				<div class="col-lg-3 col-sm-12">
 					<table th:if="${topPages ne null and !#lists.isEmpty(topPages)}"

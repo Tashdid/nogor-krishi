@@ -21,7 +21,7 @@ import com.niil.nogor.krishi.repo.*;
  */
 @Controller
 @RequestMapping
-public class VendorsController {
+public class VendorsController extends AbstractController {
 
 	@Autowired NurseryRepo nurseryRepo;
 	@Autowired AreaRepo areaRepo;
