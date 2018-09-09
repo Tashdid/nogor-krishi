@@ -149,3 +149,17 @@ function setDragEndEvent(marker) {
 		console.log('Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(6) + ' Current Lng: ' + evt.latLng.lng().toFixed(6));
 	});
 }
+
+$("[data-page='nursery']").on("init", function(){
+	$("body").on("change", "#product", function() {
+		var prs = $(this);
+		var stypes = "" + prs.find("option:selected").data("stypes") + "";
+		var st = stypes.indexOf(',') === -1 ? [stypes] : stypes.split(",");
+		var sts = $("#saleType");
+		sts.empty();
+		$.each(st, function(i) {
+			sts.append($('<option>').text($("#stp-" + st[i]).val()).val(st[i]));
+		});
+	});
+	$("#product").trigger("change");
+});

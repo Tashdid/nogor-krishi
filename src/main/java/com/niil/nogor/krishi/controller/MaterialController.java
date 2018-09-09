@@ -21,7 +21,7 @@ import com.niil.nogor.krishi.repo.MaterialTypeRepo;
  */
 @Controller
 @RequestMapping(MaterialController.URL)
-public class MaterialController {
+public class MaterialController extends AbstractController {
 	static final String URL = "/manage/material";
 
 	@Autowired MaterialRepo materialRepo;

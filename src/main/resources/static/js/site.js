@@ -91,6 +91,19 @@ $("[data-page='exlayout']").on("init", function() {
 		prnt.find(".nd.ar" + arid + ".nr" + nrid).show();
 		prnt.find(".table").hide();
 		prnt.find(".table.ar" + arid + ".nr" + nrid).show();
+	}).on("change", ".tpchange", function() {
+		var tp = $(this);
+		tp.parents("tr").find(".price").text(tp.find("option:selected").data("priceshow"));
+		var prnt = tp.parents("tbody");
+		var totp = 0;
+		$(".tpchange", prnt).each(function() {
+			totp += parseFloat($(this).find("option:selected").data("pricecalc"));
+		});
+		$(".tpprice", prnt).each(function() {
+			totp += parseFloat($(this).data("pricecalc"));
+		});
+		console.log(totp);
+		$(".totprice", prnt).text("= ৳" + engToBen(totp.toFixed(2)));
 	});
 });
 

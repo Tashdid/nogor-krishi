@@ -22,7 +22,7 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
  */
 @Controller
 @RequestMapping(CityController.URL)
-public class CityController {
+public class CityController extends AbstractController {
 	static final String URL = "/manage/city";
 
 	@Autowired CityRepo cityRepo;

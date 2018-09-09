@@ -15,7 +15,7 @@
 						<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 							<div class="card-body" style="margin-top: 15px;">
 								<div class="row">
-									<div class="col-sm-8" style="margin-left: 25px;">
+									<div class="col-sm-8 offset-sm-1">
 										<form class="form-horizontal" th:action="@{'/manage/product'}" th:object="${bean}" method="post" enctype="multipart/form-data">
 											<div class="form-group row" th:if="${bean.id ne null}">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="id">কোডঃ</label>
@@ -117,14 +117,6 @@
 												</div>
 											</div>
 											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="saleType">বিক্রয়ের ধরণঃ</label>
-												<div class="col-sm-9">
-													<select th:field="*{saleType}" class="form-control form-control-sm">
-														<option th:each="st : ${saletypes}" th:value="${st.id}" th:text="${st.name}"></option>
-													</select>
-												</div>
-											</div>
-											<div class="form-group row">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="icon">আইকনঃ</label>
 												<div class="col-sm-9">
 													<input id="icon" th:required="${bean.id eq null}" type="file" accept=".jpg,.png" class="form-control form-control-sm uploadimg" name="iconFile" />
@@ -146,39 +138,6 @@
 											</div>
 										</form>
 									</div>
-									<div class="col-sm-3">
-										<form class="form-horizontal" th:action="@{'/manage/product/' + ${bean.id} + '/material'}" method="post" enctype="multipart/form-data">
-											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="material">Material:</label>
-												<div class="col-sm-9">
-													<select name="material" class="form-control form-control-sm">
-														<option th:each="mt : ${materials}" th:value="${mt.id}" th:text="${mt.type.name + ' - ' + mt.name}"></option>
-													</select>
-												</div>
-											</div>
-											<div class="col-sm-4 offset-sm-8">
-												<div class="form-group">
-													<button type="submit" class="btn btn-success">Add</button>
-												</div>
-											</div>
-										</form>
-										<table class="table table-striped table-bordered">
-											<thead>
-												<tr>
-													<th width="80%">Material</th>
-													<th></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr th:each="mt : ${bean.materials}">
-													<td th:text="${mt.type.name + ' - ' + mt.name}"></td>
-													<td>
-														<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/product/' + ${bean.id} + '/material/' + ${mt.id}}"><span class="glyphicon glyphicon-trash"></span></button>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -192,7 +151,7 @@
 								<div class="col-sm-12" style="margin-top: 15px;">
 									<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 										class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
-										data-columndefs="sequence,name,alternativeName,details,type-true-filter,saleType-true-filter all,productivity,benefits,icon,image,buttons,id-false"
+										data-columndefs="sequence,name,alternativeName,details,type-true-filter,productivity,benefits,icon,image,buttons,id-false"
 										th:attr="data-actionurl=@{/manage/product/table}">
 										<thead>
 											<tr>
@@ -201,7 +160,6 @@
 												<th>Alt Name</th>
 												<th>details</th>
 												<th>Type</th>
-												<th>Sale as</th>
 												<th>Productivity</th>
 												<th>Benefits</th>
 												<th>Icon</th>
@@ -219,7 +177,6 @@
 												<td th:text="${bean.alternativeName}"></td>
 												<td th:attr="title=${bean.details}" th:text="${#strings.length(bean.details) gt 15 ? (#strings.substring(bean.details, 0, 15) + '...') : bean.details}"></td>
 												<td th:text="${bean.type.name}"></td>
-												<td th:text="${bean.saleType.name}"></td>
 												<td th:attr="title=${bean.productivity}" th:text="${#strings.length(bean.productivity) gt 15 ? (#strings.substring(bean.productivity, 0, 15) + '...') : bean.productivity}"></td>
 												<td th:attr="title=${bean.benefits}" th:text="${#strings.length(bean.benefits) gt 15 ? (#strings.substring(bean.benefits, 0, 15) + '...') : bean.benefits}"></td>
 												<td><img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.icon)}"/></td>

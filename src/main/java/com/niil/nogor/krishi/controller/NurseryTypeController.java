@@ -22,7 +22,7 @@ import com.niil.nogor.krishi.view.*;
  */
 @Controller
 @RequestMapping(NurseryTypeController.URL)
-public class NurseryTypeController {
+public class NurseryTypeController extends AbstractController {
 	static final String URL = "/manage/nurserytype";
 
 	@Autowired NurseryTypeRepo nurseryTypeRepo;

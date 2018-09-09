@@ -23,28 +23,14 @@
 						<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.icon)}" src="images/icon-product-shak.png" /><a th:href="@{'/ponno/' + ${tp.id}}" class="types" th:text="${tp.name}">শাক </a> <br/>
 					</div>
 
-					<div style="position: absolute; bottom: 0; width: 85%;" class="pb-4">
-						<p class="mb-0 color-red small">  এখানে গাছ সরাসরি খুঁজতে পারেন, </p>
-						<div class="inner-addon right-addon">
-							<i class="glyphicon glyphicon-search" style="color: #a2a2a2;"></i>
-							<input type="text" class="form-control w-100" placeholder="গাছের নাম লিখুন " />
-						</div>
-					</div>
 				</div>
 				<!-- product sidebar ends here -->
 
 				<!-- product grid starts here -->
 				<div class="col-lg-9 pl-5">
 
-					<!-- search box -->
-					<p class="color-red small">  এখানে গাছ সরাসরি খুঁজতে পারেন, </p>
-					<div class="inner-addon right-addon">
-						<i class="glyphicon glyphicon-search" style="color: #a2a2a2;"></i>
-						<input type="text" class="form-control w-100" placeholder="গাছের নাম লিখুন " />
-					</div>
-
 					<!-- breadcrumb & page selection -->
-					<div class="row mt-4 mb-4">
+					<div class="row mt-4 mb-4" style="margin-top: 0px !important;">
 
 						<div class="col-8">
 							<p id="allponno" class="color-muted lead mb-0 alltype singleproduct" th:styleappend="'display: ' + ${type eq null ? 'block' : 'none'}">

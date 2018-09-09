@@ -371,3 +371,26 @@ div.tr:first-child>div.td>div.inner>span {
 .note-editor.note-frame.card {
 	width: 100%;
 }
+
+.ms-choice > span {
+	top: 5px;
+	left: 5px;
+}
+
+.ms-choice > div {
+	top: 3px;
+	right: 5px;
+}
+
+.ms-drop ul {
+	padding: 10px 10px;
+}
+
+.ms-drop {
+	width: 98%;
+}
+
+
+.ms-drop > ul > li > label > span {
+	padding-left: 5px;
+}

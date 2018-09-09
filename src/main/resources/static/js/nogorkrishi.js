@@ -3,8 +3,30 @@ var dhaka = {
 	lng : 90.383703
 };
 
+var etb = {'0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯', '.': '.'};
+
+function engToBen(str) {
+	var rst = "";
+	for (var i = 0; i < str.length; i++) {
+		var bn = etb[str.charAt(i)];
+		if (bn === undefined)
+			bn = str.charAt(i);
+		rst += bn;
+	}
+	return rst;
+}
+
 $(document).ready(function() {
 	$("[data-page]").trigger("init");
+
+	$("select[multiple='multiple'].multiple").multipleSelect({
+		selectAll: false,
+		multiple: true
+	});
+
+	$("select[multiple='multiple']:not(.multiple)").multipleSelect({
+		selectAll: false
+	});
 
 	$("body").on("click", ".rmvbtn", function(){
 		var btn = $(this);

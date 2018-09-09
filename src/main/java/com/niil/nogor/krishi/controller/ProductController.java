@@ -1,7 +1,6 @@
 package com.niil.nogor.krishi.controller;
 
 import java.io.IOException;
-import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -10,11 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.niil.nogor.krishi.entity.Material;
 import com.niil.nogor.krishi.entity.Product;
-import com.niil.nogor.krishi.repo.*;
+import com.niil.nogor.krishi.repo.MaterialRepo;
+import com.niil.nogor.krishi.repo.ProductRepo;
+import com.niil.nogor.krishi.repo.ProductTypeRepo;
+import com.niil.nogor.krishi.repo.SaleTypeRepo;
 import com.niil.nogor.krishi.view.ProductForm;
 import com.niil.nogor.krishi.view.SequenceUpdater;
 
@@ -27,7 +31,7 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
 @Controller
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping(ProductController.URL)
-public class ProductController {
+public class ProductController extends AbstractController {
 	static final String URL = "/manage/product";
 
 	@Autowired SaleTypeRepo saleTypeRepo;
@@ -49,8 +53,7 @@ public class ProductController {
 		model.addAttribute("allbeans", productRepo.findAll());
 		model.addAttribute("types", productTypeRepo.findAllByOrderBySequenceAsc());
 		model.addAttribute("saletypes", saleTypeRepo.findAll());
-		List<Material> exMats = bean.getMaterials() == null ? new ArrayList<>() : bean.getMaterials();
-		model.addAttribute("materials", ((ArrayList<Material>) materialRepo.findAll()).stream().filter(mt -> exMats.stream().noneMatch(pmt -> pmt.getId().equals(mt.getId()))).collect(Collectors.toList()));
+		model.addAttribute("materials", materialRepo.findAll());
 		return URL.substring(1);
 	}
 
@@ -80,7 +83,6 @@ public class ProductController {
 		bean.setProductivity(product.getProductivity());
 		bean.setBenefits(product.getBenefits());
 		bean.setType(product.getType());
-		bean.setSaleType(product.getSaleType());
 
 		bean.setIcon(product.getIconFile() == null || product.getIconFile().isEmpty() ? bean.getIcon() : product.getIconFile().getBytes());
 		bean.setImage(product.getImageFile() == null || product.getImageFile().isEmpty() ? bean.getImage() : product.getImageFile().getBytes());
@@ -106,27 +108,6 @@ public class ProductController {
 	@ResponseBody
 	public Boolean delete(@PathVariable Long code) {
 		productRepo.delete(code);
-		return true;
-	}
-
-	@RequestMapping(value="/{code}/material", method=RequestMethod.POST)
-	public String addMaterial(@PathVariable Long code, @RequestParam Long material) {
-		Product bean = productRepo.findOne(code);
-		Material mt = materialRepo.findOne(material);
-		bean.getMaterials().add(mt);
-		productRepo.save(bean);
-		return "redirect:" + URL + "/" + bean.getId();
-	}
-
-	@RequestMapping(value="/{code}/material/{material}", method=RequestMethod.POST)
-	@ResponseBody
-	public Boolean deleteMaterial(@PathVariable Long code, @PathVariable Long material) {
-		Product bean = productRepo.findOne(code);
-		Optional<Material> mtop = bean.getMaterials().stream().filter(mt -> mt.getId().equals(material)).findFirst();
-		if (mtop.isPresent()) {
-			bean.getMaterials().remove(mtop.get());
-			productRepo.save(bean);
-		}
 		return true;
 	}
 }

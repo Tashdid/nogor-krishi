@@ -14,7 +14,7 @@ import com.niil.nogor.krishi.config.AppConfig;
  */
 @Controller
 @RequestMapping("/manage")
-public class AdminController {
+public class AdminController extends AbstractController {
 	@Autowired AppConfig appConfig;
 
 	@RequestMapping

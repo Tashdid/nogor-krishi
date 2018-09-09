@@ -1,5 +1,6 @@
 package com.niil.nogor.krishi.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,10 +23,10 @@ public class ViewUtil {
 	}
 
 	public List<Page> getPages(Map<Menu, List<Page>> pagesMap, Menu menu) {
-		return pagesMap.get(menu);
+		return pagesMap == null || !pagesMap.containsKey(menu) ? new ArrayList<>() : pagesMap.get(menu);
 	}
 
 	public String genUrl(List<Page> pages) {
-		return pages.isEmpty() ? "#" : ("/pages/" + pages.get(0).getId() + "/" + titleToPath(pages.get(0).getTitle()));
+		return pages == null || pages.isEmpty() ? "#" : ("/pages/" + pages.get(0).getId() + "/" + titleToPath(pages.get(0).getTitle()));
 	}
 }

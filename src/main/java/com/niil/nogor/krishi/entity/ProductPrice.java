@@ -21,5 +21,6 @@ public class ProductPrice {
 	private @Id @GeneratedValue Long id;
 	private BigDecimal price;
 	private @ManyToOne(targetEntity=Product.class) Product product;
+	private @ManyToOne(targetEntity=SaleType.class) SaleType saleType;
 	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;
 }

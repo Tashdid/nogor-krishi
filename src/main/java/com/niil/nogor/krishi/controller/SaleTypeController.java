@@ -20,7 +20,7 @@ import com.niil.nogor.krishi.repo.SaleTypeRepo;
  */
 @Controller
 @RequestMapping(SaleTypeController.URL)
-public class SaleTypeController {
+public class SaleTypeController extends AbstractController {
 	static final String URL = "/manage/saletype";
 
 	@Autowired SaleTypeRepo saleTypeRepo;

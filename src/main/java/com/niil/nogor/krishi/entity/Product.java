@@ -1,5 +1,6 @@
 package com.niil.nogor.krishi.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -42,9 +43,6 @@ public class Product {
 	private String benefits;
 	private int sequence;
 	private @ManyToOne ProductType type;
-	private @ManyToOne SaleType saleType;
-	private @ManyToMany(targetEntity=Material.class) List<Material> materials;
-	private @OneToMany(mappedBy="product", cascade=CascadeType.ALL, orphanRemoval=true) List<ProductPrice> prices;
 
 	public String getDetails() {
 		String lnsp = System.getProperty("line.separator");
@@ -61,5 +59,32 @@ public class Product {
 		if (StringUtils.isNotEmpty(pesticides)) dt.append("কীটনাশক বা ছত্রাকনাশকঃ").append(lnsp).append(pesticides).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(caution)) dt.append("সতর্কতাঃ").append(lnsp).append(caution).append(lnsp).append(lnsp);
 		return dt.toString();
+	}
+
+	public List<String> getDetailsList() {
+		List<String> dtlst = new ArrayList<>();
+		if (StringUtils.isNotEmpty(description)) {
+			dtlst.add(description);
+			dtlst.add("");
+			dtlst.add("");
+		}
+		checkAndaddItem(dtlst, "ছাদের উপযোগী জাতঃ", usefulVarieties);
+		checkAndaddItem(dtlst, "উপযোগী পাত্রঃ", suitableContainer);
+		checkAndaddItem(dtlst, "লাগানোর উপযুক্ত সময়ঃ", suitableTime);
+		checkAndaddItem(dtlst, "মাটি তৈরিঃ", landPreparation);
+		checkAndaddItem(dtlst, "চারার ধরণঃ", seedlingType);
+		checkAndaddItem(dtlst, "পরিচর্যাঃ", careness);
+		checkAndaddItem(dtlst, "স্হানঃ", place);
+		checkAndaddItem(dtlst, "হরমোনঃ", hormone);
+		checkAndaddItem(dtlst, "কীটনাশক বা ছত্রাকনাশকঃ", pesticides);
+		checkAndaddItem(dtlst, "সতর্কতাঃ", caution);
+		if (dtlst.isEmpty()) dtlst.add("");
+		return dtlst;
+	}
+
+	private void checkAndaddItem(List<String> dtlst, String title, String content) {
+		if (StringUtils.isEmpty(content)) return;
+		dtlst.add("<b>" + title + "</b>");
+		dtlst.add(content);
 	}
 }

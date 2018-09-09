@@ -22,7 +22,7 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
  */
 @Controller
 @RequestMapping(MaterialTypeController.URL)
-public class MaterialTypeController {
+public class MaterialTypeController extends AbstractController {
 	static final String URL = "/manage/materialtype";
 
 	@Autowired MaterialTypeRepo materialTypeRepo;

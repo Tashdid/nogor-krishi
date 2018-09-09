@@ -24,7 +24,7 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
  */
 @Controller
 @RequestMapping(NurseryController.URL)
-public class NurseryController {
+public class NurseryController extends AbstractController {
 	static final String URL = "/manage/nursery";
 
 	@Autowired AreaRepo areaRepo;
@@ -34,6 +34,7 @@ public class NurseryController {
 	@Autowired ProductRepo productRepo;
 	@Autowired MaterialPriceRepo materialPriceRepo;
 	@Autowired ProductPriceRepo productPriceRepo;
+	@Autowired SaleTypeRepo saleTypeRepo;
 
 	@RequestMapping
 	public String newScreen(ModelMap model) {
@@ -57,9 +58,15 @@ public class NurseryController {
 					.collect(Collectors.toList()));
 			List<ProductPrice> pplist = productPriceRepo.findAllByNursery(bean);
 			model.addAttribute("productprices", pplist);
-			model.addAttribute("products", productRepo.findAll().stream()
-					.filter(p -> pplist.stream().noneMatch(pp -> pp.getProduct().getId().equals(p.getId())))
-					.collect(Collectors.toList()));
+			List<SaleType> sTypes = saleTypeRepo.findAll();
+			model.addAttribute("stypes", sTypes);
+			model.addAttribute("prods", productRepo.findAll().stream()
+					.filter(p -> pplist.stream().filter(pp -> pp.getProduct().getId().equals(p.getId())).count() < sTypes.size())
+				.collect(Collectors.toMap(p -> p, p -> {
+						List<Long> pprs = pplist.stream()
+								.filter(pp -> pp.getProduct().getId().equals(p.getId())).map(pp -> pp.getSaleType().getId()).collect(Collectors.toList());
+						return sTypes.stream().filter(s -> !pprs.contains(s.getId())).map(s -> s.getId().toString()).collect(Collectors.toList());
+			})));
 		}
 		return URL.substring(1);
 	}

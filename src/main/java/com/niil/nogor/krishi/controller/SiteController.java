@@ -16,8 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.niil.nogor.krishi.entity.*;
 import com.niil.nogor.krishi.repo.*;
 import com.niil.nogor.krishi.service.SecurityService;
-import com.niil.nogor.krishi.view.LayoutRQ;
-import com.niil.nogor.krishi.view.NurseryPrices;
+import com.niil.nogor.krishi.view.*;
 
 /**
  * @author Noor
@@ -156,31 +155,25 @@ public class SiteController extends AbstractController {
 			return ERROR_PAGE;
 		}
 		List<Product> prods = gardenBlockRepo.findAllByGardenLayout(layout).stream().map(b -> b.getProduct()).distinct().collect(Collectors.toList());
-		List<MaterialPrice> mprices = prods.stream().flatMap(p -> p.getMaterials().stream()).distinct().flatMap(m -> materialPriceRepo.findAllByMaterial(m).stream()).collect(Collectors.toList());
-		prods.stream().flatMap(p -> p.getMaterials().stream()).distinct().collect(Collectors.toMap(m -> m.getId(), m -> {
-			return m;
-		}));
-		Map<Nursery, List<ProductPrice>> abc = new HashMap<>();
-		abc.entrySet().stream().collect(Collectors.toMap(ne -> ne.getKey(), ne -> {
-			NurseryPrices np = new NurseryPrices();
-			np.setProductPrice(ne.getValue().get(0));
-			np.setMaterialPrices(mprices.stream().filter(mp -> mp.getNursery().getId().equals(ne.getKey().getId())).collect(Collectors.toList()));
-			return np;
-		}));
-		Map<Product, Map<Area, Map<Nursery, NurseryPrices>>> ncc= prods.stream().collect(Collectors.toMap(p -> p, p -> {
-			Map<Area, Map<Nursery, NurseryPrices>> anp = productPriceRepo.findAllByProduct(p).stream().collect(Collectors.groupingBy(pp -> pp.getNursery().getArea()))
-				.entrySet().stream().collect(Collectors.toMap(e -> e.getKey(), e -> {
-						Map<Nursery, NurseryPrices> npc = e.getValue().stream().collect(Collectors.groupingBy(pb -> pb.getNursery())).entrySet().stream().collect(Collectors.toMap(ne -> ne.getKey(), ne -> {
-							NurseryPrices np = new NurseryPrices();
-							np.setProductPrice(ne.getValue().get(0));
-							np.setMaterialPrices(mprices.stream().filter(mp -> mp.getNursery().getId().equals(ne.getKey().getId())).collect(Collectors.toList()));
-							return np;
-						})).entrySet().stream().sorted(Map.Entry.comparingByKey(byNurseryType.thenComparing(Nursery::getSequence))).collect(Collectors.toMap(nne -> nne.getKey(), nne -> nne.getValue()));
-					return npc;
-			}));
-			return anp;
-		}));
-		model.addAttribute("ncc", ncc);
+		List<LProduct> lprods = prods.stream().map(p -> {
+			LProduct lp = new LProduct();
+			lp.setProduct(p);
+			List<ProductPrice> pPrices = productPriceRepo.findAllByProduct(p);
+			lp.setAreas(pPrices.stream().collect(Collectors.groupingBy(pp -> pp.getNursery().getArea())).entrySet().stream().map(e -> {
+				LArea lar = new LArea();
+				lar.setArea(e.getKey());
+				lar.setNurseries(e.getValue().stream().collect(Collectors.groupingBy(pp -> pp.getNursery())).entrySet().stream().map(e1 -> {
+					LNursery ln = new LNursery();
+					ln.setNursery(e1.getKey());
+					ln.setProductPrices(e1.getValue());
+					ln.setMaterialPrices(materialPriceRepo.findAllByNursery(e1.getKey()).stream().collect(Collectors.groupingBy(mp -> mp.getMaterial().getType().getName())));
+					return ln;
+				}).collect(Collectors.toList()));
+				return lar;
+			}).collect(Collectors.toList()));
+			return lp;
+		}).collect(Collectors.toList());
+		model.addAttribute("lprods", lprods);
 		model.addAttribute("nurseries", nurseries());
 		return "site/exlayout";
 	}

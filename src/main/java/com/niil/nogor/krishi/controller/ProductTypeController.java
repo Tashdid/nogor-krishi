@@ -23,7 +23,7 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
  */
 @Controller
 @RequestMapping(ProductTypeController.URL)
-public class ProductTypeController {
+public class ProductTypeController extends AbstractController {
 	static final String URL = "/manage/producttype";
 
 	@Autowired ProductTypeRepo productTypeRepo;

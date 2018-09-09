@@ -23,7 +23,7 @@ import com.niil.nogor.krishi.view.SequenceUpdater;
  */
 @Controller
 @RequestMapping(AreaController.URL)
-public class AreaController {
+public class AreaController extends AbstractController {
 	static final String URL = "/manage/area";
 
 	@Autowired AreaRepo areaRepo;
