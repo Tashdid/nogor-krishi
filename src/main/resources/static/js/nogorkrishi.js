@@ -19,14 +19,14 @@ function engToBen(str) {
 $(document).ready(function() {
 	$("[data-page]").trigger("init");
 
-	$("select[multiple='multiple'].multiple").multipleSelect({
-		selectAll: false,
-		multiple: true
-	});
-
-	$("select[multiple='multiple']:not(.multiple)").multipleSelect({
-		selectAll: false
-	});
+//	$("select[multiple='multiple'].multiple").multipleSelect({
+//		selectAll: false,
+//		multiple: true
+//	});
+//
+//	$("select[multiple='multiple']:not(.multiple)").multipleSelect({
+//		selectAll: false
+//	});
 
 	$("body").on("click", ".rmvbtn", function(){
 		var btn = $(this);
