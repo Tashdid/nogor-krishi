@@ -55,6 +55,7 @@ public class MultiHttpSecurityCustomConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 			.authorizeRequests()
+			.antMatchers("/manage/**").hasRole("ADMIN")
 			.antMatchers("/exlayout/**").fullyAuthenticated()
 			.and()
 				.formLogin()

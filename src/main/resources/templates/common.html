@@ -107,7 +107,7 @@
 					</div>
 
 					<div sec:authorize="!isAuthenticated() or isAuthenticated()" th:remove="tag">
-						<div class="btn-group">
+						<div class="btn-group" th:fragment="loginiconmenu">
 							<button style="padding-top: 4px !important;" type="button" class="btn dropdown-toggle ngkrishi"
 								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
 									sec:authorize="!isAuthenticated()"
@@ -168,7 +168,7 @@
 					</div>
 				</div>
 				<div class="col-lg-2 text-right">
-					<div class="btn-group">
+					<div class="btn-group" th:replace="common :: loginiconmenu">
 						<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${#authentication.principal.username}">
 							Actions
 						</button>

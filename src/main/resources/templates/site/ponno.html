@@ -20,7 +20,7 @@
 					<p class="mb-2">পণ্য বাছাই করুন</p>
 
 					<div th:each="tp : ${types}" th:remove="tag">
-						<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.icon)}" src="images/icon-product-shak.png" /><a th:href="@{'/ponno/' + ${tp.id}}" class="types" th:text="${tp.name}">শাক </a> <br/>
+						<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.icon)}" src="images/icon-product-shak.png" /><a th:href="@{'/ponno/' + ${tp.id}}" class="types" th:text="${tp.name}" onclick="return false;">শাক </a> <br/>
 					</div>
 
 				</div>
