@@ -85,7 +85,7 @@
 								<div class="col-sm-12" style="margin-top: 15px;">
 									<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 										class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
-										data-columndefs="sequence,name,area-true-filter,type-true-filter all,address,phone,latitude,longitude,buttons,id-false"
+										data-columndefs="sequence,name,area-true-filter all,type-true-filter all,address,phone,latitude,longitude,buttons,id-false"
 										th:attr="data-actionurl=@{/manage/nursery/table}">
 										<thead>
 											<tr>
@@ -131,16 +131,16 @@
 						</div>
 						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
 							<div class="card-body" style="margin-top: 15px;">
-								<div class="row">
+								<div class="row" th:fragment="nurseryprices">
 									<div class="col-sm-5 offset-sm-1">
-										<form class="form-horizontal" th:action="@{'/manage/nursery/' + ${bean.id} + '/product'}" method="post">
+										<form class="form-horizontal" th:action="@{${basePath} + ${bean.id} + '/product'}" method="post">
 											<div class="form-group row">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="product">Product:</label>
 												<div class="col-sm-9">
 													<select id="product" name="product" class="form-control form-control-sm">
-														<option th:each="pr : ${prods}" th:value="${pr.key.id}"
-															th:attr="data-stypes=${#strings.listJoin(pr.value, ',')}"
-															th:text="${pr.key.type.name + ' - ' + pr.key.name}"></option>
+														<option th:each="pr : ${prods}" th:value="${pr.id}"
+															th:attr="data-stypes=${prodAvSTypes[pr.id]}"
+															th:text="${pr.type.name + ' - ' + pr.name}"></option>
 													</select>
 												</div>
 											</div>
@@ -156,7 +156,7 @@
 											<div class="form-group row">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="price">Price:</label>
 												<div class="col-sm-9">
-													<input type="text" class="form-control form-control-sm" name="price" />
+													<input required="" type="number" class="form-control form-control-sm" name="price" />
 												</div>
 											</div>
 											<div class="col-sm-4 offset-sm-8">
@@ -181,14 +181,14 @@
 													<td th:text="${pr.saleType.name}"></td>
 													<td th:text="${pr.price}" style="text-align: right;"></td>
 													<td>
-														<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/nursery/' + ${bean.id} + '/product/' + ${pr.id}}"><span class="glyphicon glyphicon-trash"></span></button>
+														<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{${basePath} + ${bean.id} + '/product/' + ${pr.id}}"><span class="glyphicon glyphicon-trash"></span></button>
 													</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 									<div class="col-sm-5">
-										<form class="form-horizontal" th:action="@{'/manage/nursery/' + ${bean.id} + '/material'}" method="post">
+										<form class="form-horizontal" th:action="@{${basePath} + ${bean.id} + '/material'}" method="post">
 											<div class="form-group row">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="material">Material:</label>
 												<div class="col-sm-9">
@@ -200,7 +200,7 @@
 											<div class="form-group row">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="price">Price:</label>
 												<div class="col-sm-9">
-													<input type="text" class="form-control form-control-sm" name="price" />
+													<input required="" type="number" class="form-control form-control-sm" name="price" />
 												</div>
 											</div>
 											<div class="col-sm-4 offset-sm-8">
@@ -222,7 +222,7 @@
 													<td th:text="${mt.material.name}"></td>
 													<td th:text="${mt.price}" style="text-align: right;"></td>
 													<td>
-														<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/nursery/' + ${bean.id} + '/material/' + ${mt.id}}"><span class="glyphicon glyphicon-trash"></span></button>
+														<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{${basePath} + ${bean.id} + '/material/' + ${mt.id}}"><span class="glyphicon glyphicon-trash"></span></button>
 													</td>
 												</tr>
 											</tbody>

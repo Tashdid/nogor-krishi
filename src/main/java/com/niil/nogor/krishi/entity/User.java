@@ -41,4 +41,5 @@ public class User {
 	private boolean disabled;
 	private String idpref;
 	private Role role;
+	private @ManyToOne Nursery nursery;
 }

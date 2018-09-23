@@ -1,8 +1,10 @@
 <div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
 	<div id="product-description-container" class="col-7 preventcopy">
 		<div class="product-description-text">
-			<p th:each="dsc, stat : ${product.detailsList}" >
-				<img th:if="${stat.index eq 0}" width="30%" height="100vw" style="margin-right: 25px; margin-bottom: 5px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2 float-left" />
+			<p>
+				<img width="40%" height="100vw" style="margin-bottom: 5px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2" />
+			</p>
+			<p th:each="dsc, stat : ${product.detailsList}">
 				<span th:utext="${dsc}" th:remove="tag"></span>
 			</p>
 			<p th:remove="all">লাল শাক রূপে যেমন মনোহারী গুণেও তেমন কার্যকরী। পাতের ভাতকে

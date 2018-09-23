@@ -113,6 +113,10 @@ $("[data-page='exlayoutlist']").on("init", function() {
 	}, 500);
 });
 
+$("[data-page='vendorprice']").on("init", function() {
+	bindNurseryPrice();
+});
+
 function showPage(pageno) {
 	if ($("[data-page='" + pageno + "']").length === 0) return false;
 

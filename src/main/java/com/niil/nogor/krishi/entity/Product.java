@@ -48,6 +48,7 @@ public class Product {
 		String lnsp = System.getProperty("line.separator");
 		StringBuilder dt = new StringBuilder();
 		if (StringUtils.isNotEmpty(description)) dt.append(description).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(benefits)) dt.append("গুণাগুণঃ").append(lnsp).append(benefits).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(usefulVarieties)) dt.append("ছাদের উপযোগী জাতঃ").append(lnsp).append(usefulVarieties).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(suitableContainer)) dt.append("উপযোগী পাত্রঃ").append(lnsp).append(suitableContainer).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(suitableTime)) dt.append("লাগানোর উপযুক্ত সময়ঃ").append(lnsp).append(suitableTime).append(lnsp).append(lnsp);
@@ -58,6 +59,7 @@ public class Product {
 		if (StringUtils.isNotEmpty(hormone)) dt.append("হরমোনঃ").append(lnsp).append(hormone).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(pesticides)) dt.append("কীটনাশক বা ছত্রাকনাশকঃ").append(lnsp).append(pesticides).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(caution)) dt.append("সতর্কতাঃ").append(lnsp).append(caution).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(productivity)) dt.append("ফলনঃ").append(lnsp).append(productivity).append(lnsp).append(lnsp);
 		return dt.toString();
 	}
 
@@ -68,6 +70,7 @@ public class Product {
 			dtlst.add("");
 			dtlst.add("");
 		}
+		checkAndaddItem(dtlst, "গুণাগুণঃ", benefits);
 		checkAndaddItem(dtlst, "ছাদের উপযোগী জাতঃ", usefulVarieties);
 		checkAndaddItem(dtlst, "উপযোগী পাত্রঃ", suitableContainer);
 		checkAndaddItem(dtlst, "লাগানোর উপযুক্ত সময়ঃ", suitableTime);
@@ -78,6 +81,7 @@ public class Product {
 		checkAndaddItem(dtlst, "হরমোনঃ", hormone);
 		checkAndaddItem(dtlst, "কীটনাশক বা ছত্রাকনাশকঃ", pesticides);
 		checkAndaddItem(dtlst, "সতর্কতাঃ", caution);
+		checkAndaddItem(dtlst, "ফলনঃ", productivity);
 		if (dtlst.isEmpty()) dtlst.add("");
 		return dtlst;
 	}

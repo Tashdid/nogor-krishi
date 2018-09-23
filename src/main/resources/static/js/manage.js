@@ -151,6 +151,10 @@ function setDragEndEvent(marker) {
 }
 
 $("[data-page='nursery']").on("init", function(){
+	bindNurseryPrice();
+});
+
+function bindNurseryPrice() {
 	$("body").on("change", "#product", function() {
 		var prs = $(this);
 		var stypes = "" + prs.find("option:selected").data("stypes") + "";
@@ -162,4 +166,4 @@ $("[data-page='nursery']").on("init", function(){
 		});
 	});
 	$("#product").trigger("change");
-});
+}

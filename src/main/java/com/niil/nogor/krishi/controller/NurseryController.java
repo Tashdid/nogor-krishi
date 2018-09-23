@@ -43,6 +43,7 @@ public class NurseryController extends AbstractController {
 
 	@RequestMapping(value="/{code}")
 	public String updateScreen(@PathVariable Long code, final ModelMap model) {
+		model.addAttribute("basePath", URL + "/");
 		Nursery bean = code == null ? new Nursery() : nurseryRepo.findOne(code);
 		if (bean == null) bean = new Nursery();
 		model.addAttribute("bean", bean);
@@ -51,26 +52,34 @@ public class NurseryController extends AbstractController {
 		model.addAttribute("types", nurseryTypeRepo.findAllByOrderBySequenceAsc());
 		model.addAttribute("areas", areaRepo.findAll());
 		if (bean.getId() != null) {
-			List<MaterialPrice> mplist = materialPriceRepo.findAllByNursery(bean);
-			model.addAttribute("materialprices", mplist);
-			model.addAttribute("materials", materialRepo.findAll().stream()
-					.filter(m -> mplist.stream().noneMatch(mm -> mm.getMaterial().getId().equals(m.getId())))
-					.collect(Collectors.toList()));
-			List<ProductPrice> pplist = productPriceRepo.findAllByNursery(bean);
-			model.addAttribute("productprices", pplist);
-			List<SaleType> sTypes = saleTypeRepo.findAll();
-			model.addAttribute("stypes", sTypes);
-			model.addAttribute("prods", productRepo.findAll().stream()
-					.filter(p -> pplist.stream().filter(pp -> pp.getProduct().getId().equals(p.getId())).count() < sTypes.size())
-				.collect(Collectors.toMap(p -> p, p -> {
-						List<Long> pprs = pplist.stream()
-								.filter(pp -> pp.getProduct().getId().equals(p.getId())).map(pp -> pp.getSaleType().getId()).collect(Collectors.toList());
-						return sTypes.stream().filter(s -> !pprs.contains(s.getId())).map(s -> s.getId().toString()).collect(Collectors.toList());
-			})));
+			loadNurseryPrices(bean, model);
 		}
 		return URL.substring(1);
 	}
 
+	public void loadNurseryPrices(Nursery bean, final ModelMap model) {
+		List<MaterialPrice> mplist = materialPriceRepo.findAllByNursery(bean);
+		model.addAttribute("materialprices", mplist);
+		model.addAttribute("materials", materialRepo.findAll().stream()
+				.filter(m -> mplist.stream().noneMatch(mm -> mm.getMaterial().getId().equals(m.getId())))
+				.collect(Collectors.toList()));
+		List<ProductPrice> pplist = productPriceRepo.findAllByNursery(bean);
+		model.addAttribute("productprices", pplist);
+		List<SaleType> sTypes = saleTypeRepo.findAll();
+		model.addAttribute("stypes", sTypes);
+		List<Product> prods = productRepo.findAllByOrderByTypeSequenceAsc().stream()
+				.filter(p -> pplist.stream().filter(pp -> pp.getProduct().getId().equals(p.getId())).count() < sTypes.size())
+			.collect(Collectors.toList());
+		model.addAttribute("prods", prods);
+		model.addAttribute("prodAvSTypes", prods.stream()
+				.filter(p -> pplist.stream().filter(pp -> pp.getProduct().getId().equals(p.getId())).count() < sTypes.size())
+			.collect(Collectors.toMap(p -> p.getId(), p -> {
+					List<Long> pprs = pplist.stream()
+							.filter(pp -> pp.getProduct().getId().equals(p.getId())).map(pp -> pp.getSaleType().getId()).collect(Collectors.toList());
+					return sTypes.stream().filter(s -> !pprs.contains(s.getId())).map(s -> s.getId().toString()).collect(Collectors.joining(","));
+		})));
+	}
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public String save(@Valid Nursery type) throws IOException {
 		Nursery bean;

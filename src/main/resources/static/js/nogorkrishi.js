@@ -51,7 +51,7 @@ $(document).ready(function() {
 				unblockui();
 			});
 		});
-	}).on("click", "#registerformbtn", function() {
+	}).on("submit", "#registerform", function() {
 		var btn = $(this);
 		var pswd = $("#password").val();
 		var cnpswd = $("#confirmPassword").val();
@@ -60,8 +60,15 @@ $(document).ready(function() {
 			return false;
 		}
 		blockui();
-		btn.parents("form").submit();
-		return false;
+	}).on("submit", "#changepasswordform", function() {
+		var btn = $(this);
+		var pswd = $("#newPassword").val();
+		var cnpswd = $("#confirmNewPassword").val();
+		if (pswd !== cnpswd) {
+			alert("Passwords are not same!");
+			return false;
+		}
+		blockui();
 	});
 });
 

@@ -122,8 +122,12 @@
 								</div>
 								<div sec:authorize="isAuthenticated()" th:remove="tag">
 									<a sec:authorize="hasRole('ROLE_GARDENER')" class="dropdown-item" href="#" th:href="@{/exlayout/list}">উদ্যান তালিকা</a>
+									<a sec:authorize="hasRole('ROLE_VENDOR')" class="dropdown-item" href="#" th:href="@{/vendorprice}">পণ্য মূল্য</a>
 									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="#" th:href="@{/pages/editor}">সিএমএস</a>
 									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="#" th:href="@{/manage/product}">ডাটা ম্যানেজমেন্ট</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#" th:href="@{/changepassword}">পাসওয়ার্ড পরিবর্তন</a>
+									<a class="dropdown-item" href="#" th:href="@{/logout}">লগ আউট</a>
 								</div>
 							</div>
 						</div>
@@ -164,6 +168,7 @@
 							<a class="dropdown-item" th:href="@{/manage/material}" href="/manage/material">Material</a>
 							<a class="dropdown-item" th:href="@{/manage/materialtype}" href="/manage/materialtype">Material Type</a>
 							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/manage/user}" href="/manage/user">Nursery User</a>
 						</div>
 					</div>
 				</div>
