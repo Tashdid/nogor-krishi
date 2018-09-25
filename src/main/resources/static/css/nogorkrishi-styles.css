@@ -69,7 +69,7 @@ h3,h4,h5,h6,h2,h1 { color: #417505; }
 
 #gardens #gardens-make-your-own { 
 	background-image: url("../../images/custom-create-garden-bg.png");	
-	background-repeat: no-repeat; background-position: left;
+	background-repeat: no-repeat; background-position: right;
 	background-color: #fff;
 	height: 334px;
 	width: 98%; float: right;
@@ -89,8 +89,10 @@ ul.create-garden{
 }
 
 .gardens-create-cta{
-	padding-top: 40px;
 	color: white;
+	position: absolute;
+	bottom: 0px;
+	margin-right: 20px;
 }
 .gardens-create-cta a, .gardens-create-cta a:hover, .gardens-create-cta a:visited, .gardens-create-cta a:active{ color: white; }
 .gardens-create-cta img{
