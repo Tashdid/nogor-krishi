@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepo.findByMobile(appUtil.sanitizeMobileNumber(username));
-		if (user == null) throw new UsernameNotFoundException("Invalid credentials!");
+		if (user == null || user.isIdpUser()) throw new UsernameNotFoundException("Invalid credentials!");
 
 		return org.springframework.security.core.userdetails.User.withUsername(user.getMobile())
 				.roles(user.getRole().name())

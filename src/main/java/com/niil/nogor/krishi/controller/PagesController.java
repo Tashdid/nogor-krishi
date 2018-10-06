@@ -111,7 +111,7 @@ public class PagesController extends AbstractController {
 		}
 		model.addAttribute("page", page);
 		pageRepo.save(page.incrementViewCount());
-		model.addAttribute("topPages", pageRepo.findTop10ByPublishedTrueOrderByViewCountDesc());
+		model.addAttribute("topPages", pageRepo.findTop10ByMenuAndPublishedTrueOrderByViewCountDesc(page.getMenu()));
 		return "pages/page";
 	}
 

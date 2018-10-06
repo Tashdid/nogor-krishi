@@ -23,5 +23,5 @@ public interface PageRepo extends JpaRepository<Page, Long> {
 	
 	Page findTopByMenuOrderBySequenceDesc(Menu menu);
 
-	List<Page> findTop10ByPublishedTrueOrderByViewCountDesc();
+	List<Page> findTop10ByMenuAndPublishedTrueOrderByViewCountDesc(Menu menu);
 }

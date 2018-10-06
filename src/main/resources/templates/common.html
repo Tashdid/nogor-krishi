@@ -121,13 +121,18 @@
 									<a class="dropdown-item" href="#" th:href="@{/login}">লগ ইন</a>
 								</div>
 								<div sec:authorize="isAuthenticated()" th:remove="tag">
+									<div class="row-fluid userInfoContainer">
+										<strong class="ng-binding" th:text="${luser.mobile}">ADMIN</strong>
+										<p th:text="${luser.name}">Systems Administrator</p>
+									</div>
+									<div class="dropdown-divider"></div>
+									<a sec:authorize="hasRole('ROLE_GARDENER') or hasRole('ROLE_VENDOR')" class="dropdown-item chnglgout" style="float: left; margin-left: 10px;" href="#" th:href="@{/changepassword}">পাসওয়ার্ড পরিবর্তন</a>
+									<a class="dropdown-item chnglgout" style="float: right; margin-right: 10px; margin-bottom: 8px;" href="#" th:href="@{/logout}">লগ আউট</a>
+									<div class="dropdown-divider" style="width: 100%;"></div>
 									<a sec:authorize="hasRole('ROLE_GARDENER')" class="dropdown-item" href="#" th:href="@{/exlayout/list}">উদ্যান তালিকা</a>
 									<a sec:authorize="hasRole('ROLE_VENDOR')" class="dropdown-item" href="#" th:href="@{/vendorprice}">পণ্য মূল্য</a>
 									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="#" th:href="@{/pages/editor}">সিএমএস</a>
 									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="#" th:href="@{/manage/product}">ডাটা ম্যানেজমেন্ট</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#" th:href="@{/changepassword}">পাসওয়ার্ড পরিবর্তন</a>
-									<a class="dropdown-item" href="#" th:href="@{/logout}">লগ আউট</a>
 								</div>
 							</div>
 						</div>

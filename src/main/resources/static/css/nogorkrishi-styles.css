@@ -405,3 +405,16 @@ div.tr:first-child>div.td>div.inner>span {
 	-ms-user-select: none;
 	user-select: none;
 }
+
+.row-fluid.userInfoContainer {
+	text-align: center;
+	width: 300px;
+}
+
+.chnglgout {
+	clear: none;
+	width: unset;
+	border: 1px solid #ccc;
+	padding: 6px 1.0rem;
+	border-radius: 8px;
+}

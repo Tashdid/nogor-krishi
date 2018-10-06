@@ -7,5 +7,5 @@ package com.niil.nogor.krishi.entity;
  *
  */
 public enum Role {
-	GARDENER, VENDOR, ADMIN;
+	GARDENER, VENDOR, ADMIN, SUPERADMIN, OFFICER, SAO, RESEARCHER;
 }

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.niil.nogor.krishi.entity.Menu;
 import com.niil.nogor.krishi.entity.Page;
+import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.PageRepo;
+import com.niil.nogor.krishi.service.SecurityService;
 
 /**
  * @author Noor
@@ -20,6 +22,7 @@ import com.niil.nogor.krishi.repo.PageRepo;
  */
 public abstract class AbstractController {
 	@Autowired PageRepo pageRepo;
+	@Autowired SecurityService securityService;
 
 	@ModelAttribute("pagesMap")
 	public Map<Menu, List<Page>> pagesMap() {
@@ -31,6 +34,11 @@ public abstract class AbstractController {
 		pagesMap.put(Menu.ABOUTUS, pagesByMenu(pages, Menu.ABOUTUS));
 		pagesMap.put(Menu.CONTACT, pagesByMenu(pages, Menu.CONTACT));
 		return pagesMap;
+	}
+
+	@ModelAttribute("luser")
+	public User loggedUser() {
+		return securityService.findLoggedInUser();
 	}
 
 	private List<Page> pagesByMenu(List<Page> pages, Enum<?> menu) {

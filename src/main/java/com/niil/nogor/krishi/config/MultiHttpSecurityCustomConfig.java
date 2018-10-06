@@ -33,8 +33,7 @@ public class MultiHttpSecurityCustomConfig {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 		auth
 		.inMemoryAuthentication()
-			.withUser("user").password("ngkrishiUser!123").roles("USER").and()
-			.withUser("admin").password("ngkrishiAdmin@321").roles("USER", "ADMIN");
+			.withUser("apiuser").password("ngkrishiAPIUser@!32123").roles("API");
 	}
 
 	@Configuration
@@ -43,7 +42,7 @@ public class MultiHttpSecurityCustomConfig {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.antMatcher("/rest/**").authorizeRequests().anyRequest().hasRole("ADMIN").and().httpBasic();
+			http.antMatcher("/rest/**").authorizeRequests().anyRequest().hasRole("API").and().httpBasic();
 		}
 	}
 
@@ -55,7 +54,7 @@ public class MultiHttpSecurityCustomConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 			.authorizeRequests()
-			.antMatchers("/manage/**").hasRole("ADMIN")
+			.antMatchers("/manage/**").hasAnyRole("ADMIN")
 			.antMatchers("/exlayout/**").fullyAuthenticated()
 			.and()
 				.formLogin()

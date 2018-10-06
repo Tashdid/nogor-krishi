@@ -39,7 +39,7 @@ public class User {
 	private String email;
 
 	private boolean disabled;
-	private String idpref;
+	private boolean idpUser;
 	private Role role;
 	private @ManyToOne Nursery nursery;
 }
