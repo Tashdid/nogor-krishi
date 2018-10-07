@@ -73,6 +73,16 @@ $(document).ready(function() {
 });
 
 
+$.contactButtons({
+	effect  : 'slide-on-scroll',
+	buttons : {
+		'facebook':   { class: 'facebook', use: true, link: 'https://www.facebook.com/nogorkrishi', extras: 'target="_blank"' },
+		'youtube':   { class: 'youtube', use: true, link: 'https://www.youtube.com/channel/UCzqHZWhCV_Opc3RnzQX3CHA', icon: 'youtube', title: 'Follow on YouTube', extras: 'target="_blank"' },
+		'phone':      { class: 'phone separated', use: true, link: 'tel:+880 1701230822' },
+		'email':      { class: 'email', use: true, link: 'mailto:mao.mohammadpur@gmail.com' }
+	}
+});
+
 var blockoptions = {
 	message : $('#block-ui'),
 	baseZ : 1055,

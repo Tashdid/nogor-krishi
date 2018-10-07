@@ -418,3 +418,15 @@ div.tr:first-child>div.td>div.inner>span {
 	padding: 6px 1.0rem;
 	border-radius: 8px;
 }
+
+a.contact-button-link span.fa {
+	margin-top: 15px;
+}
+
+.youtube {
+	background: red;
+}
+
+.phone {
+	background: green;
+}
