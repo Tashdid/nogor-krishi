@@ -68,7 +68,7 @@ public class SAMLSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Value("${saml.entitybaseurl:}")
 	String entityBaseUrl;
 
-	@Value("${saml.idp.metadata:http://159.89.167.67:8081/simplesaml/saml2/idp/metadata.php}")
+	@Value("${saml.idp.metadata:http://auth.krishi.gov.bd/simplesaml/saml2/idp/metadata.php}")
 	String idpMetadata;
 
 	@Value("${saml.keystore.file:classpath:/saml/samlKeystore.jks}")
@@ -282,7 +282,7 @@ public class SAMLSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler() {
 		SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-		successRedirectHandler.setDefaultTargetUrl("/manage");
+		successRedirectHandler.setDefaultTargetUrl("/");
 		return successRedirectHandler;
 	}
 
