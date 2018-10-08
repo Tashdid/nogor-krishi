@@ -1,16 +1,27 @@
 <html>
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
+		<link rel="stylesheet" th:href="@{/css/lib/owl.carousel.min.css}" href="css/lib/owl.carousel.min.css"></link>
 	</head>
 	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="home">
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
-		<div id="homepage-slider" class="text-center">
-			<img th:src="@{images/hero-logo.png}" src="images/hero-logo.png" style="padding-top: 44px;" />
-			<div class="homepage-slider-slogan">
-				<p>ছাদে বাগান করুন, নিজের বাগানের তাজা সবজি খান </p>
+		<section id="intro">
+			<div class="intro-content">
+				<img th:src="@{images/hero-logo.png}" src="images/hero-logo.png" alt=""/>
+				<div class="homepage-slider-slogan">
+					<p>ছাদে বাগান করুন, নিজের বাগানের তাজা সবজি খান  </p>
+				</div>
 			</div>
-		</div>
+	
+			<div id="intro-carousel" class="owl-carousel" >
+				<div class="item" style="background-image: url('images/hero-bg.jpg');"></div>
+				<div class="item" style="background-image: url('images/c1.jpg');"></div>
+				<div class="item" style="background-image: url('images/c2.jpg');"></div>
+				<div class="item" style="background-image: url('images/c3.jpg');"></div>
+				<div class="item" style="background-image: url('images/c4.jpg');"></div>
+			</div>
+		</section>
 
 		<div class="container" id="gardens-container">
 			<div class="row">
@@ -227,7 +238,21 @@
 
 		<div th:replace="common :: commom-footer" th:remove="tag"></div>
 		<div th:replace="common :: common-js" th:remove="tag"></div>
+		<script th:src="@{/js/lib/owl.carousel.min.js}" src="js/lib/owl.carousel.min.js"></script>
 		<script async="async" defer="defer"
 				th:src="@{https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuIoWq7e51lQ0AMUQVlKwU038aZBa23c&amp;callback=initMap}"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				// Intro background carousel
+				$("#intro-carousel").owlCarousel({
+					autoplay: true,
+					dots: false,
+					loop: true,
+					animateOut: 'fadeOut',
+					items: 1
+				});
+			});
+		</script>
 	</body>
 </html>

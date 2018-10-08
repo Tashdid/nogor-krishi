@@ -419,6 +419,10 @@ div.tr:first-child>div.td>div.inner>span {
 	border-radius: 8px;
 }
 
+#contact-buttons-bar {
+	z-index: 16;
+}
+
 a.contact-button-link span.fa {
 	margin-top: 15px;
 }
@@ -429,4 +433,131 @@ a.contact-button-link span.fa {
 
 .phone {
 	background: green;
+}
+
+/*--------------------------------------------------------------
+# Intro Section
+--------------------------------------------------------------*/
+#intro {
+	width: 100%;
+	height: 410px;
+	position: relative;
+	background: url("../images/hero-bg.jpg") no-repeat;
+	background-size: cover;
+}
+
+#intro .intro-content {
+	position: absolute;
+	bottom: 0;
+	top: 44px;
+	z-index: 10;
+	flex-direction: column;
+	width: 100%;
+	text-align: center;
+}
+
+@media ( max-width : 767px) {
+	#intro .intro-content {
+		top: 30px;
+		width: 80%;
+		right: 50px;
+	}
+}
+
+#intro .intro-content h2 {
+	color: #ffffff;
+	margin-bottom: 30px;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+#intro .intro-content h2 span {
+	color: #167806;
+	text-decoration: underline;
+}
+
+@media ( max-width : 767px) {
+	#intro .intro-content h2 {
+		font-size: 34px;
+	}
+}
+
+#intro .intro-content .btn-get-started, #intro .intro-content .btn-projects
+	{
+	font-family: "Raleway", sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	display: inline-block;
+	padding: 10px 32px;
+	border-radius: 2px;
+	transition: 0.5s;
+	margin: 10px;
+	color: #fff;
+}
+
+#intro .intro-content .btn-get-started {
+	background: #167806;
+	border: 2px solid #167806;
+}
+
+#intro .intro-content .btn-get-started:hover {
+	background: none;
+	color: #ffffff;
+}
+
+#intro .intro-content .btn-projects {
+	background: #167806;
+	border: 2px solid #167806;
+}
+
+#intro .intro-content .btn-projects:hover {
+	background: none;
+	color: #167806;
+}
+
+#intro #intro-carousel {
+	z-index: 8;
+}
+
+#intro #intro-carousel::before {
+	content: '';
+	background-color: rgba(0, 0, 0, 0.13);
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 7;
+}
+
+#intro #intro-carousel .item {
+	width: 100%;
+	height: 410px;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	-webkit-transition-property: opacity;
+	transition-property: opacity;
+}
+
+#intro .intro-content .homepage-slider-slogan {
+	opacity: 0.82;
+	background: #001A05;
+	border: 2px solid #417505;
+	border-radius: 5px;
+	width: 570px;
+	height: 77px;
+	color: white;
+	margin: 18px auto 0 auto;
+	font-size: 22px;
+	line-height: 74px;
+}
+
+#intro .intro-content .homepage-slider-slogan {
+	color: white;
+	font-size: 22px;
+	line-height: 74px;
 }
