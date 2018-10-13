@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.niil.nogor.krishi.entity.Menu;
 import com.niil.nogor.krishi.entity.Page;
+import com.niil.nogor.krishi.entity.Settings;
 import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.PageRepo;
+import com.niil.nogor.krishi.repo.SettingsRepo;
 import com.niil.nogor.krishi.service.SecurityService;
 
 /**
@@ -21,8 +23,11 @@ import com.niil.nogor.krishi.service.SecurityService;
  *
  */
 public abstract class AbstractController {
+	protected Settings siteSettings;
+
 	@Autowired PageRepo pageRepo;
 	@Autowired SecurityService securityService;
+	@Autowired SettingsRepo settingsRepo;
 
 	@ModelAttribute("pagesMap")
 	public Map<Menu, List<Page>> pagesMap() {
@@ -41,7 +46,18 @@ public abstract class AbstractController {
 		return securityService.findLoggedInUser();
 	}
 
+	@ModelAttribute("siteSettings")
+	public Settings siteSettings() {
+		if (siteSettings == null) siteSettings = getFirstSettings();
+		return siteSettings;
+	}
+
 	private List<Page> pagesByMenu(List<Page> pages, Enum<?> menu) {
 		return pages.stream().filter(pg -> pg.getMenu() == menu).collect(Collectors.toList());
+	}
+
+	protected Settings getFirstSettings() {
+		List<Settings> stl = settingsRepo.findAll();
+		return stl.isEmpty() ? new Settings() : stl.get(0);
 	}
 }

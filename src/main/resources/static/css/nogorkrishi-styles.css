@@ -442,7 +442,6 @@ a.contact-button-link span.fa {
 	width: 100%;
 	height: 410px;
 	position: relative;
-	background: url("../images/hero-bg.jpg") no-repeat;
 	background-size: cover;
 }
 
@@ -560,4 +559,18 @@ a.contact-button-link span.fa {
 	color: white;
 	font-size: 22px;
 	line-height: 74px;
+}
+
+#images img {
+	width: 100%;
+	height: 200px;
+	cursor: -webkit-zoom-in;
+	cursor: zoom-in;
+	vertical-align: middle;
+	border-style: none;
+}
+
+.vimg {
+	padding-top: 10px;
+	padding-bottom: 10px; 
 }

@@ -43,6 +43,8 @@ public class SiteController extends AbstractController {
 	@Autowired GardenBlockRepo gardenBlockRepo;
 	@Autowired MaterialPriceRepo materialPriceRepo;
 	@Autowired SecurityService securityService;
+	@Autowired GalleryImagesRepo galleryImagesRepo;
+	@Autowired CarouselImagesRepo carouselImagesRepo;
 
 	@RequestMapping
 	public String homePage(final ModelMap model) {
@@ -50,6 +52,7 @@ public class SiteController extends AbstractController {
 		model.addAttribute("types", types);
 		List<Area> areas = areaRepo.findAll();
 		model.addAttribute("areas", areas);
+		model.addAttribute("cbeans", carouselImagesRepo.findAllByOrderBySequenceAsc());
 		return "site/index";
 	}
 
@@ -193,5 +196,11 @@ public class SiteController extends AbstractController {
 
 		gardenLayoutRepo.delete(layout);
 		return true;
+	}
+
+	@RequestMapping("/gallery")
+	public String newScreen(ModelMap model) {
+		model.addAttribute("gbeans", galleryImagesRepo.findAllByOrderBySequenceAsc());
+		return "site/gallery";
 	}
 }

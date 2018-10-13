@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * @author Noor
@@ -50,15 +51,22 @@ public class MultiHttpSecurityCustomConfig {
 	@Order(2)
 	public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
+		@Bean
+		public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+			return new MySimpleUrlAuthenticationSuccessHandler();
+		}
+
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 			.authorizeRequests()
-			.antMatchers("/manage/**").hasAnyRole("ADMIN")
+			.antMatchers("/manage/**", "/settings/**").hasAnyRole("ADMIN")
+			.antMatchers("/vendorprice").hasAnyRole("VENDOR")
 			.antMatchers("/exlayout/**").fullyAuthenticated()
 			.and()
 				.formLogin()
 				.loginPage("/login")
+				.successHandler(myAuthenticationSuccessHandler())
 				.permitAll()
 			.and()
 				.csrf().disable();

@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<meta th:replace="common :: common-meta" th:remove="tag"/>
+		<link rel="stylesheet" th:href="@{/css/lib/viewer.css}" href="css/lib/owl.carousel.min.css"></link>
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="home">
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 mt-5 mb-5 border-bottom-2px text-center">
+					<h3>ফটো গ্যালারি</h3>
+				</div>
+			</div>
+			<div>
+				<img id="image"/>
+			</div>
+			<div id="images" class="row">
+				<div th:each="gi : ${gbeans}" class="col-lg-3 col-md-6 col-sm-12 vimg">
+					<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(gi.image.image)}" th:alt="${gi.details}"/>
+					<span th:text="${gi.details}">Test Ola... amar sonar bangla amai tomay valobashi chirodin tomar akash</span>
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+		<div th:replace="common :: common-js" th:remove="tag"></div>
+		<script th:src="@{/js/lib/viewer.js}" src="js/lib/owl.carousel.min.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var $image = $('#image');
+
+				$image.viewer({
+					navbar: false,
+					movable: false,
+					viewed: function() {
+						$image.viewer('zoomTo', 2);
+					}
+				});
+
+				// Get the Viewer.js instance after initialized
+				var viewer = $image.data('viewer');
+
+				// View a list of images
+				$('#images').viewer();
+			});
+		</script>
+	</body>
+</html>

@@ -15,11 +15,7 @@
 			</div>
 	
 			<div id="intro-carousel" class="owl-carousel" >
-				<div class="item" style="background-image: url('images/hero-bg.jpg');"></div>
-				<div class="item" style="background-image: url('images/c1.jpg');"></div>
-				<div class="item" style="background-image: url('images/c2.jpg');"></div>
-				<div class="item" style="background-image: url('images/c3.jpg');"></div>
-				<div class="item" style="background-image: url('images/c4.jpg');"></div>
+				<div th:each="ci : ${cbeans}" class="item" th:style="'background-image:url(' + ${'data:image/png;base64,' + BASE64.encodeBase64String(ci.image.image)} + ');'" style="background-image: url('images/hero-bg.jpg');"></div>
 			</div>
 		</section>
 

@@ -22,7 +22,7 @@ import com.niil.nogor.krishi.service.SecurityService;
  */
 @Controller
 @RequestMapping(VendorPriceController.URL)
-public class VendorPriceController {
+public class VendorPriceController extends AbstractController {
 	static final String URL = "/vendorprice";
 
 	@Autowired NurseryRepo nurseryRepo;
