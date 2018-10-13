@@ -75,11 +75,11 @@
 					</div>
 
 					<div th:with="lst=${beans.vutil.getPages(pagesMap, MN.ABOUTUS)}" th:remove="tag">
-						<div th:if="${#lists.isEmpty(lst) or #lists.size(lst) eq 1}" th:remove="tag">
+						<div th:if="${#lists.isEmpty(lst)" th:remove="tag">
 							<img th:src="@{/images/icon-about.png}" src="images/icon-about.png" />
 							<span><a href="/gallery">আমাদের সম্পর্কে</a></span>
 						</div>
-						<div th:if="${#lists.size(lst) gt 1}" class="btn-group">
+						<div th:unless="${#lists.isEmpty(lst)" class="btn-group">
 							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
 									th:src="@{/images/icon-about.png}"/>আমাদের সম্পর্কে</button>
 							<div class="dropdown-menu dropdown-menu-right">
