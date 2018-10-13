@@ -229,15 +229,16 @@
 							<img th:src="@{/images/footer-logo.png}" src="images/footer-logo.png" style="margin-bottom: 20px;"/>
 						</p>
 						<p>যোগাযোগ এর ঠিকানা,</p>
-						<p> ব্লগে লেখালেখি সংক্রান্ত:  <span th:text="${siteSettings.blogEmail}" th:remove="tag">editor@nogorkrishi.com</span> <br/>
-							নার্সারি সংক্রান্ত: <span th:text="${siteSettings.nurseryEmail}" th:remove="tag">nursery@nogorkrishi.com</span> </p>
+						<p> ব্লগে লেখালেখি সংক্রান্ত:  <span th:text="${siteSettings eq null ? 'editor@nogorkrishi.com' : siteSettings.blogEmail}" th:remove="tag">editor@nogorkrishi.com</span> <br/>
+							নার্সারি সংক্রান্ত: <span th:text="${siteSettings eq null ? 'nursery@nogorkrishi.com' : siteSettings.nurseryEmail}" th:remove="tag">nursery@nogorkrishi.com</span> </p>
 						<p>
 							<a href="" class="btn btn-primary">
 								<img th:src="@{/images/icon-contact.png}" src="images/icon-contact.png" style="height: 16px !important;"/>  যোগাযোগ ফর্ম
 							</a>
 						</p>
 					</div>
-					<div class="col-lg-6 pt-5" th:utext="${siteSettings.footerText}">
+					<div th:unless="${siteSettings eq null}" th:utext="${siteSettings.footerText}" class="col-lg-6 pt-5"></div>
+					<div th:if="${siteSettings eq null}" class="col-lg-6 pt-5">
 						<p>
 							নগরকৃষী একটি ফরাসি ফিজিসিস্ট। ক্রিস্টালোগ্রাফি, রেডিয়েশন বিষয়ক গবেষণার ক্ষেত্রে পথপ্রদর্শক। রেডিয়েশন নিয়ে গবেষণার জন্য ১৯০৩ সালে নোবেল পুরষ্কার পান অরি বেক্যুইরেল আর মারিয়া সালোমেয়া স্ক্লোডোস্কার সঙ্গে যৌথ ভাবে কাজ করে।
 						</p>
