@@ -38,7 +38,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
 	protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException {
 
-		String targetUrl = determineTargetUrl(authentication);
+		String targetUrl = determineTargetUrl(request, authentication);
 
 		if (response.isCommitted()) {
 			logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
@@ -48,7 +48,11 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
 		redirectStrategy.sendRedirect(request, response, targetUrl);
 	}
 
-	protected String determineTargetUrl(Authentication authentication) {
+	protected String determineTargetUrl(HttpServletRequest request, Authentication authentication) {
+		Object ncgi = request.getSession().getAttribute(Constants.NEWLY_CREATED_GARDEN_ID);
+		if (ncgi != null) {
+			return "/exlayout/" + ncgi;
+		}
 		boolean isGardener = false;
 		boolean isVendor = false;
 		boolean isAdmin = false;

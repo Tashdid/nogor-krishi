@@ -3,7 +3,7 @@ package com.niil.nogor.krishi.controller;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -13,10 +13,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.niil.nogor.krishi.config.Constants;
 import com.niil.nogor.krishi.entity.*;
 import com.niil.nogor.krishi.repo.*;
 import com.niil.nogor.krishi.service.SecurityService;
-import com.niil.nogor.krishi.view.*;
+import com.niil.nogor.krishi.view.LArea;
+import com.niil.nogor.krishi.view.LNursery;
+import com.niil.nogor.krishi.view.LProduct;
+import com.niil.nogor.krishi.view.LayoutRQ;
 
 /**
  * @author Noor
@@ -112,7 +116,8 @@ public class SiteController extends AbstractController {
 
 	@RequestMapping(value="/layout", method=RequestMethod.POST)
 	public String layoutSave(@Valid LayoutRQ layout, final ModelMap model,
-			HttpServletResponse response, final RedirectAttributes redirectAttrs) {
+			HttpServletRequest request, HttpServletResponse response,
+			final RedirectAttributes redirectAttrs) {
 		GardenLayout gl = new GardenLayout();
 		gl.setLength(layout.getLength());
 		gl.setWidth(layout.getWidth());
@@ -125,9 +130,7 @@ public class SiteController extends AbstractController {
 
 		User user = securityService.findLoggedInUser();
 		if (user == null) {
-			Cookie foo = new Cookie("lastLayout", sgl.getId().toString());
-			foo.setMaxAge(3600); //set expire time to 1 hour
-			response.addCookie(foo);
+			request.getSession().setAttribute(Constants.NEWLY_CREATED_GARDEN_ID, sgl.getId());
 		} else {
 			sgl.setUser(user);
 			gardenLayoutRepo.save(sgl);
@@ -138,25 +141,30 @@ public class SiteController extends AbstractController {
 
 	@RequestMapping(value="/exlayout/{layout}")
 	public String showLayout(@PathVariable(required=false) GardenLayout layout,
-			@CookieValue(value = "lastLayout", required=false) String lastLayout,
-			HttpServletResponse response, final ModelMap model) {
+			HttpServletRequest request, HttpServletResponse response, final ModelMap model) {
 		if (layout == null) {
 			model.addAttribute("msg", LAYOUT_NOT_FOUND);
 			return ERROR_PAGE;
 		}
-		model.addAttribute("layout", layout);
 		User user = securityService.findLoggedInUser();
-		if (layout.getUser() == null && lastLayout != null && user != null && lastLayout.equals(layout.getId().toString())) {
-			layout.setUser(user);
-			gardenLayoutRepo.save(layout);
-			Cookie foo = new Cookie("lastLayout", null);
-			foo.setMaxAge(0);
-			response.addCookie(foo);
-			model.addAttribute("newlayout", true);
-		} else if (layout.getUser() == null || (user != null && !user.getId().equals(layout.getUser().getId()))) {
+		Object ncgi = request.getSession().getAttribute(Constants.NEWLY_CREATED_GARDEN_ID);
+		if (ncgi != null) {
+			GardenLayout gl = gardenLayoutRepo.getOne((Long) ncgi);
+			gl.setUser(user);
+			gl = gardenLayoutRepo.save(gl);
+			request.getSession().removeAttribute(Constants.NEWLY_CREATED_GARDEN_ID);
+			if (layout.getId().equals(gl.getId())) {
+				layout = gl;
+				model.addAttribute("newlayout", true);
+			}
+		}
+		model.addAttribute("layout", layout);
+
+		if (layout.getUser() == null || user == null || !user.getId().equals(layout.getUser().getId())) {
 			model.addAttribute("msg", LAYOUT_NOT_FOUND);
 			return ERROR_PAGE;
 		}
+
 		List<Product> prods = gardenBlockRepo.findAllByGardenLayout(layout).stream().map(b -> b.getProduct()).distinct().collect(Collectors.toList());
 		List<LProduct> lprods = prods.stream().map(p -> {
 			LProduct lp = new LProduct();
