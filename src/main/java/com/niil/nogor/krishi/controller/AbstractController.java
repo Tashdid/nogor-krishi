@@ -23,8 +23,8 @@ import com.niil.nogor.krishi.service.SecurityService;
  *
  */
 public abstract class AbstractController {
-	protected Settings siteSettings;
 
+	@Autowired Settings siteSettings;
 	@Autowired PageRepo pageRepo;
 	@Autowired SecurityService securityService;
 	@Autowired SettingsRepo settingsRepo;
@@ -48,16 +48,10 @@ public abstract class AbstractController {
 
 	@ModelAttribute("siteSettings")
 	public Settings siteSettings() {
-		if (siteSettings == null) siteSettings = getFirstSettings();
 		return siteSettings;
 	}
 
 	private List<Page> pagesByMenu(List<Page> pages, Enum<?> menu) {
 		return pages.stream().filter(pg -> pg.getMenu() == menu).collect(Collectors.toList());
-	}
-
-	protected Settings getFirstSettings() {
-		List<Settings> stl = settingsRepo.findAll();
-		return stl.isEmpty() ? new Settings() : stl.get(0);
 	}
 }

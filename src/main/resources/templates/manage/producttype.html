@@ -79,8 +79,8 @@
 								<td th:text="${bean.sequence}"></td>
 								<td th:text="${bean.name}"></td>
 								<td th:text="${bean.alternativeName}"></td>
-								<td><img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.icon)}"/></td>
-								<td class="hoverme">Hover here to see the image<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.image)}"/></td>
+								<td><img height="34px" width="44px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.icon)}"/></td>
+								<td class="hoverme">Hover here to see the image<img height="265px" width="265px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.image)}"/></td>
 								<td>
 									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/producttype/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
 									<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/producttype/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>

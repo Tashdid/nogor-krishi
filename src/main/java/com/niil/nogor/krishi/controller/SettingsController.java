@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.niil.nogor.krishi.config.AppConfig;
 import com.niil.nogor.krishi.entity.CarouselImages;
 import com.niil.nogor.krishi.entity.GalleryImages;
 import com.niil.nogor.krishi.entity.ImageFile;
@@ -47,12 +48,12 @@ public class SettingsController extends AbstractController {
 
 	@RequestMapping(method=RequestMethod.POST)
 	public String saveSettings(@Valid Settings settings) throws IOException {
-		Settings st = getFirstSettings();
+		Settings st = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
 		st.setBlogEmail(settings.getBlogEmail());
 		st.setNurseryEmail(settings.getNurseryEmail());
 		st.setFooterText(settings.getFooterText());
 		settingsRepo.save(st);
-		siteSettings = st;
+		AppConfig.reloadSettings = true;
 		return "redirect:" + URL;
 	}
 

@@ -1,8 +1,6 @@
 spring:
   profiles:
     active: prod, saml
-  thymeleaf:
-    cache: false
   data:
     rest:
       base-path: /rest
