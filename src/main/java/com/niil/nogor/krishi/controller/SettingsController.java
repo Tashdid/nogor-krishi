@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.niil.nogor.krishi.config.AppConfig;
-import com.niil.nogor.krishi.entity.CarouselImages;
-import com.niil.nogor.krishi.entity.GalleryImages;
-import com.niil.nogor.krishi.entity.ImageFile;
-import com.niil.nogor.krishi.entity.Settings;
+import com.niil.nogor.krishi.entity.*;
 import com.niil.nogor.krishi.repo.CarouselImagesRepo;
 import com.niil.nogor.krishi.repo.GalleryImagesRepo;
+import com.niil.nogor.krishi.repo.GardenDesignImagesRepo;
 import com.niil.nogor.krishi.repo.ImageFileRepo;
 import com.niil.nogor.krishi.view.ImageUploadForm;
 import com.niil.nogor.krishi.view.SequenceUpdater;
@@ -38,11 +36,13 @@ public class SettingsController extends AbstractController {
 	@Autowired ImageFileRepo imageFileRepo;
 	@Autowired CarouselImagesRepo carouselImagesRepo;
 	@Autowired GalleryImagesRepo galleryImagesRepo;
+	@Autowired GardenDesignImagesRepo gardenDesignImagesRepo;
 
 	@RequestMapping
 	public String settingsPage(ModelMap model) {
 		model.addAttribute("cbeans", carouselImagesRepo.findAll());
 		model.addAttribute("gbeans", galleryImagesRepo.findAll());
+		model.addAttribute("gdbeans", gardenDesignImagesRepo.findAll());
 		return URL.substring(1);
 	}
 
@@ -52,6 +52,12 @@ public class SettingsController extends AbstractController {
 		st.setBlogEmail(settings.getBlogEmail());
 		st.setNurseryEmail(settings.getNurseryEmail());
 		st.setFooterText(settings.getFooterText());
+		st.setPonnoMenu(settings.getPonnoMenu());
+		st.setNurseryMenu(settings.getNurseryMenu());
+		st.setPhotoGalleryMenu(settings.getPhotoGalleryMenu());
+		st.setPhotoGalleryTitle(settings.getPhotoGalleryTitle());
+		st.setGardenDesignMenu(settings.getGardenDesignMenu());
+		st.setGardenDesignTitle(settings.getGardenDesignTitle());
 		settingsRepo.save(st);
 		AppConfig.reloadSettings = true;
 		return "redirect:" + URL;
@@ -113,6 +119,36 @@ public class SettingsController extends AbstractController {
 	@ResponseBody
 	public Boolean deleteGalleryImage(@PathVariable Long code) {
 		galleryImagesRepo.delete(code);
+		return true;
+	}
+
+	@RequestMapping(value="/gdesign", method=RequestMethod.POST)
+	public String saveGardenDesign(@Valid ImageUploadForm designForm) throws IOException {
+		GardenDesignImages gdi = gardenDesignImagesRepo.findTopByOrderBySequenceDesc();
+		gardenDesignImagesRepo.save(GardenDesignImages.builder()
+				.image(imageFileRepo.save(ImageFile.builder().image(designForm.getImageFile().getBytes()).build()))
+				.details(designForm.getDetails())
+				.sequence((gdi == null ? 0 : gdi.getSequence()) + 1).build());
+		return "redirect:" + URL;
+	}
+
+	@RequestMapping(value="/gdesign/sequence", method=RequestMethod.POST)
+	@ResponseBody
+	public boolean updateGardenDesignSequence(SequenceUpdater updater) {
+		if (updater != null) {
+			gardenDesignImagesRepo.save(updater.getData().entrySet().stream().map(e -> {
+				GardenDesignImages gdi = gardenDesignImagesRepo.findOne(e.getKey());
+				gdi.setSequence(e.getValue());
+				return gdi;
+			}).collect(Collectors.toList()));
+		}
+		return true;
+	}
+
+	@RequestMapping(value="/gdesign/{code}", method=RequestMethod.POST)
+	@ResponseBody
+	public Boolean deleteGardenDesignImage(@PathVariable Long code) {
+		gardenDesignImagesRepo.delete(code);
 		return true;
 	}
 }

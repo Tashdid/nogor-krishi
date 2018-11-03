@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -49,6 +50,7 @@ public class SiteController extends AbstractController {
 	@Autowired SecurityService securityService;
 	@Autowired GalleryImagesRepo galleryImagesRepo;
 	@Autowired CarouselImagesRepo carouselImagesRepo;
+	@Autowired GardenDesignImagesRepo gardenDesignImagesRepo;
 
 	@RequestMapping
 	public String homePage(final ModelMap model) {
@@ -207,8 +209,20 @@ public class SiteController extends AbstractController {
 	}
 
 	@RequestMapping("/gallery")
-	public String newScreen(ModelMap model) {
+	public String galleryPage(ModelMap model) {
 		model.addAttribute("gbeans", galleryImagesRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("pageTitle", getTitle(siteSettings.getPhotoGalleryTitle(), "ফটো গ্যালারি"));
+		return "site/gallery";
+	}
+
+	private String getTitle(String title, String defaultTitle) {
+		return StringUtils.isEmpty(title) ? defaultTitle : title;
+	}
+
+	@RequestMapping("/gdesign")
+	public String gardenDesignPage(ModelMap model) {
+		model.addAttribute("gbeans", gardenDesignImagesRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("pageTitle", getTitle(siteSettings.getGardenDesignTitle(), "বাগানের সহায়ক নকশা"));
 		return "site/gallery";
 	}
 }

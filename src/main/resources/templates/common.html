@@ -25,15 +25,12 @@
 				</div>
 				<div class="col-lg-9 text-right" id="header-nav-items" th:with="MN=${T(com.niil.nogor.krishi.entity.Menu)}">
 					<div th:with="lst=${beans.vutil.getPages(pagesMap, MN.PRODUCT)}" th:remove="tag">
-						<div th:if="${#lists.isEmpty(lst)}" th:remove="tag">
-							<img th:src="@{/images/icon-ponno.png}" src="images/icon-ponno.png" />
-							<span><a href="/ponno">পণ্য</a></span>
-						</div>
-						<div th:unless="${#lists.isEmpty(lst)}" class="btn-group">
+						<div class="btn-group">
 							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
 									th:src="@{/images/icon-ponno.png}"/>পণ্য</button>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#" th:href="@{/ponno}">গাছ</a>
+								<a class="dropdown-item" href="#" th:href="@{/ponno}" th:text="${#strings.isEmpty(siteSettings.ponnoMenu) ? 'গাছ' : siteSettings.ponnoMenu}">গাছ</a>
+								<a class="dropdown-item" href="#" th:href="@{/gdesign}" th:text="${#strings.isEmpty(siteSettings.gardenDesignMenu) ? 'বাগানের সহায়ক নকশা' : siteSettings.gardenDesignMenu}">গাছ</a>
 								<a th:each="it : ${lst}" class="dropdown-item" href="#"
 									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
 									th:text="${it.title}">গাছ</a>
@@ -50,7 +47,7 @@
 							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
 									th:src="@{/images/icon-sheba.png}"/>সেবা</button>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#" th:href="@{/vendors}">নার্সারির তথ্য</a>
+								<a class="dropdown-item" href="#" th:href="@{/vendors}" th:text="${#strings.isEmpty(siteSettings.nurseryMenu) ? 'নার্সারির তথ্য' : siteSettings.nurseryMenu}">নার্সারির তথ্য</a>
 								<a th:each="it : ${lst}" class="dropdown-item" href="#"
 									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
 									th:text="${it.title}">গাছ</a>
@@ -86,7 +83,7 @@
 								<a th:each="it : ${lst}" class="dropdown-item" href="#"
 									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
 									th:text="${it.title}">গাছ</a>
-								<a class="dropdown-item" href="/gallery">ফটো গ্যালারি</a>
+								<a class="dropdown-item" href="/gallery" th:text="${#strings.isEmpty(siteSettings.photoGalleryMenu) ? 'ফটো গ্যালারি' : siteSettings.photoGalleryMenu}">ফটো গ্যালারি</a>
 							</div>
 						</div>
 					</div>

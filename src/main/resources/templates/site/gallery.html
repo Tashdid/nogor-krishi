@@ -9,7 +9,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 mt-5 mb-5 border-bottom-2px text-center">
-					<h3>ফটো গ্যালারি</h3>
+					<h3 th:text="${pageTitle}">ফটো গ্যালারি</h3>
 				</div>
 			</div>
 			<div>
@@ -25,7 +25,7 @@
 
 		<div th:replace="common :: commom-footer" th:remove="tag"></div>
 		<div th:replace="common :: common-js" th:remove="tag"></div>
-		<script th:src="@{/js/lib/viewer.js}" src="js/lib/owl.carousel.min.js"></script>
+		<script th:src="@{/js/lib/viewer.js}" src="js/lib/viewer.js"></script>
 
 		<script type="text/javascript">
 			$(document).ready(function() {

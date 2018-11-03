@@ -21,4 +21,10 @@ public class Settings {
 	private String nurseryEmail;
 	@Column(length=10485760)
 	private String footerText;
+	private String ponnoMenu;
+	private String nurseryMenu;
+	private String photoGalleryMenu;
+	private String photoGalleryTitle;
+	private String gardenDesignMenu;
+	private String gardenDesignTitle;
 }
