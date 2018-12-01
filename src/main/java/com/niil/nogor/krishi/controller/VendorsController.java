@@ -35,11 +35,14 @@ public class VendorsController extends AbstractController {
 		Area ar = area == null ? areas.get(0) : area;
 		model.addAttribute("area", ar);
 		model.addAttribute("vendors", nurseryRepo.findAllByAreaOrderBySequenceAsc(ar));
-		return "site/vendors" + (area == null ? "" : " :: vendors");
+		return "site/vendors";
 	}
 
 	@RequestMapping("/vendor/{vendor}")
 	public String vendorDetails(@PathVariable Nursery vendor, final ModelMap model) {
+		List<Area> areas = areaRepo.findAllByOrderBySequenceAsc();
+		model.addAttribute("areas", areas);
+		model.addAttribute("area", vendor.getArea());
 		model.addAttribute("vendor", vendor);
 		model.addAttribute("products", productPriceRepo.findAllByNursery(vendor).stream().collect(Collectors.groupingBy(p -> p.getProduct().getType())));
 		model.addAttribute("materials", materialPriceRepo.findAllByNursery(vendor));

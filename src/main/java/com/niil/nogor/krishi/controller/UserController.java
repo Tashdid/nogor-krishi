@@ -18,8 +18,6 @@ import com.niil.nogor.krishi.repo.UserRepo;
 import com.niil.nogor.krishi.service.SecurityService;
 import com.niil.nogor.krishi.util.AppUtil;
 import com.niil.nogor.krishi.view.ChangePassword;
-import com.nulabinc.zxcvbn.Strength;
-import com.nulabinc.zxcvbn.Zxcvbn;
 
 /**
  * @author Noor
@@ -85,11 +83,8 @@ public class UserController extends AbstractController {
 	}
 
 	public boolean hasPassExtrenth(User user, final ModelMap model) {
-		Zxcvbn passwordCheck = new Zxcvbn();
-		Strength strength = passwordCheck.measure(user.getPassword());
-
-		if (strength.getScore() < 3) {
-			model.addAttribute("error", "আপনার পাসওয়ার্ড খুব দুর্বল!");
+		if (user.getPassword().length() < 6) {
+			model.addAttribute("error", "৬ বা তার অধিক বর্ণের পাসওয়ার্ড দিন।");
 			return false;
 		}
 		return true;
@@ -113,11 +108,8 @@ public class UserController extends AbstractController {
 			return "user/changepassword";
 		}
 
-		Zxcvbn passwordCheck = new Zxcvbn();
-		Strength strength = passwordCheck.measure(form.getNewPassword());
-
-		if (strength.getScore() < 3) {
-			model.addAttribute("error", "আপনার পাসওয়ার্ড খুব দুর্বল!");
+		if (form.getNewPassword().length() < 6) {
+			model.addAttribute("error", "৬ বা তার অধিক বর্ণের পাসওয়ার্ড দিন।");
 			return "user/changepassword";
 		}
 

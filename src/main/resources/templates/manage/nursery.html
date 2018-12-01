@@ -12,7 +12,7 @@
 						<div class="card-header" id="headingOne" style="cursor: pointer;" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 							<h5 class="mb-0">Nursery</h5>
 						</div>
-						<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						<div id="collapseOne" class="collapse" th:classappend="${bean.id ne null ? 'show' : ''}" aria-labelledby="headingOne" data-parent="#accordionExample">
 							<div class="card-body" style="margin-top: 15px;">
 								<div class="col-sm-6 offset-sm-3">
 									<form class="form-horizontal" th:action="@{'/manage/nursery'}" th:object="${bean}" method="post">
@@ -80,7 +80,7 @@
 						<div class="card-header" id="headingTwo" style="cursor: pointer;" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 							<h5 id="list" class="mb-0 clickme">List</h5>
 						</div>
-						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+						<div id="collapseTwo" class="collapse" th:classappend="${bean.id eq null ? 'show' : ''}" aria-labelledby="headingTwo" data-parent="#accordionExample">
 							<div class="card-body" style="margin-top: 15px;">
 								<div class="col-sm-12" style="margin-top: 15px;">
 									<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"

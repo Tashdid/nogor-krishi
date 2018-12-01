@@ -4,7 +4,7 @@
 			<p>
 				<img width="40%" height="100vw" style="margin-bottom: 5px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2" />
 			</p>
-			<p th:each="dsc, stat : ${product.detailsList}">
+			<p th:each="dsc, stat : ${product.detailsList}" align="justify">
 				<span th:utext="${dsc}" th:remove="tag"></span>
 			</p>
 			<p th:remove="all">লাল শাক রূপে যেমন মনোহারী গুণেও তেমন কার্যকরী। পাতের ভাতকে
@@ -39,7 +39,7 @@
 				</div>
 				<div class="col-6 pl-0 d-inline-block">
 					<div class="mt-2">
-						<p class="color-green lead" th:text="${nursery.name}">মোল্লাপারা সরকারী নার্সারি</p>
+						<p class="color-green lead"><a th:href="@{'/vendor/' + ${nursery.id}}" th:text="${nursery.name}">মোল্লাপারা সরকারী নার্সারি</a></p>
 						<span th:remove="tag" th:text="${nursery.address}">১০ কাজিপারা এভিনিউ, মিরপুর ১০২০</span><br /> ফোন : <span th:remove="tag" th:text="${nursery.phone}">+৮৮ ০১৭২৩ ৫৭২৮৯৬</span>
 					</div>
 				</div>

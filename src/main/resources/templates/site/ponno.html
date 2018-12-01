@@ -5,22 +5,13 @@
 	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="ponno">
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 offset-3 mt-5 mb-5 border-bottom-2px text-center">
-					<h3>পণ্যের তালিকা </h3>
-				</div>
-			</div>
-		</div>
-
-		<div class="container">
+		<div class="container mt-5">
 			<div class="row">
 
-				<div class="col-lg-3 product-background" style="position: relative;">
-					<p class="mb-2">পণ্য বাছাই করুন</p>
+				<div class="col-lg-3 product-background" style="position: relative; height: 400px;">
 
 					<div th:each="tp : ${types}" th:remove="tag">
-						<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.icon)}" src="images/icon-product-shak.png" /><a th:href="@{'/ponno/' + ${tp.id}}" class="types" th:text="${tp.name}" onclick="return false;">শাক </a> <br/>
+						<div style="margin-bottom: 2px; padding: 2px;" th:styleappend="${type eq null or type.id ne tp.id ? '' : ('background-color: yellowgreen;')}"><img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.icon)}" src="images/icon-product-shak.png" /><a th:href="@{'/ponno?type=' + ${tp.id}}" class="types" th:text="${tp.name}">শাক </a></div>
 					</div>
 
 				</div>
@@ -32,21 +23,29 @@
 					<!-- breadcrumb & page selection -->
 					<div class="row mt-4 mb-4" style="margin-top: 0px !important;">
 
-						<div class="col-8">
-							<p id="allponno" class="color-muted lead mb-0 alltype singleproduct" th:styleappend="'display: ' + ${type eq null ? 'block' : 'none'}">
+						<div class="col-8" th:class="${product eq null ? 'col-8' : 'col-12'}">
+							<p th:if="${type eq null}" id="allponno" class="color-muted lead mb-0">
 								সব গাছ দেখানো হচ্ছে। বা-দিক থেকে গাছ টাইপ সেলেক্ট করতে পারেন।
 							</p>
-							<p id="alltype" class="lead mb-0 allponno singleproduct" th:styleappend="'display: ' + ${type ne null ? 'block' : 'none'}">
+							<p th:if="${type ne null and product eq null}" id="alltype" class="lead mb-0">
 								<span class="mr-2 text-muted" th:text="${type eq null ? '' : type.name}">শাক</span>
 							</p>
-							<p id="singleproduct" class="lead mb-0 allponno alltype" style="display: none;">
-								<span class="mr-2"><a class="types" id="typetext" href="">শাক</a></span>
+							<p th:if="${product ne null}" id="singleproduct" class="lead mb-0">
+								<span class="mr-2"><a class="types" id="typetext" href="" th:href="@{'/ponno?type=' + ${type.id}}" th:text="${type.name}">শাক</a></span>
 								<span class="mr-2 small"><i class="fa fa-chevron-right"></i> </span>
-								<span class="mr-2 text-muted" id="producttext">লাল শাক</span>
+								<span class="mr-2 text-muted" id="producttext" th:text="${product.name}">লাল শাক</span>
+								<a th:if="${nextProduct ne null}" class="rightarrow pull-right" th:href="@{'/ponno?product=' + ${nextProduct.id}}" tabindex="-1" style="margin-left: 30px;" th:title="${nextProduct.name}">
+									<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(nextProduct.icon)}" src="images/tree-lal-shak.png" class="img-fluid" style="height: 30px; width: 30px;"/>
+									<i class="fa fa-chevron-right" style="vertical-align: middle;"></i>
+								</a>
+								<a th:if="${previousProduct ne null}" class="leftarrow pull-right" th:href="@{'/ponno?product=' + ${previousProduct.id}}" tabindex="-1" th:title="${previousProduct.name}">
+									<i class="fa fa-chevron-left" style="vertical-align: middle;"></i>
+									<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(previousProduct.icon)}" src="images/tree-lal-shak.png" class="img-fluid" style="height: 30px; width: 30px;"/>
+								</a>
 							</p>
 						</div>
 
-						<div class="col-4 text-right pagestoshow">
+						<div th:if="${product eq null}" class="col-4 text-right">
 							<div class="form form-inline d-inline-block">
 								<label for="" class=" d-inline-block">প্রতি পৃষ্ঠা  : </label>
 								<select class="form-control pg pg2" id="pg1">
@@ -63,10 +62,10 @@
 
 					<!-- product list -->
 					<div class="row" id="pclp-container">
-						<div th:remove="tag" th:fragment="products" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+						<div th:if="${product eq null}" th:remove="tag" th:fragment="products" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
 							<input type="hidden" id="totalproducts" th:value="${#lists.size(products)}"/>
 							<div class="col-3 ponnoitems" th:each="prd, stat : ${products}" th:attr="data-index=${stat.index + 1}">
-								<a class="products" th:href="@{'/ponno/product/' + ${prd.id}}" th:attr="data-typehref=@{'/ponno/' + ${prd.type.id}}, data-typetext=${prd.type.name}" onclick="return false;">
+								<a class="products" th:href="@{'/ponno?product=' + ${prd.id}}" th:attr="data-typehref=@{'/ponno/' + ${prd.type.id}}, data-typetext=${prd.type.name}">
 									<p><img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.image)}" src="images/tree-lal-shak.png" class="img-fluid"/></p>
 									<p class="productname" th:text="${' ' + prd.name}"> লাল শাক  </p>
 								</a>
@@ -74,6 +73,9 @@
 						
 							<a href="" th:href="@{/layout}">
 								<img src="images/btn-create-own-garden.jpg" class="img-fluid w-100 pl-3 pr-3 mt-5 mb-5" /></a>
+						</div>
+						<div th:if="${product ne null}" th:remove="tag">
+							<div th:remove="tag" th:replace="site/product"></div>
 						</div>
 						<div class="col-3" th:remove="all">
 							<a href="all-ponno-lal-shak.php">
@@ -137,7 +139,7 @@
 						</div>
 					</div>
 
-					<div id="paginationdiv" class="row mt-5">
+					<div th:if="${product eq null}" id="paginationdiv" class="row mt-5">
 						<nav aria-label="" class="m-auto">
 							<ul class="pagination">
 								<li class="page-item left disabled">
@@ -161,7 +163,7 @@
 						</nav>
 					</div>
 
-					<div class="row mt-4 mb-5 pagestoshow">
+					<div th:if="${product eq null}" class="row mt-4 mb-5 pagestoshow">
 						<div class="col-4 offset-4 text-center">
 							<div class="form form-inline d-inline-block">
 								<label for="" class=" d-inline-block">প্রতি পৃষ্ঠা  : </label>
@@ -175,7 +177,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row mt-5 mb-5 pagestoshow">&nbsp;</div>
+					<div th:if="${product eq null}" class="row mt-5 mb-5 pagestoshow">&nbsp;</div>
 				</div>
 			</div>
 		</div>

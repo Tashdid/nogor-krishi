@@ -5,7 +5,7 @@
 
 	<groupId>com.niil</groupId>
 	<artifactId>nogor-krishi</artifactId>
-	<version>0.3.3-SNAPSHOT</version>
+	<version>0.3.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>nogor-krishi</name>
@@ -74,11 +74,6 @@
 			<groupId>org.springframework.security.extensions</groupId>
 			<artifactId>spring-security-saml2-core</artifactId>
 			<version>1.0.2.RELEASE</version>
-		</dependency>
-		<dependency>
-  			<groupId>com.nulab-inc</groupId>
-  			<artifactId>zxcvbn</artifactId>
-  			<version>1.2.3</version>
 		</dependency>
 
 		<dependency>

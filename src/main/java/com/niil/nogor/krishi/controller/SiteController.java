@@ -63,10 +63,15 @@ public class SiteController extends AbstractController {
 	}
 
 	@RequestMapping("/ponno")
-	public String ponnoPage(@RequestParam(required=false) ProductType type, final ModelMap model) {
+	public String ponnoPage(@RequestParam(required=false) ProductType type, 
+			@RequestParam(required=false) Product product, final ModelMap model) {
 		List<ProductType> types = productTypeRepo.findAllByOrderBySequenceAsc();
 		model.addAttribute("types", types);
-		products(type, model);
+		if (product != null) {
+			product(product, model);
+		} else {
+			products(type, model);
+		}
 		return "site/ponno";
 	}
 
@@ -79,6 +84,7 @@ public class SiteController extends AbstractController {
 
 	@RequestMapping("/ponno/product/{product}")
 	public String product(@PathVariable Product product, final ModelMap model) {
+		model.addAttribute("type", product.getType());
 		model.addAttribute("product", product);
 		List<ProductPrice> prices = productPriceRepo.findAllByProduct(product);
 		List<Nursery> nurseries = prices.stream().map(p -> p.getNursery()).distinct()
@@ -88,6 +94,8 @@ public class SiteController extends AbstractController {
 		model.addAttribute("areas", nurseries.stream().map(n -> n.getArea()).distinct()
 				.sorted(Comparator.comparing(Area::getSequence))
 				.collect(Collectors.toList()));
+		model.addAttribute("nextProduct", productRepo.findByTypeAndSequence(product.getType(), product.getSequence() + 1));
+		model.addAttribute("previousProduct", productRepo.findByTypeAndSequence(product.getType(), product.getSequence() - 1));
 		return "site/product";
 	}
 

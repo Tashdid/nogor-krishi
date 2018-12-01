@@ -23,4 +23,5 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 
 	List<Product> findAllByOrderByTypeSequenceAsc();
 
+	Product findByTypeAndSequence(ProductType type, Integer sequence);
 }

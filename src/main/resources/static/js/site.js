@@ -14,33 +14,7 @@ $("[data-page='home']").on("init", function(){
 });
 
 $("[data-page='ponno']").on("init", function(){
-	$("body").on("click", ".types", function() {
-		var cont = $("#pclp-container");
-		blockui(cont);
-		cont.load($(this).attr("href"), function(){
-			unblockui(cont);
-			loadPagination();
-		});
-		$("#alltype").text($(this).text()).show();
-		$(".alltype").hide();
-		$("#paginationdiv").show();
-		$(".pagestoshow").show();
-		return false;
-	}).on("click", ".products", function() {
-		var ob = $(this);
-		var cont = $("#pclp-container");
-		blockui(cont);
-		cont.load(ob.attr("href"), function() {
-			unblockui(cont);
-		});
-		$("#typetext").attr("href", ob.data("typehref")).text(ob.data("typetext"));
-		$("#producttext").text($(".productname", ob).text());
-		$("#singleproduct").show();
-		$(".singleproduct").hide();
-		$("#paginationdiv").hide();
-		$(".pagestoshow").hide();
-		return false;
-	}).on("change", ".pg", function() {
+	$("body").on("change", ".pg", function() {
 		var ob = $(this);
 		$("." + ob.attr("id")).val(ob.val());
 		loadPagination();
@@ -57,21 +31,6 @@ $("[data-page='ponno']").on("init", function(){
 	});
 
 	loadPagination();
-});
-
-$("[data-page='vendor']").on("init", function() {
-	$("body").on("click", ".areas, .vendor", function() {
-		var ob = $(this);
-		var cont = $("#vendors-container");
-		blockui(cont);
-		$.get(ob.attr("href"), function(rs) {
-			unblockui(cont);
-			var prnt = cont.parent();
-			prnt.find(".removeme").remove();
-			prnt.append(rs);
-		});
-		return false;
-	});
 });
 
 $("[data-page='exlayout']").on("init", function() {
