@@ -55,8 +55,16 @@ public class ProductTypeController extends AbstractController {
 		}
 		bean.setName(type.getName());
 		bean.setAlternativeName(type.getAlternativeName());
+		bean.setLinkedToMaterial(type.isLinkedToMaterial());
 		bean.setIcon(type.getIconFile() == null || type.getIconFile().isEmpty() ? bean.getIcon() : type.getIconFile().getBytes());
 		bean.setImage(type.getImageFile() == null || type.getImageFile().isEmpty() ? bean.getImage() : type.getImageFile().getBytes());
+		
+		if (type.isLinkedToMaterial()) {
+			productTypeRepo.findAllByLinkedToMaterialIsTrue().stream().filter(t -> !t.getId().equals(type.getId())).forEach(t -> {
+				t.setLinkedToMaterial(false);
+				productTypeRepo.save(t);
+			});
+		}
 		bean = productTypeRepo.save(bean);
 		return "redirect:" + URL + "/" + bean.getId();
 	}

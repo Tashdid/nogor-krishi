@@ -27,6 +27,7 @@ public class VendorsController extends AbstractController {
 	@Autowired AreaRepo areaRepo;
 	@Autowired ProductPriceRepo productPriceRepo;
 	@Autowired MaterialPriceRepo materialPriceRepo;
+	@Autowired ProductTypeRepo productTypeRepo;
 
 	@RequestMapping({"/vendors", "/vendors/{area}"})
 	public String vendors(@PathVariable(required=false) Area area, final ModelMap model) {
@@ -46,6 +47,7 @@ public class VendorsController extends AbstractController {
 		model.addAttribute("vendor", vendor);
 		model.addAttribute("products", productPriceRepo.findAllByNursery(vendor).stream().collect(Collectors.groupingBy(p -> p.getProduct().getType())));
 		model.addAttribute("materials", materialPriceRepo.findAllByNursery(vendor));
+		model.addAttribute("type", productTypeRepo.findAll().stream().filter(t -> t.isLinkedToMaterial()).findFirst().orElse(null));
 		return "site/vendor";
 	}
 }

@@ -11,7 +11,10 @@
 				<div class="col-lg-3 product-background" style="position: relative; height: 400px;">
 
 					<div th:each="tp : ${types}" th:remove="tag">
-						<div style="margin-bottom: 2px; padding: 2px;" th:styleappend="${type eq null or type.id ne tp.id ? '' : ('background-color: yellowgreen;')}"><img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.icon)}" src="images/icon-product-shak.png" /><a th:href="@{'/ponno?type=' + ${tp.id}}" class="types" th:text="${tp.name}">শাক </a></div>
+						<div style="margin-bottom: 2px; padding: 2px;" th:styleappend="${type eq null or type.id ne tp.id ? '' : ('background-color: yellowgreen;')}">
+							<img style="width: 41px; height: 34px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.icon)}" src="images/icon-product-shak.png" />
+							<a th:href="@{'/products/' + ${tp.id}}" class="types" th:text="${tp.name}">শাক </a>
+						</div>
 					</div>
 
 				</div>
@@ -31,16 +34,16 @@
 								<span class="mr-2 text-muted" th:text="${type eq null ? '' : type.name}">শাক</span>
 							</p>
 							<p th:if="${product ne null}" id="singleproduct" class="lead mb-0">
-								<span class="mr-2"><a class="types" id="typetext" href="" th:href="@{'/ponno?type=' + ${type.id}}" th:text="${type.name}">শাক</a></span>
+								<span class="mr-2"><a class="types" id="typetext" href="" th:href="@{'/products/' + ${type.id}}" th:text="${type.name}">শাক</a></span>
 								<span class="mr-2 small"><i class="fa fa-chevron-right"></i> </span>
 								<span class="mr-2 text-muted" id="producttext" th:text="${product.name}">লাল শাক</span>
-								<a th:if="${nextProduct ne null}" class="rightarrow pull-right" th:href="@{'/ponno?product=' + ${nextProduct.id}}" tabindex="-1" style="margin-left: 30px;" th:title="${nextProduct.name}">
-									<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(nextProduct.icon)}" src="images/tree-lal-shak.png" class="img-fluid" style="height: 30px; width: 30px;"/>
+								<a th:if="${nextProduct ne null}" class="rightarrow pull-right" th:href="@{'/products/' + ${type.id} + ${type.linkedToMaterial ? '?material=' : '?product='} + ${nextProduct.id}}" tabindex="-1" style="margin-left: 30px;" th:title="${nextProduct.name}">
+									<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(type.linkedToMaterial ? nextProduct.image : nextProduct.icon)}" src="images/tree-lal-shak.png" class="img-fluid" style="height: 30px; width: 30px;"/>
 									<i class="fa fa-chevron-right" style="vertical-align: middle;"></i>
 								</a>
-								<a th:if="${previousProduct ne null}" class="leftarrow pull-right" th:href="@{'/ponno?product=' + ${previousProduct.id}}" tabindex="-1" th:title="${previousProduct.name}">
+								<a th:if="${previousProduct ne null}" class="leftarrow pull-right" th:href="@{'/products/' + ${type.id} + ${type.linkedToMaterial ? '?material=' : '?product='} + ${previousProduct.id}}" tabindex="-1" th:title="${previousProduct.name}">
 									<i class="fa fa-chevron-left" style="vertical-align: middle;"></i>
-									<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(previousProduct.icon)}" src="images/tree-lal-shak.png" class="img-fluid" style="height: 30px; width: 30px;"/>
+									<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(type.linkedToMaterial ? previousProduct.image : previousProduct.icon)}" src="images/tree-lal-shak.png" class="img-fluid" style="height: 30px; width: 30px;"/>
 								</a>
 							</p>
 						</div>
@@ -65,14 +68,11 @@
 						<div th:if="${product eq null}" th:remove="tag" th:fragment="products" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
 							<input type="hidden" id="totalproducts" th:value="${#lists.size(products)}"/>
 							<div class="col-3 ponnoitems" th:each="prd, stat : ${products}" th:attr="data-index=${stat.index + 1}">
-								<a class="products" th:href="@{'/ponno?product=' + ${prd.id}}" th:attr="data-typehref=@{'/ponno/' + ${prd.type.id}}, data-typetext=${prd.type.name}">
+								<a class="products" th:href="@{'/products/' + ${type.id} + ${type.linkedToMaterial ? '?material=' : '?product='} + ${prd.id}}">
 									<p><img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.image)}" src="images/tree-lal-shak.png" class="img-fluid"/></p>
 									<p class="productname" th:text="${' ' + prd.name}"> লাল শাক  </p>
 								</a>
 							</div>
-						
-							<a href="" th:href="@{/layout}">
-								<img src="images/btn-create-own-garden.jpg" class="img-fluid w-100 pl-3 pr-3 mt-5 mb-5" /></a>
 						</div>
 						<div th:if="${product ne null}" th:remove="tag">
 							<div th:remove="tag" th:replace="site/product"></div>

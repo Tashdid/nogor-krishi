@@ -1,7 +1,7 @@
 <div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
 	<div id="product-description-container" class="col-7 preventcopy">
 		<div class="product-description-text">
-			<p>
+			<p th:if="${product.image ne null}">
 				<img width="40%" height="100vw" style="margin-bottom: 5px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2" />
 			</p>
 			<p th:each="dsc, stat : ${product.detailsList}" align="justify">
@@ -13,9 +13,6 @@
 				প্রজাতিও একই। বিশ্বের অন্য দেশে এদেরকে ফুলের গাছ হিসাবে ব্যবহার করা
 				হলেও আমাদের বাংলাদেশে কিন্তু আমরা একে সবজি হিসাবে ব্যবহার করি।</p>
 		</div>
-
-		<a href="" th:href="@{/layout}">
-			<img src="images/btn-create-own-garden.jpg" class="img-fluid w-100 pl-3 pr-3 mt-5 mb-5" /></a>
 	</div>
 	<div class="col-5" style="padding-left: 20px;">
 		<div class="form-group">

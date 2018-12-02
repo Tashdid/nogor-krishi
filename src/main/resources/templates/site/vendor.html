@@ -50,7 +50,7 @@
 								</thead>
 								<tbody>
 									<tr th:each="p : ${prod.value}">
-										<td><a th:href="@{'/ponno?product=' + ${p.product.id}}" th:text="${p.product.name}">লাল শাক  </a></td>
+										<td><a th:href="@{'/products/' + ${p.product.type.id} + '?product=' + ${p.product.id}}" th:text="${p.product.name}">লাল শাক  </a></td>
 									</tr>
 									<tr th:remove="all">
 										<td>লাল শাক  </td>
@@ -67,7 +67,10 @@
 								</thead>
 								<tbody>
 									<tr th:each="material : ${materials}">
-										<td th:text="${material.material.name}">লাল শাক  </td>
+										<td>
+											<a th:if="${type ne null}" th:href="@{'/products/' + ${type.id} + '?material=' + ${material.material.id}}" th:text="${material.material.name}">লাল শাক </a>
+											<span th:if="${type eq null}" th:text="${material.material.name}" th:remove="tag">লাল শাক</span>
+										</td>
 									</tr>
 									<tr th:remove="all">
 										<td>লাল শাক  </td>

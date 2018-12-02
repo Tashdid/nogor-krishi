@@ -29,7 +29,7 @@
 							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
 									th:src="@{/images/icon-ponno.png}"/>পণ্য</button>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#" th:href="@{/ponno}" th:text="${siteSettings eq null or #strings.isEmpty(siteSettings.ponnoMenu) ? 'গাছ' : siteSettings.ponnoMenu}">গাছ</a>
+								<a class="dropdown-item" href="#" th:href="@{/products}" th:text="${siteSettings eq null or #strings.isEmpty(siteSettings.ponnoMenu) ? 'গাছ' : siteSettings.ponnoMenu}">গাছ</a>
 								<a class="dropdown-item" href="#" th:href="@{/gdesign}" th:text="${siteSettings eq null or #strings.isEmpty(siteSettings.gardenDesignMenu) ? 'বাগানের সহায়ক নকশা' : siteSettings.gardenDesignMenu}">গাছ</a>
 								<a th:each="it : ${lst}" class="dropdown-item" href="#"
 									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
@@ -209,6 +209,11 @@
 	</div>
 
 	<div th:fragment="commom-footer" th:remove="tag">
+		<div style="width: 150px; bottom: 0px; right: 0px; position: fixed; z-index: 2000;">
+			<a th:href="@{/layout}">
+				<img th:src="@{/images/btn-create-own-garden.jpg}" class="img-fluid w-100" style="height: 50px;" />
+			</a>
+		</div>
 		<div id="block-ui" style="z-index: 2055; display: none;">
 			<div class="updateProgress"><i class="fa fa-spin fa-spinner"></i></div>
 			<div class="updateBackground"></div>

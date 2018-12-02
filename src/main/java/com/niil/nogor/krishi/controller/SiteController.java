@@ -51,6 +51,7 @@ public class SiteController extends AbstractController {
 	@Autowired GalleryImagesRepo galleryImagesRepo;
 	@Autowired CarouselImagesRepo carouselImagesRepo;
 	@Autowired GardenDesignImagesRepo gardenDesignImagesRepo;
+	@Autowired MaterialRepo materialRepo;
 
 	@RequestMapping
 	public String homePage(final ModelMap model) {
@@ -62,41 +63,46 @@ public class SiteController extends AbstractController {
 		return "site/index";
 	}
 
-	@RequestMapping("/ponno")
-	public String ponnoPage(@RequestParam(required=false) ProductType type, 
-			@RequestParam(required=false) Product product, final ModelMap model) {
-		List<ProductType> types = productTypeRepo.findAllByOrderBySequenceAsc();
-		model.addAttribute("types", types);
-		if (product != null) {
-			product(product, model);
+	@RequestMapping({"/products", "/products/{type}"})
+	public String allProducts(@PathVariable(required=false) ProductType type,
+			@RequestParam(required=false) Product product,
+			@RequestParam(required=false) Material material,
+			final ModelMap model) {
+		model.addAttribute("type", type);
+		model.addAttribute("types", productTypeRepo.findAllByOrderBySequenceAsc());
+		if (type != null && type.isLinkedToMaterial()) {
+			if (material == null) {
+				model.addAttribute("products", materialRepo.findAllByOrderBySequenceAsc());
+			} else {
+				model.addAttribute("product", material);
+				List<MaterialPrice> prices = materialPriceRepo.findAllByMaterial(material);
+				List<Nursery> nurseries = prices.stream().map(p -> p.getNursery()).distinct()
+						.sorted(byNurseryType.thenComparing(Nursery::getSequence))
+						.collect(Collectors.toList());
+				model.addAttribute("nurseries", nurseries);
+				model.addAttribute("areas", nurseries.stream().map(n -> n.getArea()).distinct()
+						.sorted(Comparator.comparing(Area::getSequence))
+						.collect(Collectors.toList()));
+				model.addAttribute("nextProduct", materialRepo.findTopBySequenceGreaterThanOrderBySequence(material.getSequence()));
+				model.addAttribute("previousProduct", materialRepo.findTopBySequenceLessThanOrderBySequenceDesc(material.getSequence()));
+			}
+		} else if (product != null) {
+			model.addAttribute("type", product.getType());
+			model.addAttribute("product", product);
+			List<ProductPrice> prices = productPriceRepo.findAllByProduct(product);
+			List<Nursery> nurseries = prices.stream().map(p -> p.getNursery()).distinct()
+					.sorted(byNurseryType.thenComparing(Nursery::getSequence))
+					.collect(Collectors.toList());
+			model.addAttribute("nurseries", nurseries);
+			model.addAttribute("areas", nurseries.stream().map(n -> n.getArea()).distinct()
+					.sorted(Comparator.comparing(Area::getSequence))
+					.collect(Collectors.toList()));
+			model.addAttribute("nextProduct", productRepo.findTopByTypeAndSequenceGreaterThanOrderBySequence(product.getType(), product.getSequence()));
+			model.addAttribute("previousProduct", productRepo.findTopByTypeAndSequenceLessThanOrderBySequenceDesc(product.getType(), product.getSequence()));
 		} else {
-			products(type, model);
+			model.addAttribute("products", type == null ? productRepo.findAll() : productRepo.findAllByTypeOrderBySequenceAsc(type));
 		}
 		return "site/ponno";
-	}
-
-	@RequestMapping("/ponno/{type}")
-	public String products(@PathVariable ProductType type, final ModelMap model) {
-		model.addAttribute("type", type);
-		model.addAttribute("products", type == null ? productRepo.findAll() : productRepo.findAllByTypeOrderBySequenceAsc(type));
-		return "site/ponno :: products";
-	}
-
-	@RequestMapping("/ponno/product/{product}")
-	public String product(@PathVariable Product product, final ModelMap model) {
-		model.addAttribute("type", product.getType());
-		model.addAttribute("product", product);
-		List<ProductPrice> prices = productPriceRepo.findAllByProduct(product);
-		List<Nursery> nurseries = prices.stream().map(p -> p.getNursery()).distinct()
-				.sorted(byNurseryType.thenComparing(Nursery::getSequence))
-				.collect(Collectors.toList());
-		model.addAttribute("nurseries", nurseries);
-		model.addAttribute("areas", nurseries.stream().map(n -> n.getArea()).distinct()
-				.sorted(Comparator.comparing(Area::getSequence))
-				.collect(Collectors.toList()));
-		model.addAttribute("nextProduct", productRepo.findByTypeAndSequence(product.getType(), product.getSequence() + 1));
-		model.addAttribute("previousProduct", productRepo.findByTypeAndSequence(product.getType(), product.getSequence() - 1));
-		return "site/product";
 	}
 
 	@RequestMapping("/layout")

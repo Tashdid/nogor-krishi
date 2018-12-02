@@ -23,4 +23,5 @@ public class ProductType {
 	private @Lob byte[] image;
 	private @Lob byte[] icon;
 	private int sequence;
+	private boolean linkedToMaterial;
 }

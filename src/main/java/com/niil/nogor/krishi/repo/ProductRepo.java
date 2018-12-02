@@ -23,5 +23,7 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 
 	List<Product> findAllByOrderByTypeSequenceAsc();
 
-	Product findByTypeAndSequence(ProductType type, Integer sequence);
+	Product findTopByTypeAndSequenceGreaterThanOrderBySequence(ProductType type, Integer sequence);
+
+	Product findTopByTypeAndSequenceLessThanOrderBySequenceDesc(ProductType type, Integer sequence);
 }
