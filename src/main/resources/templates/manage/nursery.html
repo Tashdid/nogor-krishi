@@ -133,6 +133,28 @@
 							<div class="card-body" style="margin-top: 15px;">
 								<div class="row" th:fragment="nurseryprices">
 									<div class="col-sm-5 offset-sm-1">
+										<form class="form-horizontal" th:action="@{${basePath} + ${bean.id} + '/product/price'}"
+											method="post" enctype="multipart/form-data">
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-5"></label>
+												<div class="col-sm-7">
+													<a th:href="@{${basePath} + ${bean.id} + '/product/price'}" target="_blank" class="btn btn-warning pull-right">Export Prices</a>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-5" for="pfile">Products price file (csv):</label>
+												<div class="col-sm-7">
+													<input id="pfile" type="file" accept=".csv" class="form-control form-control-sm" name="file" />
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-5"></label>
+												<div class="col-sm-7">
+													<button type="submit" class="btn btn-primary pull-right">Import</button>
+												</div>
+											</div>
+										</form>
+										<hr/>
 										<form class="form-horizontal" th:action="@{${basePath} + ${bean.id} + '/product'}" method="post">
 											<div class="form-group row">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="product">Product:</label>
@@ -165,6 +187,7 @@
 												</div>
 											</div>
 										</form>
+										<hr/>
 										<table class="dttable table table-striped table-bordered"
 											data-columndefs="product,saletype,price,btn">
 											<thead>
@@ -188,6 +211,28 @@
 										</table>
 									</div>
 									<div class="col-sm-5">
+										<form class="form-horizontal" th:action="@{${basePath} + ${bean.id} + '/material/price'}"
+											method="post" enctype="multipart/form-data">
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-5"></label>
+												<div class="col-sm-7">
+													<a th:href="@{${basePath} + ${bean.id} + '/material/price'}" target="_blank" class="btn btn-warning pull-right">Export Prices</a>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-5" for="mfile">Materials price file (csv):</label>
+												<div class="col-sm-7">
+													<input id="mfile" type="file" accept=".csv" class="form-control form-control-sm" name="file" />
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-form-label-sm col-sm-5"></label>
+												<div class="col-sm-7">
+													<button type="submit" class="btn btn-primary pull-right">Import</button>
+												</div>
+											</div>
+										</form>
+										<hr/>
 										<form class="form-horizontal" th:action="@{${basePath} + ${bean.id} + '/material'}" method="post">
 											<div class="form-group row">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="material">Material:</label>
@@ -209,6 +254,7 @@
 												</div>
 											</div>
 										</form>
+										<hr/>
 										<table class="table table-striped table-bordered">
 											<thead>
 												<tr>
