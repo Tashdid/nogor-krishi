@@ -68,7 +68,7 @@
 						<div th:if="${product eq null}" th:remove="tag" th:fragment="products" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
 							<input type="hidden" id="totalproducts" th:value="${#lists.size(products)}"/>
 							<div class="col-3 ponnoitems" th:each="prd, stat : ${products}" th:attr="data-index=${stat.index + 1}">
-								<a class="products" th:href="@{'/products/' + ${type.id} + ${type.linkedToMaterial ? '?material=' : '?product='} + ${prd.id}}">
+								<a class="products" th:href="@{'/products/' + ${type eq null ? '' : type.id} + ${type ne null and type.linkedToMaterial ? '?material=' : '?product='} + ${prd.id}}">
 									<p><img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.image)}" src="images/tree-lal-shak.png" class="img-fluid"/></p>
 									<p class="productname" th:text="${' ' + prd.name}"> লাল শাক  </p>
 								</a>
