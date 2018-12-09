@@ -17,6 +17,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import com.niil.nogor.krishi.entity.Settings;
 import com.niil.nogor.krishi.repo.SettingsRepo;
 
+import krishi.gov.api.KrishiAPI;
+
 /**
  * @author Noor
  * @email niildu@gmail.com
@@ -55,6 +57,11 @@ public class AppConfig {
 			reloadSettings = false;
 		}
 		return siteSettings;
+	}
+
+	@Bean
+	KrishiAPI krishiAPI(@Value("${krishi.api.url:http://api.krishi.gov.bd/api}") String url) {
+		return KrishiAPI.connect(url);
 	}
 
 	private Path getPath(Path path) {

@@ -76,6 +76,39 @@ $("[data-page='vendorprice']").on("init", function() {
 	bindNurseryPrice();
 });
 
+$("[data-page='serviceregister']").on("init", function() {
+	$("body").on("change", ".serviceregistionfields", function() {
+		var fld = $(this);
+		if (fld.val() === "") return;
+		$.each(fld.data("clear").split(","), function(i, v) {
+			$("#" + v).find("option[value!='']").remove();
+		});
+		var fldToLoad = $("#" + fld.data("load"));
+		$.get(fldToLoad.data("remote"), "id=" + fld.val(), function(rsp) {
+			$.each(rsp, function(i, d) {
+				fldToLoad.append("<option value='" + d.id + "'>" + d.name + "</option>");
+			});
+		});
+	}).on("submit", "#serviceregisterform", function() {
+		var frm = $(this);
+		blockui(frm);
+		$.post(frm.attr("action"), frm.serializeArray(), function(rsp) {
+			if (rsp === "success") {
+				bootbox.alert("আপনি সফলতার সাথে ৩৩৩১ - এ সেবার জন্য নিবন্ধিত হয়েছেন!");
+				console.log("Ulalla....");
+				setTimeout(() => {
+					console.log("timer!!!");
+					var ign = $("#ignoreandgo");
+					location.href = ign.length > 0 ? ign.attr("href") : "/serviceregister";
+				}, 2000);
+			}
+		}).always(function() {
+			unblockui(frm);
+		});
+		return false;
+	});
+});
+
 function showPage(pageno) {
 	if ($("[data-page='" + pageno + "']").length === 0) return false;
 

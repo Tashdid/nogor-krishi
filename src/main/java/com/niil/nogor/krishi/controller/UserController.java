@@ -1,5 +1,7 @@
 package com.niil.nogor.krishi.controller;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.niil.nogor.krishi.entity.Role;
 import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.UserRepo;
-import com.niil.nogor.krishi.service.SecurityService;
 import com.niil.nogor.krishi.util.AppUtil;
 import com.niil.nogor.krishi.view.ChangePassword;
 
@@ -32,7 +33,6 @@ public class UserController extends AbstractController {
 
 	@Autowired private AppUtil appUtil;
 	@Autowired private UserRepo userRepo;
-	@Autowired private SecurityService securityService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(@RequestParam(required=false) String error,
@@ -50,19 +50,28 @@ public class UserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registration(@Valid User user, BindingResult bindingResult, final ModelMap model, final RedirectAttributes redirectAttrs) {
+	public String registration(@Valid User user, BindingResult bindingResult,
+			HttpServletRequest request,
+			final ModelMap model, final RedirectAttributes redirectAttrs) {
 		model.addAttribute("user", user);
 		if (!isValidUser(user, bindingResult, model)) {
 			return "user/register";
 		}
 
+		String passwd = user.getPassword();
 		user.setMobile(appUtil.sanitizeMobileNumber(user.getMobile()));
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setPassword(bCryptPasswordEncoder.encode(passwd));
 		user.setRole(Role.GARDENER);
 		userRepo.save(user);
 
+		try {
+			request.login(user.getMobile(), passwd);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		redirectAttrs.addFlashAttribute("msg", "আপনার একাউন্ট তৈরি হয়েছে!");
-		return "redirect:/login";
+		return "redirect:/serviceregister?isNewRegistration=true";
 	}
 
 	public boolean isValidUser(User user, BindingResult bindingResult, final ModelMap model) {

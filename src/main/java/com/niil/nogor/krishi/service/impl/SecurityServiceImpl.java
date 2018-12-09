@@ -1,4 +1,4 @@
-package com.niil.nogor.krishi.service;
+package com.niil.nogor.krishi.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.UserRepo;
+import com.niil.nogor.krishi.service.SecurityService;
 
 /**
  * @author Noor

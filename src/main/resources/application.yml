@@ -4,6 +4,8 @@ spring:
   data:
     rest:
       base-path: /rest
+  jackson:
+    default-property-inclusion: non-null
   jpa:
     hibernate.ddl-auto: update
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
