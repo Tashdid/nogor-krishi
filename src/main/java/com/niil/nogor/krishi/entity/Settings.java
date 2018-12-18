@@ -23,6 +23,7 @@ public class Settings {
 	private String footerText;
 	private String ponnoMenu;
 	private String nurseryMenu;
+	private String suggestionMenu;
 	private String photoGalleryMenu;
 	private String photoGalleryTitle;
 	private String gardenDesignMenu;

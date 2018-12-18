@@ -573,3 +573,15 @@ a.contact-button-link span.fa {
 	padding-top: 10px;
 	padding-bottom: 10px; 
 }
+
+.suggestion h5 {
+	font-size: 18px;
+	line-height: 22px;
+	color: black;
+}
+
+.blockquote2 {
+	padding: .5rem 1rem;
+	border-left: .25rem solid #eceeef;
+
+}

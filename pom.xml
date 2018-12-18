@@ -5,7 +5,7 @@
 
 	<groupId>com.niil</groupId>
 	<artifactId>nogor-krishi</artifactId>
-	<version>0.3.10-SNAPSHOT</version>
+	<version>0.3.15-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>nogor-krishi</name>
@@ -163,6 +163,11 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>datatables-rowreorder</artifactId>
 			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>chartjs</artifactId>
+			<version>2.7.3</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.webjars/bootbox -->
 		<dependency>

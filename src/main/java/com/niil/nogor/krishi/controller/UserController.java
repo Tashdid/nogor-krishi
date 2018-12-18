@@ -4,7 +4,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,15 +46,18 @@ public class UserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String registrationPage(final ModelMap model) {
+	public String registrationPage(@RequestParam(required=false) String reqFrom,
+			HttpServletRequest request, final ModelMap model) {
+		model.addAttribute("reqFrom", reqFrom);
 		model.addAttribute("user", new User());
 		return "user/register";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registration(@Valid User user, BindingResult bindingResult,
-			HttpServletRequest request,
+			@RequestParam(required=false) String reqFrom, HttpServletRequest request,
 			final ModelMap model, final RedirectAttributes redirectAttrs) {
+		model.addAttribute("reqFrom", reqFrom);
 		model.addAttribute("user", user);
 		if (!isValidUser(user, bindingResult, model)) {
 			return "user/register";
@@ -71,7 +76,8 @@ public class UserController extends AbstractController {
 			e.printStackTrace();
 		}
 		redirectAttrs.addFlashAttribute("msg", "আপনার একাউন্ট তৈরি হয়েছে!");
-		return "redirect:/serviceregister?isNewRegistration=true";
+		reqFrom = StringUtils.isNotEmpty(reqFrom) ? ("&reqFrom=" + reqFrom) : "";
+		return "redirect:/serviceregister?isNewRegistration=true" + reqFrom;
 	}
 
 	public boolean isValidUser(User user, BindingResult bindingResult, final ModelMap model) {
@@ -99,11 +105,13 @@ public class UserController extends AbstractController {
 		return true;
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/changepassword", method = RequestMethod.GET)
 	public String changePasswordPage(final ModelMap model) {
 		return "user/changepassword";
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/changepassword", method = RequestMethod.POST)
 	public String changePassword(@Valid ChangePassword form, BindingResult bindingResult, final ModelMap model) {
 		if (bindingResult.hasErrors()) {

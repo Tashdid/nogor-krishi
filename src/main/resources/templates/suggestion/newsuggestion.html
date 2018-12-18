@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<title>নগরকৃষি প্রকল্প - Nogorkrishi Prokolpo</title>
+		<link rel="shortcut icon" th:href="@{favicon.ico}" href="favicon.ico" />
+		<link th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/webjars/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/css/lib/contact-buttons.css}" rel="stylesheet" media="screen" />
+		<link rel="stylesheet" th:href="@{/css/lib/font-awesome.min.css}" href="css/lib/font-awesome.min.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/glyphicons.css}" href="css/lib/glyphicons.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/summernote-bs4.css}" href="css/lib/codemirror.min.css" />
+		<link rel="stylesheet" th:href="@{/css/nogorkrishi-styles.css}" href="css/nogorkrishi-styles.css" />
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="newsuggestion">
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+		<div class="container mt-5">
+			<div class="row">
+				<div class="col-lg-9 mb-5">
+					<div class="col-lg-12 mb-5 border-bottom-2px text-center">
+						<h3>সমস্যার বিবরণ</h3>
+					</div>
+					<form class="form-horizontal" th:action="@{'/suggestions/entry'}" th:object="${suggestion}" method="post">
+						<div th:if="${error ne null}" class="col-sm-12 alert alert-danger" style="text-align: center; padding: 5px;">
+							<span th:text="${error}">Error</span>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-1" for="title">সমস্যা</label>
+							<div class="col-sm-11">
+								<input required="required" type="text" class="form-control form-control-sm" th:field="*{title}" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-1" for="content">বিস্তারিত</label>
+							<div class="col-sm-11">
+								<textarea th:field="*{content}"></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-3"></label>
+							<div class="col-sm-9" style="text-align: right;">
+								<button type="submit" class="btn btn-primary">সাবমিট</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div th:replace="suggestion/suggestion :: suggestionslist"></div>
+			</div>
+		</div>
+
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+
+		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
+		<script th:src="@{/webjars/jquery-blockui/jquery.blockUI.js}"></script>
+		<script th:src="@{/webjars/jquery-cookie/jquery.cookie.js}"></script>
+		<script th:src="@{/webjars/tether/dist/js/tether.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
+		<script th:src="@{/js/lib/jquery.contact-buttons.js}" src="js/lib/jquery.contact-buttons.js" ></script>
+		<script th:src="@{/js/lib/summernote-bs4.min.js}" src="js/lib/xml.min.js" ></script>
+		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
+		<script th:src="@{/js/editor.js}" src="js/editor.js" ></script>
+		<script th:src="@{/js/suggestion.js}" src="js/suggestion.js" ></script>
+	</body>
+</html>

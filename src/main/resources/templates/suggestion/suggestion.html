@@ -1,0 +1,95 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<title>নগরকৃষি প্রকল্প - Nogorkrishi Prokolpo</title>
+		<link rel="shortcut icon" th:href="@{favicon.ico}" href="favicon.ico" />
+		<link th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/webjars/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/css/lib/contact-buttons.css}" rel="stylesheet" media="screen" />
+		<link rel="stylesheet" th:href="@{/css/lib/font-awesome.min.css}" href="css/lib/font-awesome.min.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/glyphicons.css}" href="css/lib/glyphicons.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/summernote-bs4.css}" href="css/lib/codemirror.min.css" />
+		<link rel="stylesheet" th:href="@{/css/nogorkrishi-styles.css}" href="css/nogorkrishi-styles.css" />
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="suggestion">
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+		<div class="container mt-5">
+			<div class="row">
+				<div class="col-lg-9 col-sm-12 suggestion">
+					<div class="card bg-light card-block mb-3">
+						<h5 class="mb-3 card-title" th:text="${suggestion.title}"></h5>
+						<div class="card-text">
+							<span class="glyphicon glyphicon-user"></span>
+							  <span th:text="${suggestion.user.name}"></span>
+							<span class="glyphicon glyphicon-time"></span>
+							  <span th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(suggestion.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
+						</div>
+						<div class="mt-2 card-text" th:utext="${suggestion.content}"></div>
+					</div>
+					<h5>মন্তব্য সমূহ</h5>
+					<div th:unless="${#lists.isEmpty(suggestion.comments)}" class="card bg-faded">
+						<div th:each="cm : ${suggestion.comments}" class="card-block">
+							<div class="card-text">
+								<span class="glyphicon glyphicon-user"></span>
+								  <span th:text="${cm.user.name}"></span>
+								<span class="glyphicon glyphicon-time"></span>
+								  <span th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(cm.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
+							</div>
+							<div class="card-text mt-2">
+								<div class="blockquote2" th:utext="${cm.comment}"></div>
+							</div>
+						</div>
+					</div>
+					<form sec:authorize="isAuthenticated()" class="form-horizontal mt-5" th:action="@{'/suggestions/' + ${suggestion.id} + '/comment'}" method="post">
+						<div class="form-group row">
+							<textarea id="comment" name="comment"></textarea>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-3"></label>
+							<div class="col-sm-9" style="text-align: right;">
+								<button type="submit" class="btn btn-primary">সাবমিট</button>
+							</div>
+						</div>
+					</form>
+					<a sec:authorize="!isAuthenticated()" class="pull-right mt-5 btn btn-primary" th:href="@{'/login?reqFrom=/suggestions/' + ${suggestion.id}}">মন্তব্য করার জন্য লগইন করুন</a>
+				</div>
+				<div th:fragment="suggestionslist" class="col-lg-3 col-sm-12 suggestion">
+					<div class="card card-block bg-success mb-3" style="padding: 1.00rem;">
+						<div class="card-body text-center">
+							<a class="text-white" style="text-decoration: none;"
+								th:href="@{${#authorization.expression('isAuthenticated()') ? '/suggestions/entry' : '/login?reqFrom=/suggestions/entry'}}">বাগান সম্পর্কিত সমস্যা জানাতে, এখানে ক্লিক করুন</a>
+						</div>
+					</div>
+					<h5>আলোচিত সমস্যা সমূহ</h5>
+					<table th:if="${suggestions ne null and !#lists.isEmpty(suggestions)}"
+						class="dttable table table-striped table-bordered" cellspacing="0" width="100%">
+						<tbody>
+							<tr th:each="sugg : ${suggestions}">
+								<td style="padding: 0.25rem; padding-left: 0.75rem;">
+									<a th:href="@{'/suggestions/' + ${sugg.id} + '/' + ${beans.vutil.titleToPath(sugg.title)}}" th:text="${sugg.title}"></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+
+		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
+		<script th:src="@{/webjars/jquery-blockui/jquery.blockUI.js}"></script>
+		<script th:src="@{/webjars/jquery-cookie/jquery.cookie.js}"></script>
+		<script th:src="@{/webjars/tether/dist/js/tether.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
+		<script th:src="@{/js/lib/jquery.contact-buttons.js}" src="js/lib/jquery.contact-buttons.js" ></script>
+		<script th:src="@{/js/lib/summernote-bs4.min.js}" src="js/lib/xml.min.js" ></script>
+		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
+		<script th:src="@{/js/editor.js}" src="js/editor.js" ></script>
+		<script th:src="@{/js/suggestion.js}" src="js/suggestion.js" ></script>
+	</body>
+</html>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,7 +34,9 @@ public class ServiceRegistrationController extends AbstractController {
 
 	@RequestMapping("/serviceregister")
 	public String page(@RequestParam(required=false) boolean isNewRegistration,
+			@RequestParam(required=false) String reqFrom,
 			HttpServletRequest request, final ModelMap model) {
+		model.addAttribute("reqFrom", reqFrom);
 		model.addAttribute("divisions", getList(Type.DIVISION, null));
 		User user = securityService.findLoggedInUser();
 		ServiceRegisteredUser sru = krishiService.getServiceRegisteredUser(user.getMobile());
@@ -45,7 +48,13 @@ public class ServiceRegistrationController extends AbstractController {
 		}
 		model.addAttribute("serviceuser", sru);
 		Object ncgi = request.getSession().getAttribute(Constants.NEWLY_CREATED_GARDEN_ID);
-		model.addAttribute("nexturl", ncgi == null ? "/exlayout/list" : ("/exlayout/" + ncgi));
+		String nextUrl = "/exlayout/list";
+		if (StringUtils.isNotEmpty(reqFrom)) {
+			nextUrl = reqFrom;
+		} else if (ncgi != null) {
+			nextUrl = "/exlayout/" + ncgi;
+		}
+		model.addAttribute("nexturl", nextUrl);
 		return "user/serviceregister";
 	}
 

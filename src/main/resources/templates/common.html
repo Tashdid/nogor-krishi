@@ -56,14 +56,15 @@
 					</div>
 
 					<div th:with="lst=${beans.vutil.getPages(pagesMap, MN.SUGGESTION)}" th:remove="tag">
-						<div th:if="${#lists.isEmpty(lst) or #lists.size(lst) eq 1}" th:remove="tag">
+						<div th:if="${#lists.isEmpty(lst)}" th:remove="tag">
 							<img th:src="@{/images/icon-poramorsho.png}" src="images/icon-poramorsho.png" />
-							<span><a href="#" th:href="@{${beans.vutil.genUrl(lst)}}">পরামর্শ</a></span>
+							<span><a href="/suggestions">পরামর্শ</a></span>
 						</div>
-						<div th:if="${#lists.size(lst) gt 1}" class="btn-group">
+						<div th:unless="${#lists.isEmpty(lst)}" class="btn-group">
 							<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown"><img
 									th:src="@{/images/icon-poramorsho.png}"/>পরামর্শ</button>
 							<div class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item" href="#" th:href="@{/suggestions}" th:text="${siteSettings eq null or #strings.isEmpty(siteSettings.suggestionMenu) ? 'পরামর্শ' : siteSettings.suggestionMenu}">পরামর্শ</a>
 								<a th:each="it : ${lst}" class="dropdown-item" href="#"
 									th:href="@{'/pages/' + ${it.id} + '/' + ${beans.vutil.titleToPath(it.title)}}"
 									th:text="${it.title}">গাছ</a>
@@ -107,14 +108,10 @@
 
 					<div sec:authorize="!isAuthenticated() or isAuthenticated()" th:remove="tag">
 						<div class="btn-group" th:fragment="loginiconmenu">
-							<button style="padding-top: 4px !important;" type="button" class="btn dropdown-toggle ngkrishi"
-								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-									sec:authorize="!isAuthenticated()"
-									style="height: 17px; position: relative;"
-									th:src="@{/images/login-icon.png}"/><img
-									sec:authorize="isAuthenticated()"
-									style="height: 17px; position: relative;"
-									th:src="@{/images/login-icon-green.png}"/></button>
+							<button style="padding-top: 2px !important; margin-left: 10px;" type="button" class="btn dropdown-toggle ngkrishi"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="glyphicon glyphicon-user" style="color: white;"
+										th:style="'color:' + ${#authorization.expression('isAuthenticated()') ? 'lightgreen' : 'white'}"></i></button>
 							<div class="dropdown-menu dropdown-menu-right">
 								<div sec:authorize="!isAuthenticated()" th:remove="tag">
 									<a class="dropdown-item" href="#" th:href="@{/login}">লগ ইন</a>

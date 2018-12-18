@@ -6,9 +6,9 @@
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 		<div class="container" style="margin-top: 30px;">
-			<div class="row">
+			<div class="row" th:with="reqFromPart=${reqFrom eq null ? '' : ('?reqFrom=' + reqFrom)}">
 				<div class="col-sm-6 offset-sm-3">
-					<form id="registerform" th:action="@{/register}" method="post" th:object="${user}">
+					<form id="registerform" th:action="@{'/register' + ${reqFromPart}}" method="post" th:object="${user}">
 						<div th:if="${error ne null}" class="col-sm-8 offset-sm-3 alert alert-danger" style="text-align: center; padding: 5px;">
 							<span th:text="${error}">লগ ইন</span>
 						</div>
@@ -51,7 +51,7 @@
 						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-3"></label>
 							<div class="col-sm-8" style="text-align: center;">
-								<a href="/login" >লগ ইন করুন</a>
+								<a th:href="@{'/login' + ${reqFromPart}}" href="/login" >লগ ইন করুন</a>
 							</div>
 						</div>
 					</form>
