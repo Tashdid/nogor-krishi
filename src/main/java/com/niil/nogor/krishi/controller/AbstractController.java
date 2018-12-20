@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.niil.nogor.krishi.entity.Menu;
@@ -53,5 +54,10 @@ public abstract class AbstractController {
 
 	private List<Page> pagesByMenu(List<Page> pages, Enum<?> menu) {
 		return pages.stream().filter(pg -> pg.getMenu() == menu).collect(Collectors.toList());
+	}
+
+	@ExceptionHandler(Exception.class)
+	public String handleError() {
+		return "error";
 	}
 }

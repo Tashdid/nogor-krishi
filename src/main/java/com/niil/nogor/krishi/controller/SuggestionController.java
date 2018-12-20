@@ -1,6 +1,9 @@
 package com.niil.nogor.krishi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -11,10 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import com.niil.nogor.krishi.entity.Comment;
 import com.niil.nogor.krishi.entity.Suggestion;
@@ -94,5 +94,17 @@ public class SuggestionController extends AbstractController {
 		comm.setSuggestion(suggestion);
 		commentRepo.save(comm);
 		return pageToRedirect;
+	}
+
+	@ResponseBody
+	@RequestMapping("/search")
+	public List<Map<String, Object>> searchSuggestions(@RequestParam String term) {
+		return suggestionRepo.findByTitleIgnoreCaseContaining(term).stream()
+					.map(s -> {
+						Map<String, Object> lst = new HashMap<>();
+						lst.put("key", s.getId());
+						lst.put("value", s.getTitle());
+						return lst;
+					}).collect(Collectors.toList());
 	}
 }

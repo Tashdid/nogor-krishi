@@ -24,4 +24,6 @@ public interface SuggestionRepo extends JpaRepository<Suggestion, Long> {
 	List<Suggestion> findAllByUserOrderByCreatedOnDesc(User user);
 
 	List<Suggestion> findAllByPublishedTrueOrderByCreatedOnDesc();
+
+	List<Suggestion> findByTitleIgnoreCaseContaining(String title);
 }
