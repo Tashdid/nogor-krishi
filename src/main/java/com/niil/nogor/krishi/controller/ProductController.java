@@ -50,7 +50,7 @@ public class ProductController extends AbstractController {
 		if (bean == null) bean = new Product();
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Product");
-		model.addAttribute("allbeans", productRepo.findAll());
+		model.addAttribute("allbeans", cacheRepo.getAllProducts());
 		model.addAttribute("types", productTypeRepo.findAllByOrderBySequenceAsc());
 		model.addAttribute("saletypes", saleTypeRepo.findAll());
 		model.addAttribute("materials", materialRepo.findAll());
@@ -88,6 +88,7 @@ public class ProductController extends AbstractController {
 		bean.setImage(product.getImageFile() == null || product.getImageFile().isEmpty() ? bean.getImage() : product.getImageFile().getBytes());
 
 		bean = productRepo.save(bean);
+		cacheRepo.removeAllProductsCache();
 		return "redirect:" + URL + "/" + bean.getId();
 	}
 
@@ -108,6 +109,7 @@ public class ProductController extends AbstractController {
 	@ResponseBody
 	public Boolean delete(@PathVariable Long code) {
 		productRepo.delete(code);
+		cacheRepo.removeAllProductsCache();
 		return true;
 	}
 }

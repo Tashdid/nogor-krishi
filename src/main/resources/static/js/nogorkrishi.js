@@ -70,6 +70,23 @@ $(document).ready(function() {
 		}
 		blockui();
 	});
+
+	$('.autocomplete').each(function() {
+		var fld = $(this);
+		var searchUrl = fld.data("search");
+		var destUrl = fld.data("page");
+		fld.autocomplete({
+			source: searchUrl,
+			select: function(event, ui) {
+				var itm = ui.item;
+				var dest = destUrl;
+				if (itm.data) dest = dest.replace("##data##", itm.data);
+				dest = dest.replace("##key##", itm.key);
+				location.href = dest;
+			}
+		});
+	});
+	
 });
 
 

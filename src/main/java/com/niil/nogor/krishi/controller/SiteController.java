@@ -100,7 +100,7 @@ public class SiteController extends AbstractController {
 			model.addAttribute("nextProduct", productRepo.findTopByTypeAndSequenceGreaterThanOrderBySequence(product.getType(), product.getSequence()));
 			model.addAttribute("previousProduct", productRepo.findTopByTypeAndSequenceLessThanOrderBySequenceDesc(product.getType(), product.getSequence()));
 		} else {
-			model.addAttribute("products", type == null ? productRepo.findAll() : productRepo.findAllByTypeOrderBySequenceAsc(type));
+			model.addAttribute("products", type == null ? cacheRepo.getAllProducts() : cacheRepo.getProducts(type));
 		}
 		return "site/ponno";
 	}

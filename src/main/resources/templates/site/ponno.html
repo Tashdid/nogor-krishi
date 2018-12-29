@@ -8,7 +8,7 @@
 		<div class="container mt-5">
 			<div class="row">
 
-				<div class="col-lg-3 product-background" style="position: relative; height: 400px;">
+				<div class="col-lg-3 product-background" style="position: relative; height: 600px;">
 
 					<div th:each="tp : ${types}" th:remove="tag">
 						<div style="margin-bottom: 2px; padding: 2px;" th:styleappend="${type eq null or type.id ne tp.id ? '' : ('background-color: yellowgreen;')}">
@@ -17,14 +17,29 @@
 						</div>
 					</div>
 
+					<div class="pb-4" style="position: absolute; bottom: 0px; width: 85%;">
+						<p class="mb-0 color-red small">এখানে পণ্য সরাসরি খুঁজতে পারেন,</p>
+						<div class="inner-addon right-addon">
+							<i class="glyphicon glyphicon-search" style="color: #a2a2a2;"></i>
+							<input type="text" class="form-control autocomplete" placeholder="পণ্যের নাম লিখুন"
+								th:attr="data-search=@{/search/products}, data-page=@{/products/##data##?product=##key##}"/>
+						</div>
+					</div>
 				</div>
 				<!-- product sidebar ends here -->
 
 				<!-- product grid starts here -->
 				<div class="col-lg-9 pl-5">
+				
+					<!-- search box -->
+					<div class="inner-addon right-addon">
+						<i class="glyphicon glyphicon-search" style="color: #a2a2a2;"></i>
+						<input type="text" class="form-control autocomplete" placeholder="পণ্য সরাসরি খুঁজতে এখানে পণ্যের নাম লিখুন"
+								th:attr="data-search=@{/search/products}, data-page=@{/products/##data##?product=##key##}"/>
+					</div>
 
 					<!-- breadcrumb & page selection -->
-					<div class="row mt-4 mb-4" style="margin-top: 0px !important;">
+					<div class="row mt-3 mb-4">
 
 						<div class="col-8" th:class="${product eq null ? 'col-8' : 'col-12'}">
 							<p th:if="${type eq null}" id="allponno" class="color-muted lead mb-0">

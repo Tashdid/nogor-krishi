@@ -42,7 +42,7 @@
 							</div>
 						</div>
 					</div>
-					<form sec:authorize="isAuthenticated()" class="form-horizontal mt-5" th:action="@{'/suggestions/' + ${suggestion.id} + '/comment'}" method="post">
+					<form sec:authorize="isAuthenticated()" class="form-horizontal mt-5 mb-5" th:action="@{'/suggestions/' + ${suggestion.id} + '/comment'}" method="post">
 						<div class="form-group row">
 							<textarea id="comment" name="comment"></textarea>
 						</div>
@@ -53,7 +53,7 @@
 							</div>
 						</div>
 					</form>
-					<a sec:authorize="!isAuthenticated()" class="pull-right mt-5 btn btn-primary" th:href="@{'/login?reqFrom=/suggestions/' + ${suggestion.id}}">মন্তব্য করার জন্য লগইন করুন</a>
+					<a sec:authorize="!isAuthenticated()" class="pull-right mt-5 mb-5 btn btn-primary" th:href="@{'/login?reqFrom=/suggestions/' + ${suggestion.id}}">মন্তব্য করার জন্য লগইন করুন</a>
 				</div>
 				<div th:fragment="suggestionslist" class="col-lg-3 col-sm-12 suggestion">
 					<div class="card card-block bg-success mb-3" style="padding: 1.00rem;">
@@ -65,7 +65,8 @@
 					<div class="pb-4">
 						<div class="inner-addon right-addon">
 							<i class="glyphicon glyphicon-search" style="color: #a2a2a2;"></i>
-							<input id="autocomplete" type="text" class="form-control" placeholder="পরামর্শ অনুসন্ধান" />
+							<input type="text" class="form-control autocomplete" placeholder="পরামর্শ অনুসন্ধান"
+								th:attr="data-search=@{/search/suggestions}, data-page=@{/suggestions/##key##}"/>
 						</div>
 					</div>
 					<h5>আলোচিত সমস্যা সমূহ</h5>

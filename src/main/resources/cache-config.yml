@@ -1,0 +1,14 @@
+all-suggestions:
+  ttl: 8640000000
+
+suggestions-search:
+  ttl: 8640000000
+
+all-products:
+  ttl: 8640000000
+
+products:
+  ttl: 8640000000
+
+products-search:
+  ttl: 8640000000

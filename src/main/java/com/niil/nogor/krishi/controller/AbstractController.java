@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.niil.nogor.krishi.config.CacheRepo;
 import com.niil.nogor.krishi.entity.Menu;
 import com.niil.nogor.krishi.entity.Page;
 import com.niil.nogor.krishi.entity.Settings;
@@ -29,6 +30,7 @@ public abstract class AbstractController {
 	@Autowired PageRepo pageRepo;
 	@Autowired SecurityService securityService;
 	@Autowired SettingsRepo settingsRepo;
+	@Autowired CacheRepo cacheRepo;
 
 	@ModelAttribute("pagesMap")
 	public Map<Menu, List<Page>> pagesMap() {
