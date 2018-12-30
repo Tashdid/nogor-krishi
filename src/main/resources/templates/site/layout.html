@@ -14,20 +14,11 @@
 		
 				<div class="ml-5">
 					<p class="lead text-muted w-50 float-left">পছন্দমত ছাদ-বাগান লে-আউট </p>
-
-					<select id="types" class="form-control float-right w-25 mr-4 layoutptypes">
-						<option th:each="tp : ${types}" th:attr="data-remote=@{'/layout/items/' + ${tp.key}}" th:value="${tp.key}" th:text="${tp.value}">শাক </option>
-						<option th:remove="all">শাক </option>
-						<option th:remove="all">শাক </option>
-						<option th:remove="all">শাক </option>
-						<option th:remove="all">শাক </option>
-						<option th:remove="all">শাক </option>
-					</select>
 					<div class="clearfix"></div>
 				</div>
 
 				<div class="row">
-					<div class="col-sm-4 offset-sm-2">
+					<div class="col-sm-3 offset-sm-1">
 						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutlength">দৈর্ঘ্য:</label>
 							<div class="col-sm-5">
@@ -35,12 +26,19 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-3">
 						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutwidth">প্রস্থ:</label>
 							<div class="col-sm-5">
 								<input required="" name="width" type="text" class="form-control form-control-sm layoutgen" id="layoutwidth" />
 							</div>
+						</div>
+					</div>
+					<div class="col-sm-5">
+						<div class="pt-1 text-right">
+							<a id="savelayout" href="" tabindex="-1" style="display: none;">
+								<i class="fa  fa-floppy-o"></i> বাগান সংরক্ষণ করুন
+							</a>
 						</div>
 					</div>
 				</div>
@@ -90,25 +88,30 @@
 							<i class="fa fa-list"></i> গাছের তালিকা </a>
 					</li>
 				</ul>
-		
+
 				<!-- Tab panes -->
 				<div class="tab-content sidebar-tab-content">
-					<div class="tab-pane active" id="home" role="tabpanel">
-						<div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" th:fragment="products">
-							<div th:each="prd : ${products}" class="tab-content-plant draggable" th:attr="data-id=${prd.id}, data-name=${prd.name}, data-prod=${prd.productivity}, data-ben=${prd.benefits}">
-								<img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.icon)}" class="img" src="images/icon-oushodhi.jpg"/>
-								<a href=""><span th:text="${prd.name}">তুলশী </span></a>
-								<span class="float-right text-muted" th:text="${prd.type.name}">ঔষধি </span>
+					<div class="tab-pane active" role="tabpanel">
+						<div class="col-lg-12 mb-3 border-bottom-2px">
+							<select id="types" class="form-control layoutptypes">
+								<option th:each="tp : ${types}" th:attr="data-remote=@{'/layout/items/' + ${tp.key}}" th:value="${tp.key}" th:text="${tp.value}">শাক </option>
+								<option th:remove="all">শাক </option>
+								<option th:remove="all">শাক </option>
+								<option th:remove="all">শাক </option>
+								<option th:remove="all">শাক </option>
+								<option th:remove="all">শাক </option>
+							</select>
+						</div>
+						<div class="row" style="margin-left: 0px; margin-right: 0px;" id="layoutprods">
+							<div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" th:fragment="products">
+								<div th:each="prd : ${products}" class="tab-content-plant draggable col-lg-6"
+									th:attr="data-id=${prd.id}, data-name=${prd.name}, data-prod=${prd.productivity}, data-ben=${prd.benefits}">
+									<img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.icon)}" class="img" src="images/icon-oushodhi.jpg"/>
+									<span th:text="${prd.name}" style="font-size: 13px !important;">তুলশী </span>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<!-- this is outside tabs -->
-				<div class="pt-2 text-center">
-					<a id="savelayout" href="">
-						<i class="fa  fa-floppy-o"></i> বাগান সংরক্ষণ করুন
-					</a>
 				</div>
 			</div>
 			</div>

@@ -1,5 +1,15 @@
+var layoutGenerated = false;
+window.onbeforeunload = function(e) {
+	e = e || window.event;
+	if (layoutGenerated && e) {
+		e.returnValue = "আপনার বাগান লে-আউট সংরক্ষণ করেন নাই। আপনি কী নিশ্চিত?";
+		return e.returnValue;
+	}
+}
+
 $("[data-page='layout']").on("init", function() {
 	var conv = {'5': '৫', '10': '১০', '15': '১৫', '20': '২০', '25': '২৫', '30': '৩০', '35': '৩৫', '40': '৪০', '45': '৪৫', '50': '৫০', '55': '৫৫', '60': '৬০', '65': '৬৫', '70': '৭০', '75': '৭৫', '80': '৮০', '85': '৮৫', '90': '৯০', '95': '৯৫', '100': '১০০'}
+	var btnsvlout = $("#savelayout");
 
 	$("body").on("change", ".layoutgen", function() {
 		if ($("#layoutlength").val().length > 0 && $("#layoutwidth").val().length > 0) {
@@ -20,12 +30,24 @@ $("[data-page='layout']").on("init", function() {
 				tbl += '</div>';
 			}
 			$("div.table").html(tbl);
+			layoutGenerated = true;
+			btnsvlout.show();
 		} else {
 			$("div.table").html("");
+			layoutGenerated = false;
+			btnsvlout.hide();
 		}
 		setLayoutCellHeight();
+	}).on("keyup", ".layoutgen", function() {
+		var fld = $(this);
+		var evl = benToEng(fld.val());
+		if (isNaN(evl)) {
+			fld.val("");
+			return;
+		}
+		fld.val(evl);
 	}).on("change", "#types", function() {
-		var dvtld = $("#home");
+		var dvtld = $("#layoutprods");
 		blockui(dvtld);
 		$.get($(this).find("option:selected").data("remote"), function(rsp) {
 			dvtld.html(rsp);
@@ -53,10 +75,13 @@ $("[data-page='layout']").on("init", function() {
 			var imgbinary = canvas.toDataURL();
 			imgbinary = imgbinary.substr(imgbinary.indexOf('base64,') + 7);
 			$("#image").val(imgbinary);
+			layoutGenerated = false;
 			btn.parents("form").submit();
 		});
 		return false;
 	});
+
+	$("body .layoutgen").change();
 
 	var lo = $("div.table");
 	if (lo.length === 1) {
@@ -95,26 +120,29 @@ $("[data-page='layout']").on("init", function() {
 				var addedImg = addedItem.find(".img");
 				addedImg.addClass("imgSize-" + counts[0])
 						.css("border", "2px solid black")
-						.width(orimg.width())
-						.height(orimg.height());
+						.width(orimg.width() * 2)
+						.height(orimg.height() * 2);
 
 				addedItem.addClass("gardenitem").attr("title", addedItem.data("name"));
-				addedItem.find("a").remove();
-				addedItem.find("span").remove();
+				addedItem.find("span").css("position", "absolute").css("top", "50%")
+									.css("background-color", "black").css("color", "white")
+									.css("padding", "3px").css("transform", "translate(-50%, -50%)");
 				var cx = e.pageX;
 				var dvx = $("#tableov").offset().left;
 				addedItem.width("").height("");
-				addedItem.css("left", e.pageX - dvx - (addedItem.width()/2)).css("top", e.pageY - $("#tableov").offset().top - (addedItem.height()/2));
-				addedItem.removeClass("draggable ui-draggable ui-draggable-dragging tab-content-plant");
+				addedItem.css("left", e.pageX - dvx - (addedImg.width()/2))
+						.css("top", e.pageY - $("#tableov").offset().top - (addedImg.height()/2))
+						.css("color", "white").css("text-align", "center");
+				addedItem.removeClass("draggable ui-draggable ui-draggable-dragging tab-content-plant col-lg-6");
 
-				addedItem.prepend('<a class="rmvme"><i class="glyphicon glyphicon-remove"/></a>');
-				$(".rmvme", addedItem).click(function() {
-					$(this).parent().remove();
-					loadGardenDetails();
-				});
 				make_draggable(addedItem);
 				addedImg.resizable(resizeOpts);
 				loadGardenDetails();
+				addedItem.find(".ui-wrapper").css("overflow", "").prepend('<a class="rmvme"><i class="glyphicon glyphicon-remove"/></a>');
+				$(".rmvme", addedItem).click(function() {
+					$(this).parent().parent().remove();
+					loadGardenDetails();
+				});
 			}
 		}
 	});
@@ -137,7 +165,7 @@ function loadGardenDetails() {
 		var prd = $(this);
 		if ($.inArray(prd.data("id"), prods) === -1) {
 			prods.push(prd.data("id"));
-			gd += '<tr><td>' + checkAndGet(prd.data("name")) + '</td><td>' + checkAndGet(prd.data("prod")) + '</td><td>' + checkAndGet(prd.data("ben")) + '</td></tr>';
+			gd += '<tr><td>' + checkAndGet(prd.data("name")) + '</td><td>' + checkAndGet(prd.data("prod")) + '</td><td style="text-align: justify;">' + checkAndGet(prd.data("ben")) + '</td></tr>';
 		}
 	});
 	$("#gdetails").html(gd);

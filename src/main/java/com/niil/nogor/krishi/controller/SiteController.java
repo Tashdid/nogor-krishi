@@ -124,9 +124,7 @@ public class SiteController extends AbstractController {
 
 	@RequestMapping("/layout/items/{type}")
 	public String typeProducts(@PathVariable ProductType type, final ModelMap model) {
-		List<Product> list = productRepo.findAllByTypeOrderBySequenceAsc(type);
-		list.forEach(p -> p.setImage(null));
-		model.addAttribute("products", list);
+		model.addAttribute("products", cacheRepo.getProducts(type));
 		return "site/layout :: products";
 	}
 
