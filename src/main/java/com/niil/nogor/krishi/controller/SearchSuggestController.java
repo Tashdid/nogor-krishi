@@ -30,4 +30,9 @@ public class SearchSuggestController {
 	public List<Map<String, Object>> searchProducts(@RequestParam String term) {
 		return cacheRepo.searchProducts(term);
 	}
+
+	@RequestMapping("/search/contents")
+	public List<Map<String, Object>> searchContents(@RequestParam String term) {
+		return cacheRepo.searchContents(term);
+	}
 }

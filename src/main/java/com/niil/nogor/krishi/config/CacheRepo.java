@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.niil.nogor.krishi.entity.Product;
 import com.niil.nogor.krishi.entity.ProductType;
 import com.niil.nogor.krishi.entity.Suggestion;
+import com.niil.nogor.krishi.repo.APIContentRepo;
 import com.niil.nogor.krishi.repo.ProductRepo;
 import com.niil.nogor.krishi.repo.SuggestionRepo;
 
@@ -26,12 +27,14 @@ import com.niil.nogor.krishi.repo.SuggestionRepo;
 public class CacheRepo {
 	private static final String ALL_SUGGESTIONS_CACHE = "all-suggestions";
 	private static final String SUGGESTIONS_SEARCH_CACHE = "suggestions-search";
+	private static final String CONTENTS_SEARCH_CACHE = "contents-search";
 	private static final String ALL_PRODUCTS_CACHE = "all-products";
 	private static final String PRODUCTS_CACHE = "products";
 	private static final String PRODUCTS_SEARCH_CACHE = "products-search";
 
 	@Autowired SuggestionRepo suggestionRepo;
 	@Autowired ProductRepo productRepo;
+	@Autowired private APIContentRepo contentRepo;
 
 	@Cacheable(value = ALL_SUGGESTIONS_CACHE)
 	public List<Suggestion> getAllSuggestions() {
@@ -76,4 +79,18 @@ public class CacheRepo {
 
 	@CacheEvict(value = {ALL_PRODUCTS_CACHE, PRODUCTS_CACHE, PRODUCTS_SEARCH_CACHE}, allEntries=true)
 	public void removeAllProductsCache() {/** Nothing to do here */}
+
+	@Cacheable(value = CONTENTS_SEARCH_CACHE)
+	public List<Map<String, Object>> searchContents(String term) {
+		return contentRepo.findByPublishedTrueAndTitleIgnoreCaseContaining(term)
+					.stream().map(s -> {
+						Map<String, Object> lst = new HashMap<>();
+						lst.put("key", s.getId());
+						lst.put("value", s.getTitle());
+						return lst;
+					}).collect(Collectors.toList());
+	}
+
+	@CacheEvict(value = {CONTENTS_SEARCH_CACHE}, allEntries=true)
+	public void removeAllContents() {/** Nothing to do here */}
 }

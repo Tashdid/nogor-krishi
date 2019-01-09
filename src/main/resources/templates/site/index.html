@@ -93,7 +93,7 @@
 		
 			</div>
 		</div>
-		<div class="full-width-section-header" style="display: none;">
+		<div class="full-width-section-header" th:unless="${#lists.isEmpty(top5contents)}">
 			<div class="container">
 				<div class="row">
 		
@@ -111,21 +111,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="container" style="display: none;">
+		<div class="container" th:unless="${#lists.isEmpty(top5contents)}">
 			<div class="row">
-				<div class="col-lg-6" style="margin-top: 52px;">
-		
+				<div class="col-lg-6" style="margin-top: 15px;">
 					<ul class="list-blogHeadline">
-						<li>
+						<li th:each="cn : ${top5contents}">
 							<div>
-								<a href="">১০টি জিনিস যা জানতে হবে ছাদে বাগান করার আগে</a>
+								<a th:href="@{'/contents/' + ${cn.id}}" th:text="${cn.title}">১০টি জিনিস যা জানতে হবে ছাদে বাগান করার আগে</a>
 								<br/>
-								<span class="badge badge-blogTag">Tips</span>
-								<span class="badge badge-blogTag">Garden</span>
-								<span class="badge badge-blogTag">General</span>
 							</div>
 						</li>
-						<li>
+						<li th:remove="all">
 							<div>
 								<a href="">এই রমজানে কিভাবে পুদিনা চাষ করতে পাড়বেন</a>
 								<br/>
@@ -134,7 +130,7 @@
 		
 							</div>
 						</li>
-						<li>
+						<li th:remove="all">
 							<div>
 								<a href="">১০টি জিনিস যা জানতে হবে ছাদে বাগান করার আগে</a>
 								<br/>
@@ -143,7 +139,7 @@
 								<span class="badge badge-blogTag">General</span>
 							</div>
 						</li>
-						<li>
+						<li th:remove="all">
 							<div>
 								<a href="">১০টি জিনিস যা জানতে হবে ছাদে বাগান করার আগে</a>
 								<br/>
@@ -155,27 +151,18 @@
 					</ul>
 		
 				</div>
-				<div class="col-lg-6" style="margin-top: 52px;">
+				<div class="col-lg-6" style="margin-top: 15px;">
 					আমাদের সব লেখা এবং টিপস এর ব্যপারে জানতে <br/> এখানে ক্লিক করুন,
 					<br/>
 		
-					<a href="" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 30px;">সব লেখা পড়তে চাই </a>
+					<a href="/contents/all" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 30px;">সব লেখা পড়তে চাই </a>
 					<br/>
-		
-					যদি কোন একটি বিষয়ে জানতে ছান,<br/> সেটি ক্লিক করুন,<br/>
-		
-					<div style="height: 8px; width: 20px;"></div>
-		
-					<span class="badge badge-blogTag">Tips</span>
-					<span class="badge badge-blogTag">Garden</span>
-					<span class="badge badge-blogTag">General</span>
-					<span class="badge badge-blogTag">Tips</span>
-					<span class="badge badge-blogTag">Garden</span>
-					<span class="badge badge-blogTag">General</span>
-					<span class="badge badge-blogTag">Tips</span>
-					<span class="badge badge-blogTag">Garden</span>
-					<span class="badge badge-blogTag">General</span>
 				</div>
+			</div>
+		</div>
+		<div class="floral-divider" th:unless="${#lists.isEmpty(top5contents)}">
+			<div class="text-center m-auto">
+				<img th:src="@{/images/floral-divider.jpg}" src="images/floral-divider.jpg" class="img-fluid" />
 			</div>
 		</div>
 

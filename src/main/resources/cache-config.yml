@@ -12,3 +12,6 @@ products:
 
 products-search:
   ttl: 8640000000
+
+contents-search:
+  ttl: 8640000000

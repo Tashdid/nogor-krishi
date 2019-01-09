@@ -52,6 +52,7 @@ public class SiteController extends AbstractController {
 	@Autowired CarouselImagesRepo carouselImagesRepo;
 	@Autowired GardenDesignImagesRepo gardenDesignImagesRepo;
 	@Autowired MaterialRepo materialRepo;
+	@Autowired private APIContentRepo contentRepo;
 
 	@RequestMapping
 	public String homePage(final ModelMap model) {
@@ -60,6 +61,7 @@ public class SiteController extends AbstractController {
 		List<Area> areas = areaRepo.findAll();
 		model.addAttribute("areas", areas);
 		model.addAttribute("cbeans", carouselImagesRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("top5contents", contentRepo.findTop5ByPublishedTrueOrderBySequenceAsc());
 		return "site/index";
 	}
 

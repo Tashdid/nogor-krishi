@@ -10,7 +10,19 @@ $(document).ready(function() {
 		showImage(this);
 	});
 
-	$('table.dttable').each(function() {
+	loadDataTables($("body"));
+
+	var rmmeco = $.cookie("clickme");
+	if (rmmeco) {
+		$.removeCookie("clickme");
+		$("#" + rmmeco).trigger("click");
+	} else if ($(".clickonload").length > 0) {
+		$(".clickonload").trigger("click");
+	}
+});
+
+function loadDataTables(target) {
+	$('table.dttable', target).each(function() {
 		var tbl = $(this);
 
 		var dfs = [];
@@ -71,15 +83,7 @@ $(document).ready(function() {
 			});
 		}
 	});
-
-	var rmmeco = $.cookie("clickme");
-	if (rmmeco) {
-		$.removeCookie("clickme");
-		$("#" + rmmeco).trigger("click");
-	} else if ($(".clickonload").length > 0) {
-		$(".clickonload").trigger("click");
-	}
-});
+}
 
 function showImage(input) {
 	var imgid = $($(input).parent().find(".imgtoshow")[0]);

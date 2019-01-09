@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<title>নগরকৃষি প্রকল্প - Nogorkrishi Prokolpo</title>
+		<link rel="shortcut icon" th:href="@{favicon.ico}" href="favicon.ico" />
+		<link th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/webjars/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/css/lib/contact-buttons.css}" rel="stylesheet" media="screen" />
+		<link rel="stylesheet" th:href="@{/css/lib/font-awesome.min.css}" href="css/lib/font-awesome.min.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/glyphicons.css}" href="css/lib/glyphicons.css" />
+		<link rel="stylesheet" th:href="@{/css/nogorkrishi-styles.css}" href="css/nogorkrishi-styles.css" />
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="allcontents">
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+		<div class="container mt-5">
+			<div class="row">
+				<div class="col-lg-9 col-sm-12 content">
+					<div th:each="content : ${allContents}" class="card bg-faded card-block mb-3">
+						<a th:href="@{'/contents/' + ${content.id}}" style="text-decoration: none; color: black;">
+							<h5 class="mb-3 card-title" th:text="${content.title}"></h5>
+							<div class="card-text">
+								<span class="glyphicon glyphicon-user"></span>
+								  <span th:text="${content.author.name}"></span>
+								<span class="glyphicon glyphicon-time"></span>
+								  <span th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(content.createdAt, 'dd MMMM yyyy hh:mm a'))}"></span>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div th:replace="contents/content :: contentslist"></div>
+			</div>
+		</div>
+
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+
+		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
+		<script th:src="@{/webjars/jquery-blockui/jquery.blockUI.js}"></script>
+		<script th:src="@{/webjars/jquery-cookie/jquery.cookie.js}"></script>
+		<script th:src="@{/webjars/tether/dist/js/tether.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
+		<script th:src="@{/js/lib/jquery.contact-buttons.js}" src="js/lib/jquery.contact-buttons.js" ></script>
+		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
+		<script th:src="@{/js/manage.js}" src="js/manage.js" ></script>
+		<script th:src="@{/js/contents.js}" src="js/contents.js" ></script>
+	</body>
+</html>

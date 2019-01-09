@@ -1,0 +1,108 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<title>নগরকৃষি প্রকল্প - Nogorkrishi Prokolpo</title>
+		<link rel="shortcut icon" th:href="@{favicon.ico}" href="favicon.ico" />
+		<link th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/webjars/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/webjars/datatables/css/jquery.dataTables.min.css}" rel="stylesheet" media="screen" />
+		<link th:href="@{/css/lib/contact-buttons.css}" rel="stylesheet" media="screen" />
+		<link rel="stylesheet" th:href="@{/css/lib/font-awesome.min.css}" href="css/lib/font-awesome.min.css" />
+		<link rel="stylesheet" th:href="@{/css/lib/glyphicons.css}" href="css/lib/glyphicons.css" />
+		<link rel="stylesheet" th:href="@{/css/nogorkrishi-styles.css}" href="css/nogorkrishi-styles.css" />
+		<style type="text/css">
+			.modal-dialog {
+				max-width: 90% !important;
+			}
+		</style>
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="contents">
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+		<div class="container mt-5">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="text-center">
+						<h3 class="text-center border-bottom-2px d-inline-block">প্রকাশিত / অপ্রকাশিত কনটেন্ট সমূহ</h3>
+					</div>
+					<div class="pt-4">
+						<table th:if="${allcontents ne null and !#lists.isEmpty(allcontents)}"
+							class="dttable table table-striped table-bordered" cellspacing="0" width="100%"
+							data-columndefs="title,author,published,buttons">
+							<thead>
+								<tr>
+									<th style="width: 40%;">বিষয়</th>
+									<th style="width: 40%;">লেখক</th>
+									<th class="all">অবস্থা</th>
+									<th style="width: 58px !important;"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="bean : ${allcontents}">
+									<td th:text="${bean.title}"></td>
+									<td th:text="${bean.author.name + (bean.author.address ne null ? (', ' + bean.author.address) : '')}"></td>
+									<td class="pubstat" th:text="${bean.published ? 'প্রকাশিত' : 'অপ্রকাশিত'}"></td>
+									<td>
+										<button type="button" class="btn btn-sm pubtog" th:classappend="${bean.published ? 'btn-danger' : 'btn-success'}"
+											th:attr="data-remote=@{'/contents/' + ${bean.id} + '/toggle'}"><span class="glyphicon"
+												th:classappend="${bean.published ? 'glyphicon-cloud-download' : 'glyphicon-cloud-upload'}"></span></button>
+										<button type="button" class="btn btn-primary btn-sm viewbtn"
+											th:attr="data-remote=@{'/contents/' + ${bean.id} + '?manage=true'}"><span 
+												class="glyphicon glyphicon-eye-open"></span></button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="pt-5 col-lg-12">
+					<div class="text-center">
+						<h3 class="text-center border-bottom-2px d-inline-block">প্রকাশিত কনটেন্ট সমূহ</h3>
+					</div>
+					<div id="pubtable" class="pt-4">
+						<div th:fragment="pubtablefrag">
+							<table th:if="${published ne null and !#lists.isEmpty(published)}"
+								class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
+								data-columndefs="sequence,title,author,id-false"
+								th:attr="data-actionurl=@{/contents/table}">
+								<thead>
+									<tr>
+										<th>ক্রম</th>
+										<th style="width: 45%;">বিষয়</th>
+										<th style="width: 45%;">লেখক</th>
+										<th>Code</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="bean : ${published}">
+										<td th:text="${bean.sequence}"></td>
+										<td th:text="${bean.title}"></td>
+										<td th:text="${bean.author.name + (bean.author.address ne null ? (', ' + bean.author.address) : '')}"></td>
+										<td th:text="${bean.id}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+
+		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
+		<script th:src="@{/webjars/jquery-blockui/jquery.blockUI.js}"></script>
+		<script th:src="@{/webjars/jquery-cookie/jquery.cookie.js}"></script>
+		<script th:src="@{/webjars/tether/dist/js/tether.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/datatables/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/webjars/datatables-rowreorder/js/dataTables.rowReorder.js}"></script>
+		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
+		<script th:src="@{/js/lib/jquery.contact-buttons.js}" src="js/lib/jquery.contact-buttons.js" ></script>
+		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
+		<script th:src="@{/js/manage.js}" src="js/manage.js" ></script>
+		<script th:src="@{/js/contents.js}" src="js/contents.js" ></script>
+	</body>
+</html>
