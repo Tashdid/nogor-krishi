@@ -12,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class ImageUploadForm {
+	private Long id;
 	private String details;
 	private MultipartFile imageFile;
 }
