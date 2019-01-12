@@ -60,7 +60,7 @@ public class MultiHttpSecurityCustomConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 			.authorizeRequests()
-			.antMatchers("/manage/**", "/settings/**").hasAnyRole("ADMIN")
+			.antMatchers("/dashboard/**", "/manage/**", "/settings/**").hasAnyRole("ADMIN")
 			.antMatchers("/vendorprice").hasAnyRole("VENDOR")
 			.antMatchers("/exlayout/**", "/serviceregister").fullyAuthenticated()
 			.and()

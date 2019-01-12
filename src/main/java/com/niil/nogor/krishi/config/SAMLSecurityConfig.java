@@ -282,7 +282,7 @@ public class SAMLSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler() {
 		SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler = new SavedRequestAwareAuthenticationSuccessHandler();
-		successRedirectHandler.setDefaultTargetUrl("/settings");
+		successRedirectHandler.setDefaultTargetUrl("/dashboard");
 		return successRedirectHandler;
 	}
 

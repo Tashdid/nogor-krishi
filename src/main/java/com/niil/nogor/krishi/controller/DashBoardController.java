@@ -1,9 +1,7 @@
 package com.niil.nogor.krishi.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.niil.nogor.krishi.entity.ProductType;
+import com.niil.nogor.krishi.entity.Role;
+import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.*;
 import com.niil.nogor.krishi.view.EngToBengali;
 
@@ -37,9 +37,21 @@ public class DashBoardController extends AbstractController {
 	@Autowired NurseryTypeRepo nurseryTypeRepo;
 	@Autowired MaterialPriceRepo materialPriceRepo;
 	@Autowired ProductPriceRepo productPriceRepo;
+	@Autowired GalleryImagesRepo galleryImagesRepo;
+	@Autowired GardenDesignImagesRepo gardenDesignImagesRepo;
+	@Autowired GardenLayoutRepo gardenLayoutRepo;
+	@Autowired SuggestionRepo suggestionRepo;
+	@Autowired UserRepo userRepo;
+	@Autowired private APIContentRepo contentRepo;
 
 	@RequestMapping
 	public String dashboardPage(ModelMap model) {
+		model.addAttribute("galleryImages", galleryImagesRepo.count());
+		model.addAttribute("gardenDesignImages", gardenDesignImagesRepo.count());
+		model.addAttribute("layouts", gardenLayoutRepo.count());
+		model.addAttribute("cms", pageRepo.count());
+		model.addAttribute("suggestions", suggestionRepo.count());
+		model.addAttribute("galleryImages", galleryImagesRepo.count());
 		return URL.substring(1);
 	}
 
@@ -80,6 +92,28 @@ public class DashBoardController extends AbstractController {
 		response.put("data1", data1);
 		response.put("data2", data2);
 		response.put("labels", labels);
+		return response;
+	}
+
+	@RequestMapping(value="/users", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> userData() {
+		Map<String, Object> response = new HashMap<>();
+		List<User> users = userRepo.findAll();
+		Map<Role, Long> usdt = users.stream().collect(Collectors.groupingBy(User::getRole, Collectors.counting()));
+		response.put("total", e2bconv.getBengali(users.size()));
+		response.put("labels", usdt.keySet());
+		response.put("data", usdt.values());
+		return response;
+	}
+
+	@RequestMapping(value="/contents", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> contentsData() {
+		Map<String, Object> response = new HashMap<>();
+		response.put("data1", Arrays.asList(contentRepo.count()));
+		response.put("data2", Arrays.asList(contentRepo.findAllByPublishedTrue().size()));
+		response.put("labels", Arrays.asList("লেখা সমূহ"));
 		return response;
 	}
 

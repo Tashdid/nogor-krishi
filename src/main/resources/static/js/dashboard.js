@@ -75,11 +75,12 @@ function loadPonnoPieChart() {
 $("[data-page='dashboard']").on("init", function() {
 	loadPonnoPieChart();
 	loadNurseryBarChart();
+	loadUserPieChart();
+	loadContentsBarChart();
 });
 
 function loadNurseryBarChart() {
 	$.get("/dashboard/nursery", function(rs) {
-		ponnoPieOptions.title.text = "পণ্য তালিকা (" + rs.total + ")";
 		var ctx = document.getElementById("nurserycanvas").getContext("2d");
 		var nurseryBarChart = new Chart(ctx, {
 			type: 'bar',
@@ -100,6 +101,78 @@ function loadNurseryBarChart() {
 				title: {
 					display: true,
 					text: 'নার্সারি ও নার্সারিতে প্রাপ্ত পণ্য ও সরঞ্জাম'
+				},
+				tooltips: {
+					callbacks: {
+						label: function(tooltipItem, data) {
+							var tooltipLabel = data.datasets[tooltipItem.datasetIndex].label;
+							var tooltipData = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+							return tooltipLabel + ': ' + engToBen("" + tooltipData);
+						}
+					}
+				}
+			}
+		});
+	});
+}
+
+function loadUserPieChart() {
+	$.get("/dashboard/users", function(rs) {
+		var coloR = [];
+		for (var i = 0; i < rs.data.length; i++) {
+			coloR.push(dynamicColors(i));
+		}
+		var pieOptions = {
+			responsive: true,
+			title: {
+				display: true,
+				text: "ইউজার (" + rs.total + ")"
+			},
+			tooltips: {
+				callbacks: {
+					label: genericLabel
+				}
+			}
+		};
+		var ctx = document.getElementById("usercanvas").getContext("2d");
+		var myPieChart = new Chart(ctx, {
+			type: 'pie',
+			data: {
+				datasets: [{
+					backgroundColor: coloR,
+					borderColor: 'rgba(200, 200, 200, 0.75)',
+					hoverBorderColor: 'rgba(200, 200, 200, 1)',
+					data: rs.data
+				}],
+				labels: rs.labels
+			},
+			options: pieOptions
+		});
+	});
+}
+
+function loadContentsBarChart() {
+	$.get("/dashboard/contents", function(rs) {
+		var ctx = document.getElementById("contentscanvas").getContext("2d");
+		var nurseryBarChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				datasets: [{
+					label: 'মোট',
+					backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+					data: rs.data1
+				}, {
+					label: 'প্রকাশিত',
+					backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+					data: rs.data2
+				}],
+				labels: rs.labels
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'লেখা সমূহ'
 				},
 				tooltips: {
 					callbacks: {
