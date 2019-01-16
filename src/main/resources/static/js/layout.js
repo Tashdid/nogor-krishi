@@ -11,7 +11,8 @@ $("[data-page='layout']").on("init", function() {
 	var conv = {'5': '৫', '10': '১০', '15': '১৫', '20': '২০', '25': '২৫', '30': '৩০', '35': '৩৫', '40': '৪০', '45': '৪৫', '50': '৫০', '55': '৫৫', '60': '৬০', '65': '৬৫', '70': '৭০', '75': '৭৫', '80': '৮০', '85': '৮৫', '90': '৯০', '95': '৯৫', '100': '১০০'}
 	var btnsvlout = $("#savelayout");
 
-	$("body").on("change", ".layoutgen", function() {
+	$("body").on("click", "#genlayoutbtn", function() {
+		blockui();
 		if ($("#layoutlength").val().length > 0 && $("#layoutwidth").val().length > 0) {
 			var lng = parseInt($("#layoutlength").val()) + 1;
 			var wdt = parseInt($("#layoutwidth").val()) + 1;
@@ -29,16 +30,18 @@ $("[data-page='layout']").on("init", function() {
 				}
 				tbl += '</div>';
 			}
-			$("div.table").html(tbl);
+			$("#tablediv").html(tbl);
 			layoutGenerated = true;
 			btnsvlout.show();
 		} else {
-			$("div.table").html("");
+			$("#tablediv").html("");
 			layoutGenerated = false;
 			btnsvlout.hide();
 		}
 		setLayoutCellHeight();
-	}).on("keyup", ".layoutgen", function() {
+		unblockui();
+		return false;
+	}).on("keyup", ".layoutgen", function(event) {
 		var fld = $(this);
 		var evl = benToEng(fld.val());
 		if (isNaN(evl)) {
@@ -46,6 +49,10 @@ $("[data-page='layout']").on("init", function() {
 			return;
 		}
 		fld.val(evl);
+		var keyCode = (event.keyCode ? event.keyCode : event.which);   
+		if (keyCode == 13) {
+			$("#genlayoutbtn").click();
+		}
 	}).on("change", "#types", function() {
 		var dvtld = $("#layoutprods");
 		blockui(dvtld);
@@ -81,9 +88,9 @@ $("[data-page='layout']").on("init", function() {
 		return false;
 	});
 
-	$("body .layoutgen").change();
+	$("#genlayoutbtn").click();
 
-	var lo = $("div.table");
+	var lo = $("#tablediv");
 	if (lo.length === 1) {
 		setLayoutCellHeight();
 	}
@@ -176,13 +183,15 @@ function checkAndGet(text) {
 }
 
 function setLayoutCellHeight() {
-	var lo = $("div.table");
+	var lo = $("#tablediv");
 	if (lo.width() === 0) {
 		$("#tableov").width(0).height(0);
 		return;
 	}
 	var wdth = lo.width() / lo.find("div.tr:first > div.td").length;
 	var hght = wdth > 50 ? 50 : wdth;
-	lo.find("div.tr > div.td").height(hght);
+	lo.find("div.tr").each(function() {
+		$(this).find("div.td:first").height(hght);
+	});
 	$("#tableov").width(lo.width() - wdth).height(lo.height() - hght).css("margin-left", wdth).css("margin-top", hght);
 }

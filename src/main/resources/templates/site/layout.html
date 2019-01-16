@@ -6,116 +6,120 @@
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 		<form th:action="@{/layout}" method="post">
-<!-- 		<div id="page-container"> -->
-		<div class="container" style="margin-top: 50px;">
-			<div class="row">
-			<!-- garden grid -->
-			<div class="col-lg-9">
-		
-				<div class="ml-5">
-					<p class="lead text-muted w-50 float-left">পছন্দমত ছাদ-বাগান লে-আউট </p>
-					<div class="clearfix"></div>
-				</div>
-
+			<div class="container" style="margin-top: 50px;">
 				<div class="row">
-					<div class="col-sm-3 offset-sm-1">
-						<div class="form-group row">
-							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutlength">দৈর্ঘ্য:</label>
-							<div class="col-sm-5">
-								<input required="" name="length" type="text" class="form-control form-control-sm layoutgen" id="layoutlength" />
+					<!-- garden grid -->
+					<div class="col-lg-9">
+				
+						<div class="ml-5">
+							<p class="lead text-muted w-50 float-left">পছন্দমত ছাদ-বাগান লে-আউট </p>
+							<div class="clearfix"></div>
+						</div>
+		
+						<div class="row">
+							<div class="col-sm-2 offset-sm-1">
+								<div class="form-group row">
+									<label class="col-form-label col-form-label-sm col-sm-4" for="layoutlength">দৈর্ঘ্য:</label>
+									<div class="col-sm-8">
+										<input required="" name="length" type="text" class="form-control form-control-sm layoutgen" id="layoutlength" />
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group row">
+									<label class="col-form-label col-form-label-sm col-sm-4" for="layoutwidth">প্রস্থ:</label>
+									<div class="col-sm-8">
+										<input required="" name="width" type="text" class="form-control form-control-sm layoutgen" id="layoutwidth" />
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="">
+									<button class="btn btn-sm btn-primary" href="#" id="genlayoutbtn">জেনারেট</button>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="pt-1 text-right">
+									<a id="savelayout" href="" tabindex="-1" style="display: none;">
+										<i class="fa  fa-floppy-o"></i> বাগান সংরক্ষণ করুন
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="form-group row">
-							<label class="col-form-label col-form-label-sm col-sm-4" for="layoutwidth">প্রস্থ:</label>
-							<div class="col-sm-5">
-								<input required="" name="width" type="text" class="form-control form-control-sm layoutgen" id="layoutwidth" />
+						<div id="lyout">
+							<div id="tableov" class="droppable"></div>
+							<div id="tablediv" class="table"></div>
+							<input type="hidden" name="encodedImage" id="image"/>
+						</div>
+		
+						<div class="ml-5 mt-5 mb-5">
+							<div class="instructions">
+								<p class="color-red">কিভাবে ব্যবহার করবেন</p>
+								<ul style="margin-bottom: 0">
+									<li>নিম্ন লে-আউট এর প্রতিটি সাদা বাক্স ১ স্কোয়ার ফুট, এবং সাদা যায়গা ফাঁকা</li>
+									<li>যেকোন রঙ্গিন বাক্স তে মাউস (হোভার) নিলে গাছটির নাম দেখতে পারবেন</li>
+									<li>বাক্সে ক্লিক করলে গাছটির বিস্তারিত বর্ননা দেখতে পারবেন</li>
+									<li>বামে "গাছের তালিকা" থেকেও গাছের বিস্তারিত বর্ননা দেখতে পারবেন</li>
+								</ul>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-5">
-						<div class="pt-1 text-right">
-							<a id="savelayout" href="" tabindex="-1" style="display: none;">
-								<i class="fa  fa-floppy-o"></i> বাগান সংরক্ষণ করুন
-							</a>
+		
+						<div class="ml-5 pt-4 text-center">
+							<h3 class="text-center border-bottom-2px d-inline-block">বাগানের উৎপাদন ক্ষমতা ও উপকারিতা</h3>
+						</div>
+		
+						<div class="ml-5 mt-4">
+							<table class="table">
+								<thead>
+								<tr class="color-red small">
+									<th style="width: 18%;">গাছের নাম </th>
+									<th style="width: 22%;">উৎপাদন ক্ষমতা </th>
+									<th>উপকারিতা </th>
+								</tr>
+								</thead>
+								<tbody id="gdetails">
+								</tbody>
+							</table>
 						</div>
 					</div>
-				</div>
-				<div id="lyout">
-					<div id="tableov" class="droppable"></div>
-					<div class="table"></div>
-					<input type="hidden" name="encodedImage" id="image"/>
-				</div>
-
-				<div class="ml-5 mt-5 mb-5">
-					<div class="instructions">
-						<p class="color-red">কিভাবে ব্যবহার করবেন</p>
-						<ul style="margin-bottom: 0">
-							<li>নিম্ন লে-আউট এর প্রতিটি সাদা বাক্স ১ স্কোয়ার ফুট, এবং সাদা যায়গা ফাঁকা</li>
-							<li>যেকোন রঙ্গিন বাক্স তে মাউস (হোভার) নিলে গাছটির নাম দেখতে পারবেন</li>
-							<li>বাক্সে ক্লিক করলে গাছটির বিস্তারিত বর্ননা দেখতে পারবেন</li>
-							<li>বামে "গাছের তালিকা" থেকেও গাছের বিস্তারিত বর্ননা দেখতে পারবেন</li>
+		
+					<!-- tab -->
+					<div class="col-lg-3">
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab" href="#home" role="tab">
+									<i class="fa fa-list"></i> গাছের তালিকা </a>
+							</li>
 						</ul>
-					</div>
-				</div>
-
-				<div class="ml-5 pt-4 text-center">
-					<h3 class="text-center border-bottom-2px d-inline-block">বাগানের উৎপাদন ক্ষমতা ও উপকারিতা</h3>
-				</div>
-
-				<div class="ml-5 mt-4">
-					<table class="table">
-						<thead>
-						<tr class="color-red small">
-							<th style="width: 18%;">গাছের নাম </th>
-							<th style="width: 22%;">উৎপাদন ক্ষমতা </th>
-							<th>উপকারিতা </th>
-						</tr>
-						</thead>
-						<tbody id="gdetails">
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-			<!-- tab -->
-			<div class="col-lg-3">
-				<!-- Nav tabs -->
-				<ul class="nav nav-tabs" role="tablist">
-					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#home" role="tab">
-							<i class="fa fa-list"></i> গাছের তালিকা </a>
-					</li>
-				</ul>
-
-				<!-- Tab panes -->
-				<div class="tab-content sidebar-tab-content">
-					<div class="tab-pane active" role="tabpanel">
-						<div class="col-lg-12 mb-3 border-bottom-2px">
-							<select id="types" class="form-control layoutptypes">
-								<option th:each="tp : ${types}" th:attr="data-remote=@{'/layout/items/' + ${tp.key}}" th:value="${tp.key}" th:text="${tp.value}">শাক </option>
-								<option th:remove="all">শাক </option>
-								<option th:remove="all">শাক </option>
-								<option th:remove="all">শাক </option>
-								<option th:remove="all">শাক </option>
-								<option th:remove="all">শাক </option>
-							</select>
-						</div>
-						<div class="row" style="margin-left: 0px; margin-right: 0px;" id="layoutprods">
-							<div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" th:fragment="products">
-								<div th:each="prd : ${products}" class="tab-content-plant draggable col-lg-6"
-									th:attr="data-id=${prd.id}, data-name=${prd.name}, data-prod=${prd.productivity}, data-ben=${prd.benefits}">
-									<img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.icon)}" class="img" src="images/icon-oushodhi.jpg"/>
-									<span th:text="${prd.name}" style="font-size: 13px !important;">তুলশী </span>
+		
+						<!-- Tab panes -->
+						<div class="tab-content sidebar-tab-content">
+							<div class="tab-pane active" role="tabpanel">
+								<div class="col-lg-12 mb-3 border-bottom-2px">
+									<select id="types" class="form-control layoutptypes">
+										<option th:each="tp : ${types}" th:attr="data-remote=@{'/layout/items/' + ${tp.key}}" th:value="${tp.key}" th:text="${tp.value}">শাক </option>
+										<option th:remove="all">শাক </option>
+										<option th:remove="all">শাক </option>
+										<option th:remove="all">শাক </option>
+										<option th:remove="all">শাক </option>
+										<option th:remove="all">শাক </option>
+									</select>
+								</div>
+								<div class="row" style="margin-left: 0px; margin-right: 0px;" id="layoutprods">
+									<div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" th:fragment="products">
+										<div th:each="prd : ${products}" class="tab-content-plant draggable col-lg-6"
+											th:attr="data-id=${prd.id}, data-name=${prd.name}, data-prod=${prd.productivity}, data-ben=${prd.benefits}">
+											<img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(prd.icon)}" class="img" src="images/icon-oushodhi.jpg"/>
+											<span th:text="${prd.name}" style="font-size: 13px !important;">তুলশী </span>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			</div>
-		</div>
 		</form>
 
 		<div th:replace="common :: commom-footer" th:remove="tag"></div>
