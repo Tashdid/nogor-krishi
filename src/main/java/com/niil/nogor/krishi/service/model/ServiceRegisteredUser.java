@@ -12,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class ServiceRegisteredUser {
+	private String name;
 	@NotNull
 	private Integer divisionId;
 	private String division;
@@ -31,5 +32,13 @@ public class ServiceRegisteredUser {
 	public String getDetails() {
 		if (division == null) return "";
 		return String.format("বিভাগঃ %s, জেলাঃ %s, উপজেলাঃ %s, ইউনিয়নঃ %s এবং ব্লকঃ %s", division, district, upazila, union, block);
+	}
+
+	public String getUpdateRequest() {
+		return String.format("division_id=%d&district_id=%d&upzilla_id=%d&block_id=%d", divisionId, districtId, upazilaId, blockId);
+	}
+
+	public String getAddRequest() {
+		return String.format("name=%s&%s", name, getUpdateRequest());
 	}
 }

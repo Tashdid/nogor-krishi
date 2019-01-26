@@ -62,6 +62,7 @@ public class ServiceRegistrationController extends AbstractController {
 	@RequestMapping(value = "/serviceregister", method = RequestMethod.POST)
 	public String page(ServiceRegisteredUser serviceUser, final ModelMap model) {
 		User user = securityService.findLoggedInUser();
+		serviceUser.setName(user.getName());
 		krishiService.addServiceRegisteredUser(user.getMobile(), serviceUser);
 		return "success";
 	}

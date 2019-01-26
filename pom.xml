@@ -5,7 +5,7 @@
 
 	<groupId>com.niil</groupId>
 	<artifactId>nogor-krishi</artifactId>
-	<version>0.3.28-SNAPSHOT</version>
+	<version>0.3.29-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>nogor-krishi</name>
@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>com.niil</groupId>
 			<artifactId>krishi-api</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
