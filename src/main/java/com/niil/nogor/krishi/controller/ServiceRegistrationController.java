@@ -71,18 +71,22 @@ public class ServiceRegistrationController extends AbstractController {
 	@RequestMapping(value = "/areas/{type}", method = RequestMethod.GET)
 	public List<BasicData> getList(@PathVariable Type type, @RequestParam(required=false) Integer id) {
 		if (type != Type.DIVISION && id == null) return Arrays.asList();
-		switch(type) {
-			case DIVISION:
-				List<BasicData> data = krishiAPI.getDivisions().getData();
-				return data;
-			case DISTRICT:
-				return krishiAPI.getDistricts(id).getData();
-			case UPAZILA:
-				return krishiAPI.getUpazilas(id).getData();
-			case UNION:
-				return krishiAPI.getUnions(id).getData();
-			default:
-				return krishiAPI.getBlocks(id).getData();
+		try {
+			switch(type) {
+				case DIVISION:
+					List<BasicData> data = krishiAPI.getDivisions().getData();
+					return data;
+				case DISTRICT:
+					return krishiAPI.getDistricts(id).getData();
+				case UPAZILA:
+					return krishiAPI.getUpazilas(id).getData();
+				case UNION:
+					return krishiAPI.getUnions(id).getData();
+				default:
+					return krishiAPI.getBlocks(id).getData();
+			}
+		} catch (Exception e) {
+			return Arrays.asList();
 		}
 	}
 }
