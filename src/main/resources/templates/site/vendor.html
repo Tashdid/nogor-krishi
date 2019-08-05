@@ -9,6 +9,7 @@
 			<div class="row">
 				<div class="col-lg-3 product-background" style="position: relative;">
 					<div th:each="ar : ${areas}" style="margin-bottom: 2px; padding-left: 5px;" th:styleappend="${area.id eq ar.id ? ('background-color: yellowgreen;') : ''}"><a class="" th:href="@{'/vendors/' + ${ar.id}}" th:text="${ar.name}">এলিফ্যান্ট রোড</a> <br/></div>
+					<div th:replace="site/vendors :: torulota"></div>
 				</div>
 				<!-- product sidebar ends here -->
 				<div class="col-lg-6 pl-5" id="vendors-container">
