@@ -22,12 +22,15 @@ import com.niil.nogor.krishi.repo.PasswordResetTokenRepo;
 import com.niil.nogor.krishi.repo.UserRepo;
 import com.niil.nogor.krishi.view.PasswordForgotModel;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Noor
  * @email niildu@gmail.com
  * @since Sep 10, 2019
  *
  */
+@Slf4j
 @Controller
 @RequestMapping("/forgotpassword")
 public class PasswordForgotController extends AbstractController {
@@ -70,13 +73,14 @@ public class PasswordForgotController extends AbstractController {
 			MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 					StandardCharsets.UTF_8.name());
 
-			helper.setTo("niildu@gmail.com");
+			helper.setTo(user.getEmail());
 			helper.setText(getEmailBody(user, token.getToken()), true);
-			helper.setSubject("Voila");
-			helper.setFrom("ngtest@rhchrc.com");
+			helper.setSubject("Password Reset Request");
+			helper.setFrom("noreply@nogorkrishi.com");
 
 			emailSender.send(message);
 		} catch (Exception e) {
+			log.error("Failed to send email with error: {}", e.getMessage());
 			throw new RuntimeException(e);
 		}
 		return "redirect:/forgotpassword?success";
