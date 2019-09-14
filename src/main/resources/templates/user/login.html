@@ -1,4 +1,4 @@
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
 	</head>
@@ -14,6 +14,9 @@
 						</div>
 						<div th:if="${msg ne null}" class="col-sm-8 offset-sm-3 alert alert-success" style="text-align: center; padding: 5px;">
 							<span th:text="${msg}">লগ ইন</span>
+						</div>
+						<div th:if="${param.resetSuccess}" class="col-sm-8 offset-sm-3 alert alert-success" style="text-align: center; padding: 5px;">
+							<span>আপনি সফলতার সাথে পাসওয়ার্ড রিসেট করেছেন!</span>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-3" for="username"></label>
@@ -35,8 +38,14 @@
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-3"></label>
-							<div class="col-sm-8" style="text-align: center;">
-								<a th:href="@{'/register' + ${reqFrom}}" href="/register">নিবন্ধন করুন</a>
+							<div class="col-sm-8">
+								নতুন ইউজার? <a href="/" th:href="@{/register}">নিবন্ধন করুন</a>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-3"></label>
+							<div class="col-sm-8">
+								পাসওয়ার্ড ভূলে গেছেন? <a href="/" th:href="@{/forgotpassword}">পাসওয়ার্ড রিসেট করুন</a>
 							</div>
 						</div>
 					</form>

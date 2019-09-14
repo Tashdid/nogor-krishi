@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod, saml
+    active: dev, saml
   data:
     rest:
       base-path: /rest
@@ -13,6 +13,19 @@ spring:
     url: "jdbc:mysql://localhost:3306/nogorkrishi?useUnicode=yes&characterEncoding=UTF-8"
     username: root
     password: root
+  mail:
+    default-encoding: UTF-8
+    host: localhost
+    port: 26
+    properties:
+      mail:
+        debug: false
+        smtp:
+          debug: false
+          auth: false
+          starttls: false
+    protocol: smtp
+    test-connection: false
 ---
 
 spring:
@@ -21,7 +34,25 @@ spring:
     cache: false
   jpa:
     show-sql: true
-
+  datasource:
+    url: "jdbc:mysql://localhost:3306/nogorkrishi?useUnicode=yes&characterEncoding=UTF-8"
+    username: root
+    password: root1234
+  mail:
+    default-encoding: UTF-8
+    host: mail.rhchrc.com
+    username: ngtest@rhchrc.com
+    password: NGTest1234!@
+    port: 26
+    properties:
+      mail:
+        debug: false
+        smtp:
+          debug: false
+          auth: true
+          starttls: false
+    protocol: smtp
+    test-connection: false
 saml:
   entityid: nogorkrishi-dev
   entitybaseurl: http://localhost:8080

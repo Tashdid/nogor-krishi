@@ -31,10 +31,9 @@ import com.niil.nogor.krishi.view.ChangePassword;
 @Controller
 public class UserController extends AbstractController {
 
-	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
 	@Autowired private AppUtil appUtil;
 	@Autowired private UserRepo userRepo;
+	@Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(@RequestParam(required=false) String error,

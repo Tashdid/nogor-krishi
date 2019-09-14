@@ -1,4 +1,4 @@
-<div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}">
+<div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" xmlns:th="http://www.thymeleaf.org">
 	<div id="product-description-container" class="col-7 preventcopy">
 		<div class="product-description-text">
 			<p th:if="${product.image ne null}">

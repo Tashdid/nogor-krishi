@@ -68,7 +68,7 @@ $(document).ready(function() {
 		var pswd = $("#password").val();
 		var cnpswd = $("#confirmPassword").val();
 		if (pswd !== cnpswd) {
-			alert("Passwords are not same!");
+			alert("পাসওয়ার্ড গুলো একই নয়!");
 			return false;
 		}
 		blockui();
@@ -77,7 +77,16 @@ $(document).ready(function() {
 		var pswd = $("#newPassword").val();
 		var cnpswd = $("#confirmNewPassword").val();
 		if (pswd !== cnpswd) {
-			alert("Passwords are not same!");
+			alert("পাসওয়ার্ড গুলো একই নয়!");
+			return false;
+		}
+		blockui();
+	}).on("submit", "#resetpasswordform", function() {
+		var btn = $(this);
+		var pswd = $("#newPassword").val();
+		var cnpswd = $("#confirmNewPassword").val();
+		if (pswd !== cnpswd) {
+			alert("পাসওয়ার্ড গুলো একই নয়!");
 			return false;
 		}
 		blockui();

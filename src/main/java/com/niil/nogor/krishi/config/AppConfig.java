@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.niil.nogor.krishi.entity.Settings;
 import com.niil.nogor.krishi.repo.SettingsRepo;
@@ -57,6 +58,11 @@ public class AppConfig {
 			reloadSettings = false;
 		}
 		return siteSettings;
+	}
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean

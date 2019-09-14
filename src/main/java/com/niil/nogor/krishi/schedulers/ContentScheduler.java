@@ -1,9 +1,12 @@
 package com.niil.nogor.krishi.schedulers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
 
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +37,6 @@ public class ContentScheduler {
 	@Autowired private KrishiAPI krishiAPI;
 	@Autowired private APIContentRepo contentRepo;
 	@Autowired private APIOfficerRepo officerRepo;
-
-	@PostConstruct
-	private void init() {
-		if (contentRepo.findAll().isEmpty())
-			loadContents();
-	}
 
 	@Scheduled(cron="0 0 2 * * *") // Every day at 02:00 am
 	private void loadContents() {
