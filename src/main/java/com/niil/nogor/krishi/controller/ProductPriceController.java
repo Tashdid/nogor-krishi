@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import com.niil.nogor.krishi.entity.Product;
 import com.niil.nogor.krishi.entity.ProductPrice;
@@ -29,6 +30,8 @@ public class ProductPriceController {
 	
 	@RequestMapping(value="/{productId}/saleType/{saleTypeId}",method=RequestMethod.GET)
 	public List<ProductPrice> getProductPrices(@PathVariable Long productId,@PathVariable Long saleTypeId) {
+		
+		System.out.print("Session attribute is "+ RequestContextHolder.currentRequestAttributes().getSessionId());
 		
 		Product product = productRepo.findOne(productId);
 		SaleType saleType = saleTypeRepo.findOne(saleTypeId);

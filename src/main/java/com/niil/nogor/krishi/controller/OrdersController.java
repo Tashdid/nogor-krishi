@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.niil.nogor.krishi.entity.Cart;
 import com.niil.nogor.krishi.entity.CartDetails;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
 import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.CartDetailsRepo;
-import com.niil.nogor.krishi.repo.CartRepo;
 import com.niil.nogor.krishi.repo.OrderDetailsRepo;
 import com.niil.nogor.krishi.repo.OrdersRepo;
 import com.niil.nogor.krishi.repo.UserRepo;
@@ -34,7 +32,6 @@ public class OrdersController extends AbstractController{
 	@Autowired OrderDetailsRepo orderDetailsRepo;
 	@Autowired UserRepo userRepo;
 	@Autowired CartDetailsRepo cartDetailsRepo;
-	@Autowired CartRepo cartRepo;
 	
 	@RequestMapping(value="/orders/{userId}",method=RequestMethod.GET)
 	public List<Orders> getOrders(@PathVariable Long userId) {
@@ -50,16 +47,16 @@ public class OrdersController extends AbstractController{
 	@PostMapping("/confirm-order/{userId}/cart/{cartId}")
 	public ResponseEntity confirmOrder(@RequestBody Orders orders,Long userId,Long cartId) {
 		
-		Cart cart = cartRepo.findOne(cartId);
-		List<CartDetails> cartDetails = cartDetailsRepo.findAllByCart(cart);
-		
-		/*
-		 * place all cart items to order-details item and save 
-		 */
-		ordersRepo.save(orders);
-		if(ConvertAndSaveCartToOrder(cartDetails)){
-			return ResponseEntity.ok(HttpStatus.SC_OK);
-		}
+//		Cart cart = cartRepo.findOne(cartId);
+//		List<CartDetails> cartDetails = cartDetailsRepo.findAllByCart(cart);
+//		
+//		/*
+//		 * place all cart items to order-details item and save 
+//		 */
+//		ordersRepo.save(orders);
+//		if(ConvertAndSaveCartToOrder(cartDetails)){
+//			return ResponseEntity.ok(HttpStatus.SC_OK);
+//		}
 		return ResponseEntity.ok(HttpStatus.SC_BAD_REQUEST);
 	}
 	

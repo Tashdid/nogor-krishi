@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CartDetails {
 	private @Id @GeneratedValue Long id;
-	private @ManyToOne(targetEntity=Cart.class) Cart cart;
+	private String sessionId;
 	private @OneToOne(targetEntity=Product.class) Product product;
 	private @OneToOne(targetEntity=SaleType.class) SaleType saleType;
 	private BigDecimal unit_price;
