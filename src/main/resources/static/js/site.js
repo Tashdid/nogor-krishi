@@ -109,6 +109,16 @@ $("[data-page='serviceregister']").on("init", function() {
 	});
 });
 
+$(document).ready(function() {
+	$(document).on('click', '#cart-close', function(e){
+        $('body').removeClass('show-cart');
+    });
+	
+	$(document).on('click', '#cart-show', function(e){
+        $('body').addClass('show-cart');
+    });
+});
+
 function showPage(pageno) {
 	if ($("[data-page='" + pageno + "']").length === 0) return false;
 

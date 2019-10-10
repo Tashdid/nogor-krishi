@@ -3,6 +3,9 @@
 		<div class="product-description-text">
 			<p th:if="${product.image ne null}">
 				<img width="40%" height="100vw" style="margin-bottom: 5px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2" />
+				<div>
+					<a  class="products btn btn-primary" th:href= "@{'/buy/' + ${product.id}}">Buy now </a>
+				</div>
 			</p>
 			<p th:each="dsc, stat : ${product.detailsList}" align="justify">
 				<span th:utext="${dsc}" th:remove="tag"></span>

@@ -585,3 +585,12 @@ a.contact-button-link span.fa {
 	border-left: .25rem solid #eceeef;
 
 }
+
+#cart-show {
+	width: 50px; 
+	top: 50vh; 
+	right: 0px; 
+	position: fixed; 
+	z-index: 2000;
+	background: blue;
+}
