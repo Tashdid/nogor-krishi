@@ -4,18 +4,26 @@ $(document).ready(function() {
 	  
 		let saleTypeId = $('#salesTypeOpt').val();
 		let nurseryId = $(this).data('nurseryid');
-		debugger;
+		let unitPrice = $(this).data('unitprice');
+		let productId = $("#product-id").val();
+
+		let quantity = $(".quantity").val();
 	  
 		$.ajax({
 	        type: 'POST',
-	        url: '/add-to-cart',
+	        url: 'http://localhost:8080/test/cart/add-to-cart/',
 	        dataType: "json",
-	        async:false,
 	        data: {
-	            Country: "Japan"
+				sale_type_id : saleTypeId,
+				nursery_id : nurseryId,
+				product_id : productId,
+				unit_price : unitPrice,
+				quantity : quantity
+				
 	        },
 	        success: function(data) {
-	            console.log(data);
+				console.log(data);
+				updateCart();
 	            
 	        }
 
@@ -33,7 +41,6 @@ $(document).ready(function() {
 			type: 'GET',
 			url: `http://localhost:8080/test/price-list/${productId}/saleType/${saleTypeId}`,
 			dataType: "json",
-			async:false,
 			//		        data: {
 			//		            sale: "Japan"
 			//		        },
@@ -43,10 +50,18 @@ $(document).ready(function() {
 		        for(i=0; i < data.length; i++) {
 		        	tr = `
 		        		<tr>
-		        			<td>${data[i].price}</td>
-		        			<td>${data[i].nursery.name}</td>
-		        			<td>${data[i].nursery.id}</td>
-		        			<td><button data-nurseryid=${data[i].nursery.id} class='add-to-cart btn btn-primary'>Add to cart</button></td>
+		        			<td>${data[i].price} Taka</td>
+							<td> 
+								<p>${data[i].nursery.name}</p>
+								<p class="small">${data[i].nursery.area.name}, ${data[i].nursery.area.city.name}</p>
+							</td>
+							<td>
+								<button data-unitprice=${data[i].price}
+									data-nurseryid=${data[i].nursery.id} 
+									class='add-to-cart btn btn-primary'>
+										Add to cart
+								</button>
+							</td>
 		        		</tr>
 		        	
 		        	`;

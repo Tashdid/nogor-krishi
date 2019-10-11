@@ -1,12 +1,25 @@
 <div th:remove="tag" th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" xmlns:th="http://www.thymeleaf.org">
 	<div id="product-description-container" class="col-7 preventcopy">
 		<div class="product-description-text">
-			<p th:if="${product.image ne null}">
-				<img width="40%" height="100vw" style="margin-bottom: 5px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2" />
-				<div>
-					<a  class="products btn btn-primary" th:href= "@{'/buy/' + ${product.id}}">Buy now </a>
+			<div id="prod-desc-upper">
+				<!--  product image -->
+				<p th:if="${product.image ne null}">
+					<img width="40%" height="100vw" style="margin-bottom: 5px; width:100%" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2" />					
+				</p>
+				<div id="product-commerce">
+					<!--  product price -->
+					<div id="price-range">
+						<span th:text="${productMinPrice.price}"></span> Taka -
+						<span th:text="${productMaxPrice.price}"></span> Taka
+					</div>
+					
+					<!--  product buy button -->
+					<div>
+						<a  class="products btn btn-primary" th:href= "@{'/buy/' + ${product.id}}">Buy now </a>
+					</div>
 				</div>
-			</p>
+			</div>
+			
 			<p th:each="dsc, stat : ${product.detailsList}" align="justify">
 				<span th:utext="${dsc}" th:remove="tag"></span>
 			</p>

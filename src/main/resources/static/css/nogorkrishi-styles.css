@@ -586,11 +586,88 @@ a.contact-button-link span.fa {
 
 }
 
+/*  product page */
+#prod-desc-upper {
+	display : flex;
+}
+
+#product-commerce {
+	display : flex;
+	flex-direction : column;
+	justify-content: space-around;
+	text-align : right;
+	padding : 10px;
+}
+
+/*  cart ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
 #cart-show {
-	width: 50px; 
+	width: 55px; 
 	top: 50vh; 
 	right: 0px; 
 	position: fixed; 
 	z-index: 2000;
-	background: blue;
+	background: #ffffff;
+	box-sizing: border-box;
+	transition: all 250ms;
+	padding: 2px;
+	border: 1px solid #345c05;
+}
+
+#cart-show:hover {
+	padding-right: 20px;
+    width: 70px;
+}
+
+.show-cart #cart-container {
+	display: block;
+}
+
+#cart-container {
+	
+	position : fixed;
+	width: 50vw;
+	background:white;
+	z-index:100;
+	right:0;
+	top:0;
+	height: 100vh;
+	display: none;
+	border : 1px solid #eee;
+	box-sizing: border-box;
+	transition: all 250ms;
+}
+.table>tbody>tr>td, .table>tfoot>tr>td{
+    vertical-align: middle;
+}
+@media screen and (max-width: 1600px) {
+    table#cart tbody td .form-control{
+		width:20%;
+		display: inline !important;
+	}
+	.actions .btn{
+		width:36%;
+		margin:1.5em 0;
+	}
+	
+	.actions .btn-info{
+		float:left;
+	}
+	.actions .btn-danger{
+		float:right;
+	}
+	
+	table#cart thead { display: none; }
+	table#cart tbody td { display: block; padding: .6rem; min-width:320px;}
+	table#cart tbody tr td:first-child { background: #333; color: #fff; }
+	table#cart tbody td:before {
+		content: attr(data-th); font-weight: bold;
+		display: inline-block; width: 8rem;
+	}
+	
+	
+	
+	table#cart tfoot td{display:block; }
+	table#cart tfoot td .btn{display:block;}
+	
 }

@@ -115,7 +115,7 @@ $(document).ready(function() {
     });
 	
 	$(document).on('click', '#cart-show', function(e){
-        $('body').addClass('show-cart');
+        $('body').toggleClass('show-cart');
     });
 });
 
@@ -223,4 +223,36 @@ function initVendorMap() {
 		center : vloc
 	});
 	var marker = new google.maps.Marker({position: vloc, map: vmap});
+}
+
+const updateCart = function() {
+	$.ajax({
+		type: 'GET',
+		url: `http://localhost:8080/get-cart`,
+		dataType: "json",
+		
+		//		        data: {
+		//		            sale: "Japan"
+		//		        },
+		success: function(data) {
+//		    	data = JSON.parse(data);
+			body = '';
+			for(i=0; i < data.length; i++) {
+				tr = `
+					<tr>
+						<td>${data[i].price}</td>
+						<td>${data[i].nursery.name}</td>
+						<td>${data[i].nursery.id}</td>
+						<td><button data-nurseryid=${data[i].nursery.id} class='add-to-cart btn btn-primary'>Add to cart</button></td>
+					</tr>
+				
+				`;
+				
+				body += tr;
+			}
+			$('#price-list > tbody').html(body);
+			
+		}
+	
+	});
 }

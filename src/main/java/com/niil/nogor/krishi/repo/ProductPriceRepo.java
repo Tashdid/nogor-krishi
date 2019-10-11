@@ -20,4 +20,13 @@ public interface ProductPriceRepo extends JpaRepository<ProductPrice, Long> {
 
 	public List<ProductPrice> findAllByProduct(Product product);
 	public List<ProductPrice> findAllByProductAndSaleType(Product product,SaleType saleType);
+	
+	// Find MAX Value
+
+	ProductPrice findTopByProductOrderByPriceAsc(Product product);
+
+	// Find MIN Value
+	
+
+	ProductPrice findTopByProductOrderByPriceDesc(Product product);
 }

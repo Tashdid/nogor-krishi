@@ -93,6 +93,7 @@ public class SiteController extends AbstractController {
 			model.addAttribute("type", product.getType());
 			model.addAttribute("product", product);
 			List<ProductPrice> prices = productPriceRepo.findAllByProduct(product);
+
 			List<Nursery> nurseries = prices.stream().map(p -> p.getNursery()).distinct()
 					.sorted(byNurseryType.thenComparing(Nursery::getSequence))
 					.collect(Collectors.toList());
@@ -102,6 +103,13 @@ public class SiteController extends AbstractController {
 					.collect(Collectors.toList()));
 			model.addAttribute("nextProduct", productRepo.findTopByTypeAndSequenceGreaterThanOrderBySequence(product.getType(), product.getSequence()));
 			model.addAttribute("previousProduct", productRepo.findTopByTypeAndSequenceLessThanOrderBySequenceDesc(product.getType(), product.getSequence()));
+			
+			// product min and max price 
+			ProductPrice productMinPrice = productPriceRepo.findTopByProductOrderByPriceAsc(product);
+			ProductPrice productMaxPrice = productPriceRepo.findTopByProductOrderByPriceDesc(product);
+			model.addAttribute("productMinPrice", productMinPrice);
+			model.addAttribute("productMaxPrice", productMaxPrice);
+			
 		} else {
 			model.addAttribute("products", type == null ? cacheRepo.getAllProducts() : cacheRepo.getProducts(type));
 		}
