@@ -119,6 +119,70 @@ $(document).ready(function() {
     });
 });
 
+// Vue.component('user-name', {
+// 	props: ['name'],
+// 	template: '<p>Hi {{ name }}</p>'
+//   });
+var vm = new Vue({
+	el: '#cart-container',
+	data: {
+		name:'',
+               currencyfrom : [
+                  {name : "USD", desc:"US Dollar"},
+                  {name:"EUR", desc:"Euro"},
+                  {name:"INR", desc:"Indian Rupee"},
+                  {name:"BHD", desc:"Bahraini Dinar"}
+               ],
+               convertfrom: "INR",
+               convertto:"USD",
+			   amount :"",
+			   
+		addedProducts : [],
+		totalPrice: 0
+	},
+	created() {
+		this.fetchTaskList();
+	},
+	methods: {
+		fetchTaskList() {
+			
+			let that = this;
+			$.ajax({
+				type: 'GET',
+				url: `http://localhost:8080/test/cart/cart-details/`,
+				dataType: "json",
+				
+				//		        data: {
+				//		            sale: "Japan"
+				//		        },
+				success: function(data) {
+
+					vm.addedProducts = [
+						{
+							name : "Product 1122",
+							price : 20,
+							quantity : 2
+						},
+						{
+							name : "Product 222",
+							price : 40,
+							quantity : 1
+						}
+					];
+					vm.totalPrice = 200;
+
+					
+				}
+			
+			});
+			
+			
+		}
+	}
+	
+ });
+
+
 function showPage(pageno) {
 	if ($("[data-page='" + pageno + "']").length === 0) return false;
 
@@ -228,31 +292,31 @@ function initVendorMap() {
 const updateCart = function() {
 	$.ajax({
 		type: 'GET',
-		url: `http://localhost:8080/get-cart`,
+		url: `http://localhost:8080/test/cart/cart-details/`,
 		dataType: "json",
 		
 		//		        data: {
 		//		            sale: "Japan"
 		//		        },
 		success: function(data) {
-//		    	data = JSON.parse(data);
-			body = '';
-			for(i=0; i < data.length; i++) {
-				tr = `
-					<tr>
-						<td>${data[i].price}</td>
-						<td>${data[i].nursery.name}</td>
-						<td>${data[i].nursery.id}</td>
-						<td><button data-nurseryid=${data[i].nursery.id} class='add-to-cart btn btn-primary'>Add to cart</button></td>
-					</tr>
-				
-				`;
-				
-				body += tr;
-			}
-			$('#price-list > tbody').html(body);
-			
+
+			vm.addedProducts = [
+				{
+					name : "Product 1122",
+					price : 20,
+					quantity : 2
+				},
+				{
+					name : "Product 222",
+					price : 40,
+					quantity : 1
+				}
+			];
+			vm.totalPrice = 200;
+
 		}
 	
 	});
+
+	
 }

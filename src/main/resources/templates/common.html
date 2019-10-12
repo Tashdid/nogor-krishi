@@ -135,6 +135,7 @@
 									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="#" th:href="@{/manage/product}">ডাটা ম্যানেজমেন্ট</a>
 									<a class="dropdown-item" href="#" th:href="@{/exlayout/list}">উদ্যান তালিকা</a>
 									<a sec:authorize="hasRole('ROLE_GARDENER')" class="dropdown-item" href="#" th:href="@{/serviceregister}">৩৩৩১ সেবা</a>
+									<a sec:authorize="hasRole('ROLE_GARDENER')" class="dropdown-item" href="#" th:href="@{/my/orders}">My orders</a>
 								</div>
 							</div>
 						</div>
@@ -205,6 +206,7 @@
 		<script th:src="@{/webjars/datatables-rowreorder/js/dataTables.rowReorder.js}"></script>
 		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
 		<script th:src="@{/js/lib/jquery.contact-buttons.js}" src="js/lib/jquery.contact-buttons.js" ></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
 		<script th:src="@{/js/manage.js}" src="js/manage.js" ></script>
 		<script th:src="@{/js/site.js}" src="js/site.js" ></script>
@@ -217,11 +219,27 @@
 			</a>
 		</div>
 		<div id="cart-show">
-			cart
-			<img src="/images/icon-ponno.png"/>
+				<img src="https://img.icons8.com/material-rounded/48/000000/shopping-cart.png"/>
 		</div>
 		
 		<div id="cart-container">
+			<!-- test vue started -->
+		<!-- <div id = "databinding">
+				<h1>Currency Converter</h1>
+				<span>Enter Amount:</span><input type = "number" v-model.number = "amount" placeholder = "Enter Amount" /><br/><br/>
+				<span>Convert From:</span>
+				<select v-model = "convertfrom" style = "width:300px;font-size:25px;">
+					<option v-for = "(a, index) in currencyfrom"  v-bind:value = "a.name">{{a.desc}}</option>
+				</select>
+				<span>Convert To:</span>
+				<select v-model = "convertto" style = "width:300px;font-size:25px;">
+					<option v-for = "(a, index) in currencyfrom" v-bind:value = "a.name">{{a.desc}}</option>
+				</select><br/><br/>
+				<span> {{totalPrice}} {{amount}} {{convertfrom}} equals {{finalamount}} {{convertto}}</span>
+			</div> -->
+			<!-- test  end vue -->
+
+
 			<table id="cart" class="table table-hover table-condensed">
     				<thead>
 						<tr>
@@ -233,56 +251,42 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td data-th="Product">
+						<tr v-for="addedProduct in addedProducts">
+							<td>
 								<div class="row">
-									<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+									<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/50x50" alt="..." class="img-responsive"/></div>
 									<div class="col-sm-10">
-										<h4 class="nomargin">Product 1</h4>
-										<p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
+										<h4 class="nomargin">{{addedProduct.name}}</h4>
+										<!-- <p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p> -->
 									</div>
 								</div>
 							</td>
-							<td data-th="Price">$1.99</td>
-							<td data-th="Quantity">
-								<input type="number" class="form-control text-center" value="1"/>
+							<td data-th="Price">
+								{{addedProduct.price}} X 
+								<input type="number" class="form-control text-center" :value = "addedProduct.quantity"/>
+								= {{addedProduct.price * addedProduct.quantity}}
 							</td>
-							<td data-th="Subtotal" class="text-center">1.99</td>
+							
 							<td class="actions" data-th="">
 								<button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
 								<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
 							</td>
 						</tr>
-						<tr>
-							<td data-th="Product">
-								<div class="row">
-									<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-									<div class="col-sm-10">
-										<h4 class="nomargin">Product 1</h4>
-										<p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
-									</div>
-								</div>
-							</td>
-							<td data-th="Price">$1.99</td>
-							<td data-th="Quantity">
-								<input type="number" class="form-control text-center" value="1"/>
-							</td>
-							<td data-th="Subtotal" class="text-center">1.99</td>
-							<td class="actions" data-th="">
-								<button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-								<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
-							</td>
-						</tr>
+						
 					</tbody>
 					<tfoot>
 						<tr class="visible-xs">
-							<td class="text-center"><strong>Total 1.99</strong></td>
+							<td class="text-center">
+								
+								<strong>Total {{totalPrice}}</strong>
+									
+							</td>
 						</tr>
 						<tr>
-							<td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
-							<td colspan="2" class="hidden-xs"></td>
-							<td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
-							<td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+							<td><a id="cart-close" href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+							<td>
+								
+							  <a th:href="@{/place-order}" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
 						</tr>
 					</tfoot>
 				</table>

@@ -606,7 +606,7 @@ a.contact-button-link span.fa {
 	top: 50vh; 
 	right: 0px; 
 	position: fixed; 
-	z-index: 2000;
+	z-index: 200;
 	background: #ffffff;
 	box-sizing: border-box;
 	transition: all 250ms;
@@ -626,16 +626,17 @@ a.contact-button-link span.fa {
 #cart-container {
 	
 	position : fixed;
-	width: 50vw;
+	width: 40vw;
 	background:white;
-	z-index:100;
+	z-index:800;
 	right:0;
-	top:0;
+	top:60px;
 	height: 100vh;
 	display: none;
 	border : 1px solid #eee;
 	box-sizing: border-box;
 	transition: all 250ms;
+	overflow-y: scroll;
 }
 .table>tbody>tr>td, .table>tfoot>tr>td{
     vertical-align: middle;

@@ -12,19 +12,49 @@ $(document).ready(function() {
 		$.ajax({
 	        type: 'POST',
 	        url: 'http://localhost:8080/test/cart/add-to-cart/',
-	        dataType: "json",
-	        data: {
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+	        data: JSON.stringify({
 				sale_type_id : saleTypeId,
 				nursery_id : nurseryId,
 				product_id : productId,
 				unit_price : unitPrice,
 				quantity : quantity
 				
-	        },
+	        }),
 	        success: function(data) {
 				console.log(data);
 				updateCart();
 	            
+	        }
+
+	    });
+	  
+	  
+	});
+	$(document).on("click", "#confirm-order", function(){
+	  
+		let phone = $('#phone').val();
+		let deliveryAddress = $("deliveryAddress").data('nurseryid');
+		let deliveryArea = $("#deliveryArea").data('unitprice');
+		let productId = $("#product-id").val();
+
+		
+		$.ajax({
+	        type: 'POST',
+	        url: 'http://localhost:8080/test/confirm-order/',
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+	        data: JSON.stringify({
+				phone : phone,
+				deliveryAddress : deliveryAddress,
+				deliveryArea : deliveryArea,
+				productId : productId
+				
+	        }),
+	        success: function(data) {
+				console.log(data);
+	        
 	        }
 
 	    });
@@ -77,10 +107,24 @@ $(document).ready(function() {
 		  
 	});
 	
-	$(document).on("click", ".", function(){
+	$(document).on("click", "#confirm-order", function(){
 		  
 		
-		  
+		$.ajax({
+			type: 'GET',
+			url: `http://localhost:8080/test/confirm-order/`,
+			dataType: "json",
+			
+			//		        data: {
+			//		            sale: "Japan"
+			//		        },
+			success: function(data) {
+				location.replace("http://localhost:8080/confirmd-order");
+	
+			}
+		
+		});
+	
 	});
 
     

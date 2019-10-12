@@ -44,8 +44,8 @@ public class OrdersController extends AbstractController{
 		 return null;
 	}
 	
-	@PostMapping("/confirm-order/{userId}/cart/{cartId}")
-	public ResponseEntity confirmOrder(@RequestBody Orders orders,Long userId,Long cartId) {
+	@PostMapping("/confirm-order/")
+	public ResponseEntity confirmOrder() {
 		
 //		Cart cart = cartRepo.findOne(cartId);
 //		List<CartDetails> cartDetails = cartDetailsRepo.findAllByCart(cart);

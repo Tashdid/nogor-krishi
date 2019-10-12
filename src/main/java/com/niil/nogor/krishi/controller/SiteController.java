@@ -126,6 +126,18 @@ public class SiteController extends AbstractController {
 		return "site/buy";
 	}
 	
+	@RequestMapping("/place-order")
+	public String placeOrder(final ModelMap model) {
+		
+		return "site/place_order";
+	}
+	
+	@RequestMapping("/confirmd-order")
+	public String confirmOrder(final ModelMap model) {
+		
+		return "site/confirm_order";
+	}
+	
 	@RequestMapping("/layout")
 	public String layout(final ModelMap model) {
 		List<ProductType> types = productTypeRepo.findAllByOrderBySequenceAsc();

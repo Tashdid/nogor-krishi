@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta th:replace="common :: common-meta" th:remove="tag"/>
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="buy">
+		
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+		
+		
+		
+		<div class="container mt-5">
+			<div class="row">
+			
+				<h1>Order confirmed!</h1>
+				
+				
+			</div>
+			
+			
+			
+		</div>
+		
+		
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+		<div th:replace="common :: common-js" th:remove="tag"></div>
+		<script th:src="@{/js/buy.js}" src="js/buy.js" ></script>
+		
+		<script type="text/javascript">
+			
+			$(document).ready(function() {
+				// make cart visible
+				//$('body').addClass('show-cart');
+			});
+		
+		</script>		
+	</body>
+</html>
