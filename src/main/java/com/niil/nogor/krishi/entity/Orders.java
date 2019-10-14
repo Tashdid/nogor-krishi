@@ -20,10 +20,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Orders {
 	private @Id @GeneratedValue Long id;
+	private  Long orders_id;
 	private @OneToOne(targetEntity=User.class) User user;
 	private BigDecimal payable_amount;
 	private String status;
 	private LocalDateTime order_time;
 	private int rating;
 	private String comment;
+	private String phone_no;
+	private String address;
 }

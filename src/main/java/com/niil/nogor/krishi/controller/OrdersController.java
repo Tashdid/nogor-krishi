@@ -1,17 +1,18 @@
 package com.niil.nogor.krishi.controller;
 
+import java.math.BigDecimal;
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.httpclient.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import com.niil.nogor.krishi.entity.CartDetails;
 import com.niil.nogor.krishi.entity.OrderDetail;
@@ -33,6 +34,10 @@ public class OrdersController extends AbstractController{
 	@Autowired UserRepo userRepo;
 	@Autowired CartDetailsRepo cartDetailsRepo;
 	
+	public String currentUserName(Principal principal) {
+	     return principal.getName();
+	  }
+	
 	@RequestMapping(value="/orders/{userId}",method=RequestMethod.GET)
 	public List<Orders> getOrders(@PathVariable Long userId) {
 		
@@ -44,23 +49,31 @@ public class OrdersController extends AbstractController{
 		 return null;
 	}
 	
-	@PostMapping("/confirm-order/")
-	public ResponseEntity confirmOrder() {
+	@RequestMapping(value="/confirm-order/{phoneNo}/{address}",method=RequestMethod.POST)
+	public Orders confirmOrder(@PathVariable String phoneNo , @PathVariable String address) {
 		
-//		Cart cart = cartRepo.findOne(cartId);
-//		List<CartDetails> cartDetails = cartDetailsRepo.findAllByCart(cart);
-//		
-//		/*
-//		 * place all cart items to order-details item and save 
-//		 */
-//		ordersRepo.save(orders);
-//		if(ConvertAndSaveCartToOrder(cartDetails)){
-//			return ResponseEntity.ok(HttpStatus.SC_OK);
-//		}
-		return ResponseEntity.ok(HttpStatus.SC_BAD_REQUEST);
+		List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId(
+				RequestContextHolder.currentRequestAttributes().getSessionId());
+		
+		return ConvertAndSaveCartToOrder(cartDetailsList,phoneNo,address);
 	}
 	
-	Boolean ConvertAndSaveCartToOrder(List<CartDetails> cartDetailList){
+	Orders ConvertAndSaveCartToOrder(List<CartDetails> cartDetailList,String phoneNo,String address){
+		
+		Orders newOrder = new Orders();
+		newOrder.setAddress(address);
+		newOrder.setPhone_no(phoneNo);
+		newOrder.setOrder_time(LocalDateTime.now());
+		newOrder.setStatus("New");
+		newOrder.setPayable_amount(new BigDecimal(500));
+		newOrder.setOrders_id(new Long(12110));
+//		newOrder.setUser(userRepo.findByMobile(currentUserName((Principal) 
+//				SecurityContextHolder.getContext().getAuthentication().getPrincipal())));
+		newOrder.setUser(userRepo.findByMobile("01717314838"));
+		newOrder.setComment("New order test comment");
+		newOrder.setRating(3);
+		
+		ordersRepo.save(newOrder);
 		List<OrderDetail> orderDetailsList = new ArrayList<OrderDetail>();
 		
 		for(int i=0;i<cartDetailList.size();i++){
@@ -71,12 +84,14 @@ public class OrdersController extends AbstractController{
 			orderDetail.setQuantity(cartDetail.getQuantity());
 			orderDetail.setUnit_price(cartDetail.getUnit_price());
 			orderDetail.setSaleType(cartDetail.getSaleType());
+			orderDetail.setOrders(newOrder);
+			
 			
 			orderDetailsList.add(orderDetail);
 		}
 		if(orderDetailsRepo.save(orderDetailsList) != null){
-			return true;
+			return newOrder;
 		}
-		return false;
+		return null;
 	}
 }
