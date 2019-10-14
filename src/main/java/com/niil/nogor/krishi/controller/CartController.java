@@ -1,14 +1,11 @@
 package com.niil.nogor.krishi.controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.httpclient.HttpStatus;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +42,7 @@ public class CartController extends AbstractController{
 			cartDetails.setQuantity(cartDetailsDTO.getQuantity());
 			cartDetails.setUnit_price(cartDetailsDTO.getUnit_price());
 			cartDetails.setNursery(nurseryRepo.getOne(cartDetailsDTO.getNursery_id()));
-			httpSession.putValue("cartItem", cartDetails);
+			httpSession.setAttribute("cartItem", cartDetails);
 
 			cartDetailsRepo.save(cartDetails);
 			return ResponseEntity.ok(HttpStatus.SC_OK);
@@ -57,30 +54,12 @@ public class CartController extends AbstractController{
 		
 	}
 	
-//	@RequestMapping(value="/{sessionId}",method=RequestMethod.GET)
-//	public List<CartDetails> getCartDetails(@PathVariable String sessionId) {
-//		
-//		System.out.println("session");
-//		 System.out.println(RequestContextHolder.currentRequestAttributes().getSessionId());
-//		 List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId(sessionId);
-//		 if(!cartDetailsList.isEmpty()){
-//			 return cartDetailsList;
-//		 }
-//		 return null;
-//	}
-	
 	@RequestMapping(value="/cart-details/",method=RequestMethod.GET)
 	public List<CartDetails> getCartDetails(HttpSession httpSession) {
-		
-		// System.out.println("session");
-		 //System.out.println(httpSession.getAttribute("cartItem"));
-		//  System.out.println("session2");
-			
 		 List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId(RequestContextHolder.currentRequestAttributes().getSessionId());
 		 if(!cartDetailsList.isEmpty()){
 			 return cartDetailsList;
 		 }
 		 return null;
 	}
-
 }
