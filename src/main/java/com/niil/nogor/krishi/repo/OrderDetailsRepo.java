@@ -13,5 +13,7 @@ import com.niil.nogor.krishi.entity.Orders;
 public interface OrderDetailsRepo extends JpaRepository<OrderDetail, Long>{
 	
 	List<OrderDetail> findAllByOrdersAndNursery(Orders order,Nursery nursery);
+	List<OrderDetail> findAllByNursery(Nursery nursery);
+	List<OrderDetail> findAllByOrders(Orders order);
 
 }

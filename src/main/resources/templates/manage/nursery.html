@@ -156,16 +156,16 @@
 										</form>
 										<hr/>
 										<form class="form-horizontal" th:action="@{${basePath} + ${bean.id} + '/product'}" method="post">
-											<div class="form-group row">
-												<label class="col-form-label col-form-label-sm col-sm-3" for="product">Product:</label>
-												<div class="col-sm-9">
-													<select id="product" name="product" class="form-control form-control-sm">
-														<option th:each="pr : ${prods}" th:value="${pr.id}"
-															th:attr="data-stypes=${prodAvSTypes[pr.id]}"
-															th:text="${pr.type.name + ' - ' + pr.name}"></option>
-													</select>
-												</div>
-											</div>
+<!-- 											<div class="form-group row"> -->
+<!-- 												<label class="col-form-label col-form-label-sm col-sm-3" for="product">Product:</label> -->
+<!-- 												<div class="col-sm-9"> -->
+<!-- 													<select id="product" name="product" class="form-control form-control-sm"> -->
+<!-- 														<option th:each="pr : ${prods}" th:value="${pr.id}" -->
+<!-- 															th:attr="data-stypes=${prodAvSTypes[pr.id]}" -->
+<!-- 															th:text="${pr.type.name + ' - ' + pr.name}"></option> -->
+<!-- 													</select> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
 											<div class="form-group row">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="saleType">Sale Type:</label>
 												<div class="col-sm-9">

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Orders {
+public class Orders implements Comparable<Orders>{
 	private @Id @GeneratedValue Long id;
 	private  Long orders_id;
 	private @OneToOne(targetEntity=User.class) User user;
@@ -29,4 +29,14 @@ public class Orders {
 	private String comment;
 	private String phone_no;
 	private String address;
+
+	@Override
+	public int compareTo(Orders o) {
+		// TODO Auto-generated method stub
+		if (o.getId() > this.getId()) {
+	          return 1;
+	        } else {
+	          return 0;
+	        }
+	}
 }
