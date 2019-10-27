@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta th:replace="common :: common-meta" th:remove="tag" />
+</head>
+<body data-page="vendorprice">
+	<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+	<div class="container" style="margin-top: 15px;">
+		<h2>This is vendor order details page</h2>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Order ID</th>
+					<th>Product ID</th>
+					<th>Sale Type</th>
+					<th>Unit Price</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="order : ${orderDetailList}">
+					<td th:text="${order.orders.id}">1</td>
+					<td th:text="${order.product.name}">Product </td>
+					<td th:text="${order.saleType.name}">Sale Type</td>
+					<td th:text="${order.unit_price}">Amount</td>
+					<td th:text="${order.quantity}">Status</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div th:replace="common :: commom-footer" th:remove="tag"></div>
+	<div th:replace="common :: common-js" th:remove="tag"></div>
+</body>
+</html>

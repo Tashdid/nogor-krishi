@@ -82,8 +82,6 @@ public class OrdersController extends AbstractController{
 			orderDetail.setUnit_price(cartDetail.getUnit_price());
 			orderDetail.setSaleType(cartDetail.getSaleType());
 			orderDetail.setOrders(newOrder);
-			
-			
 			orderDetailsList.add(orderDetail);
 		}
 		if(orderDetailsRepo.save(orderDetailsList) != null){
