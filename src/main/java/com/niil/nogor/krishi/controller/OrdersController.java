@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,9 +66,7 @@ public class OrdersController extends AbstractController{
 		newOrder.setStatus("New");
 		newOrder.setPayable_amount(new BigDecimal(500));
 		newOrder.setOrders_id(new Long(12110));
-//		newOrder.setUser(userRepo.findByMobile(currentUserName((Principal) 
-//				SecurityContextHolder.getContext().getAuthentication().getPrincipal())));
-		newOrder.setUser(userRepo.findByMobile("01717314838"));
+		newOrder.setUser(userRepo.findByMobile(phoneNo));
 		newOrder.setComment("New order test comment");
 		newOrder.setRating(3);
 		

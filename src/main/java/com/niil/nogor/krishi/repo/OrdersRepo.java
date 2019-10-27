@@ -12,5 +12,4 @@ import com.niil.nogor.krishi.entity.User;
 public interface OrdersRepo extends JpaRepository<Orders, Long>{
 	
 	List<Orders> findAllByUser(User user);
-
 }

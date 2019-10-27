@@ -87,6 +87,7 @@ public class NurseryController extends AbstractController {
 				.filter(p -> pplist.stream().filter(pp -> pp.getProduct().getId().equals(p.getId())).count() < sTypes.size())
 			.collect(Collectors.toList());
 		model.addAttribute("prods", prods);
+		
 		model.addAttribute("prodAvSTypes", prods.stream()
 				.filter(p -> pplist.stream().filter(pp -> pp.getProduct().getId().equals(p.getId())).count() < sTypes.size())
 			.collect(Collectors.toMap(p -> p.getId(), p -> {
