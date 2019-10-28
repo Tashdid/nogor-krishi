@@ -36,7 +36,7 @@ public class OrdersController extends AbstractController{
 	public String currentUserName(Principal principal) {
 	     return principal.getName();
 	  }
-
+	
 	@RequestMapping(value="/orders/{userId}",method=RequestMethod.GET)
 	public List<Orders> getOrders(@PathVariable Long userId) {
 		
@@ -50,7 +50,7 @@ public class OrdersController extends AbstractController{
 	
 	@RequestMapping(value="/confirm-order/{phoneNo}/{address}",method=RequestMethod.POST)
 	public Orders confirmOrder(@PathVariable String phoneNo , @PathVariable String address) {
-
+		
 		List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId(
 				RequestContextHolder.currentRequestAttributes().getSessionId());
 		
@@ -58,7 +58,7 @@ public class OrdersController extends AbstractController{
 	}
 	
 	Orders ConvertAndSaveCartToOrder(List<CartDetails> cartDetailList,String phoneNo,String address){
-
+		
 		Orders newOrder = new Orders();
 		newOrder.setAddress(address);
 		newOrder.setPhone_no(phoneNo);
@@ -69,7 +69,7 @@ public class OrdersController extends AbstractController{
 		newOrder.setUser(userRepo.findByMobile(phoneNo));
 		newOrder.setComment("New order test comment");
 		newOrder.setRating(3);
-
+		
 		ordersRepo.save(newOrder);
 		List<OrderDetail> orderDetailsList = new ArrayList<OrderDetail>();
 		
@@ -82,8 +82,6 @@ public class OrdersController extends AbstractController{
 			orderDetail.setUnit_price(cartDetail.getUnit_price());
 			orderDetail.setSaleType(cartDetail.getSaleType());
 			orderDetail.setOrders(newOrder);
-
-
 			orderDetailsList.add(orderDetail);
 		}
 		if(orderDetailsRepo.save(orderDetailsList) != null){
