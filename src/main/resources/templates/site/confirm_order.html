@@ -10,14 +10,15 @@
 		
 		<div class="container mt-5">
 			<div class="row">
-			
-				<h1>Order confirmed!</h1>
+				<div class="col-md-12">
+					<h1>ধন্যবাদ! আপনার অর্ডারটি আমরা পেয়েছি। </h1>
+					<h4>অর্ডার নং : <span th:text="${orderId}"></span></h4>
+					<a th:href="@{'/gardener/gardener-order-detail/' + ${orderId}}">বিস্তারিত</a>
 				
-				
+				</div>
+
 			</div>
-			
-			
-			
+
 		</div>
 		
 		

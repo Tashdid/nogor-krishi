@@ -51,6 +51,9 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
 
 	protected String determineTargetUrl(HttpServletRequest request, Authentication authentication) {
 		String reqFrom = request.getParameter("reqFrom");
+		String redirectUrl = request.getParameter("redirect");
+		System.out.println("redirect" + redirectUrl);
+
 		if (StringUtils.isNotEmpty(reqFrom)) return reqFrom;
 
 		Object ncgi = request.getSession().getAttribute(Constants.NEWLY_CREATED_GARDEN_ID);
@@ -75,7 +78,11 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
 		}
 
 		if (isGardener) {
+			if(redirectUrl.length() > 0)
+				return redirectUrl;
+			else
 			return "/exlayout/list";
+
 		} else if (isVendor) {
 			return "/vendorprice";
 		} else if (isAdmin) {

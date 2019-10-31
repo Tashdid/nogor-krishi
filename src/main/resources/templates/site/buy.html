@@ -10,9 +10,9 @@
 		<div class="container mt-5">
 			<div class="row">
 
-				<form class="form-horizontal" onsubmit="return mySubmitFunction(event)">
+				<form class="form-inline" onsubmit="return mySubmitFunction(event)">
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="Type">Type:</label>
+						<label class="control-label col-sm-2" for="Type">টাইপ:</label>
 						<div class="col-sm-10">
 							<select  class="form-control" id="salesTypeOpt">
 								<option th:text="${saleType.name}" th:each="saleType : ${saleTypes}"  th:value="${saleType.id}"></option>
@@ -23,23 +23,23 @@
 					</div>
 
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="Type">Size:</label>
+						<label class="control-label col-sm-2" for="Type">সাইজ:</label>
 						<div class="col-sm-10">
 							<select  class="form-control" id="salesTypeOpt">
-								<option>6'</option>
-								<option>8'</option>
-								<option>10'</option>
+								<option>৬'</option>
+								<option>৮'</option>
+								<option>১০'</option>
 							</select>	
 
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="Type">Age:</label>
+						<label class="control-label col-sm-2" for="Type">বয়স:</label>
 						<div class="col-sm-10">
 							<select  class="form-control" id="salesTypeOpt">
-								<option>6 month</option>
-								<option>8 month</option>
-								<option>10 month</option>
+								<option>৬ মাস</option>
+								<option>৮ মাস</option>
+								<option>১০ মাস</option>
 							</select>	
 
 						</div>
@@ -48,7 +48,7 @@
 					
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-						<button type="button" id="get-price" class="btn btn-primary">Find Nersery and price</button>
+						<button type="button" id="get-price" class="btn btn-success">নার্সারী খুঁজুন</button>
 						</div>
 					</div>
 				</form>

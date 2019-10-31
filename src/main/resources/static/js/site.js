@@ -126,52 +126,47 @@ $(document).ready(function() {
 var vm = new Vue({
 	el: '#cart-container',
 	data: {
-		name:'',
-               currencyfrom : [
-                  {name : "USD", desc:"US Dollar"},
-                  {name:"EUR", desc:"Euro"},
-                  {name:"INR", desc:"Indian Rupee"},
-                  {name:"BHD", desc:"Bahraini Dinar"}
-               ],
-               convertfrom: "INR",
-               convertto:"USD",
-			   amount :"",
 			   
-		addedProducts : [],
-		totalPrice: 0
+		addedProducts : []
 	},
 	created() {
 		this.fetchTaskList();
 	},
+	computed: {
+		totalPrice: function () {
+			return this.addedProducts.reduce(function(sum, a){
+				return sum + a.price;
+			}, 0);
+		}
+	},
+	watch: {
+		addedProducts: function (addedProducts) {
+			this.totalPrice =  addedProducts.reduce(function(sum, a){
+				return sum + a.price;
+			}, 0);
+		}
+	},
 	methods: {
 		fetchTaskList() {
 			
-			let that = this;
 			$.ajax({
 				type: 'GET',
 				url: `http://localhost:8080/test/cart/cart-details/`,
 				dataType: "json",
-				
-				//		        data: {
-				//		            sale: "Japan"
-				//		        },
+		
 				success: function(data) {
-
-					vm.addedProducts = [
-						{
-							name : "Product 1122",
-							price : 20,
-							quantity : 2
-						},
-						{
-							name : "Product 222",
-							price : 40,
-							quantity : 1
-						}
-					];
-					vm.totalPrice = 200;
-
-					
+		
+					vm.addedProducts = data.map(function(a){
+						return {
+						 name : a.product.name,
+						 nurceryName : a.nursery.name,
+						 saleType : a.saleType.name,
+		
+						 price : a.unit_price,
+						 quantity : a.quantity,
+						 cartId : a.id
+						};
+					});
 				}
 			
 			});
@@ -290,33 +285,8 @@ function initVendorMap() {
 }
 
 const updateCart = function() {
-	$.ajax({
-		type: 'GET',
-		url: `http://localhost:8080/test/cart/cart-details/`,
-		dataType: "json",
-		
-		//		        data: {
-		//		            sale: "Japan"
-		//		        },
-		success: function(data) {
-
-			vm.addedProducts = [
-				{
-					name : "Product 1122",
-					price : 20,
-					quantity : 2
-				},
-				{
-					name : "Product 222",
-					price : 40,
-					quantity : 1
-				}
-			];
-			vm.totalPrice = 200;
-
-		}
+	vm.fetchTaskList();
 	
-	});
 
 	
 }

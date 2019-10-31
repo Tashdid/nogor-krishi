@@ -9,45 +9,7 @@
 			<div class="row">
 				<div class="col-sm-6 offset-sm-3" th:with="reqFrom=${#ctx.httpServletRequest.getParameter('reqFrom') eq null ? '' : ('?reqFrom=' + #ctx.httpServletRequest.getParameter('reqFrom'))}">
 					<form id="loginformm" th:action="@{'/login' + ${reqFrom}}" method="POST">
-						<div th:if="${error ne null}" class="col-sm-8 offset-sm-3 alert alert-danger" style="text-align: center; padding: 5px;">
-							<span th:text="${error}">লগ ইন</span>
-						</div>
-						<div th:if="${msg ne null}" class="col-sm-8 offset-sm-3 alert alert-success" style="text-align: center; padding: 5px;">
-							<span th:text="${msg}">লগ ইন</span>
-						</div>
-						<div th:if="${param.resetSuccess}" class="col-sm-8 offset-sm-3 alert alert-success" style="text-align: center; padding: 5px;">
-							<span>আপনি সফলতার সাথে পাসওয়ার্ড রিসেট করেছেন!</span>
-						</div>
-						<div class="form-group row">
-							<label class="col-form-label col-form-label-sm col-sm-3" for="username"></label>
-							<div class="col-sm-8">
-								<input type="text" id="username" name="username" class="form-control" required="required" placeholder="মোবাইল"/>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-form-label col-form-label-sm col-sm-3" for="password"></label>
-							<div class="col-sm-8">
-								<input type="password" id="password" name="password" class="form-control" required="required" placeholder="পাসওয়ার্ড"/>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-form-label col-form-label-sm col-sm-3"></label>
-							<div class="col-sm-8" style="text-align: center;">
-								<button type="submit" class="btn btn-primary" style="width: 100%;">লগ ইন</button>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-form-label col-form-label-sm col-sm-3"></label>
-							<div class="col-sm-8">
-								নতুন ইউজার? <a href="/" th:href="@{/register}">নিবন্ধন করুন</a>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-form-label col-form-label-sm col-sm-3"></label>
-							<div class="col-sm-8">
-								পাসওয়ার্ড ভূলে গেছেন? <a href="/" th:href="@{/forgotpassword}">পাসওয়ার্ড রিসেট করুন</a>
-							</div>
-						</div>
+						<div th:replace="common :: common-login" th:remove="tag"></div>
 					</form>
 				</div>
 			</div>

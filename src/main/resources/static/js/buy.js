@@ -7,8 +7,8 @@ $(document).ready(function() {
 		let unitPrice = $(this).data('unitprice');
 		let productId = $("#product-id").val();
 
-		let quantity = $(".quantity").val();
-	  
+		let quantity = $(this).parents('tr').find('.quantity').val();
+
 		$.ajax({
 	        type: 'POST',
 	        url: 'http://localhost:8080/test/cart/add-to-cart/',
@@ -86,6 +86,9 @@ $(document).ready(function() {
 								<p class="small">${data[i].nursery.area.name}, ${data[i].nursery.area.city.name}</p>
 							</td>
 							<td>
+								Quantity : <input type="number" class="quantity" value="1" />
+							</td>
+							<td>
 								<button data-unitprice=${data[i].price}
 									data-nurseryid=${data[i].nursery.id} 
 									class='add-to-cart btn btn-primary'>
@@ -109,17 +112,18 @@ $(document).ready(function() {
 	
 	$(document).on("click", "#confirm-order", function(){
 		  
-		
+		let phone = $("#phone").val();
+		let address = $("#address").val();
 		$.ajax({
-			type: 'GET',
-			url: `http://localhost:8080/test/confirm-order/`,
+			type: 'POST',
+			url: `http://localhost:8080/test/confirm-order/${phone}/${address}`,
 			dataType: "json",
 			
 			//		        data: {
 			//		            sale: "Japan"
 			//		        },
 			success: function(data) {
-				location.replace("http://localhost:8080/confirmd-order");
+				location.replace("http://localhost:8080/order-confirmation/" + data.id);
 	
 			}
 		

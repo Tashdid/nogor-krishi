@@ -52,7 +52,6 @@ public class SiteController extends AbstractController {
 	@Autowired CarouselImagesRepo carouselImagesRepo;
 	@Autowired GardenDesignImagesRepo gardenDesignImagesRepo;
 	@Autowired MaterialRepo materialRepo;
-	@Autowired SaleTypeRepo saleTypeRepo;
 	@Autowired private APIContentRepo contentRepo;
 
 	@RequestMapping
@@ -116,28 +115,6 @@ public class SiteController extends AbstractController {
 		return "site/ponno";
 	}
 
-	@RequestMapping("/buy/{product}")
-	public String buy(@PathVariable Product product, final ModelMap model) {
-		
-		List<SaleType> saleTypes = saleTypeRepo.findAll();
-		model.addAttribute("saleTypes", saleTypes);
-		model.addAttribute("product", product);
-		
-		return "site/buy";
-	}
-	
-	@RequestMapping("/place-order")
-	public String placeOrder(final ModelMap model) {
-		
-		return "site/place_order";
-	}
-	
-	@RequestMapping("/confirmd-order")
-	public String confirmOrder(final ModelMap model) {
-		
-		return "site/confirm_order";
-	}
-	
 	@RequestMapping("/layout")
 	public String layout(final ModelMap model) {
 		List<ProductType> types = productTypeRepo.findAllByOrderBySequenceAsc();

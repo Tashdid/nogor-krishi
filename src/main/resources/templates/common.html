@@ -265,6 +265,10 @@
 		</div>
 		
 		<div id="cart-container">
+				<div style="display:flex; justify-content:space-between">
+					<h3>আমার কার্ট</h3>
+					<button id="cart-close" href="#" class="btn btn-warning">X</button>
+				</div>
 			<!-- test vue started -->
 		<!-- <div id = "databinding">
 				<h1>Currency Converter</h1>
@@ -296,23 +300,28 @@
 						<tr v-for="addedProduct in addedProducts">
 							<td>
 								<div class="row">
-									<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/50x50" alt="..." class="img-responsive"/></div>
+									<!-- <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/50x50" alt="..." class="img-responsive"/></div> -->
 									<div class="col-sm-10">
-										<h3 class="nomargin">{{addedProduct.name}}</h3>
-										<h5 class="nomargin">{{addedProduct.nurceryName}}</h5>
-										<!-- <p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p> -->
+										<h4 class="nomargin">{{addedProduct.name}}</h4>
+										<p class="nomargin"> {{addedProduct.nurceryName}} </p>
+										<p class="nomargin"> {{addedProduct.saleType}} </p>
 									</div>
 								</div>
 							</td>
 							<td data-th="Price">
 								{{addedProduct.price}} X 
-								<input type="number" class="form-control text-center" :value = "addedProduct.quantity"/>
+								<input type="number" class="form-control text-center" 
+								v-bind:value = "addedProduct.quantity"
+								v-model= "addedProduct.quantity"
+								/>
 								= {{addedProduct.price * addedProduct.quantity}}
+
+								<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+
 							</td>
 							
 							<td class="actions" data-th="">
-								<button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-								<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
+								<!-- <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button> -->
 							</td>
 						</tr>
 						
@@ -326,10 +335,10 @@
 							</td>
 						</tr>
 						<tr>
-							<td><a id="cart-close" href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+							<td></td>
 							<td>
 								
-							  <a th:href="@{/place-order}" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+							  <a th:href="@{/place-order}" class="btn btn-success btn-block">চেক আউট <i class="fa fa-angle-right"></i></a></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -356,7 +365,7 @@
 						<p> ব্লগে লেখালেখি সংক্রান্ত:  <span th:text="${siteSettings eq null ? 'editor@nogorkrishi.com' : siteSettings.blogEmail}" th:remove="tag">editor@nogorkrishi.com</span> <br/>
 							নার্সারি সংক্রান্ত: <span th:text="${siteSettings eq null ? 'nursery@nogorkrishi.com' : siteSettings.nurseryEmail}" th:remove="tag">nursery@nogorkrishi.com</span> </p>
 						<p>
-							<a href="" class="btn btn-primary">
+							<a href="" class="btn btn-success">
 								<img th:src="@{/images/icon-contact.png}" src="images/icon-contact.png" style="height: 16px !important;"/>  যোগাযোগ ফর্ম
 							</a>
 						</p>
