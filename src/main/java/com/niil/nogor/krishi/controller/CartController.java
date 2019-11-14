@@ -35,15 +35,25 @@ public class CartController extends AbstractController{
 	public ResponseEntity addToCart(@RequestBody CartDetailsDTO cartDetailsDTO,HttpSession httpSession) {
 		
 		try{
+			System.out.println("cartId1 " + httpSession.getAttribute("cartId"));
+			
+			if(httpSession.getAttribute("cartId") == null){
+				 
+				 httpSession.setAttribute("cartId", RequestContextHolder.currentRequestAttributes().getSessionId());
+					
+			 }
+			
 			CartDetails cartDetails = new CartDetails();
-			cartDetails.setSessionId(RequestContextHolder.currentRequestAttributes().getSessionId());
+			cartDetails.setSessionId((String)httpSession.getAttribute("cartId"));
 			cartDetails.setProduct(productRepo.getOne(cartDetailsDTO.getProduct_id()));
 			cartDetails.setSaleType(saleTypeRepo.getOne(cartDetailsDTO.getSale_type_id()));
 			cartDetails.setQuantity(cartDetailsDTO.getQuantity());
 			cartDetails.setUnit_price(cartDetailsDTO.getUnit_price());
 			cartDetails.setNursery(nurseryRepo.getOne(cartDetailsDTO.getNursery_id()));
+			
 			httpSession.setAttribute("cartItem", cartDetails);
-
+			System.out.println("cartId2 " + httpSession.getAttribute("cartId"));
+			
 			cartDetailsRepo.save(cartDetails);
 			return ResponseEntity.ok(HttpStatus.SC_OK);
 		}
@@ -56,10 +66,15 @@ public class CartController extends AbstractController{
 	
 	@RequestMapping(value="/cart-details/",method=RequestMethod.GET)
 	public List<CartDetails> getCartDetails(HttpSession httpSession) {
-		 List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId(RequestContextHolder.currentRequestAttributes().getSessionId());
-		 if(!cartDetailsList.isEmpty()){
-			 return cartDetailsList;
-		 }
-		 return null;
+
+		if(httpSession.getAttribute("cartId") == null){
+			return null;
+		}
+		List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId((String)httpSession.getAttribute("cartId"));
+		 
+		if(!cartDetailsList.isEmpty()){
+			return cartDetailsList;
+		}
+		return cartDetailsList;
 	}
 }
