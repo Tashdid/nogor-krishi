@@ -1,6 +1,5 @@
 package com.niil.nogor.krishi.controller;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,11 +7,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import com.niil.nogor.krishi.dto.OrderForm;
 import com.niil.nogor.krishi.entity.CartDetails;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
@@ -48,25 +49,25 @@ public class OrdersController extends AbstractController{
 		 return null;
 	}
 	
-	@RequestMapping(value="/confirm-order/{phoneNo}/{address}",method=RequestMethod.POST)
-	public Orders confirmOrder(@PathVariable String phoneNo , @PathVariable String address) {
+	@RequestMapping(value="/confirm-order/",method=RequestMethod.POST)
+	public Orders confirmOrder(@RequestBody OrderForm orderForm) {
 		
 		List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId(
 				RequestContextHolder.currentRequestAttributes().getSessionId());
 		
-		return ConvertAndSaveCartToOrder(cartDetailsList,phoneNo,address);
+		return ConvertAndSaveCartToOrder(cartDetailsList,orderForm);
 	}
 	
-	Orders ConvertAndSaveCartToOrder(List<CartDetails> cartDetailList,String phoneNo,String address){
+	Orders ConvertAndSaveCartToOrder(List<CartDetails> cartDetailList,OrderForm  orderForm){
 		
 		Orders newOrder = new Orders();
-		newOrder.setAddress(address);
-		newOrder.setPhone_no(phoneNo);
+		newOrder.setAddress(orderForm.getAddress());
+		newOrder.setPhone_no(orderForm.getPhoneNo());
 		newOrder.setOrder_time(LocalDateTime.now());
-		newOrder.setStatus("New");
-		newOrder.setPayable_amount(new BigDecimal(500));
+		newOrder.setStatus(orderForm.getOrder_status());
+		newOrder.setPayable_amount(orderForm.getTotal_price());
 		newOrder.setOrders_id(new Long(12110));
-		newOrder.setUser(userRepo.findByMobile(phoneNo));
+		newOrder.setUser(userRepo.findByMobile(orderForm.getPhoneNo()));
 		newOrder.setComment("New order test comment");
 		newOrder.setRating(3);
 		
