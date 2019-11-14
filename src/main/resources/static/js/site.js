@@ -116,7 +116,21 @@ $(document).ready(function() {
 	
 	$(document).on('click', '#cart-show', function(e){
         $('body').toggleClass('show-cart');
-    });
+	});
+
+	// + number -
+	$('.count').prop('disabled', true);
+	$(document).on('click','.plus',function(){
+		var count  = $(this).parent().children('.count');
+		count.val(parseInt(count.val()) + 1 );
+	});
+	$(document).on('click','.minus',function(){
+		var count  = $(this).parent().children('.count');
+		count.val(parseInt(count.val()) - 1 );
+			if (count.val() == 0) {
+				count.val(1);
+			}
+	});
 });
 
 // Vue.component('user-name', {
@@ -135,18 +149,67 @@ var vm = new Vue({
 	computed: {
 		totalPrice: function () {
 			return this.addedProducts.reduce(function(sum, a){
-				return sum + a.price;
-			}, 0);
-		}
-	},
-	watch: {
-		addedProducts: function (addedProducts) {
-			this.totalPrice =  addedProducts.reduce(function(sum, a){
-				return sum + a.price;
+				return sum + a.price * a.quantity;
 			}, 0);
 		}
 	},
 	methods: {
+		removeItem: function(product, direction = "incriment") {
+			// let qtyChange = parseInt(product.quantity);
+			vm.addedProducts = [
+				...this.addedProducts.filter(function(each){
+					return each.cartId != product.cartId;
+				})
+			];
+		},
+		quantityChange: function(product, direction = "incriment") {
+			
+			if(parseInt(product.quantity) <= 0)
+				return this.removeItem(product);
+
+			vm.addedProducts = [ ...product,
+				...this.addedProducts.filter(function(each){
+					return each.cartId != product.cartId;
+				})
+			];
+
+			// var qtyChange;
+	  
+			// for (var i = 0; i < vue.cart.length; i++) {
+			//   if (vue.cart[i].sku === product.sku) {
+	  
+			// 	var newProduct = vue.cart[i];
+	  
+			// 	if(direction === "incriment") {
+			// 	  newProduct.quantity = newProduct.quantity + 1;
+			// 	  vue.cart.$set(i, newProduct);
+	  
+			// 	} else {
+			// 	  newProduct.quantity = newProduct.quantity - 1;
+	  
+			// 	  if(newProduct.quantity == 0) {
+			// 		vue.cart.$remove(newProduct);
+	  
+			// 	  } else {
+			// 		vue.cart.$set(i, newProduct);
+			// 	  }
+			// 	}
+			//   }
+			// }
+	  
+			// if(direction === "incriment") {
+			//   vue.cartSubTotal = vue.cartSubTotal + product.price;
+	  
+			// } else {
+			//   vue.cartSubTotal = vue.cartSubTotal - product.price;
+			// }
+	  
+			// vue.cartTotal = vue.cartSubTotal + (vue.tax * vue.cartSubTotal);
+	  
+			// if(vue.cart.length <= 0) {
+			//   vue.checkoutBool = false;
+			// }
+		  },
 		fetchTaskList() {
 			
 			$.ajax({

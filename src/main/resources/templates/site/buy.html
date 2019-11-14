@@ -14,9 +14,18 @@
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="Type">টাইপ:</label>
 						<div class="col-sm-10">
-							<select  class="form-control" id="salesTypeOpt">
+							<select  class="form-control d-none" th:id="'select-' + 'type' ">
+								<option value=""></option>
 								<option th:text="${saleType.name}" th:each="saleType : ${saleTypes}"  th:value="${saleType.id}"></option>
 							</select>	
+
+							<div class="btn-group" role="group" aria-label="..." th:id="'btn-grp-' + 'type'" >
+								<button type="button" class="btn btn-success kk-btn-group" 
+									th:each="saleType : ${saleTypes}"  
+									th:attr="data-vlu=${saleType.id}"
+									th:text="${saleType.name}">
+								</button>
+							  </div>
 
 							<input th:value="${product.id}" id="product-id" type="hidden" />	
 						</div>

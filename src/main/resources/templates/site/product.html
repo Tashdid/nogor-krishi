@@ -15,7 +15,7 @@
 					
 					<!--  product buy button -->
 					<div>
-						<a  class="products btn btn-success" th:href= "@{'/buy/' + ${product.id}}">কিনুন </a>
+						<a sec:authorize="${hasRole('ROLE_GARDENER') || !isAuthenticated()}" class="products btn btn-success" th:href= "@{'/buy/' + ${product.id}}">কিনুন </a>
 					</div>
 				</div>
 			</div>
