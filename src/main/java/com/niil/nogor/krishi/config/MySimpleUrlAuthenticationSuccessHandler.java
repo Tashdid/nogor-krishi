@@ -78,7 +78,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
 		}
 
 		if (isGardener) {
-			if(redirectUrl.length() > 0)
+			if(redirectUrl != null && !redirectUrl.isEmpty())
 				return redirectUrl;
 			else
 			return "/exlayout/list";

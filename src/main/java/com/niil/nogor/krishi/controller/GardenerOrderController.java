@@ -39,7 +39,7 @@ public class GardenerOrderController extends AbstractController{
 	@GetMapping("/gardener-order-list")
 	public String gardenerOrderPage(final ModelMap model) {
 		List<Orders> ordersList= orderRepo.findAllByUser(userRepo.
-				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()));		
+				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()));
 		model.addAttribute("orders", ordersList);
 		return "site/gardener_order_list";
 	}
@@ -49,6 +49,7 @@ public class GardenerOrderController extends AbstractController{
 		Orders order = orderRepo.findOne(order_id);
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrders(order);
 		model.addAttribute("orderDetailList", orderDetailsList);
+		model.addAttribute("order", order);
 		return "site/gardener_order_details";
 	}
 

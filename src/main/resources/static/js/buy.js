@@ -2,7 +2,7 @@ $(document).ready(function() {
 	
 	$(document).on("click", ".add-to-cart", function(){
 	  
-		let saleTypeId = $('#salesTypeOpt').val();
+		let saleTypeId = $('#select-type').val();
 		let nurseryId = $(this).data('nurseryid');
 		let unitPrice = $(this).data('unitprice');
 		let productId = $("#product-id").val();
@@ -23,8 +23,8 @@ $(document).ready(function() {
 				
 	        }),
 	        success: function(data) {
-				console.log(data);
 				updateCart();
+				$('body').addClass('show-cart');
 	            
 	        }
 
@@ -61,11 +61,19 @@ $(document).ready(function() {
 	  
 	  
 	});
-	
+	$(document).on("click", ".kk-btn-group", function(){ 
+		$(this).siblings().removeClass('active');
+		$(this).addClass('active');
+		var parId = $(this).parent().attr('id');
+		var selectId = parId.replace('btn-grp-', '');
+
+		$("#select-" + selectId).val($(this).data('vlu'));
+	});
+
 	$(document).on("click", "#get-price", function(){
 		  
 		let productId = $("#product-id").val();
-		let saleTypeId = $('#salesTypeOpt').val();
+		let saleTypeId = $('#select-type').val();//@todo make it dynamic
   
 		$.ajax({
 			type: 'GET',
@@ -86,7 +94,12 @@ $(document).ready(function() {
 								<p class="small">${data[i].nursery.area.name}, ${data[i].nursery.area.city.name}</p>
 							</td>
 							<td>
-								Quantity : <input type="number" class="quantity" value="1" />
+								
+								<div class="qty mt-5">
+									<span class="minus bg-dark">-</span>
+									<input type="number" class="count quantity" name="qty" value="1"/>
+									<span class="plus bg-dark">+</span>
+								</div>
 							</td>
 							<td>
 								<button data-unitprice=${data[i].price}
