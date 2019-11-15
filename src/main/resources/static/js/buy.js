@@ -84,30 +84,36 @@ $(document).ready(function() {
 			//		        },
 		    success: function(data) {
 //		    	data = JSON.parse(data);
-		    	body = '';
+		    	body = data.length ? '' : '<tr><td class="msg-buy">দুঃখিত, কিছু পাওয়া যায়নি। দয়া করে অন্য প্রপার্টি দিয়ে চেষ্টা করুন.</td></tr>';
 		        for(i=0; i < data.length; i++) {
 		        	tr = `
 		        		<tr>
-		        			<td>${data[i].price} Taka</td>
-							<td> 
-								<p>${data[i].nursery.name}</p>
+		        			<td> 
+								<a target="_blank" href="/vendor/${data[i].nursery.id}">${data[i].nursery.name}</a>
 								<p class="small">${data[i].nursery.area.name}, ${data[i].nursery.area.city.name}</p>
 							</td>
+							<td>${data[i].price} টাকা</td>
+							
 							<td>
-								
-								<div class="qty mt-5">
-									<span class="minus bg-dark">-</span>
-									<input type="number" class="count quantity" name="qty" value="1"/>
-									<span class="plus bg-dark">+</span>
+								<div class="quantity-cart">
+									<div class="qty mt-2">
+										<span class="minus">-</span>
+										<input type="number" class="count quantity" name="qty" value="1"/>
+										<span class="plus">+</span>
+									</div>
+									<div>
+										<button data-unitprice=${data[i].price}
+											data-nurseryid=${data[i].nursery.id} 
+											class='add-to-cart btn btn-default'>
+												কিনুন
+										</button>
+									</div>
+
+									
 								</div>
+								
 							</td>
-							<td>
-								<button data-unitprice=${data[i].price}
-									data-nurseryid=${data[i].nursery.id} 
-									class='add-to-cart btn btn-primary'>
-										Add to cart
-								</button>
-							</td>
+							
 		        		</tr>
 		        	
 		        	`;
