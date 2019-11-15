@@ -156,22 +156,35 @@ var vm = new Vue({
 	methods: {
 		removeItem: function(product, direction = "incriment") {
 			// let qtyChange = parseInt(product.quantity);
-			vm.addedProducts = [
-				...this.addedProducts.filter(function(each){
-					return each.cartId != product.cartId;
-				})
-			];
+
+			$.ajax({
+				type: 'DELETE',
+				url: `http://localhost:8080/test/cart/delete/` + product.cartId,
+				dataType: "json",
+				success: function(data) {
+		
+					vm.addedProducts = [
+						...vm.addedProducts.filter(function(each){
+							return each.cartId != product.cartId;
+						})
+					];
+				}
+			
+			});
+			
 		},
 		quantityChange: function(product, direction = "incriment") {
 			
 			if(parseInt(product.quantity) <= 0)
 				return this.removeItem(product);
-
-			vm.addedProducts = [ ...product,
-				...this.addedProducts.filter(function(each){
-					return each.cartId != product.cartId;
-				})
-			];
+			else {
+				this.updateCart(product);
+			}
+			// vm.addedProducts = [ ...product,
+			// 	...this.addedProducts.filter(function(each){
+			// 		return each.cartId != product.cartId;
+			// 	})
+			// ];
 
 			// var qtyChange;
 	  
@@ -210,6 +223,23 @@ var vm = new Vue({
 			//   vue.checkoutBool = false;
 			// }
 		  },
+		updateCart(product) {
+			$.ajax({
+				type: 'PUT',
+				url: `http://localhost:8080/test/cart/update/` + product.cartId,
+				dataType: "json",
+				data: {quantity : product.quantity},
+				success: function(data) {
+		
+					vm.addedProducts = [ ...product,
+						...vm.addedProducts.filter(function(each){
+							return each.cartId != product.cartId;
+						})
+					];
+				}
+			
+			});
+		},  
 		fetchTaskList() {
 			
 			$.ajax({

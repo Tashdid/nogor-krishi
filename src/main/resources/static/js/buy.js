@@ -32,35 +32,35 @@ $(document).ready(function() {
 	  
 	  
 	});
-	$(document).on("click", "#confirm-order", function(){
+	// $(document).on("click", "#confirm-order", function(){
 	  
-		let phone = $('#phone').val();
-		let deliveryAddress = $("deliveryAddress").data('nurseryid');
-		let deliveryArea = $("#deliveryArea").data('unitprice');
-		let productId = $("#product-id").val();
+	// 	let phone = $('#phone').val();
+	// 	let deliveryAddress = $("deliveryAddress").data('nurseryid');
+	// 	let deliveryArea = $("#deliveryArea").data('unitprice');
+	// 	let productId = $("#product-id").val();
 
 		
-		$.ajax({
-	        type: 'POST',
-	        url: 'http://localhost:8080/test/confirm-order/',
-			dataType: "json",
-			contentType: "application/json; charset=utf-8",
-	        data: JSON.stringify({
-				phone : phone,
-				deliveryAddress : deliveryAddress,
-				deliveryArea : deliveryArea,
-				productId : productId
+	// 	$.ajax({
+	//         type: 'POST',
+	//         url: 'http://localhost:8080/test/confirm-order/',
+	// 		dataType: "json",
+	// 		contentType: "application/json; charset=utf-8",
+	//         data: JSON.stringify({
+	// 			phone : phone,
+	// 			deliveryAddress : deliveryAddress,
+	// 			deliveryArea : deliveryArea,
+	// 			productId : productId
 				
-	        }),
-	        success: function(data) {
-				console.log(data);
+	//         }),
+	//         success: function(data) {
+	// 			console.log(data);
 	        
-	        }
+	//         }
 
-	    });
+	//     });
 	  
 	  
-	});
+	// });
 	$(document).on("click", ".kk-btn-group", function(){ 
 		$(this).siblings().removeClass('active');
 		$(this).addClass('active');
@@ -129,13 +129,16 @@ $(document).ready(function() {
 		let address = $("#address").val();
 		$.ajax({
 			type: 'POST',
-			url: `http://localhost:8080/test/confirm-order/${phone}/${address}`,
+			url: `http://localhost:8080/test/confirm-order/`,
 			dataType: "json",
-			
-			//		        data: {
-			//		            sale: "Japan"
-			//		        },
+			contentType: "application/json; charset=utf-8",
+	        
+			data: JSON.stringify({
+				phoneNo:phone,
+				address:address
+			}),
 			success: function(data) {
+				// @todo handle exepction
 				location.replace("http://localhost:8080/order-confirmation/" + data.id);
 	
 			}

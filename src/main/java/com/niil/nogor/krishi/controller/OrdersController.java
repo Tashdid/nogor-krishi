@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,10 +53,14 @@ public class OrdersController extends AbstractController{
 	}
 	
 	@RequestMapping(value="/confirm-order/",method=RequestMethod.POST)
-	public Orders confirmOrder(@RequestBody OrderForm orderForm) {
+	public Orders confirmOrder(@RequestBody OrderForm orderForm, HttpSession httpSession) { // @todo transection missing
+		
+		if(httpSession.getAttribute("cartId") == null){
+			return null;
+		 }
 		
 		List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId(
-				RequestContextHolder.currentRequestAttributes().getSessionId());
+				(String)httpSession.getAttribute("cartId"));
 		
 		return ConvertAndSaveCartToOrder(cartDetailsList,orderForm);
 	}
@@ -64,10 +71,10 @@ public class OrdersController extends AbstractController{
 		newOrder.setAddress(orderForm.getAddress());
 		newOrder.setPhone_no(orderForm.getPhoneNo());
 		newOrder.setOrder_time(LocalDateTime.now());
-		newOrder.setStatus(orderForm.getOrder_status());
+		newOrder.setStatus("new");
 		newOrder.setPayable_amount(orderForm.getTotal_price());
 		newOrder.setOrders_id(new Long(12110));
-		newOrder.setUser(userRepo.findByMobile(orderForm.getPhoneNo()));
+		newOrder.setUser(userRepo.findByMobile(orderForm.getPhoneNo()));///// @todo use mobile of loging user
 		newOrder.setComment("New order test comment");
 		newOrder.setRating(3);
 		

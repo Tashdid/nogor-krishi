@@ -74,7 +74,7 @@ public class VendorPriceController extends AbstractController {
 			ordersList.add(o.getOrders());
 		}
 		model.addAttribute("orders", ordersList);
-		return "site/vendor_order_list";
+		return "nursery/order_list";
 	}
 	
 	@GetMapping("/vendor-order-detail/{order_id}")
@@ -83,7 +83,7 @@ public class VendorPriceController extends AbstractController {
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrdersAndNursery(order,userRepo.
 				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
 		model.addAttribute("orderDetailList", orderDetailsList);
-		return "site/vendor_order_details";
+		return "nursery/order_details";
 	}
 
 	@RequestMapping(value="/{code}/product", method=RequestMethod.POST)
