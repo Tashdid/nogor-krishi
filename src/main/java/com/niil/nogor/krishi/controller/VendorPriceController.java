@@ -22,7 +22,6 @@ import com.niil.nogor.krishi.entity.Nursery;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
 import com.niil.nogor.krishi.entity.ProductPrice;
-import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.MaterialPriceRepo;
 import com.niil.nogor.krishi.repo.NurseryRepo;
 import com.niil.nogor.krishi.repo.OrderDetailsRepo;

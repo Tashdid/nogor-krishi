@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta th:replace="common :: common-meta" th:remove="tag"/>
+	</head>
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="buy">
+		
+		<div th:replace="common :: common-menu" th:remove="tag"></div>
+		
+		abcd
+		
+		
+		<div th:replace="common :: commom-footer" th:remove="tag"></div>
+		<div th:replace="common :: common-js" th:remove="tag"></div>
+		<script th:src="@{/js/buy.js}" src="js/buy.js" ></script>
+		<style>
+		a-button-toggle {
+		    border-color: #adb1b8 #a2a6ac #8d9096;
+		    background-color: #fff;
+		}
+		
+		.a-button {
+		    background: #e7e9ec;
+		    border-radius: 3px;
+		    border-color: #ADB1B8 #A2A6AC #8D9096;
+		    border-style: solid;
+		    border-width: 1px;
+		    cursor: pointer;
+		    display: inline-block;
+		    padding: 0;
+		    text-align: center;
+		    text-decoration: none!important;
+		    vertical-align: middle;
+		}
+		li {
+			display: inline-block;
+		
+		}
+		
+		</style>
+		
+	</body>
+</html>

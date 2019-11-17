@@ -61,7 +61,7 @@ public class MultiHttpSecurityCustomConfig {
 			http
 			.authorizeRequests()
 			.antMatchers("/dashboard/**", "/manage/**", "/settings/**").hasAnyRole("ADMIN")
-			.antMatchers("/vendorprice").hasAnyRole("VENDOR")
+			.antMatchers("/vendorprice", "/nursery/**").hasAnyRole("VENDOR")
 			.antMatchers("/exlayout/**", "/serviceregister").fullyAuthenticated()
 			.and()
 				.formLogin()
