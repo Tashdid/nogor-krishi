@@ -1,15 +1,19 @@
 package com.niil.nogor.krishi.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +26,7 @@ import com.niil.nogor.krishi.entity.Nursery;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
 import com.niil.nogor.krishi.entity.ProductPrice;
+import com.niil.nogor.krishi.repo.DeliveryPersonRepo;
 import com.niil.nogor.krishi.repo.MaterialPriceRepo;
 import com.niil.nogor.krishi.repo.NurseryRepo;
 import com.niil.nogor.krishi.repo.OrderDetailsRepo;
@@ -52,6 +57,7 @@ public class VendorPriceController extends AbstractController {
 	@Autowired SecurityService securityService;
 	@Autowired NurseryController nurserController;
 	@Autowired UserRepo userRepo;
+	@Autowired DeliveryPersonRepo deliveryPersonRepo;
 	
 	
 
@@ -82,6 +88,8 @@ public class VendorPriceController extends AbstractController {
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrdersAndNursery(order,userRepo.
 				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
 		model.addAttribute("orderDetailList", orderDetailsList);
+		model.addAttribute("order",order);
+		model.addAttribute("deliveryPersonList", deliveryPersonRepo.findAll());
 		return "nursery/order_details";
 	}
 
@@ -129,5 +137,41 @@ public class VendorPriceController extends AbstractController {
 	public String importMaterialPrice(@PathVariable Nursery nursery, MultipartFile file, RedirectAttributes redirectAttrs) {
 		nurserController.importMaterialPrice(securityService.findLoggedInUser().getNursery(), file, redirectAttrs);
 		return "redirect:" + URL;
+	}
+	
+	@RequestMapping(value = "/vendor-order-detail/update-order", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity updateOrder(@ModelAttribute  Orders type) {
+
+		Orders bean;
+		System.out.println(type.getId());
+		bean = orderRepo.findOne(type.getId());
+		if (type.getId() != null && (bean = orderRepo.findOne(type.getId())) != null) {
+
+			if (type.getStatus() != null) {
+				bean.setStatus(type.getStatus());
+			}
+			if (type.getDelivery_datest() != null) {
+				String str = type.getDelivery_datest();
+				SimpleDateFormat sFormat = new SimpleDateFormat("dd/MM/yyyy");
+				
+				try {
+					bean.setDelivery_date(sFormat.parse(str));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			if (type.getDelivery_person() != null) {
+				bean.setDelivery_person(type.getDelivery_person());
+			}
+
+			bean = orderRepo.save(bean);
+
+			return ResponseEntity.ok(HttpStatus.SC_OK);
+		}
+
+		return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 	}
 }
