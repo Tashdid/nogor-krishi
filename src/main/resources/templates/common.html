@@ -305,84 +305,44 @@
 		</div>
 		
 		<div id="cart-container">
-				<div style="display:flex; justify-content:space-between">
-					<h3>আমার কার্ট</h3>
+			<div id="cart-header">
+				<h5>আমার কার্ট</h5>
 					<button id="cart-close" href="#" class="btn btn-warning">X</button>
 				</div>
-			<!-- test vue started -->
-		<!-- <div id = "databinding">
-				<h1>Currency Converter</h1>
-				<span>Enter Amount:</span><input type = "number" v-model.number = "amount" placeholder = "Enter Amount" /><br/><br/>
-				<span>Convert From:</span>
-				<select v-model = "convertfrom" style = "width:300px;font-size:25px;">
-					<option v-for = "(a, index) in currencyfrom"  v-bind:value = "a.name">{{a.desc}}</option>
-				</select>
-				<span>Convert To:</span>
-				<select v-model = "convertto" style = "width:300px;font-size:25px;">
-					<option v-for = "(a, index) in currencyfrom" v-bind:value = "a.name">{{a.desc}}</option>
-				</select><br/><br/>
-				<span> {{totalPrice}} {{amount}} {{convertfrom}} equals {{finalamount}} {{convertto}}</span>
-			</div> -->
-			<!-- test  end vue -->
+			<div id="cart-item-container">
+				<div class="cart-item-row" v-for="addedProduct in addedProducts">
+					<div class="cart-item-top-row">
+						<div class="item-first-col">
+							<h6 class="">{{addedProduct.name}}</h6>
+							<p class=""> {{addedProduct.nurceryName}} </p>
+						</div>
+						<div class="item-second-col">
 
+								<!-- <input type="number" class="form-control text-center" 
+								v-bind:value = "addedProduct.quantity"
+								v-on:click= "quantityChange(addedProduct)"/> -->
+								<span>{{addedProduct.quantity}} X {{addedProduct.price}} টাকা</span>
 
-			<table id="cart" class="table table-hover table-condensed">
-    				<thead>
-						<tr>
-							<th style="width:50%">Product</th>
-							<th style="width:10%">Price</th>
-							<th style="width:8%">Quantity</th>
-							<th style="width:22%" class="text-center">Subtotal</th>
-							<th style="width:10%"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="addedProduct in addedProducts">
-							<td>
-								<div class="row">
-									<!-- <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/50x50" alt="..." class="img-responsive"/></div> -->
-									<div class="col-sm-10">
-										<h4 class="nomargin">{{addedProduct.name}}</h4>
-										<p class="nomargin"> {{addedProduct.nurceryName}} </p>
-										<p class="nomargin"> {{addedProduct.saleType}} </p>
+						</div>
+						<div class="item-third-col">
+							<button v-on:click= "removeItem(addedProduct)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+						</div>
+					</div>
+					<div class="cart-item-bottom-row">
+						<p>type : bij size : 6`</p>
 									</div>
 								</div>
-							</td>
-							<td data-th="Price">
-								{{addedProduct.price}} X 
-								<input type="number" class="form-control text-center" 
-								v-bind:value = "addedProduct.quantity"
-								v-model= "addedProduct.quantity"
-								v-on:click= "quantityChange(addedProduct)"/>
-								= {{addedProduct.price * addedProduct.quantity}}
-
-								<button v-on:click= "removeItem(addedProduct)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-
-							</td>
-							
-							<td class="actions" data-th="">
-								<!-- <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button> -->
-							</td>
-						</tr>
-						
-					</tbody>
-					<tfoot>
-						<tr class="visible-xs">
-							<td class="text-center">
-								
-								<strong>Total {{totalPrice}}</strong>
 									
-							</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								
-							  <a th:href="@{/place-order}" class="btn btn-success btn-block">চেক আউট <i class="fa fa-angle-right"></i></a></td>
-						</tr>
-					</tfoot>
-				</table>
-		
+				<div id="total-cart-cost">
+					<h4 v-if="addedProducts.length">সর্বমোট {{totalPrice}} টাকা</h4>
+					<h4 v-if="!addedProducts.length">আপনি এখনো কিছু কিনেন নি।</h4>
+				</div>
+				<div id="cart-checkout">
+					<a v-if="addedProducts.length" th:href="@{/place-order}" class="btn btn-success btn-block">
+						চেক আউট <i class="fa fa-angle-right"></i>
+					</a>
+				</div>
+			</div>
 		</div>
 		
 		<div id="block-ui" style="z-index: 2055; display: none;">
