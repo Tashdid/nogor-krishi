@@ -32,35 +32,9 @@ $(document).ready(function() {
 	  
 	  
 	});
-	// $(document).on("click", "#confirm-order", function(){
-	  
-	// 	let phone = $('#phone').val();
-	// 	let deliveryAddress = $("deliveryAddress").data('nurseryid');
-	// 	let deliveryArea = $("#deliveryArea").data('unitprice');
-	// 	let productId = $("#product-id").val();
+	
 
-		
-	// 	$.ajax({
-	//         type: 'POST',
-	//         url: 'http://localhost:8080/test/confirm-order/',
-	// 		dataType: "json",
-	// 		contentType: "application/json; charset=utf-8",
-	//         data: JSON.stringify({
-	// 			phone : phone,
-	// 			deliveryAddress : deliveryAddress,
-	// 			deliveryArea : deliveryArea,
-	// 			productId : productId
-				
-	//         }),
-	//         success: function(data) {
-	// 			console.log(data);
-	        
-	//         }
-
-	//     });
-	  
-	  
-	// });
+	
 	$(document).on("click", ".kk-btn-group", function(){ 
 		$(this).siblings().removeClass('active');
 		$(this).addClass('active');

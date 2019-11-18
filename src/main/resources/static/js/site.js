@@ -131,6 +131,34 @@ $(document).ready(function() {
 				count.val(1);
 			}
 	});
+
+	$(document).on("click", "#kinun", function(){
+	debugger;
+		localstgLoc = localStorage.getItem('loc');
+		if(localstgLoc == null || localstgLoc == '')
+			$('#locationModal').modal();
+		else
+			location.replace("http://localhost:8080/buy/" + $(this).data('pid'));
+	
+	
+	});
+	$(document).on("click", "#setLoc", function(){
+	
+		let division = $("#division").val();
+		let district = $("#district").val();
+		let upozila = $("#upozila").val();
+			
+		localStorage.setItem('loc', JSON.stringify(
+			{
+				division,
+				district,
+				upozila
+			}
+		));
+		location.replace("http://localhost:8080/buy/" + $(this).data('pid'));
+	
+	
+	});
 });
 
 // Vue.component('user-name', {
