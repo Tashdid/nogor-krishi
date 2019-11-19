@@ -3,11 +3,14 @@ package com.niil.nogor.krishi.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -32,11 +35,16 @@ public class Orders implements Comparable<Orders>{
 	private String comment;
 	private String phone_no;
 	private String address;
-	private Date delivery_date;
+	private Date deliveryDate;
 	@Transient
-	private String delivery_datest;
+	private String deliveryDatest;
+	private String feedbackSt;
+	private LocalDateTime feedbackDate;
 	
-	private @ManyToOne DeliveryPerson delivery_person;
+	private @ManyToOne DeliveryPerson deliveryPerson;
+
+	@OneToMany(targetEntity=NotesOnOrder.class, mappedBy="orders", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<NotesOnOrder> notes;
 
 	@Override
 	public int compareTo(Orders o) {

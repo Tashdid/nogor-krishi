@@ -2,6 +2,7 @@ package com.niil.nogor.krishi.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,19 +16,23 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.niil.nogor.krishi.entity.Comment;
 import com.niil.nogor.krishi.entity.MaterialPrice;
+import com.niil.nogor.krishi.entity.NotesOnOrder;
 import com.niil.nogor.krishi.entity.Nursery;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
 import com.niil.nogor.krishi.entity.ProductPrice;
 import com.niil.nogor.krishi.repo.DeliveryPersonRepo;
 import com.niil.nogor.krishi.repo.MaterialPriceRepo;
+import com.niil.nogor.krishi.repo.NotesOnOrderRepo;
 import com.niil.nogor.krishi.repo.NurseryRepo;
 import com.niil.nogor.krishi.repo.OrderDetailsRepo;
 import com.niil.nogor.krishi.repo.OrdersRepo;
@@ -58,6 +63,7 @@ public class VendorPriceController extends AbstractController {
 	@Autowired NurseryController nurserController;
 	@Autowired UserRepo userRepo;
 	@Autowired DeliveryPersonRepo deliveryPersonRepo;
+	@Autowired NotesOnOrderRepo notesOnOrderRepo;
 	
 	
 
@@ -141,7 +147,7 @@ public class VendorPriceController extends AbstractController {
 	
 	@RequestMapping(value = "/vendor-order-detail/update-order", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity updateOrder(@ModelAttribute  Orders type) {
+	public ResponseEntity updateOrder(@ModelAttribute Orders type) {
 
 		Orders bean;
 		System.out.println(type.getId());
@@ -151,20 +157,25 @@ public class VendorPriceController extends AbstractController {
 			if (type.getStatus() != null) {
 				bean.setStatus(type.getStatus());
 			}
-			if (type.getDelivery_datest() != null) {
-				String str = type.getDelivery_datest();
+			if (type.getDeliveryDatest() != null) {
+				String str = type.getDeliveryDatest();
 				SimpleDateFormat sFormat = new SimpleDateFormat("dd/MM/yyyy");
-				
+
 				try {
-					bean.setDelivery_date(sFormat.parse(str));
+					bean.setDeliveryDate(sFormat.parse(str));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 				}
-				
+
 			}
-			if (type.getDelivery_person() != null) {
-				bean.setDelivery_person(type.getDelivery_person());
+			if (type.getDeliveryPerson() != null) {
+				bean.setDeliveryPerson(type.getDeliveryPerson());
+			}
+			if (type.getFeedbackSt() != null) {
+				bean.setFeedbackSt(type.getFeedbackSt());
+				bean.setFeedbackDate(LocalDateTime.now());
 			}
 
 			bean = orderRepo.save(bean);
@@ -173,5 +184,29 @@ public class VendorPriceController extends AbstractController {
 		}
 
 		return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+	}
+
+	@RequestMapping(value = "vendor-order-detail/{order_id}/add-notes", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity updateOrder(@PathVariable Long order_id, @ModelAttribute NotesOnOrder type) {
+		try {
+			System.out.println(order_id);
+			Orders bean = orderRepo.findOne(order_id);
+			if (bean != null) {
+				NotesOnOrder notesOnOrder = new NotesOnOrder();
+				notesOnOrder.setNotesSt(type.getNotesSt());
+				notesOnOrder.setUser(securityService.findLoggedInUser());
+				notesOnOrder.setPublished(true);
+				notesOnOrder.setOrders(bean);
+				notesOnOrderRepo.save(notesOnOrder);
+
+				return ResponseEntity.ok(HttpStatus.SC_OK);
+			} else {
+				return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+		}
 	}
 }

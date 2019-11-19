@@ -19,6 +19,22 @@ $(document).ready(function() {
 		ajaxFormSubmit($(this));
 
 	});
+	
+	$("#notesAddForm").submit(function(e) {
+
+		e.preventDefault();
+
+		ajaxFormSubmit($(this));
+
+	});
+	
+	$("#feedbackUpdateForm").submit(function(e) {
+
+		e.preventDefault();
+
+		ajaxFormSubmit($(this));
+
+	});
 
 });
 
