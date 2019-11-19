@@ -107,6 +107,8 @@ $(document).ready(function() {
 		  
 		let phone = $("#phone").val();
 		let address = $("#address").val();
+		let district = $("#district").val();
+		let city = $("#city").val();
 		$.ajax({
 			type: 'POST',
 			url: `http://localhost:8080/test/confirm-order/`,

@@ -1,5 +1,6 @@
 package com.niil.nogor.krishi.controller;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,12 +10,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.niil.nogor.krishi.dto.OrderForm;
 import com.niil.nogor.krishi.entity.CartDetails;
@@ -52,31 +55,51 @@ public class OrdersController extends AbstractController{
 		 return null;
 	}
 	
+	@Transactional
 	@RequestMapping(value="/confirm-order/",method=RequestMethod.POST)
 	public Orders confirmOrder(@RequestBody OrderForm orderForm, HttpSession httpSession) { // @todo transection missing
 		
 		if(httpSession.getAttribute("cartId") == null){
-			return null;
+			return null; //@todo return error message
 		 }
+		
 		
 		List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId(
 				(String)httpSession.getAttribute("cartId"));
 		
+		if(cartDetailsList.size() == 0) {
+			return null; // @todo return error message
+		}
+		
 		return ConvertAndSaveCartToOrder(cartDetailsList,orderForm);
 	}
 	
+	
 	Orders ConvertAndSaveCartToOrder(List<CartDetails> cartDetailList,OrderForm  orderForm){
+		
+		BigDecimal totalPrice = new BigDecimal(0);
+		for(int i=0;i<cartDetailList.size();i++){
+			CartDetails cartDetail = cartDetailList.get(i);
+			totalPrice = totalPrice.add(
+					cartDetail.getUnit_price().multiply( 
+							new BigDecimal(cartDetail.getQuantity())
+							)
+					);
+			
+		}
 		
 		Orders newOrder = new Orders();
 		newOrder.setAddress(orderForm.getAddress());
 		newOrder.setPhone_no(orderForm.getPhoneNo());
+		newOrder.setDistrict(orderForm.getDistrict());
+		newOrder.setCity(orderForm.getCity());
 		newOrder.setOrder_time(LocalDateTime.now());
 		newOrder.setStatus("new");
-		newOrder.setPayable_amount(orderForm.getTotal_price());
-		newOrder.setOrders_id(new Long(12110));
-		newOrder.setUser(userRepo.findByMobile(orderForm.getPhoneNo()));///// @todo use mobile of loging user
-		newOrder.setComment("New order test comment");
-		newOrder.setRating(3);
+		newOrder.setPayable_amount(totalPrice);
+//		newOrder.setOrders_id(new Long(12110));
+		newOrder.setUser(userRepo.findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()));
+//		newOrder.setComment("New order test comment");
+//		newOrder.setRating(3);
 		
 		ordersRepo.save(newOrder);
 		List<OrderDetail> orderDetailsList = new ArrayList<OrderDetail>();

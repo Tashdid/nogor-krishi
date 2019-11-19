@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 public class OrderForm {
 	private String phoneNo;
 	private String address;
-	private BigDecimal total_price;
+	private String district;
+	private String city;
+//	private BigDecimal total_price;
 	private String order_status;
 
 }
