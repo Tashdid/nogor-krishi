@@ -6,15 +6,14 @@
 	<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 	<div class="container" style="margin-top: 15px;">
-		<h1>This is vendor order list page</h1>
+		<h1>আপনার অর্ডারের তালিকা</h1>
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>অর্ডার আইডি</th>
 					<th>তারিখ</th>
-					<th>গ্রাহক আইডি</th>
 					<th>মোট টাকা</th>
-					<th>স্ট্যাটাস</th>
+					<!-- <th>স্ট্যাটাস</th> -->
 					<th>বিস্তারিত</th>
 				</tr>
 			</thead>
@@ -22,9 +21,8 @@
 				<tr th:each="order : ${orders}">
 					<td th:text="${order.id}">1</td>
 					<td th:text="${order.order_time}">1</td>
-					<td th:text="${order.user.name}">view</td>
 					<td th:text="${order.payable_amount}">Amount </td>
-					<td th:text="${order.status}">Status</td>
+					<!-- <td th:text="${order.status}">Status</td> -->
 					<td> <a th:text="বিস্তারিত" th:href="@{/gardener/gardener-order-detail/{order_id}(order_id=${order.id})}">view</a></td>
 				</tr>
 			</tbody>

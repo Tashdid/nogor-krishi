@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 		$.ajax({
 	        type: 'POST',
-	        url: 'http://localhost:8080/test/cart/add-to-cart/',
+	        url: `${api_origin}/test/cart/add-to-cart/`,
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",
 	        data: JSON.stringify({
@@ -51,7 +51,7 @@ $(document).ready(function() {
   
 		$.ajax({
 			type: 'GET',
-			url: `http://localhost:8080/test/price-list/${productId}/saleType/${saleTypeId}`,
+			url: `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
 			dataType: "json",
 			//		        data: {
 			//		            sale: "Japan"
@@ -111,7 +111,7 @@ $(document).ready(function() {
 		let city = $("#city").val();
 		$.ajax({
 			type: 'POST',
-			url: `http://localhost:8080/test/confirm-order/`,
+			url: `${api_origin}/test/confirm-order/`,
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",
 	        
@@ -121,7 +121,7 @@ $(document).ready(function() {
 			}),
 			success: function(data) {
 				// @todo handle exepction
-				location.replace("http://localhost:8080/order-confirmation/" + data.id);
+				location.replace(`${api_origin}/order-confirmation/` + data.id);
 	
 			}
 		

@@ -135,9 +135,9 @@
 									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="#" th:href="@{/manage/product}">ডাটা ম্যানেজমেন্ট</a>
 									<a class="dropdown-item" href="#" th:href="@{/exlayout/list}">উদ্যান তালিকা</a>
 									<a sec:authorize="hasRole('ROLE_GARDENER')" class="dropdown-item" href="#" th:href="@{/serviceregister}">৩৩৩১ সেবা</a>
-									<a sec:authorize="hasRole('ROLE_VENDOR')" class="dropdown-item" href="#" th:href="@{/vendorprice/vendor-order-list}">My orders</a>
-									<a sec:authorize="hasRole('ROLE_GARDENER')" class="dropdown-item" href="#" th:href="@{/gardener/gardener-order-list}">My orders</a>
-									<a sec:authorize="hasRole('ROLE_VENDOR')" class="dropdown-item" href="#" th:href="@{/nursery/deliveryperson}">সরবরাহকারী</a>
+									<a sec:authorize="hasRole('ROLE_VENDOR')" class="dropdown-item" href="#" th:href="@{/vendorprice/vendor-order-list}">আমার অর্ডার</a>
+									<a sec:authorize="hasRole('ROLE_GARDENER')" class="dropdown-item" href="#" th:href="@{/gardener/gardener-order-list}">আমার অর্ডার</a>
+									<a sec:authorize="hasRole('ROLE_VENDOR')" class="dropdown-item" href="#" th:href="@{/nursery/deliveryperson}">ডেলিভারিম্যান</a>
 								</div>
 							</div>
 						</div>
@@ -278,6 +278,7 @@
 	</div>
 
 	<div th:fragment="common-js" th:remove="tag">
+			<script >var api_origin = window.location.origin;</script>
 		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 		<script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
 		<script th:src="@{/webjars/jquery-blockui/jquery.blockUI.js}"></script>
@@ -330,7 +331,7 @@
 						</div>
 					</div>
 					<div class="cart-item-bottom-row">
-						<p>type : bij size : 6`</p>
+						<p>type : {{addedProduct.saleType}}</p>
 									</div>
 								</div>
 									

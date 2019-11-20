@@ -138,7 +138,7 @@ $(document).ready(function() {
 		if(localstgLoc == null || localstgLoc == '')
 			$('#locationModal').modal();
 		else
-			location.replace("http://localhost:8080/buy/" + $(this).data('pid'));
+			location.replace(`${api_origin}/buy/` + $(this).data('pid'));
 	
 	
 	});
@@ -187,7 +187,7 @@ var vm = new Vue({
 
 			$.ajax({
 				type: 'DELETE',
-				url: `http://localhost:8080/test/cart/delete/` + product.cartId,
+				url: `${api_origin}/test/cart/delete/` + product.cartId,
 				dataType: "json",
 				success: function(data) {
 		
@@ -254,7 +254,7 @@ var vm = new Vue({
 		updateCart(product) {
 			$.ajax({
 				type: 'PUT',
-				url: `http://localhost:8080/test/cart/update/` + product.cartId,
+				url: `${api_origin}/test/cart/update/` + product.cartId,
 				dataType: "json",
 				data: {quantity : product.quantity},
 				success: function(data) {
@@ -272,7 +272,7 @@ var vm = new Vue({
 			
 			$.ajax({
 				type: 'GET',
-				url: `http://localhost:8080/test/cart/cart-details/`,
+				url: `${api_origin}/test/cart/cart-details/`,
 				dataType: "json",
 		
 				success: function(data) {

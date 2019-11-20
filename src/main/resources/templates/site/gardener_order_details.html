@@ -6,130 +6,127 @@
 	<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 	<div class="container" style="margin-top: 15px;">
-
-		<div id="root_20606004853" class="page-root">
-			<div class="detail-info">
-				<div class="pull-left detail-info-left">
-					<div>
-						<p class="order-number">Order&nbsp;#<span th:text="${order.id}"></span></p>
-						<p class="text desc light-gray">Placed on <span th:text="${order.order_time}"></span></p>
-					</div>
-				</div>
-				<div class="detail-right-info pull-right">
-					<span class="detail-info-total-title">Total:&nbsp;</span><span
-						class="detail-info-total-value">৳ <span th:text="${order.payable_amount}"></span></span>
-				</div>
-			</div>
-			<div class="package" id="#package#OF04050#NONE">
-				<div class="dummy-wrapper">
-					<div class="package-header">
-						<div class="package-header-left">
+			<div class="row well">
+				<div class="col-sm-12">
+					<div class="detail-info">
+						<div class="pull-left detail-info-left">
+							<div>
+								<p class="order-number">Order&nbsp;#<span th:text="${order.id}"></span></p>
+								<p class="text desc light-gray">Placed on <span th:text="${order.order_time}"></span></p>
+							</div>
+						</div>
+						<div class="detail-right-info pull-right">
+							<p>
+								<span class="detail-info-total-title">Total:&nbsp;</span><span
+								class="detail-info-total-value">৳ <span th:text="${order.payable_amount}"></span></span>
+							</p>
+							<p>
+								<span class="detail-info-total-title">Status:&nbsp;</span>
+								<span th:text="${order.status}"></span>
+							</p>
 							
-							<div class="seller-info">
-								<a href=""><span
-									class="text">Sold by&nbsp;</span><span class="text link">HiTech
-										BD</span>&nbsp;</a>
-								
-							</div>
-						</div>
-						<div class="package-header-right"></div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="package-body">
-								<table class="table table-striped">
-									<thead>
-										<tr>
-											<th>Product</th>
-											<th>Sale Type</th>
-											<th>Unit Price</th>
-											<th>Quantity</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="order : ${orderDetailList}">
-											<td th:text="${order.product.name}">Product</td>
-											<td th:text="${order.saleType.name}">Sale Type</td>
-											<td th:text="${order.unit_price}">Amount</td>
-											<td th:text="${order.quantity}">Status</td>
-										</tr>
-									</tbody>
-								</table>
-
-							</div>
-
-						</div>
-						<div class="col-sm-6">
-							<h5>Feedback</h5>
-							<div class="row">
-								<form class="form-horizontal" id="feedbackUpdateForm"
-									th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
-									th:object="${order}" method="post">
-									<div class="form-group row">
-										<div class="col-sm-8">
-											<input type="hidden" th:field="*{id}" />
-											<textarea th:field="*{feedbackSt}"></textarea>
-										</div>
-									</div>
-
-									<div class="col-sm-4 offset-sm-8">
-										<div class="form-group">
-											<button type="submit" class="btn btn-success">Save</button>
-										</div>
-									</div>
-								</form>
-							</div>
-							<div class="row">
-								<h5>Delivery</h5>
-							</div>
-							<div class="row">
-								<div th:if="${order.deliveryDate != null}" class="card bg-faded">
-									<div class="card-block">
-										<div class="card-text">
-											<span>Delivery Date: </span> 
-												<span th:text="${order.deliveryDate}"></span>
-										</div>
-										<div class="card-text">
-										
-											<span>Delivery Person: </span> 
-											<span class="glyphicon glyphicon-user"></span> 
-											<span th:text="${order.deliveryPerson.name}"></span> 
-											<br></br>
-											<span th:text="${order.deliveryPerson.phoneNumber}"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<h5>Notes For Customer</h5>
-							</div>
-
-							<div class="row">
-								<div th:unless="${#lists.isEmpty(order.notes)}"
-									class="card bg-faded">
-									<div th:each="cm : ${order.notes}" class="card-block">
-										<div class="card-text">
-											<span class="glyphicon glyphicon-user"></span> <span
-												th:text="${cm.user.name}"></span> <span
-												class="glyphicon glyphicon-time"></span> <span
-												th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(cm.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
-										</div>
-										<div class="card-text mt-2">
-											<div class="blockquote2" th:utext="${cm.notesSt}"></div>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
-
-
 				</div>
 			</div>
-			<div id="bottomContainer_20606004853" class="container"
-				style="display: flex; width: 988px;">
-				<div id="leftContainer_20606004853" class="container"
-					style="width: 496px; float: left;">
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="package-body">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Product</th>
+									<th>Nursery</th>
+									<th>Sale Type</th>
+									<th>Unit Price</th>
+									<th>Quantity</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="order : ${orderDetailList}">
+									<td th:text="${order.product.name}">Product</td>
+									<td th:text="${order.nursery.name}">Product</td>
+									<td th:text="${order.saleType.name}">Sale Type</td>
+									<td th:text="${order.unit_price}">Amount</td>
+									<td th:text="${order.quantity}">Status</td>
+								</tr>
+							</tbody>
+						</table>
+	
+					</div>
+	
+				</div>
+				<div class="col-sm-4">
+					
+					
+						
+						
+					<div class="card">
+						<h5 class="card-header">Delivery information</h5>
+						<div class="card-body">
+							<p class="text-center" th:if="${order.delivery_date == null}">No delivery infromation !</p>
+							<div th:if="${order.delivery_date != null}" class="card bg-faded">
+								<div class="card-block">
+									<div class="card-text">
+										<span>Delivery Date: </span> 
+											<span th:text="${order.delivery_date}"></span>
+									</div>
+									<div class="card-text">
+									
+										<span>Delivery Person: </span> 
+										<span class="glyphicon glyphicon-user"></span> 
+										<span th:text="${order.deliveryPerson.name}"></span> 
+										<br/></br/>
+										<span th:text="${order.deliveryPerson.phoneNumber}"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+	
+					<div class="card mt-4" th:unless="${#lists.isEmpty(order.notes)}">
+						<h5 class="card-header">Notes For Customer</h5>
+						<div class="card-body">
+							
+							<div th:unless="${#lists.isEmpty(order.notes)}"
+								class="card bg-faded">
+								<div th:each="cm : ${order.notes}" class="card-block">
+									<div class="card-text">
+										<span class="glyphicon glyphicon-user"></span> <span
+											th:text="${cm.user.name}"></span> <span
+											class="glyphicon glyphicon-time"></span> <span
+											th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(cm.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
+									</div>
+									<div class="card-text mt-2">
+										<div class="blockquote2" th:utext="${cm.notesSt}"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mt-4">
+						<div class="card-header">Feedback</div>
+						<div class="card-body">
+							<form class="" id="feedbackUpdateForm"
+								th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
+								th:object="${order}" method="post">
+								
+								<div class="form-group">
+									<input type="hidden" th:field="*{id}" />
+										
+									<textarea class="form-control" th:field="*{feedbackSt}" id="feedbackSt" rows="3" ></textarea>
+								</div>
+								<button type="submit" class="btn btn-primary">Save</button>
+								
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr/>
+			<div class="row">
+				<div class="col-sm-6">
 					<div class="delivery-summary">
 						<div class="delivery-wrapper">
 							<h3 class="title">Shipping Address</h3>
@@ -146,12 +143,8 @@
 						</div>
 					</div>
 				</div>
-				<div id="rightContainer_20606004853" class="container"
-					style="width: 496px; float: right;">
-					<div class="total-summary">
-						<div>
-							
-							<div class="row second-header">
+				<div class="col-sm-6">
+						<div class="row second-header">
 								<span class="text bold pull-left">Total</span><span
 									class="text bold total-price pull-right">৳ <span th:text="${order.payable_amount}"></span></span>
 							</div>
@@ -161,122 +154,15 @@
 										on Delivery</span>
 								</div>
 							</div>
-						</div>
-					</div>
 				</div>
 			</div>
-			<div class="clear"></div>
-		</div>
+		
 
 	</div>
 
 	<div th:replace="common :: commom-footer" th:remove="tag"></div>
 	<div th:replace="common :: common-js" th:remove="tag"></div>
 	<script th:src="@{/js/order.js}" src="js/order.js"></script>
-	<style>
-.page-root {
-	position: relative;
-	background: #eff0f5;
-}
 
-.detail-info {
-	padding: 8px 12px;
-	min-height: 50px;
-	background-color: #fff;
-	width: 988px;
-}
-
-.package {
-	margin-top: 12px;
-	background-color: #fff;
-	width: 988px;
-}
-
-.detail-info .detail-info-left {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-}
-
-.detail-info .order-number {
-	margin-bottom: 4px;
-	height: 16px;
-	line-height: 16px;
-}
-
-.package .package-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.package-body {
-	position: relative;
-	border-top: 1px solid #dadada;
-	padding-top: 10px;
-}
-
-.package .package-header-left {
-	flex: 1;
-}
-
-.package .package-info {
-	margin: 9px 11px 0;
-	height: 20px;
-	line-height: 20px;
-}
-
-.seller-info {
-	position: relative;
-	padding: 4px 12px 9px;
-	font-size: 12px;
-}
-
-.package .text.header.header-icon {
-	font-size: 20px;
-	position: relative;
-	top: 2px;
-}
-
-.package .text.header.header-icon {
-	font-size: 20px;
-	position: relative;
-	top: 2px;
-}
-
-.package .package-info-text {
-	padding-left: 5px;
-	height: 20px;
-	line-height: 20px;
-	font-size: 16px;
-}
-
-.text {
-	color: #212121;
-	word-break: break-word;
-}
-
-.seller-info .im-chat {
-	float: right;
-	font-size: 14px;
-	cursor: pointer;
-}
-
-.order-item {
-	min-height: 80px;
-	margin: 24px 12px 24px 36px;
-	padding-right: 12px;
-	width: 916px;
-}
-
-.order-item .item-pic {
-	float: left;
-}
-
-.order-item .item-pic img {
-	width: 80px;
-	height: 80px;
-}
-</style>
 </body>
 </html>

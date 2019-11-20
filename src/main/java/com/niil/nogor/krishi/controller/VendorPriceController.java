@@ -98,6 +98,18 @@ public class VendorPriceController extends AbstractController {
 		model.addAttribute("deliveryPersonList", deliveryPersonRepo.findAll());
 		return "nursery/order_details";
 	}
+	
+	@GetMapping("/print-vendor-order/{order_id}")
+	public String vendorOrderDetailsPrint(@PathVariable Long order_id,final ModelMap model) {
+		System.out.println("print***");
+		Orders order = orderRepo.findOne(order_id);
+		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrdersAndNursery(order,userRepo.
+				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
+		model.addAttribute("orderDetailList", orderDetailsList);
+		model.addAttribute("order",order);
+		model.addAttribute("deliveryPersonList", deliveryPersonRepo.findAll());
+		return "nursery/order_print";
+	}
 
 	@RequestMapping(value="/{code}/product", method=RequestMethod.POST)
 	public String addProductPrice(@PathVariable Long code, ProductPrice mprice, RedirectAttributes redirectAttrs) {
@@ -162,7 +174,7 @@ public class VendorPriceController extends AbstractController {
 				SimpleDateFormat sFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 				try {
-					bean.setDeliveryDate(sFormat.parse(str));
+					bean.setDelivery_date(sFormat.parse(str));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
