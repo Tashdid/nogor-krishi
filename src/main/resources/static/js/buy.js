@@ -102,13 +102,35 @@ $(document).ready(function() {
 		  
 		  
 	});
+
+	$(document).on("click", "#same-bill", function(){
+		if($(this).is(':checked'))
+			$('.billing-addrss').attr('disabled', 'disabled');
+		else 
+			$('.billing-addrss').removeAttr('disabled');
+			
+	
+	});
 	
 	$(document).on("click", "#confirm-order", function(){
 		  
 		let phone = $("#phone").val();
-		let address = $("#address").val();
-		let district = $("#district").val();
-		let city = $("#city").val();
+		let billing_address = $("#billing-address").val();
+		let billing_district = $("#billing-district").val();
+		let billing_city = $("#billing-city").val();
+		let delivery_notes = $("#delivery-notes").val();
+
+		if($('#same-bill').is(':checked')) {
+			var delivery_address = $("#billing-address").val();
+			var delivery_district = $("#billing-district").val();
+			var delivery_city = $("#billing-city").val();
+		} else {
+			var delivery_address = $("#delivery-address").val();
+			var delivery_district = $("#delivery-district").val();
+			var delivery_city = $("#delivery-city").val();
+		}
+
+		
 		$.ajax({
 			type: 'POST',
 			url: `${api_origin}/test/confirm-order/`,
@@ -117,7 +139,13 @@ $(document).ready(function() {
 	        
 			data: JSON.stringify({
 				phoneNo:phone,
-				address:address
+				billing_address,
+				billing_district,
+				billing_city,
+				delivery_address,
+				delivery_district,
+				delivery_city,
+				delivery_notes
 			}),
 			success: function(data) {
 				// @todo handle exepction

@@ -6,39 +6,44 @@
 	<div th:replace="common :: common-menu" th:remove="tag"></div>
 
 	<div class="container" style="margin-top: 15px;">
-			<div class="row well">
-					<div class="col-sm-12">
-						<div class="detail-info">
-							<div class="pull-left detail-info-left">
-								<div>
-									<p class="order-number">Order&nbsp;#<span th:text="${order.id}"></span></p>
-									<p class="text desc light-gray">Placed on <span th:text="${order.order_time}"></span></p>
-								</div>
-							</div>
-							<div class="detail-right-info pull-right">
-								
-									<h4 class="detail-info-total-title">Customer:&nbsp;</h4>
-								<p>
-									<span class="detail-info-total-title">Name:&nbsp;</span>
-									<span th:text="${order.user.name}"></span>
-								</p>
-								<p>
-										<span class="detail-info-total-title">Phone:&nbsp;</span>
-										<span th:text="${order.phone_no}"></span>
-									</p>
-									<p>
-											<span class="detail-info-total-title">Shipping Address:&nbsp;</span>
-											<span th:text="${order.address}"></span>
-											<span th:text="${order.city}"></span>
-											<span th:text="${order.district}"></span>
-
-
-										</p>
-								
-							</div>
+		<div class="row well">
+			<div class="col-sm-12">
+				<div class="detail-info">
+					<div class="pull-left detail-info-left">
+						<div>
+							<p class="order-number">Order&nbsp;#<span th:text="${order.id}"></span></p>
+							<p class="text desc light-gray">
+								Placed on 
+								<span th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.order_time, 'dd MMMM yyyy hh:mm a'))}"></span>
+							</p>
 						</div>
 					</div>
+					<div class="detail-right-info pull-right">
+						<!-- <p>
+							<span class="detail-info-total-title">Customer:&nbsp;</span><span
+							class="detail-info-total-value">৳ <span th:text="${order.payable_amount}"></span></span>
+						</p> -->
+						<p>
+							<span class="detail-info-total-title">Customer:&nbsp;</span>
+							<span th:text="${order.user.name}"></span>
+						</p>
+						<p>
+								<span class="detail-info-total-title">Phone:&nbsp;</span>
+								<span th:text="${order.phone_no}"></span>
+							</p>
+							<p>
+									<span class="detail-info-total-title">Shipping Address:&nbsp;</span>
+									<span th:text="${order.delivery_address}"></span>
+									<span th:text="${order.delivery_city}"></span>
+									<span th:text="${order.delivery_district}"></span>
+
+
+								</p>
+						
+					</div>
 				</div>
+			</div>
+		</div>
 		<div class="row">
 
 			<div class="col-sm-6">
@@ -49,6 +54,7 @@
 							<th>Sale Type</th>
 							<th>Unit Price</th>
 							<th>Quantity</th>
+							<th>Total</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -57,10 +63,11 @@
 							<td th:text="${order.saleType.name}">Sale Type</td>
 							<td th:text="${order.unit_price}">Amount</td>
 							<td th:text="${order.quantity}">Status</td>
+							<td th:text="${order.quantity * order.unit_price}">Status</td>
 						</tr>
 					</tbody>
 				</table>
-				<a target="_blank" th:href="@{'/print-vendor-order/' + ${order.id}}" class="btn btn-success">Print</a>
+				<a target="_blank" th:href="@{'/vendorprice/print-vendor-order/' + ${order.id}}" class="btn btn-success">Print</a>
 			</div>
 			<div class="col-sm-6">
 					<div class="card">

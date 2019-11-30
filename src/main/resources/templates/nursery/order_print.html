@@ -10,34 +10,32 @@
 				<div class="detail-info">
 					<div class="pull-left detail-info-left">
 						<div>
-							<p class="order-number">
-								Order&nbsp;#<span th:text="${order.id}"></span>
-							</p>
-							<p class="text desc light-gray">
-								Placed on <span th:text="${order.order_time}"></span>
-							</p>
+							<p class="order-number">Order&nbsp;#<span th:text="${order.id}"></span></p>
+							<p class="text desc light-gray">Placed on <span th:text="${order.order_time}"></span></p>
 						</div>
 					</div>
 					<div class="detail-right-info pull-right">
-
-						<h4 class="detail-info-total-title">Customer:&nbsp;</h4>
+						<!-- <p>
+							<span class="detail-info-total-title">Customer:&nbsp;</span><span
+							class="detail-info-total-value">৳ <span th:text="${order.payable_amount}"></span></span>
+						</p> -->
 						<p>
-							<span class="detail-info-total-title">Name:&nbsp;</span> <span
-								th:text="${order.user.name}"></span>
+							<span class="detail-info-total-title">Customer:&nbsp;</span>
+							<span th:text="${order.user.name}"></span>
 						</p>
 						<p>
-							<span class="detail-info-total-title">Phone:&nbsp;</span> <span
-								th:text="${order.phone_no}"></span>
-						</p>
-						<p>
-							<span class="detail-info-total-title">Shipping
-								Address:&nbsp;</span> <span th:text="${order.address}"></span> <span
-								th:text="${order.city}"></span> <span
-								th:text="${order.district}"></span>
+								<span class="detail-info-total-title">Phone:&nbsp;</span>
+								<span th:text="${order.phone_no}"></span>
+							</p>
+							<p>
+									<span class="detail-info-total-title">Shipping Address:&nbsp;</span>
+									<span th:text="${order.delivery_address}"></span>
+									<span th:text="${order.delivery_city}"></span>
+									<span th:text="${order.delivery_district}"></span>
 
 
-						</p>
-
+								</p>
+						
 					</div>
 				</div>
 			</div>
@@ -52,6 +50,7 @@
 							<th>Sale Type</th>
 							<th>Unit Price</th>
 							<th>Quantity</th>
+							<th>Total</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -60,6 +59,7 @@
 							<td th:text="${order.saleType.name}">Sale Type</td>
 							<td th:text="${order.unit_price}">Amount</td>
 							<td th:text="${order.quantity}">Status</td>
+							<td th:text="${order.quantity * order.unit_price}">Status</td>
 						</tr>
 					</tbody>
 				</table>

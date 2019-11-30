@@ -34,9 +34,18 @@ public class Orders implements Comparable<Orders>{
 	private int rating;
 	private String comment;
 	private String phone_no;
-	private String address;
-	private String district;
-	private String city;
+//	private String address;
+//	private String district;
+//	private String city;
+	
+	private String billing_address;
+	private String billing_district;
+	private String billing_city;
+	private String delivery_address;
+	private String delivery_district;
+	private String delivery_city;
+	private String delivery_notes;
+	
 	private Date delivery_date;
 	@Transient
 	private String deliveryDatest;

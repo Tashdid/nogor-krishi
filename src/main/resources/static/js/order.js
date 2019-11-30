@@ -45,10 +45,10 @@ function ajaxFormSubmit(form){
 		url : url,
 		data : form.serialize(),
 		success : function(data) {
-			console.log("success");
+			alert("successfully changed!");
 		},
 		error:function(data, errorThrown){
-			console.log(errorThrown);
+			alert('something went wrong!');
 		}
 	});
 }

@@ -89,10 +89,17 @@ public class OrdersController extends AbstractController{
 		}
 		
 		Orders newOrder = new Orders();
-		newOrder.setAddress(orderForm.getAddress());
+//		newOrder.setAddress(orderForm.getAddress());
 		newOrder.setPhone_no(orderForm.getPhoneNo());
-		newOrder.setDistrict(orderForm.getDistrict());
-		newOrder.setCity(orderForm.getCity());
+		
+		newOrder.setBilling_address(orderForm.getBilling_address());
+		newOrder.setBilling_district(orderForm.getBilling_district());
+		newOrder.setBilling_city(orderForm.getBilling_city());
+		newOrder.setDelivery_address(orderForm.getDelivery_address());
+		newOrder.setDelivery_district(orderForm.getDelivery_district());
+		newOrder.setDelivery_city(orderForm.getDelivery_city());
+		newOrder.setDelivery_notes(orderForm.getDelivery_notes());
+		
 		newOrder.setOrder_time(LocalDateTime.now());
 		newOrder.setStatus("new");
 		newOrder.setPayable_amount(totalPrice);

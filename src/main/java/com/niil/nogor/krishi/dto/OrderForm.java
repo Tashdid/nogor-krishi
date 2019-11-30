@@ -12,9 +12,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderForm {
 	private String phoneNo;
-	private String address;
-	private String district;
-	private String city;
+	private String billing_address;
+	private String billing_district;
+	private String billing_city;
+	private String delivery_address;
+	private String delivery_district;
+	private String delivery_city;
+	private String delivery_notes;
+	
 //	private BigDecimal total_price;
 	private String order_status;
 

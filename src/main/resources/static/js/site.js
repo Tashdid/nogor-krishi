@@ -133,7 +133,7 @@ $(document).ready(function() {
 	});
 
 	$(document).on("click", "#kinun", function(){
-	debugger;
+	
 		localstgLoc = localStorage.getItem('loc');
 		if(localstgLoc == null || localstgLoc == '')
 			$('#locationModal').modal();
@@ -155,10 +155,9 @@ $(document).ready(function() {
 				upozila
 			}
 		));
-		location.replace("http://localhost:8080/buy/" + $(this).data('pid'));
+		location.replace(`${api_origin}/buy/` + $(this).data('pid'));
 	
-	
-	});
+	});	
 });
 
 // Vue.component('user-name', {

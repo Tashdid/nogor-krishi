@@ -45,7 +45,9 @@
 							<tbody>
 								<tr th:each="order : ${orderDetailList}">
 									<td th:text="${order.product.name}">Product</td>
-									<td th:text="${order.nursery.name}">Product</td>
+									<td>
+										<a th:href="@{'/vendor/' + ${order.nursery.id}}" th:text="${order.nursery.name}"></a>
+									</td>
 									<td th:text="${order.saleType.name}">Sale Type</td>
 									<td th:text="${order.unit_price}">Amount</td>
 									<td th:text="${order.quantity}">Status</td>
@@ -64,7 +66,7 @@
 					<div class="card">
 						<h5 class="card-header">Delivery information</h5>
 						<div class="card-body">
-							<p class="text-center" th:if="${order.delivery_date == null}">No delivery infromation !</p>
+							<p class="text-center" th:if="${order.delivery_date == null}"> delivery infromation will be updeted soon!</p>
 							<div th:if="${order.delivery_date != null}" class="card bg-faded">
 								<div class="card-block">
 									<div class="card-text">
@@ -76,7 +78,7 @@
 										<span>Delivery Person: </span> 
 										<span class="glyphicon glyphicon-user"></span> 
 										<span th:text="${order.deliveryPerson.name}"></span> 
-										<br/></br/>
+										<br/>
 										<span th:text="${order.deliveryPerson.phoneNumber}"></span>
 									</div>
 								</div>
@@ -129,9 +131,12 @@
 				<div class="col-sm-6">
 					<div class="delivery-summary">
 						<div class="delivery-wrapper">
-							<h3 class="title">Shipping Address</h3>
+							<h3 class="title">Delivery Address</h3>
 							<p class="username" th:text="${order.user.name}"></p>
-							<p class="address" th:text="${order.address}"></p>
+							<p class="address" th:text="${order.delivery_address}"></p>
+							<p class="address" th:text="${order.delivery_city}"></p>
+							<p class="address" th:text="${order.delivery_district}"></p>
+
 							<!-- <span th:text="${order.orders.address}"></span> -->
 						</div>
 					</div>
@@ -139,7 +144,9 @@
 						<div class="delivery-wrapper">
 							<h3 class="title">Billing Address</h3>
 							<p class="username" th:text="${order.user.name}">ab himel</p>
-							<p class="address" th:text="${order.address}"></p>
+							<p class="address" th:text="${order.billing_address}"></p>
+							<p class="address" th:text="${order.billing_city}"></p>
+							<p class="address" th:text="${order.billing_district}"></p>
 						</div>
 					</div>
 				</div>
@@ -150,7 +157,7 @@
 							</div>
 							<div>
 								<div class="row">
-									<span class="text">Paid by&nbsp;</span><span class="text bold">Cash
+									<span class="text">&nbsp;</span><span class="text bold">Cash
 										on Delivery</span>
 								</div>
 							</div>
