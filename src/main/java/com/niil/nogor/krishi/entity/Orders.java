@@ -46,16 +46,15 @@ public class Orders implements Comparable<Orders>{
 	private String delivery_city;
 	private String delivery_notes;
 	
-	private Date delivery_date;
-	@Transient
-	private String deliveryDatest;
 	private String feedbackSt;
 	private LocalDateTime feedbackDate;
-	
-	private @ManyToOne DeliveryPerson deliveryPerson;
 
 	@OneToMany(targetEntity=NotesOnOrder.class, mappedBy="orders", cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<NotesOnOrder> notes;
+
+	@OneToMany(targetEntity=DeliveryManagement.class, mappedBy="orders", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<DeliveryManagement> deliveryManagements;
+	
 
 	@Override
 	public int compareTo(Orders o) {

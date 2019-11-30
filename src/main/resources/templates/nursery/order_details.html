@@ -101,11 +101,11 @@
 							<h5 class="card-header">Delivery Update</h5>
 							<div class="card-body">
 									<form class="form-horizontal" id="deliveryUpdateForm"
-									th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
-									th:object="${order}" method="post">
+									th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/update-order-delivery'}"
+									th:object="${deliveryManagement}" method="post">
 									<div class="form-group">
 										<label class=""
-											>DeliveryDate: <span th:text="${order.delivery_date}"></span></label>
+											>DeliveryDate: <span th:text="${deliveryManagement.deliveryDate}"></span></label>
 										
 											<input type="hidden" th:field="*{id}" /> <input type="text"
 												th:field="*{deliveryDatest}" class="form-control" placeholder="dd/MM/yyyy" />
@@ -113,9 +113,9 @@
 									</div>
 									<div class="form-group">
 										<label class=""
-											for="deliveryPerson">Delivery Person: <span th:utext="${order.deliveryPerson.name}"></span></label>
+											for="deliveryPerson">Delivery Person: <span th:utext="${deliveryManagement.deliveryPerson!=null?deliveryManagement.deliveryPerson.name:null}"></span></label>
 										
-											<select th:value="*{deliveryPerson}" class="form-control">
+											<select th:value="*{deliveryPerson}"  th:field="*{deliveryPerson}" class="form-control">
 												<option th:each="tp : ${deliveryPersonList}" th:value="${tp.id}"
 													th:text="${tp.name}"></option>
 											</select>
