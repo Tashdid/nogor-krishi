@@ -54,6 +54,11 @@
 								</tr>
 							</tbody>
 						</table>
+
+						<hr/>
+
+						<h4 th:if="${order.delivery_notes != null}">Delivery Note</h4>
+						<p th:if="${order.delivery_notes != null}" th:text="${order.delivery_notes}"></p>
 	
 					</div>
 	

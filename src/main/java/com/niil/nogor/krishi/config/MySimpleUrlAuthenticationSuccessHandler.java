@@ -81,10 +81,10 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
 			if(redirectUrl != null && !redirectUrl.isEmpty())
 				return redirectUrl;
 			else
-			return "/exlayout/list";
+			return "/gardener/gardener-order-list";
 
 		} else if (isVendor) {
-			return "/vendorprice";
+			return "/vendorprice/vendor-order-list";
 		} else if (isAdmin) {
 			return "/manage";
 		} else {

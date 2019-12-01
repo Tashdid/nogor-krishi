@@ -3,6 +3,7 @@ package com.niil.nogor.krishi.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -81,7 +82,7 @@ public class VendorPriceController extends AbstractController {
 	
 	@GetMapping("/vendor-order-list")
 	public String vendorOrderPage(final ModelMap model) {
-		Set<Orders> ordersList = new TreeSet<Orders>();
+		ArrayList<Orders> ordersList = new ArrayList<Orders>();
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByNursery(userRepo.
 				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
 		for (OrderDetail o:orderDetailsList){
@@ -111,9 +112,12 @@ public class VendorPriceController extends AbstractController {
 		Orders order = orderRepo.findOne(order_id);
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrdersAndNursery(order,userRepo.
 				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
+		List<DeliveryManagement> deliveryManagements=deliveryManagementRepo.findAllByOrdersAndNursery(order,userRepo.
+				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
+		
 		model.addAttribute("orderDetailList", orderDetailsList);
 		model.addAttribute("order",order);
-		model.addAttribute("deliveryPersonList", deliveryPersonRepo.findAll());
+		model.addAttribute("deliveryManagement",deliveryManagements==null||deliveryManagements.isEmpty()?new DeliveryManagement():deliveryManagements.get(0));
 		return "nursery/order_print";
 	}
 

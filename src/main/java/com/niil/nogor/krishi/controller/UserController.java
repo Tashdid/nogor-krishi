@@ -58,8 +58,14 @@ public class UserController extends AbstractController {
 			final ModelMap model, final RedirectAttributes redirectAttrs) {
 		model.addAttribute("reqFrom", reqFrom);
 		model.addAttribute("user", user);
+
+		String redirectUrl = request.getParameter("redirect");
+
 		if (!isValidUser(user, bindingResult, model)) {
-			return "user/register";
+			if(redirectUrl != null && !redirectUrl.isEmpty())
+				return redirectUrl;
+			else
+				return "user/register";
 		}
 
 		String passwd = user.getPassword();
@@ -76,7 +82,11 @@ public class UserController extends AbstractController {
 		}
 		redirectAttrs.addFlashAttribute("msg", "আপনার একাউন্ট তৈরি হয়েছে!");
 		reqFrom = StringUtils.isNotEmpty(reqFrom) ? ("&reqFrom=" + reqFrom) : "";
-		return "redirect:/serviceregister?isNewRegistration=true" + reqFrom;
+		
+		if(redirectUrl != null && !redirectUrl.isEmpty())
+			return "redirect:" + redirectUrl;
+		else
+			return "redirect:/serviceregister?isNewRegistration=true" + reqFrom;
 	}
 
 	public boolean isValidUser(User user, BindingResult bindingResult, final ModelMap model) {

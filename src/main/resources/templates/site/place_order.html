@@ -13,15 +13,64 @@
 			
 				<!--  Not authenticated -->
 				<div sec:authorize="!isAuthenticated()" class="col-8">
-					<div class="col-sm-6" th:with="reqFrom=${#ctx.httpServletRequest.getParameter('reqFrom') eq null ? '' : ('?reqFrom=' + #ctx.httpServletRequest.getParameter('reqFrom'))}">
+					<div class="col-sm-8" th:with="reqFrom=${#ctx.httpServletRequest.getParameter('reqFrom') eq null ? '' : ('?reqFrom=' + #ctx.httpServletRequest.getParameter('reqFrom'))}">
+						<h3 class="mb-5">দয়া করে লগইন করুন</h3>
 						<form id="loginformm" th:action="@{'/login?redirect=place-order' + ${reqFrom}}" method="POST">
 							<div th:replace="common :: common-login" th:remove="tag"></div>
+						</form>
+
+						<hr/>
+						<h3 class="mb-5 mt-5">অথবা নিবন্ধন করুন</h3>
+						<!-- @todo reuse this form  -->
+
+						<form id="registerform" th:action="@{'/register?redirect=place-order' + ${reqFromPart}}" method="post" th:object="${user}">
+							<div th:if="${error ne null}" class="col-sm-8 offset-sm-3 alert alert-danger" style="text-align: center; padding: 5px;">
+								<span th:text="${error}">লগ ইন</span>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-form-label-sm col-sm-3" for="name"></label>
+								<div class="col-sm-8">
+									<input type="text" th:field="*{name}" required="required" class="form-control" placeholder="নাম"/>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-form-label-sm col-sm-3" for="mobile"></label>
+								<div class="col-sm-8">
+									<input type="text" th:field="*{mobile}" class="form-control" required="required" placeholder="মোবাইল"/>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-form-label-sm col-sm-3" for="email"></label>
+								<div class="col-sm-8">
+									<input type="text" th:field="*{email}" class="form-control" required="required" placeholder="ই-মেইল"/>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-form-label-sm col-sm-3" for="password"></label>
+								<div class="col-sm-8">
+									<input type="password" th:field="*{password}" class="form-control" required="required" placeholder="পাসওয়ার্ড"/>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-form-label-sm col-sm-3" for="confirmPassword"></label>
+								<div class="col-sm-8">
+									<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required="required" placeholder="পুনঃ পাসওয়ার্ড"/>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-form-label-sm col-sm-3"></label>
+								<div class="col-sm-8" style="text-align: center;">
+									<button id="registerformbtn" type="submit" class="btn btn-primary" style="width: 100%;">নিবন্ধন</button>
+								</div>
+							</div>
+							
 						</form>
 					</div>
 				</div>
 				<!--  authenticated -->
 				<div sec:authorize="isAuthenticated()" class="col-6">
 					<h2>বিলের বিস্তারিত</h2>
+					<hr/>
 					<h5 th:text="${luser.name}" ></h5>
 					<form class="form-horizontal" onsubmit="return mySubmitFunction(event)">
 					<div class="form-group">
@@ -39,7 +88,7 @@
 							<input class="form-control" name="email" id="email" th:value="${luser.email}" type="text" />
 						</div>
 					</div>
-					
+					<hr/>
 					<h3>বিলের ঠিকানা</h3>
 					<div class="form-group">
 						<label class="control-label col-sm-12" for="Type">ঠিকানা :</label>
@@ -57,7 +106,7 @@
 							
 
 							<select name="district" id="billing-district" class="form-control district_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true">
-								<option value="">জেলা বাছাই করুন…</option><option value="BD-05">Bagerhat</option><option value="BD-01">Bandarban</option><option value="BD-02">Barguna</option><option value="BD-06">Barishal</option><option value="BD-07">Bhola</option><option value="BD-03">Bogura</option><option value="BD-04">Brahmanbaria</option><option value="BD-09">Chandpur</option><option value="BD-10">Chattogram</option><option value="BD-12">Chuadanga</option><option value="BD-11">Cox's Bazar</option><option value="BD-08">Cumilla</option><option value="BD-13">Dhaka</option><option value="BD-14">Dinajpur</option><option value="BD-15">Faridpur </option><option value="BD-16">Feni</option><option value="BD-19">Gaibandha</option><option value="BD-18">Gazipur</option><option value="BD-17">Gopalganj</option><option value="BD-20">Habiganj</option><option value="BD-21">Jamalpur</option><option value="BD-22">Jashore</option><option value="BD-25">Jhalokati</option><option value="BD-23">Jhenaidah</option><option value="BD-24">Joypurhat</option><option value="BD-29">Khagrachhari</option><option value="BD-27">Khulna</option><option value="BD-26">Kishoreganj</option><option value="BD-28">Kurigram</option><option value="BD-30">Kushtia</option><option value="BD-31">Lakshmipur</option><option value="BD-32">Lalmonirhat</option><option value="BD-36">Madaripur</option><option value="BD-37">Magura</option><option value="BD-33">Manikganj </option><option value="BD-39">Meherpur</option><option value="BD-38">Moulvibazar</option><option value="BD-35">Munshiganj</option><option value="BD-34">Mymensingh</option><option value="BD-48">Naogaon</option><option value="BD-43">Narail</option><option value="BD-40">Narayanganj</option><option value="BD-42">Narsingdi</option><option value="BD-44">Natore</option><option value="BD-45">Nawabganj</option><option value="BD-41">Netrakona</option><option value="BD-46">Nilphamari</option><option value="BD-47">Noakhali</option><option value="BD-49">Pabna</option><option value="BD-52">Panchagarh</option><option value="BD-51">Patuakhali</option><option value="BD-50">Pirojpur</option><option value="BD-53">Rajbari</option><option value="BD-54">Rajshahi</option><option value="BD-56">Rangamati</option><option value="BD-55">Rangpur</option><option value="BD-58">Satkhira</option><option value="BD-62">Shariatpur</option><option value="BD-57">Sherpur</option><option value="BD-59">Sirajganj</option><option value="BD-61">Sunamganj</option><option value="BD-60">Sylhet</option><option value="BD-63">Tangail</option><option value="BD-64">Thakurgaon</option>
+								<option value="">জেলা বাছাই করুন…</option><option value="Bagerhat">Bagerhat</option><option value="Bandarban">Bandarban</option><option value="Barguna">Barguna</option><option value="Barishal">Barishal</option><option value="Bhola">Bhola</option><option value="Bogura">Bogura</option><option value="Brahmanbaria">Brahmanbaria</option><option value="Chandpur">Chandpur</option><option value="Chattogram">Chattogram</option><option value="Chuadanga">Chuadanga</option><option value="Cox's Bazar">Cox's Bazar</option><option value="Cumilla">Cumilla</option><option value="Dhaka">Dhaka</option><option value="Dinajpur">Dinajpur</option><option value="Faridpur">Faridpur </option><option value="Feni">Feni</option><option value="Gaibandha">Gaibandha</option><option value="Gazipur">Gazipur</option><option value="Gopalganj">Gopalganj</option><option value="Habiganj">Habiganj</option><option value="Jamalpur">Jamalpur</option><option value="Jashore">Jashore</option><option value="Jhalokati">Jhalokati</option><option value="Jhenaidah">Jhenaidah</option><option value="Joypurhat">Joypurhat</option><option value="Khagrachhari">Khagrachhari</option><option value="Khulna">Khulna</option><option value="Kishoreganj">Kishoreganj</option><option value="Kurigram">Kurigram</option><option value="Kushtia">Kushtia</option><option value="Lakshmipur">Lakshmipur</option><option value="Lalmonirhat">Lalmonirhat</option><option value="Madaripur">Madaripur</option><option value="Magura">Magura</option><option value="Manikganj">Manikganj </option><option value="Meherpur">Meherpur</option><option value="Moulvibazar">Moulvibazar</option><option value="Munshiganj">Munshiganj</option><option value="Mymensingh">Mymensingh</option><option value="Naogaon">Naogaon</option><option value="Narail">Narail</option><option value="Narayanganj">Narayanganj</option><option value="Narsingdi">Narsingdi</option><option value="Natore">Natore</option><option value="Nawabganj">Nawabganj</option><option value="Netrakona">Netrakona</option><option value="Nilphamari">Nilphamari</option><option value="Noakhali">Noakhali</option><option value="Pabna">Pabna</option><option value="Panchagarh">Panchagarh</option><option value="Patuakhali">Patuakhali</option><option value="Pirojpur">Pirojpur</option><option value="Rajbari">Rajbari</option><option value="Rajshahi">Rajshahi</option><option value="Rangamati">Rangamati</option><option value="Rangpur">Rangpur</option><option value="Satkhira">Satkhira</option><option value="Shariatpur">Shariatpur</option><option value="Sherpur">Sherpur</option><option value="Sirajganj">Sirajganj</option><option value="Sunamganj">Sunamganj</option><option value="Sylhet">Sylhet</option><option value="Tangail">Tangail</option><option value="Thakurgaon">Thakurgaon</option>
 							</select>
 						</div>
 					</div>
@@ -69,9 +118,15 @@
 							<input class="form-control" id="billing-city" name="city" type="text" />
 						</div>
 					</div>
-
+					<hr/>
 					<h3>ডেলিভারি ঠিকানা</h3>
-					<input type="checkbox" id="same-bill" /> same as billing address
+					<div class="form-check">
+						<input type="checkbox" id="same-bill"/>
+						<label class="form-check-label" for="same-bill">
+							বিল ঠিকানার অনুরূপ
+						</label>
+					</div>
+					
 					<div class="form-group">
 						<label class="control-label col-sm-12" for="Type">ঠিকানা :</label>
 						<div class="col-sm-10">
@@ -88,7 +143,7 @@
 							
 
 							<select name="delivery_district" id="delivery-district" class="form-control  billing-addrss district_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true">
-								<option value="">জেলা বাছাই করুন…</option><option value="BD-05">Bagerhat</option><option value="BD-01">Bandarban</option><option value="BD-02">Barguna</option><option value="BD-06">Barishal</option><option value="BD-07">Bhola</option><option value="BD-03">Bogura</option><option value="BD-04">Brahmanbaria</option><option value="BD-09">Chandpur</option><option value="BD-10">Chattogram</option><option value="BD-12">Chuadanga</option><option value="BD-11">Cox's Bazar</option><option value="BD-08">Cumilla</option><option value="BD-13">Dhaka</option><option value="BD-14">Dinajpur</option><option value="BD-15">Faridpur </option><option value="BD-16">Feni</option><option value="BD-19">Gaibandha</option><option value="BD-18">Gazipur</option><option value="BD-17">Gopalganj</option><option value="BD-20">Habiganj</option><option value="BD-21">Jamalpur</option><option value="BD-22">Jashore</option><option value="BD-25">Jhalokati</option><option value="BD-23">Jhenaidah</option><option value="BD-24">Joypurhat</option><option value="BD-29">Khagrachhari</option><option value="BD-27">Khulna</option><option value="BD-26">Kishoreganj</option><option value="BD-28">Kurigram</option><option value="BD-30">Kushtia</option><option value="BD-31">Lakshmipur</option><option value="BD-32">Lalmonirhat</option><option value="BD-36">Madaripur</option><option value="BD-37">Magura</option><option value="BD-33">Manikganj </option><option value="BD-39">Meherpur</option><option value="BD-38">Moulvibazar</option><option value="BD-35">Munshiganj</option><option value="BD-34">Mymensingh</option><option value="BD-48">Naogaon</option><option value="BD-43">Narail</option><option value="BD-40">Narayanganj</option><option value="BD-42">Narsingdi</option><option value="BD-44">Natore</option><option value="BD-45">Nawabganj</option><option value="BD-41">Netrakona</option><option value="BD-46">Nilphamari</option><option value="BD-47">Noakhali</option><option value="BD-49">Pabna</option><option value="BD-52">Panchagarh</option><option value="BD-51">Patuakhali</option><option value="BD-50">Pirojpur</option><option value="BD-53">Rajbari</option><option value="BD-54">Rajshahi</option><option value="BD-56">Rangamati</option><option value="BD-55">Rangpur</option><option value="BD-58">Satkhira</option><option value="BD-62">Shariatpur</option><option value="BD-57">Sherpur</option><option value="BD-59">Sirajganj</option><option value="BD-61">Sunamganj</option><option value="BD-60">Sylhet</option><option value="BD-63">Tangail</option><option value="BD-64">Thakurgaon</option>
+								<option value="">জেলা বাছাই করুন…</option><option value="05">Bagerhat</option><option value="01">Bandarban</option><option value="02">Barguna</option><option value="06">Barishal</option><option value="07">Bhola</option><option value="03">Bogura</option><option value="04">Brahmanbaria</option><option value="09">Chandpur</option><option value="10">Chattogram</option><option value="12">Chuadanga</option><option value="11">Cox's Bazar</option><option value="08">Cumilla</option><option value="13">Dhaka</option><option value="14">Dinajpur</option><option value="15">Faridpur </option><option value="16">Feni</option><option value="19">Gaibandha</option><option value="18">Gazipur</option><option value="17">Gopalganj</option><option value="20">Habiganj</option><option value="21">Jamalpur</option><option value="22">Jashore</option><option value="25">Jhalokati</option><option value="23">Jhenaidah</option><option value="24">Joypurhat</option><option value="29">Khagrachhari</option><option value="27">Khulna</option><option value="26">Kishoreganj</option><option value="28">Kurigram</option><option value="30">Kushtia</option><option value="31">Lakshmipur</option><option value="32">Lalmonirhat</option><option value="36">Madaripur</option><option value="37">Magura</option><option value="33">Manikganj </option><option value="39">Meherpur</option><option value="38">Moulvibazar</option><option value="35">Munshiganj</option><option value="34">Mymensingh</option><option value="48">Naogaon</option><option value="43">Narail</option><option value="40">Narayanganj</option><option value="42">Narsingdi</option><option value="44">Natore</option><option value="45">Nawabganj</option><option value="41">Netrakona</option><option value="46">Nilphamari</option><option value="47">Noakhali</option><option value="49">Pabna</option><option value="52">Panchagarh</option><option value="51">Patuakhali</option><option value="50">Pirojpur</option><option value="53">Rajbari</option><option value="54">Rajshahi</option><option value="56">Rangamati</option><option value="55">Rangpur</option><option value="58">Satkhira</option><option value="62">Shariatpur</option><option value="57">Sherpur</option><option value="59">Sirajganj</option><option value="61">Sunamganj</option><option value="60">Sylhet</option><option value="63">Tangail</option><option value="64">Thakurgaon</option>
 							</select>
 						</div>
 					</div>
@@ -100,7 +155,7 @@
 							<input class="form-control  billing-addrss" id="delivery-city" name="delivery_city" type="text" />
 						</div>
 					</div>
-
+					<hr/>
 					<div class="form-group">
 							<label class="control-label col-sm-12" for="Type">ডেলিভারি নোট :</label>
 							<div class="col-sm-10">
@@ -136,6 +191,11 @@
 				$('body').addClass('show-cart');
 			});
 		
-		</script>		
+		</script>	
+		<style>
+			.register-login {
+				display: none;
+			}
+		</style>	
 	</body>
 </html>
