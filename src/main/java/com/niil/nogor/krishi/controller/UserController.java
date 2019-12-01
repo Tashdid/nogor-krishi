@@ -62,8 +62,8 @@ public class UserController extends AbstractController {
 		String redirectUrl = request.getParameter("redirect");
 
 		if (!isValidUser(user, bindingResult, model)) {
-			if(redirectUrl != null && !redirectUrl.isEmpty())
-				return redirectUrl;
+			if(redirectUrl != null && redirectUrl.equals("place-order") )
+				return "site/place_order";
 			else
 				return "user/register";
 		}
