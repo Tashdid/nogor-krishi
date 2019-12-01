@@ -118,8 +118,8 @@
 								</div>
 								<div sec:authorize="isAuthenticated()" th:remove="tag">
 									<div class="row-fluid userInfoContainer">
-										<!-- <strong class="ng-binding" th:text="${luser.mobile}">ADMIN</strong>
-										 <p th:text="${luser.name}">Systems Administrator</p>-->
+										<strong class="ng-binding" th:text="${luser.mobile}">ADMIN</strong>
+										 <p th:text="${luser.name}">Systems Administrator</p>
 									</div>
 									<div class="dropdown-divider"></div>
 									<a sec:authorize="hasRole('ROLE_GARDENER') or hasRole('ROLE_VENDOR')" class="dropdown-item chnglgout" style="float: left; margin-left: 10px;" href="#" th:href="@{/changepassword}">পাসওয়ার্ড পরিবর্তন</a>
