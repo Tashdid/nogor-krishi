@@ -1,7 +1,10 @@
 package com.niil.nogor.krishi.controller;
 
+import java.math.BigDecimal;
 import java.util.*;
 // import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 // import javax.servlet.http.HttpServletRequest;
 // import javax.servlet.http.HttpServletResponse;
@@ -49,6 +52,7 @@ public class EcommerceController extends AbstractController {
 //	@Autowired MaterialRepo materialRepo;
     @Autowired SaleTypeRepo saleTypeRepo;
 //	@Autowired private APIContentRepo contentRepo;
+    @Autowired CartDetailsRepo cartDetailsRepo;
 
     @RequestMapping("/buy/{product}")
     public String buy(@PathVariable Product product, final ModelMap model) {
@@ -61,7 +65,32 @@ public class EcommerceController extends AbstractController {
     }
 
     @RequestMapping("/place-order")
-    public String placeOrder(final ModelMap model) {
+    public String placeOrder(HttpSession httpSession, final ModelMap model) {
+    	
+    	if(httpSession.getAttribute("cartId") == null){
+			return null; //@todo return error message
+		 }
+		
+		
+		List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId(
+				(String)httpSession.getAttribute("cartId"));
+		
+		if(cartDetailsList.size() == 0) {
+			return null; // @todo return error message
+		}
+		
+//		BigDecimal totalPrice = new BigDecimal(0);
+//		for(int i=0;i<cartDetailsList.size();i++){
+//			CartDetails cartDetail = cartDetailsList.get(i);
+//			totalPrice = totalPrice.add(
+//					cartDetail.getUnit_price().multiply( 
+//							new BigDecimal(cartDetail.getQuantity())
+//							)
+//					);
+//			
+//		}
+
+		model.addAttribute("user", new User());
 
         return "site/place_order";
     }

@@ -65,7 +65,7 @@ $(document).ready(function() {
 		});
 	}).on("submit", "#registerform", function() {
 		var btn = $(this);
-		var pswd = $("#password").val();
+		var pswd = $("#password-reg").val();
 		var cnpswd = $("#confirmPassword").val();
 		if (pswd !== cnpswd) {
 			alert("পাসওয়ার্ড গুলো একই নয়!");

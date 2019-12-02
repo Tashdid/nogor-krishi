@@ -104,7 +104,10 @@ public class OrdersController extends AbstractController{
 		newOrder.setStatus("new");
 		newOrder.setPayable_amount(totalPrice);
 //		newOrder.setOrders_id(new Long(12110));
+		// if(!SecurityContextHolder.getContext().getAuthentication().getName().isEmpty()) {
 		newOrder.setUser(userRepo.findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()));
+		// }
+		
 //		newOrder.setComment("New order test comment");
 //		newOrder.setRating(3);
 		

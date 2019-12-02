@@ -3,6 +3,7 @@ package com.niil.nogor.krishi.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -24,12 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.niil.nogor.krishi.entity.Comment;
+import com.niil.nogor.krishi.entity.DeliveryManagement;
 import com.niil.nogor.krishi.entity.MaterialPrice;
 import com.niil.nogor.krishi.entity.NotesOnOrder;
 import com.niil.nogor.krishi.entity.Nursery;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
 import com.niil.nogor.krishi.entity.ProductPrice;
+import com.niil.nogor.krishi.repo.DeliveryManagementRepo;
 import com.niil.nogor.krishi.repo.DeliveryPersonRepo;
 import com.niil.nogor.krishi.repo.MaterialPriceRepo;
 import com.niil.nogor.krishi.repo.NotesOnOrderRepo;
@@ -64,6 +67,7 @@ public class VendorPriceController extends AbstractController {
 	@Autowired UserRepo userRepo;
 	@Autowired DeliveryPersonRepo deliveryPersonRepo;
 	@Autowired NotesOnOrderRepo notesOnOrderRepo;
+	@Autowired DeliveryManagementRepo deliveryManagementRepo;
 	
 	
 
@@ -78,7 +82,7 @@ public class VendorPriceController extends AbstractController {
 	
 	@GetMapping("/vendor-order-list")
 	public String vendorOrderPage(final ModelMap model) {
-		Set<Orders> ordersList = new TreeSet<Orders>();
+		ArrayList<Orders> ordersList = new ArrayList<Orders>();
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByNursery(userRepo.
 				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
 		for (OrderDetail o:orderDetailsList){
@@ -93,8 +97,11 @@ public class VendorPriceController extends AbstractController {
 		Orders order = orderRepo.findOne(order_id);
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrdersAndNursery(order,userRepo.
 				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
+		List<DeliveryManagement> deliveryManagements=deliveryManagementRepo.findAllByOrdersAndNursery(order,userRepo.
+				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
 		model.addAttribute("orderDetailList", orderDetailsList);
 		model.addAttribute("order",order);
+		model.addAttribute("deliveryManagement",deliveryManagements==null||deliveryManagements.isEmpty()?new DeliveryManagement():deliveryManagements.get(0));
 		model.addAttribute("deliveryPersonList", deliveryPersonRepo.findAll());
 		return "nursery/order_details";
 	}
@@ -105,9 +112,12 @@ public class VendorPriceController extends AbstractController {
 		Orders order = orderRepo.findOne(order_id);
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrdersAndNursery(order,userRepo.
 				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
+		List<DeliveryManagement> deliveryManagements=deliveryManagementRepo.findAllByOrdersAndNursery(order,userRepo.
+				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
+		
 		model.addAttribute("orderDetailList", orderDetailsList);
 		model.addAttribute("order",order);
-		model.addAttribute("deliveryPersonList", deliveryPersonRepo.findAll());
+		model.addAttribute("deliveryManagement",deliveryManagements==null||deliveryManagements.isEmpty()?new DeliveryManagement():deliveryManagements.get(0));
 		return "nursery/order_print";
 	}
 
@@ -169,22 +179,7 @@ public class VendorPriceController extends AbstractController {
 			if (type.getStatus() != null) {
 				bean.setStatus(type.getStatus());
 			}
-			if (type.getDeliveryDatest() != null) {
-				String str = type.getDeliveryDatest();
-				SimpleDateFormat sFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-				try {
-					bean.setDelivery_date(sFormat.parse(str));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-				}
-
-			}
-			if (type.getDeliveryPerson() != null) {
-				bean.setDeliveryPerson(type.getDeliveryPerson());
-			}
+			
 			if (type.getFeedbackSt() != null) {
 				bean.setFeedbackSt(type.getFeedbackSt());
 				bean.setFeedbackDate(LocalDateTime.now());
@@ -211,6 +206,54 @@ public class VendorPriceController extends AbstractController {
 				notesOnOrder.setPublished(true);
 				notesOnOrder.setOrders(bean);
 				notesOnOrderRepo.save(notesOnOrder);
+
+				return ResponseEntity.ok(HttpStatus.SC_OK);
+			} else {
+				return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+
+	@RequestMapping(value = "vendor-order-detail/{order_id}/update-order-delivery", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity updateOrderDelivery(@PathVariable Long order_id, @ModelAttribute DeliveryManagement type) {
+		try {
+			System.out.println(order_id);
+			Orders bean = orderRepo.findOne(order_id);
+			if (bean != null) {
+				
+				DeliveryManagement deliveryManagement=new DeliveryManagement();
+				if(type.getId()!=null) {
+					deliveryManagement=deliveryManagementRepo.findOne(type.getId());
+					deliveryManagement.setModifiedAt(LocalDateTime.now());
+				}else {
+					deliveryManagement.setOrders(bean);
+					deliveryManagement.setNursery(userRepo.
+							findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
+				}
+
+				if (type.getDeliveryDatest() != null) {
+					String str = type.getDeliveryDatest();
+					SimpleDateFormat sFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+					try {
+						deliveryManagement.setDeliveryDate(sFormat.parse(str));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+					}
+
+				}
+				if (type.getDeliveryPerson() != null) {
+					deliveryManagement.setDeliveryPerson(type.getDeliveryPerson());
+				}
+				
+				deliveryManagementRepo.save(deliveryManagement);
 
 				return ResponseEntity.ok(HttpStatus.SC_OK);
 			} else {

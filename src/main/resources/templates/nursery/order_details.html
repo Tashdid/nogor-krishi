@@ -67,6 +67,10 @@
 						</tr>
 					</tbody>
 				</table>
+				<hr/>
+				<h4 th:if="${order.delivery_notes != null}">Delivery Note</h4>
+				<p th:if="${order.delivery_notes != null}" th:text="${order.delivery_notes}"></p>
+				<hr/>
 				<a target="_blank" th:href="@{'/vendorprice/print-vendor-order/' + ${order.id}}" class="btn btn-success">Print</a>
 			</div>
 			<div class="col-sm-6">
@@ -83,9 +87,11 @@
 									<select class="form-control"
 										th:field="*{status}" required="required">
 										<option value="New">New</option>
-										<option value="Pending">Pending</option>
+										<!-- <option value="Pending">Pending</option> -->
+										<option value="Processing">Processing</option>
+										<option value="On way for delivery">On way for delivery</option>
 										<option value="Delivered">Delivered</option>
-										<option value="Cancled by customer">Cancled by customer</option>
+										<!-- <option value="Cancled by customer">Cancled by customer</option> -->
 										<option value="Cancled by nursery">Cancled by nursery</option>
 									</select>
 								
@@ -97,15 +103,15 @@
 					</div>
 					</div>
 	
-						<div class="card">
+						<div class="card mt-2">
 							<h5 class="card-header">Delivery Update</h5>
 							<div class="card-body">
 									<form class="form-horizontal" id="deliveryUpdateForm"
-									th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
-									th:object="${order}" method="post">
+									th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/update-order-delivery'}"
+									th:object="${deliveryManagement}" method="post">
 									<div class="form-group">
 										<label class=""
-											>DeliveryDate: <span th:text="${order.delivery_date}"></span></label>
+											>DeliveryDate: <span th:text="${deliveryManagement.deliveryDate}"></span></label>
 										
 											<input type="hidden" th:field="*{id}" /> <input type="text"
 												th:field="*{deliveryDatest}" class="form-control" placeholder="dd/MM/yyyy" />
@@ -113,9 +119,9 @@
 									</div>
 									<div class="form-group">
 										<label class=""
-											for="deliveryPerson">Delivery Person: <span th:utext="${order.deliveryPerson.name}"></span></label>
+											for="deliveryPerson">Delivery Person: <span th:utext="${deliveryManagement.deliveryPerson!=null?deliveryManagement.deliveryPerson.name:null}"></span></label>
 										
-											<select th:value="*{deliveryPerson}" class="form-control">
+											<select th:value="*{deliveryPerson}"  th:field="*{deliveryPerson}" class="form-control">
 												<option th:each="tp : ${deliveryPersonList}" th:value="${tp.id}"
 													th:text="${tp.name}"></option>
 											</select>
@@ -128,7 +134,7 @@
 							</div>
 						</div>
 	
-						<div class="card">
+						<div class="card mt-2">
 							<h5 class="card-header">Notes For Customer</h5>
 							<div class="card-body">
 
@@ -166,7 +172,7 @@
 							</div>
 						</div>
 	
-						<div class="card">
+						<div class="card mt-2">
 							<h5 class="card-header" >Feedback From Customer</h5>
 							<div class="card-body">
 									<div th:if= "${order.feedbackSt != null}"

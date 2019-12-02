@@ -106,7 +106,7 @@ body{
 	
 }
 
-h3,h4,h5,h6,h2,h1 { color: #417505; }
+h3,h4,h5,h6,h2,h1 { color: #417505; margin-bottom: 1em; }
 
 #gardens { margin-top: 80px; }
 #gardens .english{ font-size: 14px; }

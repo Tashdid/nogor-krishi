@@ -54,6 +54,11 @@
 								</tr>
 							</tbody>
 						</table>
+
+						<hr/>
+
+						<h4 th:if="${order.delivery_notes != null}">Delivery Note</h4>
+						<p th:if="${order.delivery_notes != null}" th:text="${order.delivery_notes}"></p>
 	
 					</div>
 	
@@ -64,26 +69,36 @@
 						
 						
 					<div class="card">
+					
 						<h5 class="card-header">Delivery information</h5>
 						<div class="card-body">
-							<p class="text-center" th:if="${order.delivery_date == null}"> delivery infromation will be updeted soon!</p>
-							<div th:if="${order.delivery_date != null}" class="card bg-faded">
+							<p class="text-center" th:if="${order.deliveryManagements == null||#lists.isEmpty(order.deliveryManagements)}"> delivery infromation will be updeted soon!</p>
+							<div th:unless="${#lists.isEmpty(order.deliveryManagements)}">
+							<div  th:each="cm : ${order.deliveryManagements}">
+							<div th:if="${cm.deliveryDate != null}" class="card bg-faded">
 								<div class="card-block">
+								<div class="card-text">
+										<span>Nursery: </span> 
+											<span th:text="${cm.nursery.name}"></span>
+									</div>
 									<div class="card-text">
 										<span>Delivery Date: </span> 
-											<span th:text="${order.delivery_date}"></span>
+											<span th:text="${cm.deliveryDate}"></span>
 									</div>
 									<div class="card-text">
 									
 										<span>Delivery Person: </span> 
 										<span class="glyphicon glyphicon-user"></span> 
-										<span th:text="${order.deliveryPerson.name}"></span> 
+										<span th:text="${cm.deliveryPerson.name}"></span> 
 										<br/>
-										<span th:text="${order.deliveryPerson.phoneNumber}"></span>
+										<span th:text="${cm.deliveryPerson.phoneNumber}"></span>
 									</div>
 								</div>
 							</div>
+							</div>
+							</div>
 						</div>
+						
 					</div>
 	
 					<div class="card mt-4" th:unless="${#lists.isEmpty(order.notes)}">
