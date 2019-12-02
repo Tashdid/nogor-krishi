@@ -28,4 +28,13 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 	Product findTopByTypeAndSequenceLessThanOrderBySequenceDesc(ProductType type, Integer sequence);
 
 	List<Product> findByNameIgnoreCaseContaining(String name);
+	
+	List<Product> findAllByTypeAndParentOrderBySequenceAsc(ProductType type, Product parent);
+	
+	List<Product> findAllByParentOrderBySequenceAsc(Product parent);
+	
+	Product findTopByTypeAndParentAndSequenceGreaterThanOrderBySequence(ProductType type, Product parent, Integer sequence);
+
+	Product findTopByTypeAndParentAndSequenceLessThanOrderBySequenceDesc(ProductType type, Product parent, Integer sequence);
+
 }

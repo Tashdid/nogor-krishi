@@ -236,7 +236,7 @@ public class VendorPriceController extends AbstractController {
 							findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
 				}
 
-				if (type.getDeliveryDatest() != null) {
+				if (type.getDeliveryDatest() != null && !type.getDeliveryDatest().trim().isEmpty()) {
 					String str = type.getDeliveryDatest();
 					SimpleDateFormat sFormat = new SimpleDateFormat("dd/MM/yyyy");
 

@@ -43,11 +43,15 @@ public class Product {
 	private String benefits;
 	private int sequence;
 	private @ManyToOne ProductType type;
+	private @ManyToOne Product parent;
+
+	@OneToMany(targetEntity=Product.class, mappedBy="parent", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<Product> childProductList;
 
 	public String getDetails() {
 		String lnsp = System.getProperty("line.separator");
 		StringBuilder dt = new StringBuilder();
-		if (StringUtils.isNotEmpty(description)) dt.append(description).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(description)||StringUtils.isNotEmpty(parent.description)) dt.append(StringUtils.isNotEmpty(description)?description:parent.description).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(benefits)) dt.append("গুণাগুণঃ").append(lnsp).append(benefits).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(usefulVarieties)) dt.append("ছাদের উপযোগী জাতঃ").append(lnsp).append(usefulVarieties).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(suitableContainer)) dt.append("উপযোগী পাত্রঃ").append(lnsp).append(suitableContainer).append(lnsp).append(lnsp);
@@ -65,23 +69,23 @@ public class Product {
 
 	public List<String> getDetailsList() {
 		List<String> dtlst = new ArrayList<>();
-		if (StringUtils.isNotEmpty(description)) {
-			dtlst.add(description);
+		if (StringUtils.isNotEmpty(description)||(parent!=null && StringUtils.isNotEmpty(parent.description))) {
+			dtlst.add(StringUtils.isNotEmpty(description)?description:parent.description);
 			dtlst.add("");
 			dtlst.add("");
 		}
-		checkAndaddItem(dtlst, "গুণাগুণঃ", benefits);
-		checkAndaddItem(dtlst, "ছাদের উপযোগী জাতঃ", usefulVarieties);
-		checkAndaddItem(dtlst, "উপযোগী পাত্রঃ", suitableContainer);
-		checkAndaddItem(dtlst, "লাগানোর উপযুক্ত সময়ঃ", suitableTime);
-		checkAndaddItem(dtlst, "মাটি তৈরিঃ", landPreparation);
-		checkAndaddItem(dtlst, "চারার ধরণঃ", seedlingType);
-		checkAndaddItem(dtlst, "পরিচর্যাঃ", careness);
-		checkAndaddItem(dtlst, "স্হানঃ", place);
-		checkAndaddItem(dtlst, "হরমোনঃ", hormone);
-		checkAndaddItem(dtlst, "কীটনাশক বা ছত্রাকনাশকঃ", pesticides);
-		checkAndaddItem(dtlst, "সতর্কতাঃ", caution);
-		checkAndaddItem(dtlst, "ফলনঃ", productivity);
+		checkAndaddItem(dtlst, "গুণাগুণঃ", StringUtils.isEmpty(benefits)&&parent!=null?parent.benefits:benefits);
+		checkAndaddItem(dtlst, "ছাদের উপযোগী জাতঃ", StringUtils.isEmpty(usefulVarieties)&&parent!=null?parent.usefulVarieties:usefulVarieties);
+		checkAndaddItem(dtlst, "উপযোগী পাত্রঃ", StringUtils.isEmpty(suitableContainer)&&parent!=null?parent.suitableContainer:suitableContainer);
+		checkAndaddItem(dtlst, "লাগানোর উপযুক্ত সময়ঃ", StringUtils.isEmpty(suitableTime)&&parent!=null?parent.suitableTime:suitableTime);
+		checkAndaddItem(dtlst, "মাটি তৈরিঃ", StringUtils.isEmpty(landPreparation)&&parent!=null?parent.landPreparation:landPreparation);
+		checkAndaddItem(dtlst, "চারার ধরণঃ", StringUtils.isEmpty(seedlingType)&&parent!=null?parent.seedlingType:seedlingType);
+		checkAndaddItem(dtlst, "পরিচর্যাঃ", StringUtils.isEmpty(careness)&&parent!=null?parent.careness:careness);
+		checkAndaddItem(dtlst, "স্হানঃ", StringUtils.isEmpty(place)&&parent!=null?parent.place:place);
+		checkAndaddItem(dtlst, "হরমোনঃ", StringUtils.isEmpty(hormone)&&parent!=null?parent.hormone:hormone);
+		checkAndaddItem(dtlst, "কীটনাশক বা ছত্রাকনাশকঃ", StringUtils.isEmpty(pesticides)&&parent!=null?parent.pesticides:pesticides);
+		checkAndaddItem(dtlst, "সতর্কতাঃ", StringUtils.isEmpty(caution)&&parent!=null?parent.caution:caution);
+		checkAndaddItem(dtlst, "ফলনঃ", StringUtils.isEmpty(productivity)&&parent!=null?parent.productivity:productivity);
 		if (dtlst.isEmpty()) dtlst.add("");
 		return dtlst;
 	}

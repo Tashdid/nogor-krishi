@@ -91,26 +91,28 @@ public class SiteController extends AbstractController {
 		} else if (product != null) {
 			model.addAttribute("type", product.getType());
 			model.addAttribute("product", product);
-			List<ProductPrice> prices = productPriceRepo.findAllByProduct(product);
+			model.addAttribute("nextProduct", productRepo.findTopByTypeAndParentAndSequenceGreaterThanOrderBySequence(product.getType(),product.getParent(), product.getSequence()));
+			model.addAttribute("previousProduct", productRepo.findTopByTypeAndParentAndSequenceLessThanOrderBySequenceDesc(product.getType(),product.getParent(), product.getSequence()));
 
-			List<Nursery> nurseries = prices.stream().map(p -> p.getNursery()).distinct()
-					.sorted(byNurseryType.thenComparing(Nursery::getSequence))
-					.collect(Collectors.toList());
-			model.addAttribute("nurseries", nurseries);
-			model.addAttribute("areas", nurseries.stream().map(n -> n.getArea()).distinct()
-					.sorted(Comparator.comparing(Area::getSequence))
-					.collect(Collectors.toList()));
-			model.addAttribute("nextProduct", productRepo.findTopByTypeAndSequenceGreaterThanOrderBySequence(product.getType(), product.getSequence()));
-			model.addAttribute("previousProduct", productRepo.findTopByTypeAndSequenceLessThanOrderBySequenceDesc(product.getType(), product.getSequence()));
-			
-			// product min and max price 
-			ProductPrice productMinPrice = productPriceRepo.findTopByProductOrderByPriceAsc(product);
-			ProductPrice productMaxPrice = productPriceRepo.findTopByProductOrderByPriceDesc(product);
-			model.addAttribute("productMinPrice", productMinPrice);
-			model.addAttribute("productMaxPrice", productMaxPrice);
-			
+			if (product.getChildProductList() == null || product.getChildProductList().isEmpty()) {
+
+				List<ProductPrice> prices = productPriceRepo.findAllByProduct(product);
+
+				List<Nursery> nurseries = prices.stream().map(p -> p.getNursery()).distinct()
+						.sorted(byNurseryType.thenComparing(Nursery::getSequence)).collect(Collectors.toList());
+				model.addAttribute("nurseries", nurseries);
+				model.addAttribute("areas", nurseries.stream().map(n -> n.getArea()).distinct()
+						.sorted(Comparator.comparing(Area::getSequence)).collect(Collectors.toList()));
+
+				// product min and max price
+				ProductPrice productMinPrice = productPriceRepo.findTopByProductOrderByPriceAsc(product);
+				ProductPrice productMaxPrice = productPriceRepo.findTopByProductOrderByPriceDesc(product);
+				model.addAttribute("productMinPrice", productMinPrice);
+				model.addAttribute("productMaxPrice", productMaxPrice);
+			}
+
 		} else {
-			model.addAttribute("products", type == null ? cacheRepo.getAllProducts() : cacheRepo.getProducts(type));
+			model.addAttribute("products", type == null ? productRepo.findAllByParentOrderBySequenceAsc(null) : productRepo.findAllByTypeAndParentOrderBySequenceAsc(type, null));
 		}
 		return "site/ponno";
 	}
