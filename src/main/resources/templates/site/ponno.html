@@ -51,6 +51,8 @@
 							<p th:if="${product ne null}" id="singleproduct" class="lead mb-0">
 								<span class="mr-2"><a class="types" id="typetext" href="" th:href="@{'/products/' + ${type.id}}" th:text="${type.name}">শাক</a></span>
 								<span class="mr-2 small"><i class="fa fa-chevron-right"></i> </span>
+								<span class="mr-2"  th:if="${product.parent ne null}"><a class="types" id="typetext" href="" th:href="@{'/products/' + ${type.id}+'?product='+${product.parent.id}}" th:text="${product.parent.name}">শাক</a></span>
+								<span class="mr-2 small" th:if="${product.parent ne null}"><i class="fa fa-chevron-right"></i> </span>
 								<span class="mr-2 text-muted" id="producttext" th:text="${product.name}">লাল শাক</span>
 								<a th:if="${nextProduct ne null}" class="rightarrow pull-right" th:href="@{'/products/' + ${type.id} + ${type.linkedToMaterial ? '?material=' : '?product='} + ${nextProduct.id}}" tabindex="-1" style="margin-left: 30px;" th:title="${nextProduct.name}">
 									<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(type.linkedToMaterial ? nextProduct.image : nextProduct.icon)}" src="images/tree-lal-shak.png" class="img-fluid" style="height: 30px; width: 30px;"/>
