@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.niil.nogor.krishi.entity.City;
 import com.niil.nogor.krishi.entity.DeliveryPerson;
 import com.niil.nogor.krishi.repo.DeliveryPersonRepo;
 import com.niil.nogor.krishi.view.SequenceUpdater;
@@ -28,7 +27,7 @@ public class DeliveryPersonController extends AbstractController {
 
 	@RequestMapping
 	public String newScreen(ModelMap model) {
-		System.out.println("test================================");
+		//System.out.println("test================================");
 		return updateScreen(null, model);
 	}
 

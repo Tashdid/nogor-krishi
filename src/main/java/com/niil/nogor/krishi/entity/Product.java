@@ -43,10 +43,14 @@ public class Product {
 	private String benefits;
 	private int sequence;
 	private @ManyToOne ProductType type;
+
 	private @ManyToOne Product parent;
 
 	@OneToMany(targetEntity=Product.class, mappedBy="parent", cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Product> childProductList;
+
+	//@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    //private Set<ProductProperty> productProperties;
 
 	public String getDetails() {
 		String lnsp = System.getProperty("line.separator");
