@@ -17,46 +17,42 @@ import com.niil.nogor.krishi.repo.ProductPropertyRepo;
 
 @Controller
 @RequestMapping(ProductPropertyController.URL)
-public class ProductPropertyController extends AbstractController{
-	
+public class ProductPropertyController extends AbstractController {
+
 	static final String URL = "/manage/productproperty";
-	
-	@Autowired ProductPropertyRepo productPropertyRepo;
+
+	@Autowired
+	ProductPropertyRepo productPropertyRepo;
 
 	@RequestMapping
 	public String newScreen(ModelMap model) {
 		return updateScreen(null, model);
 	}
-	
-	@RequestMapping(value="/{code}")
+
+	@RequestMapping(value = "/{code}")
 	public String updateScreen(@PathVariable Long code, ModelMap model) {
 		ProductProperty bean = code == null ? new ProductProperty() : productPropertyRepo.findOne(code);
-		if (bean == null) bean = new ProductProperty();
+		if (bean == null)
+			bean = new ProductProperty();
 		model.addAttribute("bean", bean);
 		model.addAttribute("allbeans", productPropertyRepo.findAll());
 		return URL.substring(1);
 	}
-	
+
 	@RequestMapping(value = "/saveorupdate", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity saveOrUpdateProductProperty(@ModelAttribute ProductProperty bean) {
-		try {
-			if (bean != null) {
-				ProductProperty newBean=productPropertyRepo.save(bean);
-				return ResponseEntity.ok(HttpStatus.SC_OK);
-		} else {
-			return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+	public String saveOrUpdateProductProperty(@ModelAttribute ProductProperty bean) {
+
+		if (bean != null) {
+			ProductProperty newBean = productPropertyRepo.save(bean);
 		}
-	} catch (Exception ex) {
-		ex.printStackTrace();
-		return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+		return "redirect:" + URL + "/" + bean.getId();
+
 	}
-	}
-	
-	@RequestMapping(value="/delete/{code}")
+
+	@RequestMapping(value = "/delete/{code}")
 	@ResponseBody
 	public Boolean delete(@PathVariable Long code) {
-		
+
 		try {
 			if (code != null) {
 				productPropertyRepo.delete(code);
@@ -69,8 +65,5 @@ public class ProductPropertyController extends AbstractController{
 			return false;
 		}
 	}
-
-	
-	
 
 }

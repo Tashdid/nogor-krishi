@@ -14,8 +14,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateResponse implements Serializable {
-	ProductProperty objJson;
+
+
+public class UpdateResponse<E> implements Serializable {
+	E objJson;
+	Boolean isEdit;
 	Boolean isError;
 	String errorMsg;
 
