@@ -1,15 +1,13 @@
 package com.niil.nogor.krishi.controller;
 
-import org.apache.commons.httpclient.HttpStatus;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.niil.nogor.krishi.entity.ProductPropertyValue;
 import com.niil.nogor.krishi.repo.ProductPropertyRepo;
@@ -39,37 +37,16 @@ public class ProductPropertyValueController extends AbstractController{
 		return URL.substring(1);
 	}
 	
-	@RequestMapping(value = "/saveorupdate", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<Integer> saveOrUpdateProductPropertyValue(@ModelAttribute ProductPropertyValue bean) {
-		try {
-			if (bean != null) {
-				productPropertyValueRepo.save(bean);
-				return ResponseEntity.ok(HttpStatus.SC_OK);
-			} else {
-				return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
+	@RequestMapping(method = RequestMethod.POST)
+	public String save(@Valid ProductPropertyValue bean) {
+		productPropertyValueRepo.save(bean);
+		return "redirect:" + URL + "/" + bean.getId();
 	}
 	
-	@RequestMapping(value="/delete/{code}", method=RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<Integer> delete(@PathVariable Long code) {
-		
-		try {
-			if (code != null) {
-				productPropertyValueRepo.delete(code);
-				return ResponseEntity.ok(HttpStatus.SC_OK);
-			} else {
-				return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
+	@RequestMapping(value="/{code}", method=RequestMethod.POST)
+	public Boolean delete(@PathVariable Long code) {
+		productPropertyValueRepo.delete(code);
+		return true;
 	}
 
 	
