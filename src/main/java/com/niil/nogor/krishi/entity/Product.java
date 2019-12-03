@@ -46,16 +46,13 @@ public class Product {
 
 	private @ManyToOne Product parent;
 
-	@OneToMany(targetEntity=Product.class, mappedBy="parent", cascade=CascadeType.ALL, orphanRemoval=true)
-	private List<Product> childProductList;
-
 	//@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     //private Set<ProductProperty> productProperties;
 
 	public String getDetails() {
 		String lnsp = System.getProperty("line.separator");
 		StringBuilder dt = new StringBuilder();
-		if (StringUtils.isNotEmpty(description)||StringUtils.isNotEmpty(parent.description)) dt.append(StringUtils.isNotEmpty(description)?description:parent.description).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(description)) dt.append(description).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(benefits)) dt.append("গুণাগুণঃ").append(lnsp).append(benefits).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(usefulVarieties)) dt.append("ছাদের উপযোগী জাতঃ").append(lnsp).append(usefulVarieties).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(suitableContainer)) dt.append("উপযোগী পাত্রঃ").append(lnsp).append(suitableContainer).append(lnsp).append(lnsp);

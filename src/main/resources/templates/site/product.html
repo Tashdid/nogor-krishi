@@ -6,7 +6,7 @@
 				<p th:if="${product.image ne null}">
 					<img width="40%" height="100vw" style="margin-bottom: 5px; width:100%" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2" />					
 				</p>
-				<div th:if="${#lists.isEmpty(product.childProductList)}" id="product-commerce">
+				<div th:if="${#lists.isEmpty(childProductList)}" id="product-commerce">
 					<!--  product price -->
 					<div id="price-range" class="mb-2">
 							<span
@@ -37,12 +37,12 @@
 		</div>
 	</div>
 	
-	<div class="col-5" style="padding-left: 20px;" th:if="${NOT #lists.isEmpty(product.childProductList)}" >
+	<div class="col-5" style="padding-left: 20px;" th:if="${NOT #lists.isEmpty(childProductList)}" >
 		<div class="form-group">
 			<label class="color-red small" th:text="${product.name}+ 'এর জাত সমূহ'"> </label>
 		</div>
 
-		<div th:each="child : ${product.childProductList}">
+		<div th:each="child : ${childProductList}">
 			<div class="row no-gutters" >
 				<div class="col-3">
 					<p th:if="${child.image ne null}">
@@ -65,7 +65,7 @@
 	</div>
 	
 	
-	<div class="col-5" style="padding-left: 20px;" th:if="${#lists.isEmpty(product.childProductList)}" >
+	<div class="col-5" style="padding-left: 20px;" th:if="${#lists.isEmpty(childProductList)}" >
 		<div class="form-group">
 			<label class="color-red small" for="">এই নার্সারিগুলিতে পাওয়া যেতে পারে, </label>
 			<select class="form-control" id="areaselection">
