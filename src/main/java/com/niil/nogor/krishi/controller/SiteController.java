@@ -93,8 +93,13 @@ public class SiteController extends AbstractController {
 			model.addAttribute("product", product);
 			model.addAttribute("nextProduct", productRepo.findTopByTypeAndParentAndSequenceGreaterThanOrderBySequence(product.getType(),product.getParent(), product.getSequence()));
 			model.addAttribute("previousProduct", productRepo.findTopByTypeAndParentAndSequenceLessThanOrderBySequenceDesc(product.getType(),product.getParent(), product.getSequence()));
-
-			if (product.getChildProductList() == null || product.getChildProductList().isEmpty()) {
+			
+			List<Product> childProductList= productRepo.findAllByParentOrderBySequenceAsc(product);
+			
+			model.addAttribute("childProductList", childProductList);
+			
+			
+			if (childProductList == null || childProductList.isEmpty()) {
 
 				List<ProductPrice> prices = productPriceRepo.findAllByProduct(product);
 
