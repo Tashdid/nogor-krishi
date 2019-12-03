@@ -51,6 +51,7 @@ public class ProductController extends AbstractController {
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "Product");
 		model.addAttribute("allbeans", cacheRepo.getAllProducts());
+		model.addAttribute("allParentBeans", productRepo.findAllByParentOrderBySequenceAsc(null));
 		model.addAttribute("types", productTypeRepo.findAllByOrderBySequenceAsc());
 		model.addAttribute("saletypes", saleTypeRepo.findAll());
 		model.addAttribute("materials", materialRepo.findAll());
@@ -66,6 +67,9 @@ public class ProductController extends AbstractController {
 			bean = Product.builder()
 						.sequence(seq)
 						.build();
+		}
+		if(product.getParent()!=null) {
+			bean.setParent(product.getParent());
 		}
 		bean.setName(product.getName());
 		bean.setAlternativeName(product.getAlternativeName());
