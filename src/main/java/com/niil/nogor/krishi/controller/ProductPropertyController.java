@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.niil.nogor.krishi.dto.UpdateResponse;
 import com.niil.nogor.krishi.entity.ProductProperty;
 import com.niil.nogor.krishi.repo.ProductPropertyRepo;
 
@@ -37,9 +36,8 @@ public class ProductPropertyController extends AbstractController{
 		return URL.substring(1);
 	}
 	
-	@RequestMapping(value = "/saveorupdate", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity saveOrUpdateProductProperty(@ModelAttribute ProductProperty bean) {
+	@RequestMapping(method = RequestMethod.POST)
+	public String save(@ModelAttribute ProductProperty bean) {
 		try {
 			if (bean != null) {
 				ProductProperty newBean=productPropertyRepo.save(bean);
