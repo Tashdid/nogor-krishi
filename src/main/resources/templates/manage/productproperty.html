@@ -9,13 +9,13 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<form class="form-horizontal" id="saveproductproperty" th:action="@{'/manage/productproperty/saveorupdate'}" th:object="${bean}" method="post">
-						<div class="form-group row" th:if="${bean.id ne null}">
+						<!-- <div class="form-group row" >
 							<label class="col-form-label col-form-label-sm col-sm-4" for="id">Code:</label>
 							<div class="col-sm-2">
 								<p class="form-control-static form-control-sm" th:text="${bean.id}"></p>
-							</div>
+							</div> -->
 							<input type="hidden" th:field="*{id}" />
-						</div>
+						<!--</div>-->
 						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-4" for="name">Name:</label>
 							<div class="col-sm-8">
@@ -48,13 +48,12 @@
 							</tr>
 						</thead>
 						<tbody id="productpropertybody">
-							<tr th:each="bean : ${allbeans}">
+							<tr th:each="bean : ${allbeans}" id="${bean.id}">
 								<td th:text="${bean.id}"></td>
 								<td th:text="${bean.name}"></td>
 								<td th:text="${bean.isDisabled}"></td>
 								<td>
-									<!-- <a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/productproperty/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a> -->
-									<button type="button" onclick="'loadProperty('+'${bean.id}'+','+'${bean.name}'+','+'${bean.isDisabled}'+')'" class="btn btn-info btn-sm pull-right" ><span class="glyphicon glyphicon-pencil"></span></button>								
+									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/productproperty/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>								
 									<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/productproperty/delete/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>
 								</td>
 							</tr>
@@ -65,8 +64,6 @@
 
 			<div th:replace="common :: commom-footer" th:remove="tag"></div>
 			<div th:replace="common :: common-js" th:remove="tag"></div>
-			
-			<script th:src="@{/js/productproperty.js}" src="js/productproperty.js"></script>
 		</div>
 	</body>
 </html>
