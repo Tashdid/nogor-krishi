@@ -2,7 +2,6 @@ package com.niil.nogor.krishi.controller;
 
 import javax.validation.Valid;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,15 +9,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.niil.nogor.krishi.entity.ProductProperty;
+import com.niil.nogor.krishi.entity.ProductPropertyMapping;
 import com.niil.nogor.krishi.repo.ProductPropertyRepo;
+import com.niil.nogor.krishi.repo.ProductRepo;
+import com.niil.nogor.krishi.repo.ProductPropertyMappingRepo;
 
 @Controller
-@RequestMapping(ProductPropertyController.URL)
-public class ProductPropertyController extends AbstractController{
+@RequestMapping(ProductPropertyMappingController.URL)
+public class ProductPropertyMappingController extends AbstractController{
 	
-	static final String URL = "/manage/productproperty";
+	static final String URL = "/manage/productpropertymapping";
 	
+	@Autowired ProductPropertyMappingRepo productPropertyMappingRepo;
+	@Autowired ProductRepo productRepo;
 	@Autowired ProductPropertyRepo productPropertyRepo;
 
 	@RequestMapping
@@ -28,26 +31,25 @@ public class ProductPropertyController extends AbstractController{
 	
 	@RequestMapping(value="/{code}")
 	public String updateScreen(@PathVariable Long code, ModelMap model) {
-		ProductProperty bean = code == null ? new ProductProperty() : productPropertyRepo.findOne(code);
-		if (bean == null) bean = new ProductProperty();
+		ProductPropertyMapping bean = code == null ? new ProductPropertyMapping() : productPropertyMappingRepo.findOne(code);
+		if (bean == null) bean = new ProductPropertyMapping();
 		model.addAttribute("bean", bean);
-		model.addAttribute("allbeans", productPropertyRepo.findAll());
+		model.addAttribute("allbeans", productPropertyMappingRepo.findAll());
+		model.addAttribute("allproducts", productRepo.findAll());
+		model.addAttribute("allproperties", productPropertyRepo.findAll());
 		return URL.substring(1);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Valid ProductProperty bean) {
-		productPropertyRepo.save(bean);
+	public String save(@Valid ProductPropertyMapping bean) {
+		productPropertyMappingRepo.save(bean);
 		return "redirect:" + URL + "/" + bean.getId();
 	}
 	
 	@RequestMapping(value="/{code}", method=RequestMethod.POST)
 	public Boolean delete(@PathVariable Long code) {
-		productPropertyRepo.delete(code);
+		productPropertyMappingRepo.delete(code);
 		return true;
 	}
-
-	
-	
 
 }
