@@ -24,78 +24,25 @@
 					<div class="well">
 
 						<form id="find-nursery" class="form-inline" onsubmit="return mySubmitFunction(event)">
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="Type">টাইপ:</label>
+							<div class="form-group" th:each="mp: ${mapProperty}">
+								<label class="control-label col-sm-2" for="Type" th:text="${mp.key}"></label>
 								<div class="col-sm-10">
-									<select  class="form-control d-none" th:id="'select-' + 'type' ">
-										<option value=""></option>
-										<option th:text="${saleType.name}" th:each="saleType : ${saleTypes}"  th:value="${saleType.id}"></option>
+									<select  class="form-control d-none property-selection" th:id="'select-' + ${mp.key}" >
+										<option value="0" text="Select"></option>
+										<option th:text="${ap.name}" th:each="ap : ${mp.value}"  th:value="${ap.id}"></option>
 									</select>	
 		
-									<div class="btn-group" role="group" aria-label="..." th:id="'btn-grp-' + 'type'" >
+									<div class="btn-group" role="group" aria-label="..." th:id="'btn-grp-' + ${mp.key}" >
 										<button type="button" class="btn btn-default kk-btn-group" 
-											th:each="saleType : ${saleTypes}"  
-											th:attr="data-vlu=${saleType.id}"
-											th:text="${saleType.name}">
+											th:each="ap : ${mp.value}"  
+											th:attr="data-vlu=${ap.id}"
+											th:text="${ap.name}">
 										</button>
 									</div>
 		
 									<input th:value="${product.id}" id="product-id" type="hidden" />	
 								</div>
 							</div>
-		
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="Type">সাইজ:</label>
-								<div class="col-sm-10">
-									<select  class="form-control d-none" th:id="'select-' + 'size' ">
-										<option>৬'</option>
-										<option>৮'</option>
-										<option>১০'</option>
-									</select>	
-									<div class="btn-group" role="group" aria-label="..." th:id="'btn-grp-' + 'size'" >
-										<button type="button" class="btn btn-default kk-btn-group" >৬'</button>
-										<button type="button" class="btn btn-default kk-btn-group" >৮'</button>
-										<button type="button" class="btn btn-default kk-btn-group" >১০'</button>
-											
-									</div>	
-		
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="Type">বয়স:</label>
-								<div class="col-sm-10">
-									<select  class="form-control d-none" th:id="'select-' + 'age' ">
-										<option>৬ মাস</option>
-										<option>৮ মাস</option>
-										<option>১০ মাস</option>
-									</select>	
-									<div class="btn-group" role="group" aria-label="..." th:id="'btn-grp-' + 'age'" >
-										<button type="button" class="btn btn-default kk-btn-group" >৬ মাস</button>
-										<button type="button" class="btn btn-default kk-btn-group" >৮ মাস</button>
-										<button type="button" class="btn btn-default kk-btn-group" >১০ মাস</button>
-											
-									</div>	
-		
-								</div>
-							</div>
-
-							<!-- <div class="form-group">
-									<label class="control-label col-sm-2" for="Type">বয়স:</label>
-									<div class="col-sm-10">
-										<select  class="form-control d-none" id="salesTypeOpt">
-											<option>৬ মাস</option>
-											<option>৮ মাস</option>
-											<option>১০ মাস</option>
-										</select>	
-										<div class="btn-group" role="group" aria-label="..." th:id="'btn-grp-' + 'type'" >
-											<button type="button" class="btn btn-default kk-btn-group" >৬ মাস</button>
-											<button type="button" class="btn btn-default kk-btn-group" >৮ মাস</button>
-											<button type="button" class="btn btn-default kk-btn-group" >১০ মাস</button>
-												
-										</div>	
-			
-									</div>
-								</div> -->
 							
 							
 							<div class="form-group">

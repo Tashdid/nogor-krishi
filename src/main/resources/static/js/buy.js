@@ -1,3 +1,4 @@
+var myMap = {};
 $(document).ready(function() {
 	
 	$(document).on("click", ".add-to-cart", function(){
@@ -42,23 +43,28 @@ $(document).ready(function() {
 		var selectId = parId.replace('btn-grp-', '');
 
 		$("#select-" + selectId).val($(this).data('vlu'));
+		myMap[selectId]=$(this).data('vlu');
 	});
 
 	$(document).on("click", "#get-price", function(){
 		  
 		let productId = $("#product-id").val();
-		let saleTypeId = $('#select-type').val();//@todo make it dynamic
-  
+		let valueSt="";
+		$.each( myMap, function(index,value){
+			 valueSt+=","+value;
+			})
+			valueSt=valueSt.substring(1);
+		console.log(valueSt);
+		var url=`${api_origin}/api/productpricesearch/${productId}/'${valueSt}'`;
+		console.log(url);
+		
 		$.ajax({
 			type: 'GET',
 			//url: `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
-			url: `${api_origin}/nursery/productprice/${productId}/saleType/${saleTypeId}`,
-			dataType: "json",
-			//		        data: {
-			//		            sale: "Japan"
-			//		        },
+			url: `${api_origin}/api/productpricesearch/${productId}`,
+			
 		    success: function(data) {
-//		    	data = JSON.parse(data);
+//		    	var temp = JSON.parse(data);
 		    	body = data.length ? '' : '<tr><td class="msg-buy">দুঃখিত, কিছু পাওয়া যায়নি। দয়া করে অন্য প্রপার্টি দিয়ে চেষ্টা করুন.</td></tr>';
 		        for(i=0; i < data.length; i++) {
 		        	tr = `
@@ -97,6 +103,9 @@ $(document).ready(function() {
 		        }
 		        $('#price-list > tbody').html(body);
 		        
+		    },
+		    error: function(data) {
+		    	alert("error");
 		    }
 		
 		});

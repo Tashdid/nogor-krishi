@@ -3,6 +3,7 @@ package com.niil.nogor.krishi.controller;
 import java.math.BigDecimal;
 import java.util.*;
 // import java.util.stream.Collectors;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -53,12 +54,35 @@ public class EcommerceController extends AbstractController {
     @Autowired SaleTypeRepo saleTypeRepo;
 //	@Autowired private APIContentRepo contentRepo;
     @Autowired CartDetailsRepo cartDetailsRepo;
+    @Autowired
+	ProductPriceRepo priceRepo;
+	@Autowired
+	ProductRepo productRepo;
+	@Autowired
+	ProductPropertyValueRepo productPropertyValueRepo;
+	@Autowired
+	ProductPriceOnPropertyValueRepo productPriceOnPropertyValueRepo;
+	@Autowired
+	ProductPropertyMappingRepo productPropertyMappingRepo;
 
     @RequestMapping("/buy/{product}")
     public String buy(@PathVariable Product product, final ModelMap model) {
 
-        List<SaleType> saleTypes = saleTypeRepo.findAll();
-        model.addAttribute("saleTypes", saleTypes);
+        //List<SaleType> saleTypes = saleTypeRepo.findAll();
+        //model.addAttribute("saleTypes", saleTypes);
+    	
+    	List<ProductPropertyMapping> propertyMappingList = productPropertyMappingRepo.findAllByProduct(product);
+		Map<String, List<ProductPropertyValue>> mapProperty = new HashMap<String, List<ProductPropertyValue>>();
+		propertyMappingList.forEach(productPropertyMapping -> {
+			List<ProductPropertyValue> propertyValueList = productPropertyValueRepo
+					.findAllByProductProperty(productPropertyMapping.getProductProperty());
+
+			mapProperty.put(productPropertyMapping.getProductProperty().getName(), propertyValueList);
+			
+		});
+		
+		
+        model.addAttribute("mapProperty", mapProperty);
         model.addAttribute("product", product);
 
         return "site/buy";

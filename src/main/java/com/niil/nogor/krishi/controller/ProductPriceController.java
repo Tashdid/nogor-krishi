@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,6 +65,18 @@ public class ProductPriceController extends AbstractController {
 		Product product = productRepo.findOne(productId);
 		SaleType saleType = saleTypeRepo.findOne(saleTypeId);
 		return priceRepo.findAllByProductAndSaleType(product, saleType);
+
+	}
+	
+	
+	@RequestMapping(value = "/{productId}/{value}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductPrice> getProductPricesBySearch(@PathVariable Long productId, @PathVariable String searchData) {
+
+		System.out.print("Session attribute is " + RequestContextHolder.currentRequestAttributes().getSessionId());
+		System.out.println(searchData);
+		Product product = productRepo.findOne(productId);
+		return priceRepo.findAllByProduct(product);
 
 	}
 
