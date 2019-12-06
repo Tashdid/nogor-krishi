@@ -25,16 +25,36 @@
 						</div>
 					</div>
 					
-					<div th:each="property,stat: ${bean.productPriceOnPropertyValueList}">
-						<div class="form-group row" th:if="${property.productPropertyValue ne null}">
+					<div th:if="${property.productPropertyValue ne null}" th:each="property,stat: ${bean.productPriceOnPropertyValueList}">
+						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-4" th:text="${property.productPropertyValue.productProperty.name}">Product:</label>
 							<div class="col-sm-8">
 								<select th:field="*{productPriceOnPropertyValueList[__${stat.index}__].productPropertyValue}" >
+									<option th:value="0" text="Please Select"></option>
 									<option th:each="ap : ${mapProperty.get(property.productPropertyValue.productProperty.id)}" th:value="${ap.id}" th:text="${ap.name}"></option>
 								</select>
 							</div>
 						</div>
 					</div>
+
+					<div class="form-group row">
+						<label class="col-form-label col-form-label-sm col-sm-4"
+							for="price">Price:</label>
+						<div class="col-sm-8">
+							<input required="" type="text"
+								class="form-control form-control-sm" th:field="*{price}" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-form-label col-form-label-sm col-sm-4"
+							for="quantity">Quantity:</label>
+						<div class="col-sm-8">
+							<input required="" type="text"
+								class="form-control form-control-sm" th:field="*{quantity}" />
+						</div>
+					</div>
+
 					<div class="col-sm-4 offset-sm-8">
 						<div class="form-group">
 							<!--  <a th:if="${bean.id ne null}" type="button" href="/nursery/productprice" class="btn btn-warning">New</a>-->
@@ -43,32 +63,41 @@
 					</div>
 				</form>
 			</div>
-			<!-- <div class="col-sm-6">
+			<div class="col-sm-6">
 				<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 					class="dttable table table-striped table-bordered" cellspacing="0" width="100%">
 					<thead>
 						<tr>
 							<th>Code</th>
-							<th>Name</th>
-							<th>IsDisabled</th>
+							<th>Product</th>
+							<th>Properties</th>
+							<th>Price</th>
+							<th>Quantity</th>
 							<th>
 								<a class="btn btn-info btn-sm pull-right" th:href="@{'/nursery/productprice'}"><span class="glyphicon glyphicon-plus"></span></a>
 							</th>
 						</tr>
 					</thead>
 					<tbody >
-						<tr th:each="bean : ${allbeans}" id="${bean.id}">
-							<td th:text="${bean.id}"></td>
-							<td th:text="${bean.name}"></td>
-							<td th:text="${bean.isDisabled}"></td>
+						<tr th:each="beanItem : ${allbeans}" id="${beanItem.id}">
+							<td th:text="${beanItem.id}"></td>
+							<td th:text="${beanItem.product.name}"></td>
+							
 							<td>
-								<a class="btn btn-info btn-sm pull-right" th:href="@{'/nursery/productprice/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>								
-								<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/nursery/productprice/delete/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>
+							<span th:if="${beanItem.productPriceOnPropertyValueList!=null and !beanItem.productPriceOnPropertyValueList.isEmpty()}" 
+							th:each="a, iterStat : ${beanItem.productPriceOnPropertyValueList}" 
+							th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''"></span>
+							</td>
+							<td th:text="${beanItem.price}"></td>
+							<td th:text="${beanItem.quantity}"></td>
+							<td>
+								<a class="btn btn-info btn-sm pull-right" th:href="@{'/nursery/productprice/'+${beanItem.product.id}+'/' + ${beanItem.id}}"><span class="glyphicon glyphicon-pencil"></span></a>								
+								<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/nursery/productprice/' + ${beanItem.id}}"><span class="glyphicon glyphicon-trash"></span></button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-			</div>-->
+			</div>
 		
 		</div>
 
