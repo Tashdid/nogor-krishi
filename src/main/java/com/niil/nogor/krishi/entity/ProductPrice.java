@@ -1,6 +1,7 @@
 package com.niil.nogor.krishi.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -23,4 +24,11 @@ public class ProductPrice {
 	private @ManyToOne(targetEntity=Product.class) Product product;
 	private @ManyToOne(targetEntity=SaleType.class) SaleType saleType;
 	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;
+	private Long quantity;
+	
+	@OneToMany(targetEntity=ProductPriceOnPropertyValue.class, mappedBy="productPrice", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<ProductPriceOnPropertyValue> productPriceOnPropertyValueList;
+
+	
+	
 }

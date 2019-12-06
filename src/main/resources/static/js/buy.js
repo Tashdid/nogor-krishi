@@ -51,7 +51,8 @@ $(document).ready(function() {
   
 		$.ajax({
 			type: 'GET',
-			url: `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
+			//url: `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
+			url: `${api_origin}/nursery/productprice/${productId}/saleType/${saleTypeId}`,
 			dataType: "json",
 			//		        data: {
 			//		            sale: "Japan"
