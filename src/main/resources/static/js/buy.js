@@ -51,20 +51,23 @@ $(document).ready(function() {
 		let productId = $("#product-id").val();
 		let valueSt="";
 		$.each( myMap, function(index,value){
-			 valueSt+=","+value;
+			 valueSt+="-"+value;
 			})
-			valueSt=valueSt.substring(1);
+			if(valueSt){
+				valueSt=valueSt.substring(1);
+			}
 		console.log(valueSt);
-		var url=`${api_origin}/api/productpricesearch/${productId}/'${valueSt}'`;
+		var url=`${api_origin}/api/productpricesearch/${productId}/${valueSt}`;
 		console.log(url);
 		
 		$.ajax({
 			type: 'GET',
-			//url: `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
-			url: `${api_origin}/api/productpricesearch/${productId}`,
+			// url:
+			// `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
+			url: `${api_origin}/api/productpricesearch/${productId}/${valueSt}`,
 			
 		    success: function(data) {
-//		    	var temp = JSON.parse(data);
+// var temp = JSON.parse(data);
 		    	body = data.length ? '' : '<tr><td class="msg-buy">দুঃখিত, কিছু পাওয়া যায়নি। দয়া করে অন্য প্রপার্টি দিয়ে চেষ্টা করুন.</td></tr>';
 		        for(i=0; i < data.length; i++) {
 		        	tr = `

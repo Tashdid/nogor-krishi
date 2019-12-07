@@ -1,6 +1,7 @@
 package com.niil.nogor.krishi.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,15 +65,33 @@ public class ProductPriceSearchingController extends AbstractController {
 		return priceRepo.findAllByProductAndSaleType(product, saleType);
 
 	}
-	
+
 	
 	@RequestMapping(value = "/{productId}", method = RequestMethod.GET)
-	public List<ProductPrice> getProductPricesBySearch(@PathVariable Long productId) {
+	public List<ProductPrice> getProductPricesByProduct(@PathVariable Long productId) {
 
 		System.out.println("============================================================================");
-//		System.out.println(searchData);
+		return getProductPricesBySearch(productId, null);
+
+	}
+	
+
+	@RequestMapping(value = "/{productId}/{valueSt}", method = RequestMethod.GET)
+	public List<ProductPrice> getProductPricesBySearch(@PathVariable Long productId,@PathVariable String valueSt) {
+
+		System.out.println("============================================================================");
+		List<ProductPrice> priceList=new ArrayList<>();
+
+		List<String> idList=null;
+		if(valueSt!=null) {
+			idList=Arrays.asList(valueSt.split("-"));
+		}
 		Product product = productRepo.findOne(productId);
-		List<ProductPrice> priceList=priceRepo.findAllByProduct(product);
+		if(idList==null) {
+			priceList=priceRepo.findAllByProduct(product);
+		}else {
+			priceList=priceRepo.getProductPriceListByPropertyValue(productId,idList);
+		}
 		priceList.forEach(price->{
 			price.setProductPriceOnPropertyValueList(null);
 		});

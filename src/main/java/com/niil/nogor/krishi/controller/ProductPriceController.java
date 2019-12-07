@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import com.niil.nogor.krishi.entity.Nursery;
 import com.niil.nogor.krishi.entity.Product;
 import com.niil.nogor.krishi.entity.ProductPrice;
 import com.niil.nogor.krishi.entity.ProductPriceOnPropertyValue;
@@ -67,18 +69,6 @@ public class ProductPriceController extends AbstractController {
 		return priceRepo.findAllByProductAndSaleType(product, saleType);
 
 	}
-	
-	
-	@RequestMapping(value = "/{productId}/{value}", method = RequestMethod.GET)
-	@ResponseBody
-	public List<ProductPrice> getProductPricesBySearch(@PathVariable Long productId, @PathVariable String searchData) {
-
-		System.out.print("Session attribute is " + RequestContextHolder.currentRequestAttributes().getSessionId());
-		System.out.println(searchData);
-		Product product = productRepo.findOne(productId);
-		return priceRepo.findAllByProduct(product);
-
-	}
 
 	@RequestMapping
 	public String newScreen(ModelMap model) {
@@ -92,6 +82,10 @@ public class ProductPriceController extends AbstractController {
 
 	@RequestMapping(value = "/{productId}/{code}")
 	public String updateScreen(@PathVariable Long productId, @PathVariable Long code, ModelMap model) {
+		
+		Nursery nursery=userRepo.
+				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery();
+		
 		List<Product> productList = productRepo.findAll();
 
 		Product product = new Product();
@@ -103,6 +97,9 @@ public class ProductPriceController extends AbstractController {
 		}
 		ProductPrice bean = code == null || priceRepo.findOne(code) == null ? new ProductPrice()
 				: priceRepo.findOne(code);
+		if(bean.getId()!=null) {
+			Hibernate.initialize(bean.getProductPriceOnPropertyValueList());
+		}
 
 		List<ProductPropertyMapping> propertyMappingList = productPropertyMappingRepo.findAllByProduct(product);
 		Map<Long, List<ProductPropertyValue>> mapProperty = new HashMap<Long, List<ProductPropertyValue>>();
@@ -154,7 +151,10 @@ public class ProductPriceController extends AbstractController {
 
 		bean.setProduct(product);
 		model.addAttribute("bean", bean);
-		List<ProductPrice> priceList = priceRepo.findAll();
+		List<ProductPrice> priceList = priceRepo.findAllByNursery(nursery);
+		priceList.forEach(productPrice->{
+			Hibernate.initialize(productPrice.getProductPriceOnPropertyValueList());
+		});
 		model.addAttribute("allbeans", priceList);
 		model.addAttribute("allproducts", productList);
 		model.addAttribute("mapProperty", mapProperty);
