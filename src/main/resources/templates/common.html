@@ -118,8 +118,8 @@
 								</div>
 								<div sec:authorize="isAuthenticated()" th:remove="tag">
 									<div class="row-fluid userInfoContainer">
-										<!-- <strong class="ng-binding" th:text="${luser.mobile}">ADMIN</strong>
-										 <p th:text="${luser.name}">Systems Administrator</p> -->
+										<strong class="ng-binding" th:text="${luser.mobile}">ADMIN</strong>
+										 <p th:text="${luser.name}">Systems Administrator</p>
 									</div>
 									<div class="dropdown-divider"></div>
 									<a sec:authorize="hasRole('ROLE_GARDENER') or hasRole('ROLE_VENDOR')" class="dropdown-item chnglgout" style="float: left; margin-left: 10px;" href="#" th:href="@{/changepassword}">পাসওয়ার্ড পরিবর্তন</a>
@@ -271,7 +271,7 @@
 							<a class="dropdown-item" th:href="@{/manage/product}" href="/manage/product">Product</a>
 							<a class="dropdown-item" th:href="@{/manage/producttype}" href="/manage/producttype">Product Type</a>
 							<div class="dropdown-divider"></div>							
-							<a class="dropdown-item" th:href="@{/manage/saletype}" href="/manage/saletype">Sale Type</a>
+							<!-- <a class="dropdown-item" th:href="@{/manage/saletype}" href="/manage/saletype">Sale Type</a> -->
 							<a class="dropdown-item" th:href="@{/manage/productproperty}" href="/manage/productproperty">Product property</a>
 							<a class="dropdown-item" th:href="@{/manage/productpropertyvalue}" href="/manage/productpropertyvalue">Product property value</a>
 							<a class="dropdown-item" th:href="@{/manage/productpropertymapping}" href="/manage/productpropertymapping">Product property mapping</a>
@@ -374,7 +374,7 @@
 						</div>
 					</div>
 					<div class="cart-item-bottom-row">
-						<p>type : {{addedProduct.saleType}}</p>
+						<!-- <p>type : {{addedProduct.saleType}}</p> -->
 									</div>
 								</div>
 									

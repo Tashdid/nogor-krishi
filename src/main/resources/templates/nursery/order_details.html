@@ -51,7 +51,7 @@
 					<thead>
 						<tr>
 							<th>Product ID</th>
-							<th>Sale Type</th>
+							<th>Veriation</th>
 							<th>Unit Price</th>
 							<th>Quantity</th>
 							<th>Total</th>
@@ -59,8 +59,14 @@
 					</thead>
 					<tbody>
 						<tr th:each="order : ${orderDetailList}">
-							<td th:text="${order.product.name}">Product</td>
-							<td th:text="${order.saleType.name}">Sale Type</td>
+							<td th:text="${order.productPrice.product.name}">Product</td>
+							<td>
+
+								<span th:if="${order.productPrice.productPriceOnPropertyValueList!=null and !order.productPrice.productPriceOnPropertyValueList.isEmpty()}" 
+							th:each="a, iterStat : ${order.productPrice.productPriceOnPropertyValueList}" 
+							th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''"></span>
+							
+							</td>
 							<td th:text="${order.unit_price}">Amount</td>
 							<td th:text="${order.quantity}">Status</td>
 							<td th:text="${order.quantity * order.unit_price}">Status</td>
