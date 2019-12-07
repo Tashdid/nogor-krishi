@@ -1,0 +1,312 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta th:replace="common :: common-meta" th:remove="tag" />
+</head>
+<body data-page="vendorprice">
+	<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+	<div class="container" style="margin-top: 15px;">
+		<div class="row well">
+			<div class="col-sm-12">
+				<div class="detail-info">
+					<div class="pull-left detail-info-left">
+						<div>
+							<p class="order-number">
+								Order&nbsp;#<span th:text="${order.id}"></span>
+							</p>
+							<p class="text desc light-gray">
+								Placed on <span
+									th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.order_time, 'dd MMMM yyyy hh:mm a'))}"></span>
+							</p>
+						</div>
+					</div>
+					<div class="detail-right-info pull-right">
+						<!-- <p>
+							<span class="detail-info-total-title">Customer:&nbsp;</span><span
+							class="detail-info-total-value">৳ <span th:text="${order.payable_amount}"></span></span>
+						</p> -->
+						<p>
+							<span class="detail-info-total-title">Customer:&nbsp;</span> <span
+								th:text="${order.user.name}"></span>
+						</p>
+						<p>
+							<span class="detail-info-total-title">Phone:&nbsp;</span> <span
+								th:text="${order.phone_no}"></span>
+						</p>
+						<p>
+							<span class="detail-info-total-title">Shipping
+								Address:&nbsp;</span> <span th:text="${order.delivery_address}"></span>
+							<span th:text="${order.delivery_city}"></span> <span
+								th:text="${order.delivery_district}"></span>
+
+
+						</p>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+
+			<div class="col-sm-6">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Product ID</th>
+							<th>Unit Price</th>
+							<th>Quantity</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="order : ${orderDetailList}">
+							<td th:text="${order.product.name}">Product</td>
+							<td th:text="${order.unit_price}">Amount</td>
+							<td th:text="${order.quantity}">Status</td>
+							<td th:text="${order.quantity * order.unit_price}">Status</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr />
+				<h4 th:if="${order.delivery_notes != null}">Delivery Note</h4>
+				<p th:if="${order.delivery_notes != null}"
+					th:text="${order.delivery_notes}"></p>
+				<hr />
+				<a target="_blank"
+					th:href="@{'/manage/orders/print-all-order/' + ${order.id}}"
+					class="btn btn-success">Print</a>
+			</div>
+			<div class="col-sm-6">
+				<div class="card">
+					<h5 class="card-header">Order Status</h5>
+					<div class="card-body">
+						<form class="form" id="statusUpdateForm"
+							th:action="@{'/manage/orders/all-order-detail/update-order'}"
+							th:object="${order}" method="post">
+							<div class="form-group ">
+								<label class="" for="status">Status:</label> <input
+									type="hidden" th:field="*{id}" /> <select class="form-control"
+									th:field="*{status}" required="required">
+									<option value="New">New</option>
+									<!-- <option value="Pending">Pending</option> -->
+									<option value="Processing">Processing</option>
+									<option value="On way for delivery">On way for
+										delivery</option>
+									<option value="Delivered">Delivered</option>
+									<!-- <option value="Cancled by customer">Cancled by customer</option> -->
+									<option value="Cancled by nursery">Cancled by nursery</option>
+								</select>
+
+							</div>
+							<button type="submit" class="btn btn-success">Save</button>
+
+
+						</form>
+					</div>
+				</div>
+
+				<div class="card mt-2">
+					<h5 class="card-header">Delivery Update</h5>
+					<div class="card-body">
+						<form class="form-horizontal" id="deliveryUpdateForm"
+							th:action="@{'/manage/orders/all-order-detail/'+${order.id}+'/update-order-delivery'}"
+							th:object="${order}" method="post">
+							<input type="hidden" th:field="*{id}" />
+
+							<div th:each="delivery,stat: ${order.deliveryManagements}">
+
+								<div class="form-group">
+									<label class="" for="nursery" th:text="'Nursery:'+${delivery.nursery.name}">Nursery: </label> <select
+										th:value="*{deliveryManagements[__${stat.index}__].nursery}"
+										th:field="*{deliveryManagements[__${stat.index}__].nursery}"
+										class="form-control" hidden="true">
+										<option th:each="tp : ${nurseryList}" th:value="${tp.id}"
+											th:text="${tp.name}"></option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label class="">DeliveryDate: <span
+										th:text="${order.deliveryManagements[__${stat.index}__].deliveryDate}"></span></label>
+
+									<input type="text"
+										th:field="*{deliveryManagements[__${stat.index}__].deliveryDatest}"
+										class="form-control" placeholder="dd/MM/yyyy" />
+
+								</div>
+								<div class="form-group">
+									<label class="" for="deliveryPerson">Delivery Person: <span
+										th:utext="${order.deliveryManagements[__${stat.index}__].deliveryPerson!=null?order.deliveryManagements[__${stat.index}__].deliveryPerson.name:null}"></span></label>
+
+									<select
+										th:value="*{deliveryManagements[__${stat.index}__].deliveryPerson}"
+										th:field="*{deliveryManagements[__${stat.index}__].deliveryPerson}"
+										class="form-control">
+										<option th:each="tp : ${deliveryPersonList}"
+											th:value="${tp.id}" th:text="${tp.name}"></option>
+									</select>
+								</div>
+								<input type="hidden"
+									th:field="*{deliveryManagements[__${stat.index}__].id}" />
+
+							</div>
+							<button type="submit" class="btn btn-success">Change</button>
+
+
+						</form>
+					</div>
+				</div>
+
+				<div class="card mt-2">
+					<h5 class="card-header">Notes For Customer</h5>
+					<div class="card-body">
+
+						<div th:unless="${#lists.isEmpty(order.notes)}"
+							class="card bg-faded">
+							<div th:each="cm : ${order.notes}" class="card-block">
+								<div class="card-text">
+									<span class="glyphicon glyphicon-user"></span>
+									<!-- <span th:text="${cm.user.name}"></span>  -->
+									<span class="glyphicon glyphicon-time"></span> <span
+										th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(cm.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
+								</div>
+								<div class="card-text mt-2">
+									<div class="blockquote2" th:utext="${cm.notesSt}"></div>
+								</div>
+							</div>
+						</div>
+						<label>Add New Note</label>
+						<form class="form-horizontal" id="notesAddForm"
+							th:action="@{'/manage/orders/all-order-detail/'+${order.id}+'/add-notes'}"
+							method="post">
+							<div class="form-group">
+								<textarea class="form-control" id="notesSt" name="notesSt"></textarea>
+							</div>
+							<button type="submit" class="btn btn-success">Save</button>
+
+
+							<div class="form-group ">
+								<div class="col-sm-4 offset-sm-8">
+									<div class="form-group"></div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="card mt-2">
+					<h5 class="card-header">Feedback From Customer</h5>
+					<div class="card-body">
+						<div th:if="${order.feedbackSt != null}" class="card bg-faded">
+							<div class="card-block">
+								<div class="card-text">
+									<span class="glyphicon glyphicon-user"></span> <span
+										th:text="${order.user.name}"></span> <span
+										class="glyphicon glyphicon-time"></span> <span
+										th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.feedbackDate, 'dd MMMM yyyy hh:mm a'))}"></span>
+								</div>
+								<div class="card-text mt-2">
+									<div class="blockquote2" th:utext="${order.feedbackSt}"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="row">Order Status</div>
+				<form class="form-horizontal" id="statusUpdateForm"
+					th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
+					th:object="${order}" method="post">
+					<div class="form-group row">
+						<label class="col-form-label col-form-label-sm col-sm-4"
+							for="status">Status:</label>
+						<div class="col-sm-8">
+							<input type="hidden" th:field="*{id}" /> <select
+								th:field="*{status}" required="required">
+								<option value="New">New</option>
+								<option value="Pending">Pending</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-sm-4 offset-sm-8">
+						<div class="form-group">
+							<button type="submit" class="btn btn-success">Save</button>
+						</div>
+					</div>
+				</form> -->
+			</div>
+
+			<!-- <div class="col-sm-6"></div>
+			<div class="col-sm-6">
+
+				<div class="row">Delivery Update</div>
+				
+			</div>
+			<div class="col-sm-6"></div>
+			<div class="col-sm-6">
+
+				<div class="row">
+					<h5>Notes For Customer</h5>
+				</div> -->
+			<!-- <div th:unless="${#lists.isEmpty(order.notes)}"
+					class="card bg-faded">
+					<div th:each="cm : ${order.notes}" class="card-block">
+						<div class="card-text">
+							<span class="glyphicon glyphicon-user"></span> 
+							<span th:text="${cm.user.name}"></span> 
+								<span class="glyphicon glyphicon-time"></span> 
+								<span th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(cm.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
+						</div>
+						<div class="card-text mt-2">
+							<div class="blockquote2" th:utext="${cm.notesSt}"></div>
+						</div>
+					</div>
+				</div>
+				<h5>Add New Note</h5>
+				<form class="form-horizontal" id="notesAddForm"
+					th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/add-notes'}"
+					method="post">
+					<div class="form-group row">
+					<div class="col-sm-8">
+						<textarea id="notesSt" name="notesSt"></textarea>
+						</div>
+					</div>
+
+
+					<div class="form-group row">
+						<div class="col-sm-4 offset-sm-8">
+							<div class="form-group">
+								<button type="submit" class="btn btn-success">Save</button>
+							</div>
+						</div>
+					</div>
+				</form> -->
+
+			<!-- <div class="row">
+					<h5>Feedback From Customer</h5>
+				</div>
+				<div th:if= "${order.feedbackSt != null}"
+					class="card bg-faded">
+					<div class="card-block">
+						<div class="card-text">
+							<span class="glyphicon glyphicon-user"></span> 
+							<span th:text="${order.user.name}"></span> 
+								<span class="glyphicon glyphicon-time"></span> 
+								<span th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.feedbackDate, 'dd MMMM yyyy hh:mm a'))}"></span>
+						</div>
+						<div class="card-text mt-2">
+							<div class="blockquote2" th:utext="${order.feedbackSt}"></div>
+						</div>
+					</div>
+				</div> -->
+			<!-- </div> -->
+		</div>
+
+	</div>
+
+	<div th:replace="common :: commom-footer" th:remove="tag"></div>
+	<div th:replace="common :: common-js" th:remove="tag"></div>
+
+	<script th:src="@{/js/order.js}" src="js/order.js"></script>
+</body>
+</html>

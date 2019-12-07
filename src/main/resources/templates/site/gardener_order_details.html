@@ -37,7 +37,6 @@
 								<tr>
 									<th>Product</th>
 									<th>Nursery</th>
-									<th>Sale Type</th>
 									<th>Unit Price</th>
 									<th>Quantity</th>
 								</tr>
@@ -48,7 +47,6 @@
 									<td>
 										<a th:href="@{'/vendor/' + ${order.nursery.id}}" th:text="${order.nursery.name}"></a>
 									</td>
-									<td th:text="${order.saleType.name}">Sale Type</td>
 									<td th:text="${order.unit_price}">Amount</td>
 									<td th:text="${order.quantity}">Status</td>
 								</tr>

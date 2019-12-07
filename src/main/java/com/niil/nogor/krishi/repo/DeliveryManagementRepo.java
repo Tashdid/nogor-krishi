@@ -14,5 +14,6 @@ import com.niil.nogor.krishi.entity.Orders;
 public interface DeliveryManagementRepo extends JpaRepository<DeliveryManagement, Long>{
 	
 	List<DeliveryManagement> findAllByOrdersAndNursery(Orders order,Nursery nursery);
+	List<DeliveryManagement> findAllByOrders(Orders order);
 
 }

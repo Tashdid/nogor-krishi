@@ -25,7 +25,7 @@
 						</div>
 					</div>
 					
-					<div th:if="${property.productPropertyValue ne null}" th:each="property,stat: ${bean.productPriceOnPropertyValueList}">
+					<div th:each="property,stat: ${bean.productPriceOnPropertyValueList}" th:if="${property.productPropertyValue ne null}">
 						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-4" th:text="${property.productPropertyValue.productProperty.name}">Product:</label>
 							<div class="col-sm-8">
