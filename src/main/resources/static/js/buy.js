@@ -3,10 +3,10 @@ $(document).ready(function() {
 	
 	$(document).on("click", ".add-to-cart", function(){
 	  
-		let saleTypeId = $('#select-type').val();
-		let nurseryId = $(this).data('nurseryid');
+		// let saleTypeId = $('#select-type').val();
+		let productPrice_id = $(this).data('id');
 		let unitPrice = $(this).data('unitprice');
-		let productId = $("#product-id").val();
+		// let productId = $("#product-id").val();
 
 		let quantity = $(this).parents('tr').find('.quantity').val();
 
@@ -16,9 +16,9 @@ $(document).ready(function() {
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",
 	        data: JSON.stringify({
-				sale_type_id : saleTypeId,
-				nursery_id : nurseryId,
-				product_id : productId,
+				// sale_type_id : saleTypeId,
+				// nursery_id : nurseryId,
+				productPrice_id : productPrice_id,
 				unit_price : unitPrice,
 				quantity : quantity
 				
@@ -87,7 +87,7 @@ $(document).ready(function() {
 									</div>
 									<div>
 										<button data-unitprice=${data[i].price}
-											data-nurseryid=${data[i].nursery.id} 
+											data-id=${data[i].id} 
 											class='add-to-cart btn btn-default'>
 												কিনুন
 										</button>

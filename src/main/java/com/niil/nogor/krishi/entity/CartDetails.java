@@ -21,10 +21,12 @@ import lombok.NoArgsConstructor;
 public class CartDetails {
 	private @Id @GeneratedValue Long id;
 	private String sessionId;
-	private @OneToOne(targetEntity=Product.class) Product product;
-	private @OneToOne(targetEntity=SaleType.class) SaleType saleType;
+//	private @OneToOne(targetEntity=Product.class) Product product;
+//	private @OneToOne(targetEntity=SaleType.class) SaleType saleType;
 	private BigDecimal unit_price;
 	private int quantity;
-	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;
+//	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;
+	private @ManyToOne(targetEntity = ProductPrice.class) ProductPrice productPrice;
+	
 
 }

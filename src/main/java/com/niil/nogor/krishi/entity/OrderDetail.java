@@ -19,10 +19,11 @@ import lombok.NoArgsConstructor;
 public class OrderDetail {
 	private @Id @GeneratedValue Long id;
 	private @ManyToOne(targetEntity=Orders.class) Orders orders;
-	private @OneToOne(targetEntity=Product.class) Product product;
-	private @OneToOne(targetEntity=SaleType.class) SaleType saleType;
+	private @OneToOne(targetEntity=Product.class) Product product;//todo remove this
+	private @OneToOne(targetEntity=SaleType.class) SaleType saleType;//todo remove this
 	private BigDecimal unit_price;
 	private int quantity;
-	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;
+	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;//todo remove this
+	private @OneToOne(targetEntity = ProductPrice.class) ProductPrice productPrice;
 
 }

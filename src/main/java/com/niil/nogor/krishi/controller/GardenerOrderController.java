@@ -43,14 +43,14 @@ public class GardenerOrderController extends AbstractController{
 		model.addAttribute("orders", ordersList);
 		return "site/gardener_order_list";
 	}
-	
-	@GetMapping("/gardener-order-detail/{order_id}")
-	public String vendorOrderDetailsPage(@PathVariable Long order_id,final ModelMap model) {
-		Orders order = orderRepo.findOne(order_id);
-		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrders(order);
-		model.addAttribute("orderDetailList", orderDetailsList);
-		model.addAttribute("order", order);
-		return "site/gardener_order_details";
-	}
+	// @todo enable comment
+	// @GetMapping("/gardener-order-detail/{order_id}")
+	// public String vendorOrderDetailsPage(@PathVariable Long order_id,final ModelMap model) {
+	// 	Orders order = orderRepo.findOne(order_id);
+	// 	List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrders(order);
+	// 	model.addAttribute("orderDetailList", orderDetailsList);
+	// 	model.addAttribute("order", order);
+	// 	return "site/gardener_order_details";
+	// }
 
 }

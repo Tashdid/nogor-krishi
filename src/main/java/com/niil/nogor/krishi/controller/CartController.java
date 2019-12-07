@@ -15,8 +15,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import com.niil.nogor.krishi.dto.CartDetailsDTO;
 import com.niil.nogor.krishi.entity.CartDetails;
+// import com.niil.nogor.krishi.entity.ProductPrice;
 import com.niil.nogor.krishi.repo.CartDetailsRepo;
 import com.niil.nogor.krishi.repo.NurseryRepo;
+import com.niil.nogor.krishi.repo.ProductPriceRepo;
 import com.niil.nogor.krishi.repo.ProductRepo;
 import com.niil.nogor.krishi.repo.SaleTypeRepo;
 import com.niil.nogor.krishi.repo.UserRepo;
@@ -26,7 +28,8 @@ import com.niil.nogor.krishi.repo.UserRepo;
 public class CartController extends AbstractController{
 	static final String URL = "/test/cart";
 
-	@Autowired ProductRepo productRepo;
+	@Autowired ProductPriceRepo productPriceRepo;
+	// @Autowired ProductPrice productRepo;
 	@Autowired SaleTypeRepo saleTypeRepo;
 	@Autowired CartDetailsRepo cartDetailsRepo;
 	@Autowired UserRepo userRepo;
@@ -46,11 +49,11 @@ public class CartController extends AbstractController{
 			
 			CartDetails cartDetails = new CartDetails();
 			cartDetails.setSessionId((String)httpSession.getAttribute("cartId"));
-			cartDetails.setProduct(productRepo.getOne(cartDetailsDTO.getProduct_id()));
-			cartDetails.setSaleType(saleTypeRepo.getOne(cartDetailsDTO.getSale_type_id()));
+//			cartDetails.setProduct(productRepo.getOne(cartDetailsDTO.getProduct_id()));
+//			cartDetails.setSaleType(saleTypeRepo.getOne(cartDetailsDTO.getSale_type_id()));
 			cartDetails.setQuantity(cartDetailsDTO.getQuantity());
 			cartDetails.setUnit_price(cartDetailsDTO.getUnit_price());
-			cartDetails.setNursery(nurseryRepo.getOne(cartDetailsDTO.getNursery_id()));
+			cartDetails.setProductPrice(productPriceRepo.getOne(cartDetailsDTO.getProductPrice_id()));
 			
 			httpSession.setAttribute("cartItem", cartDetails);
 			System.out.println("cartId2 " + httpSession.getAttribute("cartId"));
@@ -101,12 +104,14 @@ public class CartController extends AbstractController{
 	
 	@RequestMapping(value="/cart-details/",method=RequestMethod.GET)
 	public List<CartDetails> getCartDetails(HttpSession httpSession) {
-
 		if(httpSession.getAttribute("cartId") == null){
 			return null;
 		}
+		System.out.println("cart details +++++");
+		
 		List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId((String)httpSession.getAttribute("cartId"));
-		 
+		System.out.println(cartDetailsList);
+		
 		if(!cartDetailsList.isEmpty()){
 			return cartDetailsList;
 		}

@@ -115,11 +115,12 @@ public class OrdersController extends AbstractController{
 		for(int i=0;i<cartDetailList.size();i++){
 			CartDetails cartDetail = cartDetailList.get(i);
 			OrderDetail orderDetail = new OrderDetail();
-			orderDetail.setNursery(cartDetail.getNursery());
-			orderDetail.setProduct(cartDetail.getProduct());
+//			orderDetail.setNursery(cartDetail.getNursery());
+//			orderDetail.setProduct(cartDetail.getProduct());
 			orderDetail.setQuantity(cartDetail.getQuantity());
 			orderDetail.setUnit_price(cartDetail.getUnit_price());
-			orderDetail.setSaleType(cartDetail.getSaleType());
+//			orderDetail.setSaleType(cartDetail.getSaleType());
+			orderDetail.setProductPrice(cartDetail.getProductPrice());
 			orderDetail.setOrders(newOrder);
 			orderDetailsList.add(orderDetail);
 		}
