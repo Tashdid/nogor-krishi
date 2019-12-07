@@ -92,9 +92,9 @@ public class ProductPriceSearchingController extends AbstractController {
 		}else {
 			priceList=priceRepo.getProductPriceListByPropertyValue(productId,idList);
 		}
-		priceList.forEach(price->{
-			price.setProductPriceOnPropertyValueList(null);
-		});
+//		priceList.forEach(price->{
+//			price.setProductPriceOnPropertyValueList(null);
+//		});
 		return priceList;
 
 	}

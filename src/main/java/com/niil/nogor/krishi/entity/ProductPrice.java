@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 
 /**
@@ -26,6 +28,7 @@ public class ProductPrice {
 	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;
 	private Long quantity;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity=ProductPriceOnPropertyValue.class, mappedBy="productPrice", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
 	private List<ProductPriceOnPropertyValue> productPriceOnPropertyValueList;
 

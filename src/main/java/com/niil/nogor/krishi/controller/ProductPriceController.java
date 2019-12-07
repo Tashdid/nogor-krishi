@@ -86,7 +86,7 @@ public class ProductPriceController extends AbstractController {
 		Nursery nursery=userRepo.
 				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery();
 		
-		List<Product> productList = productRepo.findAll();
+		List<Product> productList = productRepo.findAllAsChildOnly();
 
 		Product product = new Product();
 		if (productId != null) {

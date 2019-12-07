@@ -36,7 +36,7 @@ public class ProductPropertyMappingController extends AbstractController{
 		if (bean == null) bean = new ProductPropertyMapping();
 		model.addAttribute("bean", bean);
 		model.addAttribute("allbeans", productPropertyMappingRepo.findAll());
-		model.addAttribute("allproducts", productRepo.findAll());
+		model.addAttribute("allproducts", productRepo.findAllAsChildOnly());
 		model.addAttribute("allproperties", productPropertyRepo.findAll());
 		return URL.substring(1);
 	}
