@@ -115,12 +115,12 @@ public class OrdersController extends AbstractController{
 		for(int i=0;i<cartDetailList.size();i++){
 			CartDetails cartDetail = cartDetailList.get(i);
 			OrderDetail orderDetail = new OrderDetail();
-//			orderDetail.setNursery(cartDetail.getNursery());
-//			orderDetail.setProduct(cartDetail.getProduct());
+			orderDetail.setNursery(cartDetail.getProductPrice().getNursery());
+			orderDetail.setProduct(cartDetail.getProductPrice().getProduct());
 			orderDetail.setQuantity(cartDetail.getQuantity());
 			orderDetail.setUnit_price(cartDetail.getUnit_price());
 //			orderDetail.setSaleType(cartDetail.getSaleType());
-			orderDetail.setProductPrice(cartDetail.getProductPrice());
+			orderDetail.setProductPrice(cartDetail.getProductPrice());// @todo save product variation/property as json as well
 			orderDetail.setOrders(newOrder);
 			orderDetailsList.add(orderDetail);
 		}

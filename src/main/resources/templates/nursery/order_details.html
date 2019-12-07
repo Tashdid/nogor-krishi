@@ -11,10 +11,12 @@
 				<div class="detail-info">
 					<div class="pull-left detail-info-left">
 						<div>
-							<p class="order-number">Order&nbsp;#<span th:text="${order.id}"></span></p>
+							<p class="order-number">
+								Order&nbsp;#<span th:text="${order.id}"></span>
+							</p>
 							<p class="text desc light-gray">
-								Placed on 
-								<span th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.order_time, 'dd MMMM yyyy hh:mm a'))}"></span>
+								Placed on <span
+									th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.order_time, 'dd MMMM yyyy hh:mm a'))}"></span>
 							</p>
 						</div>
 					</div>
@@ -24,22 +26,22 @@
 							class="detail-info-total-value">৳ <span th:text="${order.payable_amount}"></span></span>
 						</p> -->
 						<p>
-							<span class="detail-info-total-title">Customer:&nbsp;</span>
-							<span th:text="${order.user.name}"></span>
+							<span class="detail-info-total-title">Customer:&nbsp;</span> <span
+								th:text="${order.user.name}"></span>
 						</p>
 						<p>
-								<span class="detail-info-total-title">Phone:&nbsp;</span>
-								<span th:text="${order.phone_no}"></span>
-							</p>
-							<p>
-									<span class="detail-info-total-title">Shipping Address:&nbsp;</span>
-									<span th:text="${order.delivery_address}"></span>
-									<span th:text="${order.delivery_city}"></span>
-									<span th:text="${order.delivery_district}"></span>
+							<span class="detail-info-total-title">Phone:&nbsp;</span> <span
+								th:text="${order.phone_no}"></span>
+						</p>
+						<p>
+							<span class="detail-info-total-title">Shipping
+								Address:&nbsp;</span> <span th:text="${order.delivery_address}"></span>
+							<span th:text="${order.delivery_city}"></span> <span
+								th:text="${order.delivery_district}"></span>
 
 
-								</p>
-						
+						</p>
+
 					</div>
 				</div>
 			</div>
@@ -51,6 +53,7 @@
 					<thead>
 						<tr>
 							<th>Product ID</th>
+							<th>Veriation</th>
 							<th>Unit Price</th>
 							<th>Quantity</th>
 							<th>Total</th>
@@ -58,137 +61,144 @@
 					</thead>
 					<tbody>
 						<tr th:each="order : ${orderDetailList}">
-							<td th:text="${order.product.name}">Product</td>
+							<td th:text="${order.productPrice.product.name}">Product</td>
+							<td><span
+								th:if="${order.productPrice.productPriceOnPropertyValueList!=null and !order.productPrice.productPriceOnPropertyValueList.isEmpty()}"
+								th:each="a, iterStat : ${order.productPrice.productPriceOnPropertyValueList}"
+								th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''"></span>
+
+							</td>
 							<td th:text="${order.unit_price}">Amount</td>
 							<td th:text="${order.quantity}">Status</td>
 							<td th:text="${order.quantity * order.unit_price}">Status</td>
 						</tr>
 					</tbody>
 				</table>
-				<hr/>
+				<hr />
 				<h4 th:if="${order.delivery_notes != null}">Delivery Note</h4>
-				<p th:if="${order.delivery_notes != null}" th:text="${order.delivery_notes}"></p>
-				<hr/>
-				<a target="_blank" th:href="@{'/vendorprice/print-vendor-order/' + ${order.id}}" class="btn btn-success">Print</a>
+				<p th:if="${order.delivery_notes != null}"
+					th:text="${order.delivery_notes}"></p>
+				<hr />
+				<a target="_blank"
+					th:href="@{'/vendorprice/print-vendor-order/' + ${order.id}}"
+					class="btn btn-success">Print</a>
 			</div>
 			<div class="col-sm-6">
-					<div class="card">
-						<h5 class="card-header">Order Status</h5>
-						<div class="card-body">
-							<form class="form" id="statusUpdateForm"
+				<div class="card">
+					<h5 class="card-header">Order Status</h5>
+					<div class="card-body">
+						<form class="form" id="statusUpdateForm"
 							th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
 							th:object="${order}" method="post">
 							<div class="form-group ">
-								<label class=""
-									for="status">Status:</label>
-									<input type="hidden" th:field="*{id}" /> 
-									<select class="form-control"
-										th:field="*{status}" required="required">
-										<option value="New">New</option>
-										<!-- <option value="Pending">Pending</option> -->
-										<option value="Processing">Processing</option>
-										<option value="On way for delivery">On way for delivery</option>
-										<option value="Delivered">Delivered</option>
-										<!-- <option value="Cancled by customer">Cancled by customer</option> -->
-										<option value="Cancled by nursery">Cancled by nursery</option>
-									</select>
-								
+								<label class="" for="status">Status:</label> <input
+									type="hidden" th:field="*{id}" /> <select class="form-control"
+									th:field="*{status}" required="required">
+									<option value="New">New</option>
+									<!-- <option value="Pending">Pending</option> -->
+									<option value="Processing">Processing</option>
+									<option value="On way for delivery">On way for
+										delivery</option>
+									<option value="Delivered">Delivered</option>
+									<!-- <option value="Cancled by customer">Cancled by customer</option> -->
+									<option value="Cancled by nursery">Cancled by nursery</option>
+								</select>
+
 							</div>
 							<button type="submit" class="btn btn-success">Save</button>
-		
-							
+
+
 						</form>
 					</div>
-					</div>
-	
-						<div class="card mt-2">
-							<h5 class="card-header">Delivery Update</h5>
-							<div class="card-body">
-									<form class="form-horizontal" id="deliveryUpdateForm"
-									th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/update-order-delivery'}"
-									th:object="${deliveryManagement}" method="post">
-									<div class="form-group">
-										<label class=""
-											>DeliveryDate: <span th:text="${deliveryManagement.deliveryDate}"></span></label>
-										
-											<input type="hidden" th:field="*{id}" /> <input type="text"
-												th:field="*{deliveryDatest}" class="form-control" placeholder="dd/MM/yyyy" />
-										
-									</div>
-									<div class="form-group">
-										<label class=""
-											for="deliveryPerson">Delivery Person: <span th:utext="${deliveryManagement.deliveryPerson!=null?deliveryManagement.deliveryPerson.name:null}"></span></label>
-										
-											<select th:value="*{deliveryPerson}"  th:field="*{deliveryPerson}" class="form-control">
-												<option th:each="tp : ${deliveryPersonList}" th:value="${tp.id}"
-													th:text="${tp.name}"></option>
-											</select>
-									</div>
-				
-									<button type="submit" class="btn btn-success">Change</button>
-				
-									
-								</form>
-							</div>
-						</div>
-	
-						<div class="card mt-2">
-							<h5 class="card-header">Notes For Customer</h5>
-							<div class="card-body">
+				</div>
 
-									<div th:unless="${#lists.isEmpty(order.notes)}"
-									class="card bg-faded">
-									<div th:each="cm : ${order.notes}" class="card-block">
-										<div class="card-text">
-											<span class="glyphicon glyphicon-user"></span> 
-											<!-- <span th:text="${cm.user.name}"></span>  -->
-												<span class="glyphicon glyphicon-time"></span> 
-												<span th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(cm.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
-										</div>
-										<div class="card-text mt-2">
-											<div class="blockquote2" th:utext="${cm.notesSt}"></div>
-										</div>
-									</div>
-								</div>
-								<label>Add New Note</label>
-								<form class="form-horizontal" id="notesAddForm"
-									th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/add-notes'}"
-									method="post">
-									<div class="form-group">
-										<textarea class="form-control" id="notesSt" name="notesSt"></textarea>
-									</div>
-									<button type="submit" class="btn btn-success">Save</button>
-				
-				
-									<div class="form-group ">
-										<div class="col-sm-4 offset-sm-8">
-											<div class="form-group">
-											</div>
-										</div>
-									</div>
-								</form>
+				<div class="card mt-2">
+					<h5 class="card-header">Delivery Update</h5>
+					<div class="card-body">
+						<form class="form-horizontal" id="deliveryUpdateForm"
+							th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/update-order-delivery'}"
+							th:object="${deliveryManagement}" method="post">
+							<div class="form-group">
+								<label class="">DeliveryDate: <span
+									th:text="${deliveryManagement.deliveryDate}"></span></label> <input
+									type="hidden" th:field="*{id}" /> <input type="text"
+									th:field="*{deliveryDatest}" class="form-control"
+									placeholder="dd/MM/yyyy" />
+
 							</div>
-						</div>
-	
-						<div class="card mt-2">
-							<h5 class="card-header" >Feedback From Customer</h5>
-							<div class="card-body">
-									<div th:if= "${order.feedbackSt != null}"
-									class="card bg-faded">
-									<div class="card-block">
-										<div class="card-text">
-											<span class="glyphicon glyphicon-user"></span> 
-											<span th:text="${order.user.name}"></span> 
-												<span class="glyphicon glyphicon-time"></span> 
-												<span th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.feedbackDate, 'dd MMMM yyyy hh:mm a'))}"></span>
-										</div>
-										<div class="card-text mt-2">
-											<div class="blockquote2" th:utext="${order.feedbackSt}"></div>
-										</div>
-									</div>
+							<div class="form-group">
+								<label class="" for="deliveryPerson">Delivery Person: <span
+									th:utext="${deliveryManagement.deliveryPerson!=null?deliveryManagement.deliveryPerson.name:null}"></span></label>
+
+								<select th:value="*{deliveryPerson}"
+									th:field="*{deliveryPerson}" class="form-control">
+									<option th:each="tp : ${deliveryPersonList}"
+										th:value="${tp.id}" th:text="${tp.name}"></option>
+								</select>
+							</div>
+
+							<button type="submit" class="btn btn-success">Change</button>
+
+
+						</form>
+					</div>
+				</div>
+
+				<div class="card mt-2">
+					<h5 class="card-header">Notes For Customer</h5>
+					<div class="card-body">
+
+						<div th:unless="${#lists.isEmpty(order.notes)}"
+							class="card bg-faded">
+							<div th:each="cm : ${order.notes}" class="card-block">
+								<div class="card-text">
+									<span class="glyphicon glyphicon-user"></span>
+									<!-- <span th:text="${cm.user.name}"></span>  -->
+									<span class="glyphicon glyphicon-time"></span> <span
+										th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(cm.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
+								</div>
+								<div class="card-text mt-2">
+									<div class="blockquote2" th:utext="${cm.notesSt}"></div>
 								</div>
 							</div>
 						</div>
+						<label>Add New Note</label>
+						<form class="form-horizontal" id="notesAddForm"
+							th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/add-notes'}"
+							method="post">
+							<div class="form-group">
+								<textarea class="form-control" id="notesSt" name="notesSt"></textarea>
+							</div>
+							<button type="submit" class="btn btn-success">Save</button>
+
+
+							<div class="form-group ">
+								<div class="col-sm-4 offset-sm-8">
+									<div class="form-group"></div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="card mt-2">
+					<h5 class="card-header">Feedback From Customer</h5>
+					<div class="card-body">
+						<div th:if="${order.feedbackSt != null}" class="card bg-faded">
+							<div class="card-block">
+								<div class="card-text">
+									<span class="glyphicon glyphicon-user"></span> <span
+										th:text="${order.user.name}"></span> <span
+										class="glyphicon glyphicon-time"></span> <span
+										th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.feedbackDate, 'dd MMMM yyyy hh:mm a'))}"></span>
+								</div>
+								<div class="card-text mt-2">
+									<div class="blockquote2" th:utext="${order.feedbackSt}"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- <div class="row">Order Status</div>
 				<form class="form-horizontal" id="statusUpdateForm"
 					th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
@@ -225,7 +235,7 @@
 				<div class="row">
 					<h5>Notes For Customer</h5>
 				</div> -->
-				<!-- <div th:unless="${#lists.isEmpty(order.notes)}"
+			<!-- <div th:unless="${#lists.isEmpty(order.notes)}"
 					class="card bg-faded">
 					<div th:each="cm : ${order.notes}" class="card-block">
 						<div class="card-text">
@@ -258,8 +268,8 @@
 						</div>
 					</div>
 				</form> -->
-				
-				<!-- <div class="row">
+
+			<!-- <div class="row">
 					<h5>Feedback From Customer</h5>
 				</div>
 				<div th:if= "${order.feedbackSt != null}"
