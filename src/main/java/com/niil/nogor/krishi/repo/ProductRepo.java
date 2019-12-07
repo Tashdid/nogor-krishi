@@ -38,7 +38,7 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 
 	Product findTopByTypeAndParentAndSequenceLessThanOrderBySequenceDesc(ProductType type, Product parent, Integer sequence);
 	
-	@Query("SELECT p FROM Product p WHERE p.id not in (SELECT pr.parent.id FROM Product pr)")
+	@Query("SELECT p FROM Product p WHERE p.id not in (SELECT pr.parent.id FROM Product pr where pr.parent is not null)")
 	List<Product> findAllAsChildOnly();
 
 }
