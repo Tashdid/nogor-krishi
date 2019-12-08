@@ -28,4 +28,5 @@ public class Settings {
 	private String photoGalleryTitle;
 	private String gardenDesignMenu;
 	private String gardenDesignTitle;
+	private long deliveryCharge;
 }

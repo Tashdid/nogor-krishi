@@ -55,6 +55,7 @@ public class SettingsController extends AbstractController {
 		st.setGardenDesignMenu(settings.getGardenDesignMenu());
 		st.setGardenDesignTitle(settings.getGardenDesignTitle());
 		st.setSuggestionMenu(settings.getSuggestionMenu());
+		st.setDeliveryCharge(settings.getDeliveryCharge());
 		settingsRepo.save(st);
 		AppConfig.reloadSettings = true;
 		return "redirect:" + URL;

@@ -113,8 +113,13 @@ public class EcommerceController extends AbstractController {
 //					);
 //			
 //		}
-
+		
+		
+		long nurseryCount = cartDetailsList.stream().map(CartDetails::getProductPrice).map(ProductPrice::getNursery).distinct().count();
+		Settings settings = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
+		
 		model.addAttribute("user", new User());
+		model.addAttribute("deliverycharge", nurseryCount * settings.getDeliveryCharge());
 
         return "site/place_order";
     }
