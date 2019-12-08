@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +22,12 @@ import com.niil.nogor.krishi.dto.OrderForm;
 import com.niil.nogor.krishi.entity.CartDetails;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
+import com.niil.nogor.krishi.entity.ProductPrice;
 import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.CartDetailsRepo;
 import com.niil.nogor.krishi.repo.OrderDetailsRepo;
 import com.niil.nogor.krishi.repo.OrdersRepo;
+import com.niil.nogor.krishi.repo.ProductPriceRepo;
 import com.niil.nogor.krishi.repo.UserRepo;
 
 @RestController
@@ -37,6 +40,7 @@ public class OrdersController extends AbstractController{
 	@Autowired OrderDetailsRepo orderDetailsRepo;
 	@Autowired UserRepo userRepo;
 	@Autowired CartDetailsRepo cartDetailsRepo;
+	@Autowired ProductPriceRepo productPriceRepo;
 	
 	public String currentUserName(Principal principal) {
 	     return principal.getName();
@@ -123,10 +127,31 @@ public class OrdersController extends AbstractController{
 			orderDetail.setProductPrice(cartDetail.getProductPrice());// @todo save product variation/property as json as well
 			orderDetail.setOrders(newOrder);
 			orderDetailsList.add(orderDetail);
+			reduceQuantity(cartDetail.getProductPrice(), cartDetail.getQuantity());
 		}
 		if(orderDetailsRepo.save(orderDetailsList) != null){
+			
+			
+			cartDetailsRepo.deleteInBatch(cartDetailList);
+			
 			return newOrder;
 		}
+		
 		return null;
 	}
+	
+	private Boolean reduceQuantity (ProductPrice productPrice, int quantityToBeSubtract) {
+		try {
+			Long assignedQuantity = productPrice.getQuantity() >= quantityToBeSubtract ? productPrice.getQuantity() - quantityToBeSubtract : 0;
+			productPrice.setQuantity(assignedQuantity);
+			productPriceRepo.saveAndFlush(productPrice);
+		}catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+		return true;
+	}
+	
 }

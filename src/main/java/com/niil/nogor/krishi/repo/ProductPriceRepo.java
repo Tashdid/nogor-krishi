@@ -19,6 +19,8 @@ public interface ProductPriceRepo extends JpaRepository<ProductPrice, Long>, Pro
 	public List<ProductPrice> findAllByNursery(Nursery nursery);
 
 	public List<ProductPrice> findAllByProduct(Product product);
+	
+	public List<ProductPrice> findAllByProductOrderByQuantityDescPriceAsc(Product product);
 
 	public List<ProductPrice> findAllByProductAndNursery(Product product, Nursery nursery);
 	
