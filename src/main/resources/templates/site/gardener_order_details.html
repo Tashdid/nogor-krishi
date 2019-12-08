@@ -44,18 +44,18 @@
 							</thead>
 							<tbody>
 								<tr th:each="order : ${orderDetailList}">
-									<td th:text="${order.productPrice.product.name}">Product</td>
-									<td>
-										<a th:href="@{'/vendor/' + ${order.productPrice.nursery.id}}" th:text="${order.productPrice.nursery.name}"></a>
-									</td>
-									<td>
-
-										<span th:if="${order.productPrice.productPriceOnPropertyValueList!=null and !order.productPrice.productPriceOnPropertyValueList.isEmpty()}" 
-							th:each="a, iterStat : ${order.productPrice.productPriceOnPropertyValueList}" 
-							th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''"></span>
-							
-									</td>
-									<td th:text="${order.unit_price}">Amount</td>
+								<td><span th:if="${order.product ne null}"
+									th:text="${order.product.name}"></span></td>
+								<td><a th:if="${order.nursery ne null}"
+									th:href="@{'/vendor/' + ${order.nursery.id}}"
+									th:text="${order.nursery.name}"></a></td>
+								<td><span
+									th:if="${order.productPrice!=null and order.productPrice.productPriceOnPropertyValueList!=null and !order.productPrice.productPriceOnPropertyValueList.isEmpty()}">
+										<span
+										th:each="a, iterStat : ${order.productPrice.productPriceOnPropertyValueList}"
+										th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''"></span>
+								</span></td>
+								<td th:text="${order.unit_price}">Amount</td>
 									<td th:text="${order.quantity}">Status</td>
 								</tr>
 							</tbody>

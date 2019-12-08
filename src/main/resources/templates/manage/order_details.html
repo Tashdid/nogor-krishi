@@ -60,7 +60,13 @@
 					</thead>
 					<tbody>
 						<tr th:each="order : ${orderDetailList}">
-							<td th:text="${order.product.name}">Product</td>
+							<td> <span th:if="${order.product ne null}" th:text="${order.product.name}">Product</span></td>
+							<td><span
+								th:if="${order.productPrice!=null and order.productPrice.productPriceOnPropertyValueList!=null and !order.productPrice.productPriceOnPropertyValueList.isEmpty()}">
+								<span th:each="a, iterStat : ${order.productPrice.productPriceOnPropertyValueList}"
+								th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''"></span>
+							</span>
+							</td>
 							<td th:text="${order.unit_price}">Amount</td>
 							<td th:text="${order.quantity}">Status</td>
 							<td th:text="${order.quantity * order.unit_price}">Status</td>
@@ -113,7 +119,7 @@
 							th:object="${order}" method="post">
 							<input type="hidden" th:field="*{id}" />
 
-							<div th:each="delivery,stat: ${order.deliveryManagements}">
+							<div th:each="delivery,stat: ${order.deliveryManagements}" th:if="${delivery.nursery ne null}">
 
 								<div class="form-group">
 									<label class="" for="nursery" th:text="'Nursery:'+${delivery.nursery.name}">Nursery: </label> <select
