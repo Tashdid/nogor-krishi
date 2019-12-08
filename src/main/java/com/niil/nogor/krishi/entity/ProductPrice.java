@@ -28,7 +28,7 @@ public class ProductPrice {
 	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;
 	private Long quantity;
 	
-	@JsonIgnore
+//	@JsonIgnore
 	@OneToMany(targetEntity=ProductPriceOnPropertyValue.class, mappedBy="productPrice", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
 	private List<ProductPriceOnPropertyValue> productPriceOnPropertyValueList;
 

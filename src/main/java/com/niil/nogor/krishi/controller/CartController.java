@@ -25,94 +25,104 @@ import com.niil.nogor.krishi.repo.UserRepo;
 	
 @RestController
 @RequestMapping(CartController.URL)
-public class CartController extends AbstractController{
+public class CartController extends AbstractController {
 	static final String URL = "/test/cart";
 
-	@Autowired ProductPriceRepo productPriceRepo;
+	@Autowired
+	ProductPriceRepo productPriceRepo;
 	// @Autowired ProductPrice productRepo;
-	@Autowired SaleTypeRepo saleTypeRepo;
-	@Autowired CartDetailsRepo cartDetailsRepo;
-	@Autowired UserRepo userRepo;
-	@Autowired NurseryRepo nurseryRepo;
-	
-	@RequestMapping(value="/add-to-cart/",method=RequestMethod.POST)
-	public ResponseEntity addToCart(@RequestBody CartDetailsDTO cartDetailsDTO,HttpSession httpSession) {
-		
-		try{
+	@Autowired
+	SaleTypeRepo saleTypeRepo;
+	@Autowired
+	CartDetailsRepo cartDetailsRepo;
+	@Autowired
+	UserRepo userRepo;
+	@Autowired
+	NurseryRepo nurseryRepo;
+
+	@RequestMapping(value = "/add-to-cart/", method = RequestMethod.POST)
+	public ResponseEntity addToCart(@RequestBody CartDetailsDTO cartDetailsDTO, HttpSession httpSession) {
+
+		try {
 			System.out.println("cartId1 " + httpSession.getAttribute("cartId"));
-			
-			if(httpSession.getAttribute("cartId") == null){
-				 
-				 httpSession.setAttribute("cartId", RequestContextHolder.currentRequestAttributes().getSessionId());
-					
-			 }
-			
+
+			if (httpSession.getAttribute("cartId") == null) {
+
+				httpSession.setAttribute("cartId", RequestContextHolder.currentRequestAttributes().getSessionId());
+
+			}
+
 			CartDetails cartDetails = new CartDetails();
-			cartDetails.setSessionId((String)httpSession.getAttribute("cartId"));
+			cartDetails.setSessionId((String) httpSession.getAttribute("cartId"));
 //			cartDetails.setProduct(productRepo.getOne(cartDetailsDTO.getProduct_id()));
 //			cartDetails.setSaleType(saleTypeRepo.getOne(cartDetailsDTO.getSale_type_id()));
 			cartDetails.setQuantity(cartDetailsDTO.getQuantity());
 			cartDetails.setUnit_price(cartDetailsDTO.getUnit_price());
 			cartDetails.setProductPrice(productPriceRepo.getOne(cartDetailsDTO.getProductPrice_id()));
-			
+
 			httpSession.setAttribute("cartItem", cartDetails);
 			System.out.println("cartId2 " + httpSession.getAttribute("cartId"));
-			
+
 			cartDetailsRepo.save(cartDetails);
 			return ResponseEntity.ok(HttpStatus.SC_OK);
-		}
-		catch(HibernateException e){
+		} catch (HibernateException e) {
 			e.printStackTrace();
 			return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
-		
+
 	}
-	
-	@RequestMapping(value="/update/{cartId}",method=RequestMethod.PATCH)
-	public ResponseEntity updateCart(@PathVariable(value="cartId") long cartId,
-			@RequestBody CartDetailsDTO cartDetailsDTO,HttpSession httpSession) {
-		
-		try{
+
+	@RequestMapping(value = "/update/{cartId}", method = RequestMethod.PATCH)
+	public ResponseEntity updateCart(@PathVariable(value = "cartId") long cartId,
+			@RequestBody CartDetailsDTO cartDetailsDTO, HttpSession httpSession) {
+
+		try {
 			System.out.println("cartId1 " + httpSession.getAttribute("cartId"));
-			
-			if(httpSession.getAttribute("cartId") == null){
+
+			if (httpSession.getAttribute("cartId") == null) {
 				return (ResponseEntity) ResponseEntity.notFound();
-			 }
-			
+			}
+
 			CartDetails cartDetails = cartDetailsRepo.findOne(cartId);
 			cartDetails.setQuantity(cartDetailsDTO.getQuantity());
-			
+
 //			System.out.println("cartId2 " + httpSession.getAttribute("cartId"));
-			
+
 			cartDetailsRepo.save(cartDetails);
 			return ResponseEntity.ok(HttpStatus.SC_OK);
-		}
-		catch(HibernateException e){
+		} catch (HibernateException e) {
 			e.printStackTrace();
 			return ResponseEntity.ok(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
-		
+
 	}
-	
-	@RequestMapping(value="/delete/{cartId}", method=RequestMethod.DELETE)
+
+	@RequestMapping(value = "/delete/{cartId}", method = RequestMethod.DELETE)
 	public Boolean deleteGalleryImage(@PathVariable Long cartId) {
-		
+
 		cartDetailsRepo.delete(cartId);
-		
+
 		return true;
 	}
-	
-	@RequestMapping(value="/cart-details/",method=RequestMethod.GET)
+
+	@RequestMapping(value = "/cart-details/", method = RequestMethod.GET)
 	public List<CartDetails> getCartDetails(HttpSession httpSession) {
-		if(httpSession.getAttribute("cartId") == null){
+		if (httpSession.getAttribute("cartId") == null) {
 			return null;
 		}
 		System.out.println("cart details +++++");
-		
-		List<CartDetails> cartDetailsList = cartDetailsRepo.findAllBysessionId((String)httpSession.getAttribute("cartId"));
+		String cart = (String) httpSession.getAttribute("cartId");
+
+		List<CartDetails> cartDetailsList = cartDetailsRepo
+				.findAllBysessionId((String) httpSession.getAttribute("cartId"));
+		cartDetailsList.forEach(cartDl -> {
+			cartDl.getProductPrice().getProductPriceOnPropertyValueList().forEach(pp -> {
+				pp.setProductPrice(null);
+			});
+		});
 		System.out.println(cartDetailsList);
-		
-		if(!cartDetailsList.isEmpty()){
+
+		if (!cartDetailsList.isEmpty()) {
 			return cartDetailsList;
 		}
 		return cartDetailsList;
