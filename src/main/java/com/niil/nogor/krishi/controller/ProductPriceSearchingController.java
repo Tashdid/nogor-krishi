@@ -88,9 +88,9 @@ public class ProductPriceSearchingController extends AbstractController {
 		}
 		Product product = productRepo.findOne(productId);
 		if(idList==null) {
-			priceList=priceRepo.findAllByProduct(product);
+			priceList=priceRepo.findAllByProductOrderByQuantityDescPriceAsc(product);
 		}else {
-			priceList=priceRepo.getProductPriceListByPropertyValue(productId,idList);
+			priceList=priceRepo.getProductPriceListByPropertyValueOrderByQuantityDescPriceAsc(productId,idList);
 		}
 		priceList.forEach(price->{
 			price.getProductPriceOnPropertyValueList().forEach(pp->{
