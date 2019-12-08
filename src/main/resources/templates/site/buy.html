@@ -48,7 +48,7 @@
 							
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-								<button type="button" id="get-price" class="btn btn-success">নার্সারী খুঁজুন</button>
+								<button type="button" id="get-price" class="btn btn-success">ফিল্টার করুন</button>
 								</div>
 							</div>
 						</form>
@@ -97,6 +97,8 @@
 		<div th:replace="common :: commom-footer" th:remove="tag"></div>
 		<div th:replace="common :: common-js" th:remove="tag"></div>
 		<script th:src="@{/js/buy.js}" src="js/buy.js" ></script>
-		
+		<script>
+			loadPrice();
+		</script>
 	</body>
 </html>

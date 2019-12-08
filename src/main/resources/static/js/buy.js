@@ -37,81 +37,34 @@ $(document).ready(function() {
 
 	
 	$(document).on("click", ".kk-btn-group", function(){ 
-		$(this).siblings().removeClass('active');
-		$(this).addClass('active');
-		var parId = $(this).parent().attr('id');
-		var selectId = parId.replace('btn-grp-', '');
 
-		$("#select-" + selectId).val($(this).data('vlu'));
-		myMap[selectId]=$(this).data('vlu');
+		if($(this).hasClass('active')) { // unslelct this button group
+			
+			$(this).removeClass('active');
+			
+			var parId = $(this).parent().attr('id');
+			var selectId = parId.replace('btn-grp-', '');
+			
+			$("#select-" + selectId).val(0);
+			delete myMap[selectId];
+
+		} else { // change or select a button group
+			
+			$(this).siblings().removeClass('active');
+			$(this).addClass('active');
+			
+			var parId = $(this).parent().attr('id');
+			var selectId = parId.replace('btn-grp-', '');
+	
+			$("#select-" + selectId).val($(this).data('vlu'));
+			myMap[selectId]=$(this).data('vlu');
+		}
+		
 	});
 
 	$(document).on("click", "#get-price", function(){
 		  
-		let productId = $("#product-id").val();
-		let valueSt="";
-		$.each( myMap, function(index,value){
-			 valueSt+="-"+value;
-			})
-			if(valueSt){
-				valueSt=valueSt.substring(1);
-			}
-		console.log(valueSt);
-		var url=`${api_origin}/api/productpricesearch/${productId}/${valueSt}`;
-		console.log(url);
-		
-		$.ajax({
-			type: 'GET',
-			// url:
-			// `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
-			url: `${api_origin}/api/productpricesearch/${productId}/${valueSt}`,
-			
-		    success: function(data) {
-// var temp = JSON.parse(data);
-		    	body = data.length ? '' : '<tr><td class="msg-buy">দুঃখিত, কিছু পাওয়া যায়নি। দয়া করে অন্য প্রপার্টি দিয়ে চেষ্টা করুন.</td></tr>';
-		        for(i=0; i < data.length; i++) {
-		        	tr = `
-		        		<tr>
-		        			<td> 
-								<a target="_blank" href="/vendor/${data[i].nursery.id}">${data[i].nursery.name}</a>
-								<p class="small">${data[i].nursery.area.name}, ${data[i].nursery.area.city.name}</p>
-							</td>
-							<td>${data[i].price} টাকা</td>
-							
-							<td>
-								<div class="quantity-cart">
-									<div class="qty mt-2">
-										<span class="minus">-</span>
-										<input type="number" class="count quantity" name="qty" value="1"/>
-										<span class="plus">+</span>
-									</div>
-									<div>
-										<button data-unitprice=${data[i].price}
-											data-id=${data[i].id} 
-											class='add-to-cart btn btn-default'>
-												কিনুন
-										</button>
-									</div>
-
-									
-								</div>
-								
-							</td>
-							
-		        		</tr>
-		        	
-		        	`;
-		        	
-		        	body += tr;
-		        }
-		        $('#price-list > tbody').html(body);
-		        
-		    },
-		    error: function(data) {
-		    	alert("error");
-		    }
-		
-		});
+		loadPrice();
 		  
 		  
 	});
@@ -172,3 +125,86 @@ $(document).ready(function() {
 
     
 });
+
+function loadPrice() {
+	let productId = $("#product-id").val();
+	let valueSt="";
+	$.each( myMap, function(index,value){
+			valueSt+="-"+value;
+		})
+		if(valueSt){
+			valueSt=valueSt.substring(1);
+		}
+	// console.log(valueSt);
+	var url=`${api_origin}/api/productpricesearch/${productId}/${valueSt}`;
+	console.log(url);
+	
+	$.ajax({
+		type: 'GET',
+		// url:
+		// `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
+		url: `${api_origin}/api/productpricesearch/${productId}/${valueSt}`,
+		
+		success: function(data) {
+			body = data.length ? '' : '<tr><td class="msg-buy text-danger">দুঃখিত, কিছু পাওয়া যায়নি। দয়া করে অন্য প্রপার্টি দিয়ে চেষ্টা করুন.</td></tr>';
+			
+			for(i=0; i < data.length; i++) {
+
+				var properties = '';
+				for(j=0; j< data[i].productPriceOnPropertyValueList.length;j++) {
+					properties += `<p class="small">
+						${data[i].productPriceOnPropertyValueList[j].productPropertyValue.productProperty.name}:
+						${data[i].productPriceOnPropertyValueList[j].productPropertyValue.name}
+					</p>`;
+				}
+				var button = data[i].quantity != undefined && data[i].quantity > 0 ? 
+				`<button data-unitprice=${data[i].price}
+					data-id=${data[i].id} 
+					class='add-to-cart btn btn-default'>
+						কিনুন
+				</button>` : ` `;
+				tr = `
+					<tr>
+						<td> 
+							<a target="_blank" href="/vendor/${data[i].nursery.id}">${data[i].nursery.name}</a>
+							<p class="small">${data[i].nursery.area.name}, ${data[i].nursery.area.city.name}</p>
+						</td>
+						<td>${properties}</td>
+						
+						<td><h5>${data[i].price}</h5> টাকা</td>
+						
+						<td>
+							<div class="quantity-cart">
+								<div class="d-flex flex-column">
+									<div class="qty mt-2">
+										<span class="minus">-</span>
+										<input type="number" class="count quantity" name="qty" value="1"/>
+										<span class="plus">+</span>
+									</div>
+									<p class="small">${data[i].quantity== undefined ? 0 : data[i].quantity} Available</p>
+								</div>
+								
+								<div>
+									${button}
+								</div>
+
+								
+							</div>
+							
+						</td>
+						
+					</tr>
+				
+				`;
+				
+				body += tr;
+			}
+			$('#price-list > tbody').html(body);
+			
+		},
+		error: function(data) {
+			alert("error");
+		}
+	
+	});
+}

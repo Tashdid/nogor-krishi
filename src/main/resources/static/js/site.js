@@ -281,6 +281,7 @@ var vm = new Vue({
 						 name : a.productPrice.product.name,
 						 nurceryName : a.productPrice.nursery.name,
 						//  saleType : a.saleType.name,
+						properties : a.productPrice.productPriceOnPropertyValueList,
 		
 						 price : a.unit_price,
 						 quantity : a.quantity,
