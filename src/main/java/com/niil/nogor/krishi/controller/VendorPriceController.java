@@ -82,12 +82,11 @@ public class VendorPriceController extends AbstractController {
 	
 	@GetMapping("/vendor-order-list")
 	public String vendorOrderPage(final ModelMap model) {
-		ArrayList<Orders> ordersList = new ArrayList<Orders>();
-		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByNursery(userRepo.
-				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
-		for (OrderDetail o:orderDetailsList){
-			ordersList.add(o.getOrders());
-		}
+		List<Orders> ordersList = new ArrayList<Orders>();
+
+		ordersList=orderRepo.findDistinctOrderByNursery(userRepo.
+				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery().getId());
+		
 		model.addAttribute("orders", ordersList);
 		return "nursery/order_list";
 	}

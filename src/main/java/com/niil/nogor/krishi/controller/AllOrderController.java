@@ -98,7 +98,7 @@ public class AllOrderController extends AbstractController {
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrders(order);
 		List<Nursery> nurseryList=new ArrayList<>();
 		orderDetailsList.forEach(detailOrder->{
-			if(!nurseryList.contains(detailOrder.getNursery())) {
+			if(!nurseryList.contains(detailOrder.getNursery()) && detailOrder.getNursery()!=null && detailOrder.getNursery().getId()!=null) {
 				nurseryList.add(detailOrder.getNursery());
 			}
 		});
