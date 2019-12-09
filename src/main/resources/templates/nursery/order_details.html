@@ -46,6 +46,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="row">
 
 			<div class="col-sm-6">
@@ -53,13 +54,13 @@
 					<thead>
 						<tr>
 							<th>Product ID</th>
-							<th>Veriation</th>
+							<th>Variation</th>
 							<th>Unit Price</th>
 							<th>Quantity</th>
 							<th>Total</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="orderDetailBody">
 						<tr th:each="order : ${orderDetailList}" >
 							<td > <span th:if="${order.product ne null}" th:text="${order.product.name}">Product </span></td>
 							<td><span
@@ -70,9 +71,23 @@
 							</td>
 							<td th:text="${order.unit_price}">Amount</td>
 							<td th:text="${order.quantity}">Status</td>
-							<td th:text="${order.quantity * order.unit_price}">Status</td>
+							<td class="price" th:text="${order.quantity * order.unit_price}">Status</td>
 						</tr>
 					</tbody>
+					<tfoot>
+						<tr class="summary">
+							<td colspan="4">Sub-Total:</td>
+							<td> <span id="sub_total"></span></td>
+						</tr>
+						<tr class="summary">
+							<td colspan="4">Delivery Charge:</td>
+							<td><span id="deliveryCharge" th:text="${deliveryCharge}"></span></td>
+						</tr>
+						<tr class="summary">
+							<td colspan="4">Total:</td>
+							<td><span id="total"></span></td>
+						</tr>
+					</tfoot>
 				</table>
 				<hr />
 				<h4 th:if="${order.delivery_notes != null}">Delivery Note</h4>

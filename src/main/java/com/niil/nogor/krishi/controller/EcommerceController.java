@@ -119,7 +119,8 @@ public class EcommerceController extends AbstractController {
 		Settings settings = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
 		
 		model.addAttribute("user", new User());
-		model.addAttribute("deliverycharge", nurseryCount * settings.getDeliveryCharge());
+		model.addAttribute("totalDeliverycharge", nurseryCount * settings.getDeliveryCharge());
+		model.addAttribute("nurseryCount", nurseryCount);
 
         return "site/place_order";
     }

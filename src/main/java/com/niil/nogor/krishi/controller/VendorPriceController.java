@@ -32,6 +32,7 @@ import com.niil.nogor.krishi.entity.Nursery;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
 import com.niil.nogor.krishi.entity.ProductPrice;
+import com.niil.nogor.krishi.entity.Settings;
 import com.niil.nogor.krishi.repo.DeliveryManagementRepo;
 import com.niil.nogor.krishi.repo.DeliveryPersonRepo;
 import com.niil.nogor.krishi.repo.MaterialPriceRepo;
@@ -88,6 +89,7 @@ public class VendorPriceController extends AbstractController {
 				findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery().getId());
 		
 		model.addAttribute("orders", ordersList);
+		
 		return "nursery/order_list";
 	}
 	
@@ -102,6 +104,11 @@ public class VendorPriceController extends AbstractController {
 		model.addAttribute("order",order);
 		model.addAttribute("deliveryManagement",deliveryManagements==null||deliveryManagements.isEmpty()?new DeliveryManagement():deliveryManagements.get(0));
 		model.addAttribute("deliveryPersonList", deliveryPersonRepo.findAll());
+
+		Settings settings = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
+		
+		model.addAttribute("deliveryCharge",settings.getDeliveryCharge());
+		
 		return "nursery/order_details";
 	}
 	
