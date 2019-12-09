@@ -54,6 +54,7 @@
 						<tr>
 							<th>Product ID</th>
 							<th>Variation</th>
+							<th>Nursery</th>
 							<th>Unit Price</th>
 							<th>Quantity</th>
 							<th>Total</th>
@@ -62,6 +63,9 @@
 					<tbody>
 						<tr th:each="order : ${orderDetailList}">
 							<td> <span th:if="${order.product ne null}" th:text="${order.product.name}">Product</span></td>
+							<td><a th:if="${order.nursery ne null}"
+								th:href="@{'/vendor/' + ${order.nursery.id}}"
+								th:text="${order.nursery.name}"></a></td>
 							<td><span
 								th:if="${order.productPrice!=null and order.productPrice.productPriceOnPropertyValueList!=null and !order.productPrice.productPriceOnPropertyValueList.isEmpty()}">
 								<span th:each="a, iterStat : ${order.productPrice.productPriceOnPropertyValueList}"

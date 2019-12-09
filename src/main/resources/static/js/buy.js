@@ -160,9 +160,9 @@ function loadPrice() {
 				var button = data[i].quantity != undefined && data[i].quantity > 0 ? 
 				`<button data-unitprice=${data[i].price}
 					data-id=${data[i].id} 
-					class='add-to-cart btn btn-default'>
+					class='add-to-cart btn btn-success'>
 						কিনুন
-				</button>` : ` `;
+				</button>` : `<button class="btn btn-default disabled">Stock out</button> `;
 				tr = `
 					<tr>
 						<td> 

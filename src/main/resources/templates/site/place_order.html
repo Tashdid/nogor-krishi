@@ -142,6 +142,38 @@
 				
 				
 			</div>
+
+			<div class="col-6">
+				<div id="cart-item-container">
+					<div class="cart-item-row" th:each="addedProduct : ${addedProducts}">
+						<div class="cart-item-top-row">
+							<div class="item-first-col">
+								<h6 class="">${addedProduct.name}</h6>
+								<p class=""> ${addedProduct.nurceryName} </p>
+							</div>
+							<div class="item-second-col">
+	
+									<span>${addedProduct.quantity} X ${addedProduct.price} টাকা</span>
+	
+							</div>
+							<div class="item-third-col">
+							</div>
+						</div>
+						<div class="cart-item-bottom-row">
+							<p>
+								<span v-for="property in addedProduct.properties">
+										${property.productPropertyValue.productProperty.name} : ${property.productPropertyValue.name}
+								</span>
+							</p>
+						</div>
+					</div>
+										
+					<div id="total-cart-cost">
+						<!-- <h4 >সর্বমোট ${totalPrice} টাকা</h4> -->
+					</div>
+					
+				</div>
+			</div>
 			
 			
 			
