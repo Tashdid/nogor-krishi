@@ -49,12 +49,7 @@ import com.niil.nogor.krishi.repo.ProductPriceRepo;
 import com.niil.nogor.krishi.repo.UserRepo;
 import com.niil.nogor.krishi.service.SecurityService;
 
-/**
- * @author Noor
- * @email niildu@gmail.com
- * @since Sep 22, 2018
- *
- */
+
 @Controller
 @RequestMapping(AllOrderController.URL)
 public class AllOrderController extends AbstractController {
