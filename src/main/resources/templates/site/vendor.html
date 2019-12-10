@@ -51,7 +51,7 @@
 								</thead>
 								<tbody>
 									<tr th:each="p : ${prod.value}">
-										<td><a th:href="@{'/products/' + ${p.product.type.id} + '?product=' + ${p.product.id}}" th:text="${p.product.name}">লাল শাক  </a></td>
+										<td><a th:href="@{'/products/' + ${p.type.id} + '?product=' + ${p.id}}" th:text="${p.name}">লাল শাক  </a></td>
 									</tr>
 									<tr th:remove="all">
 										<td>লাল শাক  </td>

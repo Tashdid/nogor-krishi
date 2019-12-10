@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.niil.nogor.krishi.entity.Area;
 import com.niil.nogor.krishi.entity.Nursery;
+import com.niil.nogor.krishi.entity.ProductPrice;
 import com.niil.nogor.krishi.repo.*;
 
 /**
@@ -45,7 +46,7 @@ public class VendorsController extends AbstractController {
 		model.addAttribute("areas", areas);
 		model.addAttribute("area", vendor.getArea());
 		model.addAttribute("vendor", vendor);
-		model.addAttribute("products", productPriceRepo.findAllByNursery(vendor).stream().collect(Collectors.groupingBy(p -> p.getProduct().getType())));
+		model.addAttribute("products", productPriceRepo.findAllByNursery(vendor).stream().map(ProductPrice::getProduct).distinct().collect(Collectors.groupingBy(p -> p.getType())));
 		model.addAttribute("materials", materialPriceRepo.findAllByNursery(vendor));
 		model.addAttribute("type", productTypeRepo.findAll().stream().filter(t -> t.isLinkedToMaterial()).findFirst().orElse(null));
 		return "site/vendor";
