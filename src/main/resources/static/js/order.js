@@ -2,7 +2,7 @@
  * 
  */
 
-var sub_total=0;
+var sub_total=parseFloat('0.0');
 $(document).ready(function() {
 
 	$("#statusUpdateForm").submit(function(e) {
@@ -39,8 +39,8 @@ $(document).ready(function() {
 	
 	calculateColumn();
 	$("#sub_total").text(sub_total);
-	var total=0;
-	var deliveryCharge=parseInt($("#deliveryCharge").text());
+	var total=parseFloat('0.0');
+	var deliveryCharge=parseFloat($("#deliveryCharge").text());
 	if (!isNaN(deliveryCharge)) {
 		total+=deliveryCharge;
 	}
@@ -53,7 +53,7 @@ $(document).ready(function() {
 
 function calculateColumn() {
     $('#orderDetailBody tr .price').each(function() {
-        var value = parseInt($(this).text());
+        var value = parseFloat($(this).text());
         if (!isNaN(value)) {
         	sub_total += value;
         }
