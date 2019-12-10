@@ -138,6 +138,7 @@
 									<a sec:authorize="hasRole('ROLE_GARDENER')" class="dropdown-item" href="#" th:href="@{/serviceregister}">৩৩৩১ সেবা</a>
 									
 									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" href="#" th:href="@{/manage/orders/all-order-list}">সবার অর্ডার</a>
+									<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/manage/gardeners}" href="/manage/gardeners">Gardener তালিকা</a>
 									<a sec:authorize="hasRole('ROLE_VENDOR')" class="dropdown-item" href="#" th:href="@{/vendorprice/vendor-order-list}">আমার অর্ডার</a>
 									<a sec:authorize="hasRole('ROLE_GARDENER')" class="dropdown-item" href="#" th:href="@{/gardener/gardener-order-list}">আমার অর্ডার</a>
 									<a sec:authorize="hasRole('ROLE_VENDOR')" class="dropdown-item" href="#" th:href="@{/nursery/deliveryperson}">ডেলিভারিম্যান</a>
@@ -297,7 +298,7 @@
 						</div>
 					</div>
 					
-					<div class="btn-group">
+					<!-- <div class="btn-group">
 						<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							উদ্যানরক্ষক
 						</button>
@@ -305,7 +306,7 @@
 							
 							<a class="dropdown-item" th:href="@{/manage/gardeners}" href="/manage/gardeners">উদ্যানরক্ষক তালিকা</a>
 						</div>
-					</div>
+					</div> -->
 
 					<div class="btn-group">
 						<button type="button" class="btn dropdown-toggle ngkrishi" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

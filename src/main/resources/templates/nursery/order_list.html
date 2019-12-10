@@ -21,7 +21,7 @@
 			<tbody>
 				<tr th:each="order : ${orders}">
 					<td th:text="${order.id}">1</td>
-					<td th:text="${order.order_time}">1</td>
+					<td th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.order_time, 'dd MMMM yyyy'))}" >1</td>
 					<td th:text="${order.user.name}">view</td>
 					<!-- <td th:text="${order.payable_amount}">Amount </td> -->
 					<td th:text="${order.status}">Status</td>

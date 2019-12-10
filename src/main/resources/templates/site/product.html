@@ -11,8 +11,9 @@
 					<div id="price-range" class="mb-2">
 							<span
 							class="detail-info-total-value">৳</span>
-						<span th:text="${productMinPrice ne null?productMinPrice.price:0}"></span> -
-						<span th:text="${productMaxPrice ne null?productMaxPrice.price :0}"></span> টাকা
+						<span th:unless="${productMinPrice eq null}" th:text="${productMinPrice ne null?productMinPrice.price:0}"></span> -
+						<span th:unless="${productMaxPrice eq null}" th:text="${productMaxPrice ne null?productMaxPrice.price :0}"></span> 
+						<span th:unless="${productMaxPrice eq null and productMinPrice eq null}" >টাকা</span>
 					</div>
 					
 					<!--  product buy button -->
