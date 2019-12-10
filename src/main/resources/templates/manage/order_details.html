@@ -77,6 +77,20 @@
 							<td th:text="${order.quantity * order.unit_price}">Status</td>
 						</tr>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="5">Sub-Total:</td>
+							<td> <span id="sub_total" th:text="${order.total_amount}"></span></td>
+						</tr>
+						<tr>
+							<td colspan="5">Delivery Charge:</td>
+							<td><span id="deliveryCharge" th:text="${order.delivery_charge}"></span></td>
+						</tr>
+						<tr>
+							<td colspan="5">Total:</td>
+							<td><span id="total"  th:text="${order.payable_amount}"></span></td>
+						</tr>
+					</tfoot>
 				</table>
 				<hr />
 				<h4 th:if="${order.delivery_notes != null}">Delivery Note</h4>
@@ -138,7 +152,7 @@
 
 								<div class="form-group">
 									<label class="">DeliveryDate: <span
-										th:text="${order.deliveryManagements[__${stat.index}__].deliveryDate}"></span></label>
+										th:text="${order.deliveryManagements[__${stat.index}__].deliveryDatest}"></span></label>
 
 									<input type="text"
 										th:field="*{deliveryManagements[__${stat.index}__].deliveryDatest}"

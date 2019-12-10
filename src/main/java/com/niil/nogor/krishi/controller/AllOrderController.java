@@ -1,5 +1,6 @@
 package com.niil.nogor.krishi.controller;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -36,6 +37,7 @@ import com.niil.nogor.krishi.entity.ProductPrice;
 import com.niil.nogor.krishi.entity.ProductPriceOnPropertyValue;
 import com.niil.nogor.krishi.entity.ProductProperty;
 import com.niil.nogor.krishi.entity.ProductPropertyValue;
+import com.niil.nogor.krishi.entity.Settings;
 import com.niil.nogor.krishi.repo.DeliveryManagementRepo;
 import com.niil.nogor.krishi.repo.DeliveryPersonRepo;
 import com.niil.nogor.krishi.repo.MaterialPriceRepo;
@@ -114,6 +116,29 @@ public class AllOrderController extends AbstractController {
 				deliveryManagements.add(deliveryManagement);
 			}
 		});
+		int nurseryCount=allNurseriesFromDelivery.size();
+		
+		BigDecimal totalPrice = new BigDecimal(0);
+		for(OrderDetail orderDetail:orderDetailsList){
+			totalPrice = totalPrice.add(orderDetail.getUnit_price().multiply(new BigDecimal(orderDetail.getQuantity())));
+		}
+		Settings settings = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
+		
+		order.setTotal_amount(totalPrice);
+		order.setDelivery_charge(settings.getDeliveryCharge()*nurseryCount);
+		BigDecimal totalPayable = new BigDecimal(0);
+		totalPayable=totalPayable.add(totalPrice);
+		totalPayable=totalPayable.add(new BigDecimal(order.getDelivery_charge()));
+		order.setPayable_amount(totalPayable);
+		
+		deliveryManagements.forEach(dm->{
+			if(dm.getDeliveryDate()!=null) {
+				SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+				String dateSt=sdf.format(dm.getDeliveryDate());
+				dm.setDeliveryDatest(dateSt);
+			}
+		});
+		
 		order.getDeliveryManagements().clear();
 		order.getDeliveryManagements().addAll(deliveryManagements);
 		model.addAttribute("orderDetailList", orderDetailsList);
@@ -128,7 +153,34 @@ public class AllOrderController extends AbstractController {
 		System.out.println("print***");
 		Orders order = orderRepo.findOne(order_id);
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrders(order);
+		
 		List<DeliveryManagement> deliveryManagements=deliveryManagementRepo.findAllByOrders(order);
+		
+		Set<Nursery> allNurseriesFromDelivery = deliveryManagements.stream()
+				.map(DeliveryManagement::getNursery).collect(Collectors.toSet());
+
+		int nurseryCount=allNurseriesFromDelivery.size();
+		
+		BigDecimal totalPrice = new BigDecimal(0);
+		for(OrderDetail orderDetail:orderDetailsList){
+			totalPrice = totalPrice.add(orderDetail.getUnit_price().multiply(new BigDecimal(orderDetail.getQuantity())));
+		}
+		Settings settings = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
+		
+		order.setTotal_amount(totalPrice);
+		order.setDelivery_charge(settings.getDeliveryCharge()*nurseryCount);
+		BigDecimal totalPayable = new BigDecimal(0);
+		totalPayable=totalPayable.add(totalPrice);
+		totalPayable=totalPayable.add(new BigDecimal(order.getDelivery_charge()));
+		order.setPayable_amount(totalPayable);
+		
+		deliveryManagements.forEach(dm->{
+			if(dm.getDeliveryDate()!=null) {
+				SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+				String dateSt=sdf.format(dm.getDeliveryDate());
+				dm.setDeliveryDatest(dateSt);
+			}
+		});
 		
 		model.addAttribute("orderDetailList", orderDetailsList);
 		model.addAttribute("order",order);

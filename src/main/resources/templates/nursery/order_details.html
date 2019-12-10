@@ -75,17 +75,17 @@
 						</tr>
 					</tbody>
 					<tfoot>
-						<tr class="summary">
+						<tr>
 							<td colspan="4">Sub-Total:</td>
-							<td> <span id="sub_total"></span></td>
+							<td> <span id="sub_total" th:text="${order.total_amount}"></span></td>
 						</tr>
-						<tr class="summary">
+						<tr>
 							<td colspan="4">Delivery Charge:</td>
-							<td><span id="deliveryCharge" th:text="${deliveryCharge}"></span></td>
+							<td><span id="deliveryCharge" th:text="${order.delivery_charge}"></span></td>
 						</tr>
-						<tr class="summary">
+						<tr>
 							<td colspan="4">Total:</td>
-							<td><span id="total"></span></td>
+							<td><span id="total"  th:text="${order.payable_amount}"></span></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -135,7 +135,7 @@
 							th:object="${deliveryManagement}" method="post">
 							<div class="form-group">
 								<label class="">DeliveryDate: <span
-									th:text="${deliveryManagement.deliveryDate}"></span></label> <input
+									th:text="${deliveryManagement.deliveryDatest}"></span></label> <input
 									type="hidden" th:field="*{id}" /> <input type="text"
 									th:field="*{deliveryDatest}" class="form-control"
 									placeholder="dd/MM/yyyy" />

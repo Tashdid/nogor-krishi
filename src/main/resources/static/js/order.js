@@ -36,18 +36,7 @@ $(document).ready(function() {
 		ajaxFormSubmit($(this));
 
 	});
-	
-	calculateColumn();
-	$("#sub_total").text(sub_total);
-	var total=parseFloat('0.0');
-	var deliveryCharge=parseFloat($("#deliveryCharge").text());
-	if (!isNaN(deliveryCharge)) {
-		total+=deliveryCharge;
-	}
 
-	total+=sub_total;
-	$("#total").text(total);
-	
 
 });
 
