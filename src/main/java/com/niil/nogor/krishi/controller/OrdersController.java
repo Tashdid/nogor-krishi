@@ -23,6 +23,7 @@ import com.niil.nogor.krishi.entity.CartDetails;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
 import com.niil.nogor.krishi.entity.ProductPrice;
+import com.niil.nogor.krishi.entity.Settings;
 import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.CartDetailsRepo;
 import com.niil.nogor.krishi.repo.OrderDetailsRepo;
@@ -104,7 +105,15 @@ public class OrdersController extends AbstractController{
 		
 		newOrder.setOrder_time(LocalDateTime.now());
 		newOrder.setStatus("new");
-		newOrder.setPayable_amount(totalPrice);
+
+		newOrder.setTotal_amount(totalPrice);
+		
+		long nurseryCount = cartDetailList.stream().map(CartDetails::getProductPrice).map(ProductPrice::getNursery).distinct().count();
+		Settings settings = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
+		
+		newOrder.setDelivery_charge(settings.getDeliveryCharge());
+		newOrder.setNursery_count(nurseryCount);
+		newOrder.setPayable_amount(BigDecimal.valueOf( nurseryCount * settings.getDeliveryCharge() ).add(totalPrice));
 //		newOrder.setOrders_id(new Long(12110));
 		// if(!SecurityContextHolder.getContext().getAuthentication().getName().isEmpty()) {
 		newOrder.setUser(userRepo.findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()));

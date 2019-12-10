@@ -68,6 +68,7 @@ function ajaxFormSubmit(form){
 		data : form.serialize(),
 		success : function(data) {
 			alert("successfully changed!");
+			location.reload();
 		},
 		error:function(data, errorThrown){
 			alert('something went wrong!');

@@ -24,6 +24,6 @@ public class OrderDetail {
 	private BigDecimal unit_price;
 	private int quantity;
 	private @ManyToOne(targetEntity=Nursery.class) Nursery nursery;
-	private @OneToOne(targetEntity = ProductPrice.class) ProductPrice productPrice;
+	private @ManyToOne(targetEntity = ProductPrice.class) ProductPrice productPrice;
 
 }

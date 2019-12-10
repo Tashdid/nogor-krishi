@@ -11,17 +11,20 @@
 					<div class="detail-info">
 						<div class="pull-left detail-info-left">
 							<div>
-								<p class="order-number">Order&nbsp;#<span th:text="${order.id}"></span></p>
-								<p class="text desc light-gray">Placed on <span th:text="${order.order_time}"></span></p>
+								<p class="order-number">অর্ডার&nbsp;#:<span th:text="${order.id}"></span></p>
+								<p class="text desc light-gray">তারিখঃ
+									<span
+									th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.order_time, 'dd MMMM yyyy hh:mm a'))}"></span>
+								</p>
 							</div>
 						</div>
 						<div class="detail-right-info pull-right">
 							<p>
-								<span class="detail-info-total-title">Total:&nbsp;</span><span
+								<span class="detail-info-total-title">সর্বমোট:&nbsp;</span><span
 								class="detail-info-total-value">৳ <span th:text="${order.payable_amount}"></span></span>
 							</p>
 							<p>
-								<span class="detail-info-total-title">Status:&nbsp;</span>
+								<span class="detail-info-total-title">অবস্থা:&nbsp;</span>
 								<span th:text="${order.status}"></span>
 							</p>
 							
@@ -35,11 +38,11 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>Product</th>
-									<th>Nursery</th>
+									<th>পণ্য</th>
+									<th>নার্সারি</th>
 									<th>variations</th>
-									<th>Unit Price</th>
-									<th>Quantity</th>
+									<th>দাম</th>
+									<th>সংখ্যা</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -58,13 +61,28 @@
 								<td th:text="${order.unit_price}">Amount</td>
 									<td th:text="${order.quantity}">Status</td>
 								</tr>
+								
 							</tbody>
+							<tfoot>
+								<tr class="summary">
+									<td colspan="4">মোট:</td>
+									<td> <span id="sub_total" th:text="${order.total_amount}"></span>টাকা</td>
+								</tr>
+								<tr class="summary" th:with="deliveryCharge=${order.delivery_charge * order.nursery_count}">
+									<td colspan="4">ডেলিভারি খরচ:</td>
+									<td><span id="" th:text="${deliveryCharge}"></span>টাকা</td>
+								</tr>
+								<tr class="summary">
+									<td colspan="4">সর্বমোট:</td>
+									<td><span id="" th:text="${order.payable_amount}"></span>টাকা</td>
+								</tr>
+							</tfoot>
 						</table>
 
 						<hr/>
 
-						<h4 th:if="${order.delivery_notes != null}">Delivery Note</h4>
-						<p th:if="${order.delivery_notes != null}" th:text="${order.delivery_notes}"></p>
+						<h4 th:unless="${#lists.isEmpty(order.delivery_notes)}">ডেলিভারি নোট </h4>
+						<p th:unless="${#lists.isEmpty(order.delivery_notes)}" th:text="${order.delivery_notes}"></p>
 	
 					</div>
 	
@@ -76,24 +94,24 @@
 						
 					<div class="card">
 					
-						<h5 class="card-header">Delivery information</h5>
+						<h5 class="card-header">ডেলিভারি তথ্য</h5>
 						<div class="card-body">
-							<p class="text-center" th:if="${order.deliveryManagements == null||#lists.isEmpty(order.deliveryManagements)}"> delivery infromation will be updeted soon!</p>
+							<p class="text-center" th:if="${order.deliveryManagements == null||#lists.isEmpty(order.deliveryManagements)}"> ডেলিভারি তথ্য শীঘ্রই জানানো হবে আপনাকে!</p>
 							<div th:unless="${#lists.isEmpty(order.deliveryManagements)}">
 							<div  th:each="cm : ${order.deliveryManagements}">
 							<div th:if="${cm.deliveryDate != null}" class="card bg-faded">
 								<div class="card-block">
 								<div class="card-text">
-										<span>Nursery: </span> 
+										<span>নার্সারি: </span> 
 											<span th:text="${cm.nursery.name}"></span>
 									</div>
 									<div class="card-text">
-										<span>Delivery Date: </span> 
+										<span>ডেলিভারি তারিখ: </span> 
 											<span th:text="${cm.deliveryDate}"></span>
 									</div>
 									<div class="card-text">
 									
-										<span>Delivery Person: </span> 
+										<span>ডেলিভারিম্যান: </span> 
 										<span class="glyphicon glyphicon-user"></span> 
 										<span th:text="${cm.deliveryPerson.name}"></span> 
 										<br/>
@@ -108,7 +126,7 @@
 					</div>
 	
 					<div class="card mt-4" th:unless="${#lists.isEmpty(order.notes)}">
-						<h5 class="card-header">Notes For Customer</h5>
+						<h5 class="card-header">নোট</h5>
 						<div class="card-body">
 							
 							<div th:unless="${#lists.isEmpty(order.notes)}"
@@ -129,7 +147,7 @@
 					</div>
 
 					<div class="card mt-4">
-						<div class="card-header">Feedback</div>
+						<div class="card-header">ফিডব্যাক</div>
 						<div class="card-body">
 							<form class="" id="feedbackUpdateForm"
 								th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
@@ -152,7 +170,7 @@
 				<div class="col-sm-6">
 					<div class="delivery-summary">
 						<div class="delivery-wrapper">
-							<h3 class="title">Delivery Address</h3>
+							<h3 class="title">ডেলিভারি ঠিকানা</h3>
 							<p class="username" th:text="${order.user.name}"></p>
 							<p class="address" th:text="${order.delivery_address}"></p>
 							<p class="address" th:text="${order.delivery_city}"></p>
@@ -163,7 +181,7 @@
 					</div>
 					<div class="delivery-summary">
 						<div class="delivery-wrapper">
-							<h3 class="title">Billing Address</h3>
+							<h3 class="title">বিলের ঠিকানা</h3>
 							<p class="username" th:text="${order.user.name}">ab himel</p>
 							<p class="address" th:text="${order.billing_address}"></p>
 							<p class="address" th:text="${order.billing_city}"></p>
@@ -172,16 +190,15 @@
 					</div>
 				</div>
 				<div class="col-sm-6">
-						<div class="row second-header">
-								<span class="text bold pull-left">Total</span><span
-									class="text bold total-price pull-right">৳ <span th:text="${order.payable_amount}"></span></span>
+						<!-- <div class="row second-header">
+							<span class="text bold pull-left">Total</span><span
+								class="text bold total-price pull-right">৳ <span th:text="${order.payable_amount}"></span></span>
+						</div> -->
+						<div>
+							<div class="row">
+								<span class="text">&nbsp;</span><span class="text bold">অর্ডারটি ক্যাশ অন ডেলিভারীর ভিত্তিতে পরিশোধ করুন।</span>
 							</div>
-							<div>
-								<div class="row">
-									<span class="text">&nbsp;</span><span class="text bold">Cash
-										on Delivery</span>
-								</div>
-							</div>
+						</div>
 				</div>
 			</div>
 		

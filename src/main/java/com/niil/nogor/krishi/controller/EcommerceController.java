@@ -103,23 +103,36 @@ public class EcommerceController extends AbstractController {
 			return null; // @todo return error message
 		}
 		
-//		BigDecimal totalPrice = new BigDecimal(0);
-//		for(int i=0;i<cartDetailsList.size();i++){
-//			CartDetails cartDetail = cartDetailsList.get(i);
-//			totalPrice = totalPrice.add(
-//					cartDetail.getUnit_price().multiply( 
-//							new BigDecimal(cartDetail.getQuantity())
-//							)
-//					);
-//			
-//		}
+		BigDecimal totalPrice = new BigDecimal(0);
+		for(int i=0;i<cartDetailsList.size();i++){
+			CartDetails cartDetail = cartDetailsList.get(i);
+			totalPrice = totalPrice.add(
+					cartDetail.getUnit_price().multiply( 
+							new BigDecimal(cartDetail.getQuantity())
+							)
+					);
+			
+		}
+		model.addAttribute("totalPrice", totalPrice);
 		
+		
+//		String cart = (String) httpSession.getAttribute("cartId");
+
+//		cartDetailsList.forEach(cartDl -> {
+//			cartDl.getProductPrice().getProductPriceOnPropertyValueList().forEach(pp -> {
+//				pp.setProductPrice(null);
+//			});
+//		});
+				
+		model.addAttribute("addedProducts", cartDetailsList);
 		
 		long nurseryCount = cartDetailsList.stream().map(CartDetails::getProductPrice).map(ProductPrice::getNursery).distinct().count();
 		Settings settings = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
 		
 		model.addAttribute("user", new User());
+		model.addAttribute("deliverycharge", settings.getDeliveryCharge());
 		model.addAttribute("totalDeliverycharge", nurseryCount * settings.getDeliveryCharge());
+		model.addAttribute("total", BigDecimal.valueOf( nurseryCount * settings.getDeliveryCharge() ).add(totalPrice));
 		model.addAttribute("nurseryCount", nurseryCount);
 
         return "site/place_order";

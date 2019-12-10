@@ -28,7 +28,13 @@ public class Orders implements Comparable<Orders>{
 	private @Id @GeneratedValue Long id;
 	private  Long orders_id;
 	private @OneToOne(targetEntity=User.class) User user;
+	
 	private BigDecimal payable_amount;
+	private BigDecimal total_amount;
+	private long delivery_charge;
+	private long nursery_count;
+	
+	
 	private String status;
 	private LocalDateTime order_time;
 	private int rating;
