@@ -183,51 +183,6 @@ public class AllOrderController extends AbstractController {
 		return "manage/order_print";
 	}
 
-	@RequestMapping(value="/{code}/product", method=RequestMethod.POST)
-	public String addProductPrice(@PathVariable Long code, ProductPrice mprice, RedirectAttributes redirectAttrs) {
-		nurserController.addProductPrice(code, mprice, redirectAttrs);
-		return "redirect:" + URL;
-	}
-
-	@RequestMapping(value="/{code}/product/{product}", method=RequestMethod.POST)
-	@ResponseBody
-	public Boolean deleteProductPrice(@PathVariable Long code, @PathVariable Long product) {
-		return nurserController.deleteProductPrice(code, product);
-	}
-
-	@RequestMapping(value="/{code}/material", method=RequestMethod.POST)
-	public String addMaterialPrice(@PathVariable Long code, MaterialPrice mprice, RedirectAttributes redirectAttrs) {
-		nurserController.addMaterialPrice(code, mprice, redirectAttrs);
-		return "redirect:" + URL;
-	}
-
-	@RequestMapping(value="/{code}/material/{material}", method=RequestMethod.POST)
-	@ResponseBody
-	public Boolean deleteMaterialPrice(@PathVariable Long code, @PathVariable Long material) {
-		return nurserController.deleteMaterialPrice(code, material);
-	}
-
-	@RequestMapping(value="/{nursery}/product/price", method=RequestMethod.GET)
-	public ResponseEntity<byte[]> exportProductPrice(@PathVariable Nursery nursery) {
-		return nurserController.exportProductPrice(securityService.findLoggedInUser().getNursery());
-	}
-
-	@RequestMapping(value="/{nursery}/material/price", method=RequestMethod.GET)
-	public ResponseEntity<byte[]> exportMaterialPrice(@PathVariable Nursery nursery) {
-		return nurserController.exportMaterialPrice(securityService.findLoggedInUser().getNursery());
-	}
-
-	@RequestMapping(value="/{nursery}/product/price", method=RequestMethod.POST)
-	public String importProductPrice(@PathVariable Nursery nursery, MultipartFile file, RedirectAttributes redirectAttrs) {
-		nurserController.importProductPrice(securityService.findLoggedInUser().getNursery(), file, redirectAttrs);
-		return "redirect:" + URL;
-	}
-
-	@RequestMapping(value="/{nursery}/material/price", method=RequestMethod.POST)
-	public String importMaterialPrice(@PathVariable Nursery nursery, MultipartFile file, RedirectAttributes redirectAttrs) {
-		nurserController.importMaterialPrice(securityService.findLoggedInUser().getNursery(), file, redirectAttrs);
-		return "redirect:" + URL;
-	}
 	
 	@RequestMapping(value = "/all-order-detail/update-order", method = RequestMethod.POST)
 	@ResponseBody
@@ -237,10 +192,6 @@ public class AllOrderController extends AbstractController {
 		System.out.println(type.getId());
 		bean = orderRepo.findOne(type.getId());
 		if (type.getId() != null && (bean = orderRepo.findOne(type.getId())) != null) {
-
-			if (type.getStatus() != null) {
-				bean.setStatus(type.getStatus());
-			}
 			
 			if (type.getFeedbackSt() != null) {
 				bean.setFeedbackSt(type.getFeedbackSt());
@@ -295,6 +246,9 @@ public class AllOrderController extends AbstractController {
 					}else {
 						deliveryManagement.setOrders(bean);
 						deliveryManagement.setNursery(delivery.getNursery());
+					}
+					if (delivery.getStatus() != null) {
+						deliveryManagement.setStatus(delivery.getStatus());
 					}
 
 					if (delivery.getDeliveryDatest() != null && !delivery.getDeliveryDatest().trim().isEmpty()) {

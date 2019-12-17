@@ -3,7 +3,7 @@
 <meta th:replace="common :: common-meta" th:remove="tag" />
 </head>
 <body data-page="gardener">
-	<div th:replace="common :: common-menu" th:remove="tag"></div>
+	<div th:replace="common :: common-manage-menu" th:remove="tag"></div>
 
 	<div class="container" style="margin-top: 15px;">
 		<h1> অর্ডারের তালিকা</h1>
@@ -14,7 +14,7 @@
 					<th>তারিখ</th>
 					<th>গ্রাহক আইডি</th>
 					<!-- <th>মোট টাকা</th> -->
-					<th>স্ট্যাটাস</th>
+					<!-- <th>স্ট্যাটাস</th> -->
 					<th>বিস্তারিত</th>
 				</tr>
 			</thead>
@@ -24,7 +24,7 @@
 					<td th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(order.order_time, 'dd MMMM yyyy'))}" >1</td>
 					<td th:text="${order.user.name}">view</td>
 					<!-- <td th:text="${order.payable_amount}">Amount </td> -->
-					<td th:text="${order.status}">Status</td>
+					<!-- <td th:text="${order.status}">Status</td> -->
 					<td> <a th:text="বিস্তারিত" th:href="@{/manage/orders/all-order-detail/{order_id}(order_id=${order.id})}">view</a></td>
 				</tr>
 			</tbody>

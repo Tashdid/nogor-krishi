@@ -35,7 +35,7 @@ public class Orders implements Comparable<Orders>{
 	private long nursery_count;
 	
 	
-	private String status;
+//	private String status;
 	private LocalDateTime order_time;
 	private int rating;
 	private String comment;

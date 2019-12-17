@@ -30,6 +30,8 @@ public class DeliveryManagement {
 	@Transient
 	private String deliveryDatest;
 	
+	private String status;
+	
 	private @ManyToOne DeliveryPerson deliveryPerson;
 
 	private LocalDateTime createdAt;

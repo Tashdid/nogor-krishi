@@ -20,12 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.niil.nogor.krishi.dto.OrderForm;
 import com.niil.nogor.krishi.entity.CartDetails;
+import com.niil.nogor.krishi.entity.DeliveryManagement;
 import com.niil.nogor.krishi.entity.OrderDetail;
 import com.niil.nogor.krishi.entity.Orders;
 import com.niil.nogor.krishi.entity.ProductPrice;
 import com.niil.nogor.krishi.entity.Settings;
 import com.niil.nogor.krishi.entity.User;
 import com.niil.nogor.krishi.repo.CartDetailsRepo;
+import com.niil.nogor.krishi.repo.DeliveryManagementRepo;
 import com.niil.nogor.krishi.repo.OrderDetailsRepo;
 import com.niil.nogor.krishi.repo.OrdersRepo;
 import com.niil.nogor.krishi.repo.ProductPriceRepo;
@@ -42,6 +44,7 @@ public class OrdersController extends AbstractController{
 	@Autowired UserRepo userRepo;
 	@Autowired CartDetailsRepo cartDetailsRepo;
 	@Autowired ProductPriceRepo productPriceRepo;
+	@Autowired DeliveryManagementRepo deliveryManagementRepo;
 	
 	public String currentUserName(Principal principal) {
 	     return principal.getName();
@@ -104,7 +107,6 @@ public class OrdersController extends AbstractController{
 		newOrder.setDelivery_notes(orderForm.getDelivery_notes());
 		
 		newOrder.setOrder_time(LocalDateTime.now());
-		newOrder.setStatus("new");
 
 		newOrder.setTotal_amount(totalPrice);
 		
@@ -138,6 +140,17 @@ public class OrdersController extends AbstractController{
 			orderDetailsList.add(orderDetail);
 			reduceQuantity(cartDetail.getProductPrice(), cartDetail.getQuantity());
 		}
+		List<DeliveryManagement> deliveryManagements=new ArrayList<>();
+		orderDetailsList.stream().map(OrderDetail::getNursery).distinct().forEach(nursery->{
+			DeliveryManagement deliveryManagement=new DeliveryManagement();
+			deliveryManagement.setNursery(nursery);
+			deliveryManagement.setOrders(newOrder);
+			deliveryManagement.setStatus("New");
+			deliveryManagements.add(deliveryManagement);
+			
+		});;
+		deliveryManagementRepo.save(deliveryManagements);
+		
 		if(orderDetailsRepo.save(orderDetailsList) != null){
 			
 			

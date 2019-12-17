@@ -225,10 +225,6 @@ public class VendorPriceController extends AbstractController {
 		System.out.println(type.getId());
 		bean = orderRepo.findOne(type.getId());
 		if (type.getId() != null && (bean = orderRepo.findOne(type.getId())) != null) {
-
-			if (type.getStatus() != null) {
-				bean.setStatus(type.getStatus());
-			}
 			
 			if (type.getFeedbackSt() != null) {
 				bean.setFeedbackSt(type.getFeedbackSt());
@@ -284,6 +280,10 @@ public class VendorPriceController extends AbstractController {
 					deliveryManagement.setOrders(bean);
 					deliveryManagement.setNursery(userRepo.
 							findByMobile(SecurityContextHolder.getContext().getAuthentication().getName()).getNursery());
+				}
+
+				if (type.getStatus() != null) {
+					deliveryManagement.setStatus(type.getStatus());
 				}
 
 				if (type.getDeliveryDatest() != null && !type.getDeliveryDatest().trim().isEmpty()) {

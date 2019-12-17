@@ -23,10 +23,10 @@
 								<span class="detail-info-total-title">সর্বমোট:&nbsp;</span><span
 								class="detail-info-total-value">৳ <span th:text="${order.payable_amount}"></span></span>
 							</p>
-							<p>
+							<!-- <p>
 								<span class="detail-info-total-title">অবস্থা:&nbsp;</span>
 								<span th:text="${order.status}"></span>
-							</p>
+							</p> -->
 							
 						</div>
 					</div>
@@ -106,8 +106,13 @@
 											<span th:text="${cm.nursery.name}"></span>
 									</div>
 									<div class="card-text">
+										<span>ডেলিভারি অবস্থা: </span> 
+											<span th:text="${cm.status}"></span>
+									</div>
+									
+									<div class="card-text">
 										<span>ডেলিভারি তারিখ: </span> 
-											<span th:text="${cm.deliveryDate}"></span>
+											<span th:text="${cm.deliveryDatest}"></span>
 									</div>
 									<div class="card-text">
 									

@@ -103,11 +103,13 @@
 					<h5 class="card-header">Order Status</h5>
 					<div class="card-body">
 						<form class="form" id="statusUpdateForm"
-							th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
-							th:object="${order}" method="post">
+							th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/update-order-delivery'}"
+							th:object="${deliveryManagement}" method="post">
 							<div class="form-group ">
-								<label class="" for="status">Status:</label> <input
-									type="hidden" th:field="*{id}" /> <select class="form-control"
+								<label class="" for="status">Status:</label> 
+								<input
+									type="hidden" th:field="*{id}" />  
+									<select class="form-control"
 									th:field="*{status}" required="required">
 									<option value="New">New</option>
 									<!-- <option value="Pending">Pending</option> -->
@@ -135,8 +137,10 @@
 							th:object="${deliveryManagement}" method="post">
 							<div class="form-group">
 								<label class="">DeliveryDate: <span
-									th:text="${deliveryManagement.deliveryDatest}"></span></label> <input
-									type="hidden" th:field="*{id}" /> <input type="text"
+									th:text="${deliveryManagement.deliveryDatest}"></span></label> 
+									<input
+									type="hidden" th:field="*{id}" /> 
+									<input type="text"
 									th:field="*{deliveryDatest}" class="form-control"
 									placeholder="dd/MM/yyyy" />
 
