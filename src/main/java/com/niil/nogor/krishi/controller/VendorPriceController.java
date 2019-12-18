@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +16,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.niil.nogor.krishi.entity.CartDetails;
-import com.niil.nogor.krishi.entity.Comment;
 import com.niil.nogor.krishi.entity.DeliveryManagement;
 import com.niil.nogor.krishi.entity.MaterialPrice;
 import com.niil.nogor.krishi.entity.NotesOnOrder;
@@ -219,7 +214,7 @@ public class VendorPriceController extends AbstractController {
 	
 	@RequestMapping(value = "/vendor-order-detail/update-order", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity updateOrder(@ModelAttribute Orders type) {
+	public ResponseEntity<Integer> updateOrder(@ModelAttribute Orders type) {
 
 		Orders bean;
 		System.out.println(type.getId());
@@ -241,7 +236,7 @@ public class VendorPriceController extends AbstractController {
 
 	@RequestMapping(value = "vendor-order-detail/{order_id}/add-notes", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity updateOrder(@PathVariable Long order_id, @ModelAttribute NotesOnOrder type) {
+	public ResponseEntity<Integer> updateOrder(@PathVariable Long order_id, @ModelAttribute NotesOnOrder type) {
 		try {
 			System.out.println(order_id);
 			Orders bean = orderRepo.findOne(order_id);
@@ -266,7 +261,7 @@ public class VendorPriceController extends AbstractController {
 
 	@RequestMapping(value = "vendor-order-detail/{order_id}/update-order-delivery", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity updateOrderDelivery(@PathVariable Long order_id, @ModelAttribute DeliveryManagement type) {
+	public ResponseEntity<Integer> updateOrderDelivery(@PathVariable Long order_id, @ModelAttribute DeliveryManagement type) {
 		try {
 			System.out.println(order_id);
 			Orders bean = orderRepo.findOne(order_id);
