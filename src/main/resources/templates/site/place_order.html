@@ -58,49 +58,91 @@
 						</div>
 					</div>
 					<hr/>
-					<h3>বিলের ঠিকানা</h3>
-					<div class="form-group">
-						<label class="control-label col-sm-12" for="Type">ঠিকানা :</label>
-						<div class="col-sm-10">
-
-							<textarea class="form-control" id="billing-address"></textarea>
-						
-						</div>
-					</div>
 					
-					<div class="form-group">
-						<label class="control-label col-sm-12" for="area">জেলা বাছাই করুন:</label>
-						<div class="col-sm-10">
+					<h3>ডেলিভারি ঠিকানা</h3>
+					<button id="newdeliveryAddress"> Add New</button>
+					<button id="cancelnewdeliveryAddress" style="display: none;"> Cancel</button>
 
-							
+					<div class="delivery-addressDiv" style="display: none;">
+					
+						<div class="form-group">
+							<label class="control-label col-sm-12" for="Type">ঠিকানা
+								:</label>
+							<div class="col-sm-10">
 
-							<select name="district" id="billing-district" class="form-control district_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true">
-								<option value="">জেলা বাছাই করুন…</option><option value="Bagerhat">Bagerhat</option><option value="Bandarban">Bandarban</option><option value="Barguna">Barguna</option><option value="Barishal">Barishal</option><option value="Bhola">Bhola</option><option value="Bogura">Bogura</option><option value="Brahmanbaria">Brahmanbaria</option><option value="Chandpur">Chandpur</option><option value="Chattogram">Chattogram</option><option value="Chuadanga">Chuadanga</option><option value="Cox's Bazar">Cox's Bazar</option><option value="Cumilla">Cumilla</option><option value="Dhaka">Dhaka</option><option value="Dinajpur">Dinajpur</option><option value="Faridpur">Faridpur </option><option value="Feni">Feni</option><option value="Gaibandha">Gaibandha</option><option value="Gazipur">Gazipur</option><option value="Gopalganj">Gopalganj</option><option value="Habiganj">Habiganj</option><option value="Jamalpur">Jamalpur</option><option value="Jashore">Jashore</option><option value="Jhalokati">Jhalokati</option><option value="Jhenaidah">Jhenaidah</option><option value="Joypurhat">Joypurhat</option><option value="Khagrachhari">Khagrachhari</option><option value="Khulna">Khulna</option><option value="Kishoreganj">Kishoreganj</option><option value="Kurigram">Kurigram</option><option value="Kushtia">Kushtia</option><option value="Lakshmipur">Lakshmipur</option><option value="Lalmonirhat">Lalmonirhat</option><option value="Madaripur">Madaripur</option><option value="Magura">Magura</option><option value="Manikganj">Manikganj </option><option value="Meherpur">Meherpur</option><option value="Moulvibazar">Moulvibazar</option><option value="Munshiganj">Munshiganj</option><option value="Mymensingh">Mymensingh</option><option value="Naogaon">Naogaon</option><option value="Narail">Narail</option><option value="Narayanganj">Narayanganj</option><option value="Narsingdi">Narsingdi</option><option value="Natore">Natore</option><option value="Nawabganj">Nawabganj</option><option value="Netrakona">Netrakona</option><option value="Nilphamari">Nilphamari</option><option value="Noakhali">Noakhali</option><option value="Pabna">Pabna</option><option value="Panchagarh">Panchagarh</option><option value="Patuakhali">Patuakhali</option><option value="Pirojpur">Pirojpur</option><option value="Rajbari">Rajbari</option><option value="Rajshahi">Rajshahi</option><option value="Rangamati">Rangamati</option><option value="Rangpur">Rangpur</option><option value="Satkhira">Satkhira</option><option value="Shariatpur">Shariatpur</option><option value="Sherpur">Sherpur</option><option value="Sirajganj">Sirajganj</option><option value="Sunamganj">Sunamganj</option><option value="Sylhet">Sylhet</option><option value="Tangail">Tangail</option><option value="Thakurgaon">Thakurgaon</option>
-							</select>
+								<textarea class="form-control " id="delivery-address"></textarea>
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-sm-12" for="area">জেলা
+								বাছাই করুন:</label>
+							<div class="col-sm-10">
+
+								<select name="delivery_district" id="delivery-district"
+									class="form-control district_select select2-hidden-accessible"
+									autocomplete="address-level1"
+									data-placeholder="Select an option…" data-input-classes=""
+									tabindex="-1" aria-hidden="true"
+									onchange="loadThana('delivery','')">
+									<option value="">জেলা বাছাই করুন…</option>
+									<option th:each="district : ${districtList}"
+										th:value="${district.id}" th:text="${district.name}"></option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-sm-12" for="Type">শহর/থানা/উপজেলা:</label>
+							<div class="col-sm-10">
+
+								<select name="city" id="delivery-city"
+									class="form-control city_select select2-hidden-accessible delivery-addrss"
+									autocomplete="address-level1"
+									data-placeholder="Select an option…" data-input-classes=""
+									tabindex="-1" aria-hidden="true">
+									<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
+
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<button id="deliveryAddressBtn">Save Address</button>
 						</div>
 					</div>
-
-					<div class="form-group">
-							<label class="control-label col-sm-12"  for="Type">শহর/থানা/উপজেলা:</label>
-						<div class="col-sm-10">
-
-							<input class="form-control" id="billing-city" name="city" type="text" />
-						</div>
+					<div class="card-body card-bodydelivery">
+							
+							<span>Select from below Address</span>
+							<div class="card bg-faded">
+								<div th:each="cm : ${deliveryAddressList}" class="card-block">
+									<div class="card-text" th:onclick="'javascript:updateAddress(this,\'delivery\',\'' + ${cm.address} + '\',\'' + ${cm.city} + '\',\'' + ${cm.district} + '\')'">
+										<span
+											th:text="${cm.id+': '+cm.address+', '+cm.city+', '+cm.district}"></span> 
+									</div>
+								</div>
+							</div>
 					</div>
 					<hr/>
-					<h3>ডেলিভারি ঠিকানা</h3>
+					<h3>বিলের ঠিকানা</h3>
+					
 					<div class="form-check">
 						<input type="checkbox" id="same-bill"/>
 						<label class="form-check-label" for="same-bill">
-							বিল ঠিকানার অনুরূপ
+							ডেলিভারি ঠিকানার অনুরূপ
 						</label>
 					</div>
+					<button id="newbillingAddress"> Add New</button>
+					<button id="cancelnewbillingAddress" style="display: none;"> Cancel</button>
+
+					<div class="billing-addressDiv" style="display: none;">
 					
 					<div class="form-group">
 						<label class="control-label col-sm-12" for="Type">ঠিকানা :</label>
 						<div class="col-sm-10">
 
-							<textarea class="form-control billing-addrss" id="delivery-address"></textarea>
+							<textarea class="form-control billing-addrss" id="billing-address"></textarea>
 						
 						</div>
 					</div>
@@ -108,11 +150,9 @@
 					<div class="form-group">
 						<label class="control-label col-sm-12" for="area">জেলা বাছাই করুন:</label>
 						<div class="col-sm-10">
-
-							
-
-							<select name="delivery_district" id="delivery-district" class="form-control  billing-addrss district_select select2-hidden-accessible" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true">
-								<option value="">জেলা বাছাই করুন…</option><option value="Bagerhat">Bagerhat</option><option value="Bandarban">Bandarban</option><option value="Barguna">Barguna</option><option value="Barishal">Barishal</option><option value="Bhola">Bhola</option><option value="Bogura">Bogura</option><option value="Brahmanbaria">Brahmanbaria</option><option value="Chandpur">Chandpur</option><option value="Chattogram">Chattogram</option><option value="Chuadanga">Chuadanga</option><option value="Cox's Bazar">Cox's Bazar</option><option value="Cumilla">Cumilla</option><option value="Dhaka">Dhaka</option><option value="Dinajpur">Dinajpur</option><option value="Faridpur">Faridpur </option><option value="Feni">Feni</option><option value="Gaibandha">Gaibandha</option><option value="Gazipur">Gazipur</option><option value="Gopalganj">Gopalganj</option><option value="Habiganj">Habiganj</option><option value="Jamalpur">Jamalpur</option><option value="Jashore">Jashore</option><option value="Jhalokati">Jhalokati</option><option value="Jhenaidah">Jhenaidah</option><option value="Joypurhat">Joypurhat</option><option value="Khagrachhari">Khagrachhari</option><option value="Khulna">Khulna</option><option value="Kishoreganj">Kishoreganj</option><option value="Kurigram">Kurigram</option><option value="Kushtia">Kushtia</option><option value="Lakshmipur">Lakshmipur</option><option value="Lalmonirhat">Lalmonirhat</option><option value="Madaripur">Madaripur</option><option value="Magura">Magura</option><option value="Manikganj">Manikganj </option><option value="Meherpur">Meherpur</option><option value="Moulvibazar">Moulvibazar</option><option value="Munshiganj">Munshiganj</option><option value="Mymensingh">Mymensingh</option><option value="Naogaon">Naogaon</option><option value="Narail">Narail</option><option value="Narayanganj">Narayanganj</option><option value="Narsingdi">Narsingdi</option><option value="Natore">Natore</option><option value="Nawabganj">Nawabganj</option><option value="Netrakona">Netrakona</option><option value="Nilphamari">Nilphamari</option><option value="Noakhali">Noakhali</option><option value="Pabna">Pabna</option><option value="Panchagarh">Panchagarh</option><option value="Patuakhali">Patuakhali</option><option value="Pirojpur">Pirojpur</option><option value="Rajbari">Rajbari</option><option value="Rajshahi">Rajshahi</option><option value="Rangamati">Rangamati</option><option value="Rangpur">Rangpur</option><option value="Satkhira">Satkhira</option><option value="Shariatpur">Shariatpur</option><option value="Sherpur">Sherpur</option><option value="Sirajganj">Sirajganj</option><option value="Sunamganj">Sunamganj</option><option value="Sylhet">Sylhet</option><option value="Tangail">Tangail</option><option value="Thakurgaon">Thakurgaon</option>
+							<select name="district" id="billing-district" class="form-control district_select select2-hidden-accessible billing-addrss" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true"  onchange="loadThana('billing','')">
+								<option value="">জেলা বাছাই করুন…</option>
+								<option th:each="district : ${districtList}" th:value="${district.id}" th:text="${district.name}"></option>
 							</select>
 						</div>
 					</div>
@@ -121,8 +161,27 @@
 							<label class="control-label col-sm-12"  for="Type">শহর/থানা/উপজেলা:</label>
 						<div class="col-sm-10">
 
-							<input class="form-control  billing-addrss" id="delivery-city" name="delivery_city" type="text" />
+							<select name="city" id="billing-city" class="form-control city_select select2-hidden-accessible billing-addrss" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true">
+								<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
+								
+							</select>
 						</div>
+					</div>
+					
+						<div class="form-group">
+							<button id="billingAddressBtn">Save Address</button>
+						</div>
+					</div>
+					<div class="card-body card-bodybilling">
+							<span>Select from below Address</span>
+							<div class="card bg-faded">
+								<div th:each="cm : ${billingAddressList}" class="card-block">
+									<div class="card-text" th:onclick="'javascript:updateAddress(this,\'billing\',\'' + ${cm.address} + '\',\'' + ${cm.city} + '\',\'' + ${cm.district} + '\')'">
+										<span
+											th:text="${cm.id+': '+cm.address+', '+cm.city+', '+cm.district}"></span> 
+									</div>
+								</div>
+							</div>
 					</div>
 					<hr/>
 					<div class="form-group">
@@ -198,6 +257,7 @@
 		<div th:replace="common :: commom-footer" th:remove="tag"></div>
 		<div th:replace="common :: common-js" th:remove="tag"></div>
 		<script th:src="@{/js/buy.js}" src="js/buy.js" ></script>
+		<script th:src="@{/js/address.js}" src="js/address.js" ></script>
 		
 		<script type="text/javascript">
 			

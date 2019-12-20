@@ -1,6 +1,9 @@
 package com.niil.nogor.krishi.dto;
 
 import java.math.BigDecimal;
+
+import javax.persistence.Transient;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +23,9 @@ public class OrderForm {
 	private String delivery_city;
 	private String delivery_notes;
 	
+	private boolean new_delivery_address;
+	
+	private boolean new_billing_address;
 //	private BigDecimal total_price;
 	private String order_status;
 

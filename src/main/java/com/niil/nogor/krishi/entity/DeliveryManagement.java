@@ -24,8 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DeliveryManagement {
 	private @Id @GeneratedValue Long id;
-	@Column(nullable=false, length=10485760)
-
+	@Column(nullable = true)
 	private Date deliveryDate;
 	@Transient
 	private String deliveryDatest;
@@ -44,5 +43,6 @@ public class DeliveryManagement {
 	@PrePersist
 	private void preAdd() {
 		this.createdAt = LocalDateTime.now();
+		deliveryDate=null;
 	}
 }

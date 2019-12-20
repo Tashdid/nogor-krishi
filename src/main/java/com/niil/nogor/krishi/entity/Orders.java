@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
@@ -44,6 +45,8 @@ public class Orders implements Comparable<Orders>{
 	private String billing_address;
 	private String billing_district;
 	private String billing_city;
+	
+	
 	private String delivery_address;
 	private String delivery_district;
 	private String delivery_city;

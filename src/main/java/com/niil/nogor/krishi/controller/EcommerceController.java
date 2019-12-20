@@ -1,15 +1,23 @@
 package com.niil.nogor.krishi.controller;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.httpclient.HttpStatus;
 
 // import javax.servlet.http.HttpServletRequest;
 // import javax.servlet.http.HttpServletResponse;
 // import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 // import org.springframework.util.StringUtils;
@@ -24,6 +32,7 @@ import com.niil.nogor.krishi.repo.*;
 // import com.niil.nogor.krishi.view.LNursery;
 // import com.niil.nogor.krishi.view.LProduct;
 // import com.niil.nogor.krishi.view.LayoutRQ;
+import com.niil.nogor.krishi.service.SecurityService;
 
 /**
  * @author Himel
@@ -62,6 +71,11 @@ public class EcommerceController extends AbstractController {
 	ProductPriceOnPropertyValueRepo productPriceOnPropertyValueRepo;
 	@Autowired
 	ProductPropertyMappingRepo productPropertyMappingRepo;
+	@Autowired
+	DemographicDataRepo demographicDataRepo;
+
+	@Autowired SecurityService securityService;
+	@Autowired UserAddressPreferenceRepo userAddressPreferenceRepo;
 
     @RequestMapping("/buy/{product}")
     public String buy(@PathVariable Product product, final ModelMap model) {
@@ -78,6 +92,10 @@ public class EcommerceController extends AbstractController {
 			mapProperty.put(productPropertyMapping.getProductProperty().getName(), propertyValueList);
 			
 		});
+
+		model.addAttribute("bivaggulo", demographicDataRepo.findAllByParentIdIsNull());
+		model.addAttribute("onnannogulo", demographicDataRepo.findAllByParentIdIsNotNull().stream()
+				  .collect(Collectors.groupingBy(DemographicData::getParentId)));
 		
 		
         model.addAttribute("mapProperty", mapProperty);
@@ -127,7 +145,14 @@ public class EcommerceController extends AbstractController {
 		long nurseryCount = cartDetailsList.stream().map(CartDetails::getProductPrice).map(ProductPrice::getNursery).distinct().count();
 		Settings settings = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
 		
-		model.addAttribute("user", new User());
+		User loggedUser=securityService.findLoggedInUser();
+		if(loggedUser!=null) {
+			model.addAttribute("deliveryAddressList", userAddressPreferenceRepo.findAllByUserAndAddressType(loggedUser,AddressType.DELIVER));
+			model.addAttribute("billingAddressList", userAddressPreferenceRepo.findAllByUserAndAddressType(loggedUser,AddressType.BILLING));
+		}
+		
+		model.addAttribute("districtList", demographicDataRepo.findAllByType(new Byte("1")));
+		model.addAttribute("user", loggedUser!=null?loggedUser:new User());
 		model.addAttribute("deliverycharge", settings.getDeliveryCharge());
 		model.addAttribute("totalDeliverycharge", nurseryCount * settings.getDeliveryCharge());
 		model.addAttribute("total", BigDecimal.valueOf( nurseryCount * settings.getDeliveryCharge() ).add(totalPrice));
@@ -143,5 +168,24 @@ public class EcommerceController extends AbstractController {
 
         return "site/confirm_order";
     }
+
+
+
+	@RequestMapping(value = "/get-demographic-data-by-parent/{parentId}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<DemographicData> getDemographicDataByParent(@PathVariable Long parentId) {
+			return demographicDataRepo.findAllByParentId(parentId);	
+	}
+
+
+	@RequestMapping(value = "/add-user-address-preference", method = RequestMethod.POST)
+	@ResponseBody
+	public UserAddressPreference addUserAddressPreference(@RequestBody UserAddressPreference userAddressPreference) {
+		
+		User loggedUser=securityService.findLoggedInUser();
+		userAddressPreference.setUser(loggedUser);	
+		userAddressPreferenceRepo.save(userAddressPreference);
+		return userAddressPreference;	
+	}
 
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.niil.nogor.krishi.dto.OrderForm;
+import com.niil.nogor.krishi.entity.AddressType;
 import com.niil.nogor.krishi.entity.CartDetails;
 import com.niil.nogor.krishi.entity.DeliveryManagement;
 import com.niil.nogor.krishi.entity.OrderDetail;
@@ -26,11 +27,13 @@ import com.niil.nogor.krishi.entity.Orders;
 import com.niil.nogor.krishi.entity.ProductPrice;
 import com.niil.nogor.krishi.entity.Settings;
 import com.niil.nogor.krishi.entity.User;
+import com.niil.nogor.krishi.entity.UserAddressPreference;
 import com.niil.nogor.krishi.repo.CartDetailsRepo;
 import com.niil.nogor.krishi.repo.DeliveryManagementRepo;
 import com.niil.nogor.krishi.repo.OrderDetailsRepo;
 import com.niil.nogor.krishi.repo.OrdersRepo;
 import com.niil.nogor.krishi.repo.ProductPriceRepo;
+import com.niil.nogor.krishi.repo.UserAddressPreferenceRepo;
 import com.niil.nogor.krishi.repo.UserRepo;
 
 @RestController
@@ -45,6 +48,7 @@ public class OrdersController extends AbstractController{
 	@Autowired CartDetailsRepo cartDetailsRepo;
 	@Autowired ProductPriceRepo productPriceRepo;
 	@Autowired DeliveryManagementRepo deliveryManagementRepo;
+	@Autowired UserAddressPreferenceRepo userAddressPreferenceRepo;
 	
 	public String currentUserName(Principal principal) {
 	     return principal.getName();
@@ -98,6 +102,26 @@ public class OrdersController extends AbstractController{
 //		newOrder.setAddress(orderForm.getAddress());
 		newOrder.setPhone_no(orderForm.getPhoneNo());
 		
+
+		User loggedUser=securityService.findLoggedInUser();
+		if(orderForm.isNew_billing_address()) {
+			UserAddressPreference userAddressPreference=new UserAddressPreference();
+			userAddressPreference.setAddress(orderForm.getBilling_address());
+			userAddressPreference.setCity(orderForm.getBilling_city());
+			userAddressPreference.setDistrict(orderForm.getBilling_district());
+			userAddressPreference.setAddressType(AddressType.BILLING);
+			userAddressPreference.setUser(loggedUser);	
+			userAddressPreferenceRepo.save(userAddressPreference);
+		}
+		if(orderForm.isNew_delivery_address()) {
+			UserAddressPreference userAddressPreference=new UserAddressPreference();
+			userAddressPreference.setAddress(orderForm.getDelivery_address());
+			userAddressPreference.setCity(orderForm.getDelivery_city());
+			userAddressPreference.setDistrict(orderForm.getDelivery_district());
+			userAddressPreference.setAddressType(AddressType.DELIVER);
+			userAddressPreference.setUser(loggedUser);	
+			userAddressPreferenceRepo.save(userAddressPreference);
+		}
 		newOrder.setBilling_address(orderForm.getBilling_address());
 		newOrder.setBilling_district(orderForm.getBilling_district());
 		newOrder.setBilling_city(orderForm.getBilling_city());
@@ -148,7 +172,7 @@ public class OrdersController extends AbstractController{
 			deliveryManagement.setStatus("New");
 			deliveryManagements.add(deliveryManagement);
 			
-		});;
+		});
 		deliveryManagementRepo.save(deliveryManagements);
 		
 		if(orderDetailsRepo.save(orderDetailsList) != null){

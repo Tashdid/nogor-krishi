@@ -1,4 +1,7 @@
 var myMap = {};
+var new_delivery_address=false;
+var new_billing_address=false;
+
 $(document).ready(function() {
 	
 	$(document).on("click", ".add-to-cart", function(){
@@ -81,21 +84,25 @@ $(document).ready(function() {
 	$(document).on("click", "#confirm-order", function(){
 		  
 		let phone = $("#phone").val();
-		let billing_address = $("#billing-address").val();
-		let billing_district = $("#billing-district").val();
-		let billing_city = $("#billing-city").val();
+		
+
+		var delivery_address = $("#delivery-address").val();
+		var delivery_district =$("#delivery-district").val()==""?"": $("#delivery-district option:selected").text();
+		var delivery_city = $("#delivery-city").val();
 		let delivery_notes = $("#delivery-notes").val();
 
 		if($('#same-bill').is(':checked')) {
-			var delivery_address = $("#billing-address").val();
-			var delivery_district = $("#billing-district").val();
-			var delivery_city = $("#billing-city").val();
+			new_billing_address=false
+			var billing_address = $("#delivery-address").val();
+			var billing_district =$("#delivery-district").val()==""?"": $("#delivery-district option:selected").text();
+			var billing_city = $("#delivery-city").val();
 		} else {
-			var delivery_address = $("#delivery-address").val();
-			var delivery_district = $("#delivery-district").val();
-			var delivery_city = $("#delivery-city").val();
-		}
 
+			var billing_address = $("#billing-address").val();
+			var billing_district = $("#billing-district").val()==""?"":$("#billing-district option:selected").text();
+			var billing_city = $("#billing-city").val();
+		}
+		if(delivery_address && billing_address){
 		
 		$.ajax({
 			type: 'POST',
@@ -111,6 +118,8 @@ $(document).ready(function() {
 				delivery_address,
 				delivery_district,
 				delivery_city,
+				new_delivery_address,
+				new_billing_address,
 				delivery_notes
 			}),
 			success: function(data) {
@@ -120,6 +129,9 @@ $(document).ready(function() {
 			}
 		
 		});
+		}else{
+			alert("Insert Valid Address");
+		}
 	
 	});
 

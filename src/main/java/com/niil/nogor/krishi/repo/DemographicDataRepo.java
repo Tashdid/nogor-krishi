@@ -9,8 +9,16 @@ import com.niil.nogor.krishi.entity.DemographicData;
 
 @Repository
 public interface DemographicDataRepo extends JpaRepository<DemographicData, Long>{
-	
+
 	List<DemographicData> findAllByOrderBySequenceAsc();
+
+	List<DemographicData> findAllByParentIdIsNull();
+	
+	List<DemographicData> findAllByParentIdIsNotNull();
+	
+	List<DemographicData> findAllByParentId(Long parentId);
+	
+	List<DemographicData> findAllByType(Byte type);
 	
 	DemographicData findTopByOrderBySequenceDesc();
 
