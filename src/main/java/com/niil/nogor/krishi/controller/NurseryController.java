@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,6 +52,7 @@ public class NurseryController extends AbstractController {
 	@Autowired MaterialPriceRepo materialPriceRepo;
 	@Autowired ProductPriceRepo productPriceRepo;
 	@Autowired SaleTypeRepo saleTypeRepo;
+	@Autowired DemographicDataRepo demographicDataRepo;
 
 	@RequestMapping
 	public String newScreen(ModelMap model) {
@@ -66,9 +68,26 @@ public class NurseryController extends AbstractController {
 		model.addAttribute("brand", "Nursery");
 		model.addAttribute("allbeans", nurseryRepo.findAll());
 		model.addAttribute("types", nurseryTypeRepo.findAllByOrderBySequenceAsc());
-		model.addAttribute("areas", areaRepo.findAll());
+		List<DemographicData> divisions= demographicDataRepo.findAllByParentIdIsNullOrderByNameAsc();
+		model.addAttribute("divisions", divisions);
+		
+		if(bean.getDivision()==null && divisions!=null && !divisions.isEmpty()){
+			bean.setDivision(divisions.get(0));
+		}
+		
+		List<DemographicData> districts=new ArrayList<DemographicData>();
+		if(bean.getDivision()!=null) {
+			districts=demographicDataRepo.findAllByParentIdOrderByNameAsc(bean.getDivision().getId());
+			if(bean.getDistrict()==null && districts!=null && !districts.isEmpty()) {
+				bean.setDistrict(districts.get(0));
+			}
+		}
+
+		model.addAttribute("districts",districts);
+		model.addAttribute("cities",bean.getDistrict()!=null?demographicDataRepo.findAllByParentIdOrderByNameAsc(bean.getDistrict().getId()):new ArrayList<DemographicData>());
+		
 		if (bean.getId() != null) {
-			loadNurseryPrices(bean, model);
+//			loadNurseryPrices(bean, model);
 		}
 		return URL.substring(1);
 	}
@@ -110,7 +129,10 @@ public class NurseryController extends AbstractController {
 		bean.setName(type.getName());
 		bean.setAddress(type.getAddress());
 		bean.setPhone(type.getPhone());
-		bean.setArea(type.getArea());
+//		bean.setArea(type.getArea());
+		bean.setDivision(type.getDivision());
+		bean.setDistrict(type.getDistrict());
+		bean.setCity(type.getCity());
 		bean.setType(type.getType());
 		bean.setLatitude(type.getLatitude());
 		bean.setLongitude(type.getLongitude());

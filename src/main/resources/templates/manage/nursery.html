@@ -37,14 +37,35 @@
 												</select>
 											</div>
 										</div>
+										
 										<div class="form-group row">
-											<label class="col-form-label col-form-label-sm col-sm-3" for="area">Area:</label>
+											<label class="col-form-label col-form-label-sm col-sm-3" for="type">Division:</label>
 											<div class="col-sm-9">
-												<select th:field="*{area}">
-													<option th:each="ar : ${areas}" th:value="${ar.id}" th:text="${ar.name}"></option>
+												<select th:field="*{division}" required="required" th:onchange="'javascript:loadChildDemographicData(this,\'district\')'">
+													<option th:each="tp : ${divisions}" th:value="${tp.id}" th:text="${tp.name}"></option>
 												</select>
 											</div>
 										</div>
+										
+										<div class="form-group row">
+											<label class="col-form-label col-form-label-sm col-sm-3" for="type">District:</label>
+											<div class="col-sm-9">
+												<select th:field="*{district}" required="required"  th:onchange="'javascript:loadChildDemographicData(this,\'city\')'">
+													<option th:each="tp : ${districts}" th:value="${tp.id}" th:text="${tp.name}"></option>
+												</select>
+											</div>
+										</div>
+										
+										<div class="form-group row">
+											<label class="col-form-label col-form-label-sm col-sm-3" for="type">City:</label>
+											<div class="col-sm-9">
+												<select th:field="*{city}" required="required">
+													<option th:each="tp : ${cities}" th:value="${tp.id}" th:text="${tp.name}"></option>
+												</select>
+											</div>
+										</div>
+										
+										
 										<div class="form-group row">
 											<label class="col-form-label col-form-label-sm col-sm-3" for="address">Address:</label>
 											<div class="col-sm-9">
@@ -91,7 +112,6 @@
 											<tr>
 												<th>Order</th>
 												<th>Name</th>
-												<th>Area</th>
 												<th>Type</th>
 												<th>Address</th>
 												<th>Phone</th>
@@ -107,7 +127,6 @@
 											<tr th:each="bean : ${allbeans}">
 												<td th:text="${bean.sequence}"></td>
 												<td th:text="${bean.name}"></td>
-												<td th:text="${bean.area.name}"></td>
 												<td th:text="${bean.type.name}"></td>
 												<td th:text="${bean.address}"></td>
 												<td th:text="${bean.phone}"></td>
@@ -193,7 +212,7 @@
 											<thead>
 												<tr>
 													<th>Product</th>
-													<th>Sale Type</th>
+													<!-- <th>Sale Type</th> -->
 													<th style="text-align: right;">Price</th>
 													<th></th>
 												</tr>
@@ -201,7 +220,7 @@
 											<tbody>
 												<tr th:each="pr : ${productprices}">
 													<td th:text="${pr.product.name}"></td>
-													<td th:text="${pr.saleType.name}"></td>
+													<!-- <td th:text="${pr.saleType.name}"></td> -->
 													<td th:text="${pr.price}" style="text-align: right;"></td>
 													<td>
 														<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{${basePath} + ${bean.id} + '/product/' + ${pr.id}}"><span class="glyphicon glyphicon-trash"></span></button>
@@ -283,6 +302,7 @@
 
 			<div th:replace="common :: commom-footer" th:remove="tag"></div>
 			<div th:replace="common :: common-js" th:remove="tag"></div>
+			<script th:src="@{/js/nursery.js}" src="js/nursery.js" ></script>
 		</div>
 		<script async="async" defer="defer"
 						th:src="@{https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuIoWq7e51lQ0AMUQVlKwU038aZBa23c&amp;callback=initLocationMap}"></script>

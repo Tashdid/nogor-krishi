@@ -29,4 +29,7 @@ public class Nursery {
 	private int sequence;
 	private @ManyToOne NurseryType type;
 	private @ManyToOne Area area;
+	private @ManyToOne DemographicData city;
+	private @ManyToOne DemographicData district;
+	private @ManyToOne DemographicData division;
 }
