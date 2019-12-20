@@ -93,10 +93,15 @@ public class EcommerceController extends AbstractController {
 			
 		});
 
-		model.addAttribute("bivaggulo", demographicDataRepo.findAllByParentIdIsNullOrderByNameAsc());
-		model.addAttribute("onnannogulo", demographicDataRepo.findAllByParentIdIsNotNull().stream()
-				  .collect(Collectors.groupingBy(DemographicData::getParentId)));
-		
+		List<DemographicData>bivaggulo=demographicDataRepo.findAllByParentIdIsNullOrderByNameAsc();
+				List<DemographicData> zelagulo= new ArrayList<DemographicData>();
+				if(bivaggulo!=null && !bivaggulo.isEmpty()) {
+					zelagulo=demographicDataRepo.findAllByParentIdOrderByNameAsc(bivaggulo.get(0).getId());
+				}
+				
+		model.addAttribute("bivaggulo", bivaggulo);
+		model.addAttribute("zelagulo", zelagulo);
+		model.addAttribute("upozelagulo", zelagulo!=null && !zelagulo.isEmpty()?demographicDataRepo.findAllByParentIdOrderByNameAsc(zelagulo.get(0).getId()):new ArrayList<>());
 		
         model.addAttribute("mapProperty", mapProperty);
         model.addAttribute("product", product);

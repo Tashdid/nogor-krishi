@@ -143,19 +143,33 @@ function loadPrice() {
 	let valueSt="";
 	$.each( myMap, function(index,value){
 			valueSt+="-"+value;
-		})
-		if(valueSt){
+		});
+	if(valueSt){
 			valueSt=valueSt.substring(1);
-		}
-	// console.log(valueSt);
-	var url=`${api_origin}/api/productpricesearch/${productId}/${valueSt}`;
-	console.log(url);
+	}
+	let demographicDataSt="";
+	//2 : upozela type
+	//1 : zela type
+	//0 : bivag type
+	if($("#upozela").val() && $("#upozela").val()!="0"){
+		demographicDataSt="2-"+$("#upozela").val();
+	}else if($("#zela").val() && $("#zela").val()!="0"){
+		demographicDataSt="1-"+$("#zela").val();
+	}else if($("#bivag").val() && $("#bivag").val()!="0"){
+		demographicDataSt="0-"+$("#bivag").val();
+	}
+	 console.log(demographicDataSt);
+	var urlSt=`${api_origin}/api/productpricesearch/${productId}/${valueSt}`;
+	if(demographicDataSt){
+		urlSt=`${api_origin}/api/productpricesearch/${productId}/demographicdata/${demographicDataSt}/${valueSt}`;
+	}
+	console.log(urlSt);
 	
 	$.ajax({
 		type: 'GET',
 		// url:
 		// `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
-		url: `${api_origin}/api/productpricesearch/${productId}/${valueSt}`,
+		url: urlSt,
 		
 		success: function(data) {
 			body = data.length ? '' : '<tr><td class="msg-buy text-danger">দুঃখিত, কিছু পাওয়া যায়নি। দয়া করে অন্য প্রপার্টি দিয়ে চেষ্টা করুন.</td></tr>';

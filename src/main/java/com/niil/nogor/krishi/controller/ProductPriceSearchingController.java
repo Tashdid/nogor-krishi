@@ -100,6 +100,41 @@ public class ProductPriceSearchingController extends AbstractController {
 		return priceList;
 
 	}
+	
+
+	@RequestMapping(value = "/{productId}/demographicdata/{demographicDataSt}", method = RequestMethod.GET)
+	public List<ProductPrice> getProductPricesByProductAndDemographicData(@PathVariable Long productId, @PathVariable String demographicDataSt) {
+
+//		System.out.println("============================================================================");
+		return getProductPricesBySearchAndDemographicData(productId, demographicDataSt, null);
+
+	}
+	
+	
+	@RequestMapping(value = "/{productId}/demographicdata/{demographicDataSt}/{valueSt}", method = RequestMethod.GET)
+	public List<ProductPrice> getProductPricesBySearchAndDemographicData(@PathVariable Long productId, @PathVariable String demographicDataSt,@PathVariable String valueSt) {
+
+		System.out.println("============================================================================");
+		List<ProductPrice> priceList=new ArrayList<>();
+
+		List<String> idList=null;
+		if(valueSt!=null) {
+			idList=Arrays.asList(valueSt.split("-"));
+		}
+		Product product = productRepo.findOne(productId);
+		if(idList==null) {
+			priceList=priceRepo.getProductPriceListByProductAndDemographicDataOrderByQuantityDescPriceAsc(product.getId(), demographicDataSt);
+		}else {
+			priceList=priceRepo.getProductPriceListByPropertyValueAndDemographicDataOrderByQuantityDescPriceAsc(product.getId(), idList, demographicDataSt);
+		}
+		priceList.forEach(price->{
+			price.getProductPriceOnPropertyValueList().forEach(pp->{
+				pp.setProductPrice(null);
+			});
+		});
+		return priceList;
+
+	}
 
 	
 }

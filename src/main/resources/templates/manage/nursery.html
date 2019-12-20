@@ -41,7 +41,7 @@
 										<div class="form-group row">
 											<label class="col-form-label col-form-label-sm col-sm-3" for="type">Division:</label>
 											<div class="col-sm-9">
-												<select th:field="*{division}" required="required" th:onchange="'javascript:loadChildDemographicData(this,\'district\')'">
+												<select th:field="*{division}" required="required" th:onchange="'javascript:loadChildDemographicData(this,\'district\',\'city\', true'">
 													<option th:each="tp : ${divisions}" th:value="${tp.id}" th:text="${tp.name}"></option>
 												</select>
 											</div>
@@ -50,7 +50,7 @@
 										<div class="form-group row">
 											<label class="col-form-label col-form-label-sm col-sm-3" for="type">District:</label>
 											<div class="col-sm-9">
-												<select th:field="*{district}" required="required"  th:onchange="'javascript:loadChildDemographicData(this,\'city\')'">
+												<select th:field="*{district}" required="required"  th:onchange="'javascript:loadChildDemographicData(this,\'city\',null, true'">
 													<option th:each="tp : ${districts}" th:value="${tp.id}" th:text="${tp.name}"></option>
 												</select>
 											</div>
