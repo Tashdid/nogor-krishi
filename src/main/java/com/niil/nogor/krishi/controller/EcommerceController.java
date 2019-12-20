@@ -93,7 +93,7 @@ public class EcommerceController extends AbstractController {
 			
 		});
 
-		model.addAttribute("bivaggulo", demographicDataRepo.findAllByParentIdIsNull());
+		model.addAttribute("bivaggulo", demographicDataRepo.findAllByParentIdIsNullOrderByNameAsc());
 		model.addAttribute("onnannogulo", demographicDataRepo.findAllByParentIdIsNotNull().stream()
 				  .collect(Collectors.groupingBy(DemographicData::getParentId)));
 		
@@ -151,7 +151,7 @@ public class EcommerceController extends AbstractController {
 			model.addAttribute("billingAddressList", userAddressPreferenceRepo.findAllByUserAndAddressType(loggedUser,AddressType.BILLING));
 		}
 		
-		model.addAttribute("districtList", demographicDataRepo.findAllByType(new Byte("1")));
+		model.addAttribute("districtList", demographicDataRepo.findAllByTypeOrderByNameAsc(new Byte("1")));
 		model.addAttribute("user", loggedUser!=null?loggedUser:new User());
 		model.addAttribute("deliverycharge", settings.getDeliveryCharge());
 		model.addAttribute("totalDeliverycharge", nurseryCount * settings.getDeliveryCharge());
@@ -174,7 +174,7 @@ public class EcommerceController extends AbstractController {
 	@RequestMapping(value = "/get-demographic-data-by-parent/{parentId}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<DemographicData> getDemographicDataByParent(@PathVariable Long parentId) {
-			return demographicDataRepo.findAllByParentId(parentId);	
+			return demographicDataRepo.findAllByParentIdOrderByNameAsc(parentId);	
 	}
 
 

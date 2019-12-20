@@ -12,13 +12,13 @@ public interface DemographicDataRepo extends JpaRepository<DemographicData, Long
 
 	List<DemographicData> findAllByOrderBySequenceAsc();
 
-	List<DemographicData> findAllByParentIdIsNull();
+	List<DemographicData> findAllByParentIdIsNullOrderByNameAsc();
 	
 	List<DemographicData> findAllByParentIdIsNotNull();
 	
-	List<DemographicData> findAllByParentId(Long parentId);
+	List<DemographicData> findAllByParentIdOrderByNameAsc(Long parentId);
 	
-	List<DemographicData> findAllByType(Byte type);
+	List<DemographicData> findAllByTypeOrderByNameAsc(Byte type);
 	
 	DemographicData findTopByOrderBySequenceDesc();
 
