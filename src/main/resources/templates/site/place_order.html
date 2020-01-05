@@ -2,7 +2,7 @@
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
 	</head>
-	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="buy" class="hide-checkout">
+	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="buy" class="hide-checkout place-order-page">
 		
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
 		
@@ -38,211 +38,316 @@
 				</div>
 				<!--  authenticated -->
 				<div sec:authorize="isAuthenticated()" class="col-8">
-					<h2>বিলের বিস্তারিত</h2>
-					<hr/>
-					<h5 th:text="${luser.name}" ></h5>
-					<form class="form-horizontal" onsubmit="return mySubmitFunction(event)">
-					<div class="form-group">
-						<label class="control-label col-sm-2"  for="Type">ফোন:</label>
-						<div class="col-sm-10">
+					<form class="form-horizontal">
 
-							<input class="form-control" id="phone" type="text" th:value="${luser.mobile}" />
-						</div>
-					</div>
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">Personal information</h5>
+									<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+									
 
-					<div class="form-group">
-						<label class="control-label col-sm-12"  for="Type">ই-মেইল:</label>
-						<div class="col-sm-10">
+									<p th:text="${luser.name}" ></p>
+					<button type="button" class="btn btn-link show-div" id="btn-show-userinfo">Edit</button>
+					<button type="button" class="btn btn-link hide-div" id="btn-hide-userinfo">Hide</button>
 
-							<input class="form-control" name="email" id="email" th:value="${luser.email}" type="text" />
-						</div>
-					</div>
-					<hr/>
-					
-					<h3>ডেলিভারি ঠিকানা</h3>
-					<button id="newdeliveryAddress"> Add New</button>
-					<button id="cancelnewdeliveryAddress" style="display: none;"> Cancel</button>
-
-					<div class="delivery-addressDiv" style="display: none;">
-					
+					<div class="hidden-div" id="hidden-div-userinfo">
 						<div class="form-group">
-							<label class="control-label col-sm-12" for="Type">ঠিকানা
-								:</label>
-							<div class="col-sm-10">
-
-								<textarea class="form-control " id="delivery-address"></textarea>
-
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="control-label col-sm-12" for="area">জেলা
-								বাছাই করুন:</label>
-							<div class="col-sm-10">
-
-								<select name="delivery_district" id="delivery-district"
-									class="form-control district_select select2-hidden-accessible"
-									autocomplete="address-level1"
-									data-placeholder="Select an option…" data-input-classes=""
-									tabindex="-1" aria-hidden="true"
-									onchange="loadThana('delivery','')">
-									<option value="">জেলা বাছাই করুন…</option>
-									<option th:each="district : ${districtList}"
-										th:value="${district.id}" th:text="${district.name}"></option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="control-label col-sm-12" for="Type">শহর/থানা/উপজেলা:</label>
-							<div class="col-sm-10">
-
-								<select name="city" id="delivery-city"
-									class="form-control city_select select2-hidden-accessible delivery-addrss"
-									autocomplete="address-level1"
-									data-placeholder="Select an option…" data-input-classes=""
-									tabindex="-1" aria-hidden="true">
-									<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
-
-								</select>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<button id="deliveryAddressBtn">Save Address</button>
-						</div>
-					</div>
-					<div class="card-body card-bodydelivery">
-							
-							<span>Select from below Address</span>
-							<div class="card bg-faded">
-								<div th:each="cm : ${deliveryAddressList}" class="card-block">
-									<div class="card-text" th:onclick="'javascript:updateAddress(this,\'delivery\',\'' + ${cm.address} + '\',\'' + ${cm.city} + '\',\'' + ${cm.district} + '\')'">
-										<span
-											th:text="${cm.id+': '+cm.address+', '+cm.city+', '+cm.district}"></span> 
-									</div>
-								</div>
-							</div>
-					</div>
-					<hr/>
-					<h3>বিলের ঠিকানা</h3>
-					
-					<div class="form-check">
-						<input type="checkbox" id="same-bill"/>
-						<label class="form-check-label" for="same-bill">
-							ডেলিভারি ঠিকানার অনুরূপ
-						</label>
-					</div>
-					<button id="newbillingAddress"> Add New</button>
-					<button id="cancelnewbillingAddress" style="display: none;"> Cancel</button>
-
-					<div class="billing-addressDiv" style="display: none;">
-					
-					<div class="form-group">
-						<label class="control-label col-sm-12" for="Type">ঠিকানা :</label>
-						<div class="col-sm-10">
-
-							<textarea class="form-control billing-addrss" id="billing-address"></textarea>
-						
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label class="control-label col-sm-12" for="area">জেলা বাছাই করুন:</label>
-						<div class="col-sm-10">
-							<select name="district" id="billing-district" class="form-control district_select select2-hidden-accessible billing-addrss" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true"  onchange="loadThana('billing','')">
-								<option value="">জেলা বাছাই করুন…</option>
-								<option th:each="district : ${districtList}" th:value="${district.id}" th:text="${district.name}"></option>
-							</select>
-						</div>
-					</div>
-
-					<div class="form-group">
-							<label class="control-label col-sm-12"  for="Type">শহর/থানা/উপজেলা:</label>
-						<div class="col-sm-10">
-
-							<select name="city" id="billing-city" class="form-control city_select select2-hidden-accessible billing-addrss" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true">
-								<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
-								
-							</select>
-						</div>
-					</div>
-					
-						<div class="form-group">
-							<button id="billingAddressBtn">Save Address</button>
-						</div>
-					</div>
-					<div class="card-body card-bodybilling">
-							<span>Select from below Address</span>
-							<div class="card bg-faded">
-								<div th:each="cm : ${billingAddressList}" class="card-block">
-									<div class="card-text" th:onclick="'javascript:updateAddress(this,\'billing\',\'' + ${cm.address} + '\',\'' + ${cm.city} + '\',\'' + ${cm.district} + '\')'">
-										<span
-											th:text="${cm.id+': '+cm.address+', '+cm.city+', '+cm.district}"></span> 
-									</div>
-								</div>
-							</div>
-					</div>
-					<hr/>
-					<div class="form-group">
-							<label class="control-label col-sm-12" for="Type">ডেলিভারি নোট :</label>
+							<label class="control-label col-sm-2"  for="Type">ফোন:</label>
 							<div class="col-sm-10">
 	
-								<textarea class="form-control" id="delivery-notes"></textarea>
-							
+								<input class="form-control" id="phone" type="text" th:value="${luser.mobile}" />
 							</div>
 						</div>
+	
 						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-							<button type="button" id="confirm-order" class="btn btn-primary">অর্ডারটি নিশ্চিত করুন</button>
+							<label class="control-label col-sm-12"  for="Type">ই-মেইল:</label>
+							<div class="col-sm-10">
+	
+								<input class="form-control" name="email" id="email" th:value="${luser.email}" type="text" />
+							</div>
 						</div>
+					</div>
+					<div class="showing-div" id="showing-div-userinfo">
+						<div class="form-group">
+							<label class="control-label col-sm-2"  for="Type">ফোন:</label>
+							<div class="col-sm-10">
+	
+								<span th:text="${luser.mobile}"></span>
+							</div>
+						</div>
+	
+						<div class="form-group">
+							<label class="control-label col-sm-12"  for="Type">ই-মেইল:</label>
+							<div class="col-sm-10">
+									<span th:text="${luser.email}"></span>
+	
+							</div>
+						</div>
+					</div>
+								</div>
+							</div>
+
+					<!-- <h2>বিলের বিস্তারিত</h2> -->
+					<!-- <hr/> -->
+
+					<!-- <div class="card">
+						<div class="card-body">
+							<h5 class="card-title">ডেলিভারি ঠিকানা</h5>
+							<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+
+						</div>
+					</div> -->
+					
+
+					<!-- <div class="card">
+						<div class="card-body">
+								<h5 class="card-title">ডেলিভারি ঠিকানা</h5>
+								
+						</div>
+					</div> -->
+					
+					<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">ঠিকানা</h5>
+
+								<h6 class="card-subtitle mb-2 text-muted">ডেলিভারি ঠিকানা</h6>
+	
+								<button id="newdeliveryAddress"> Add New</button>
+								<button id="cancelnewdeliveryAddress" style="display: none;"> Cancel</button>
+			
+								<div class="delivery-addressDiv" style="display: none;">
+								
+									<div class="form-group">
+										<label class="control-label col-sm-12" for="Type">ঠিকানা
+											:</label>
+										<div class="col-sm-10">
+			
+											<textarea class="form-control " id="delivery-address"></textarea>
+			
+										</div>
+									</div>
+			
+									<div class="form-group">
+										<label class="control-label col-sm-12" for="area">জেলা
+											বাছাই করুন:</label>
+										<div class="col-sm-10">
+			
+											<select name="delivery_district" id="delivery-district"
+												class="form-control district_select select2-hidden-accessible"
+												autocomplete="address-level1"
+												data-placeholder="Select an option…" data-input-classes=""
+												tabindex="-1" aria-hidden="true"
+												onchange="loadThana('delivery','')">
+												<option value="">জেলা বাছাই করুন…</option>
+												<option th:each="district : ${districtList}"
+													th:value="${district.id}" th:text="${district.name}"></option>
+											</select>
+										</div>
+									</div>
+			
+									<div class="form-group">
+										<label class="control-label col-sm-12" for="Type">শহর/থানা/উপজেলা:</label>
+										<div class="col-sm-10">
+			
+											<select name="city" id="delivery-city"
+												class="form-control city_select select2-hidden-accessible delivery-addrss"
+												autocomplete="address-level1"
+												data-placeholder="Select an option…" data-input-classes=""
+												tabindex="-1" aria-hidden="true">
+												<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
+			
+											</select>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<button id="deliveryAddressBtn">Save Address</button>
+									</div>
+								</div>
+								<div class="card-body card-bodydelivery">
+										
+										<span th:unless="${#lists.isEmpty(deliveryAddressList)}">Select from below Address</span>
+										<div class="form-check radio-container" th:each="cm : ${deliveryAddressList}" >
+											<input class="form-check-input deliveryaddress-radio" type="radio" name="deliveryaddress-radio" th:id="${cm.id + '-radio'}" 
+											th:value="${cm.id}" />
+											<label class="form-check-label deliveryaddress-radio" th:for="${cm.id + '-radio'}" 
+											th:text="${cm.address}">
+											  
+											</label>
+											<span class="delivery-address-detail d-none" th:text="${cm.address}"></span>
+											zilla: <span class="delivery-city" th:text="${cm.city}"></span>
+											bivag: <span class="delivery-district" th:text="${cm.district}"></span>
+			
+										  </div>
+										<!-- <div class="card bg-faded">
+											<div th:each="cm : ${deliveryAddressList}" class="card-block">
+												<div class="card-text" th:onclick="'javascript:updateAddress(this,\'delivery\',\'' + ${cm.address} + '\',\'' + ${cm.city} + '\',\'' + ${cm.district} + '\')'">
+													<span
+														th:text="${cm.id+': '+cm.address+', '+cm.city+', '+cm.district}"></span> 
+												</div>
+											</div>
+										</div> -->
+								</div>
+								<hr />
+								<h6 class="card-subtitle mb-2 text-muted">বিলের ঠিকানা</h6>
+								<div class="form-check">
+										<input type="checkbox" id="same-bill"/>
+										<label class="form-check-label" for="same-bill">
+											ডেলিভারি ঠিকানার অনুরূপ
+										</label>
+									</div>
+									<button id="newbillingAddress"> Add New</button>
+									<button id="cancelnewbillingAddress" style="display: none;"> Cancel</button>
+				
+									<div class="billing-addressDiv" style="display: none;">
+									
+									<div class="form-group">
+										<label class="control-label col-sm-12" for="Type">ঠিকানা :</label>
+										<div class="col-sm-10">
+				
+											<textarea class="form-control billing-addrss" id="billing-address"></textarea>
+										
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="control-label col-sm-12" for="area">জেলা বাছাই করুন:</label>
+										<div class="col-sm-10">
+											<select name="district" id="billing-district" class="form-control district_select select2-hidden-accessible billing-addrss" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true"  onchange="loadThana('billing','')">
+												<option value="">জেলা বাছাই করুন…</option>
+												<option th:each="district : ${districtList}" th:value="${district.id}" th:text="${district.name}"></option>
+											</select>
+										</div>
+									</div>
+				
+									<div class="form-group">
+											<label class="control-label col-sm-12"  for="Type">শহর/থানা/উপজেলা:</label>
+										<div class="col-sm-10">
+				
+											<select name="city" id="billing-city" class="form-control city_select select2-hidden-accessible billing-addrss" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true">
+												<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
+												
+											</select>
+										</div>
+									</div>
+									
+										<div class="form-group">
+											<button id="billingAddressBtn">Save Address</button>
+										</div>
+									</div>
+									<div class="card-body card-bodybilling">
+											<span th:unless="${#lists.isEmpty(billingAddressList)}">Select from below Address</span>
+											<div class="form-check" th:each="cm : ${billingAddressList}" >
+												<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" 
+												value="option1" />
+												<label class="form-check-label" for="exampleRadios1" 
+												th:text="${cm.id+': '+cm.address+', '+cm.city+', '+cm.district}">
+												  
+												</label>
+											  </div>
+											<div class="card bg-faded">
+												<div th:each="cm : ${billingAddressList}" class="card-block">
+													<div class="card-text" th:onclick="'javascript:updateAddress(this,\'billing\',\'' + ${cm.address} + '\',\'' + ${cm.city} + '\',\'' + ${cm.district} + '\')'">
+														<span
+															th:text="${cm.id+': '+cm.address+', '+cm.city+', '+cm.district}"></span> 
+													</div>
+												</div>
+											</div>
+									</div>
+									<hr />
+									<h6 class="card-subtitle mb-2 text-muted">ডেলিভারি নোট:</h6>
+
+									<div class="form-group">
+
+											<!-- <label class="control-label card-subtitle col-sm-12" for="Type"></label> -->
+											<div class="col-sm-12">
+					
+												<textarea class="form-control" id="delivery-notes"></textarea>
+											
+											</div>
+										</div>
+							</div>
+						</div>
+						
+						<div class="card">
+								<div class="card-body">
+									<h5 class="card-title"> payment</h5>
+									<p class="card-subtitle mb-2 text-muted"> অর্ডারটি ক্যাশ অন ডেলিভারীর ভিত্তিতে পরিশোধ করুন।</p>
+								</div>
+							</div>
+					
+					<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Order Review</h5>
+								<!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+								<div id="cart-item-container">
+										<div class="cart-item-row" th:each="addedProduct : ${addedProducts}">
+											<div class="cart-item-top-row">
+												<div class="item-first-col">
+													<h6 class="" th:text="${addedProduct.productPrice.product.name}"></h6>
+													<p class="" th:text="${addedProduct.productPrice.nursery.name}">  </p>
+												</div>
+												<div class="item-second-col">
+						
+														<span th:text="${addedProduct.quantity}"></span> <span>X</span>  <span th:text="${addedProduct.unit_price}"></span><span>টাকা</span>
+						
+												</div>
+												<div class="item-third-col">
+												</div>
+											</div>
+											<div class="cart-item-bottom-row">
+												<p>
+													<!-- <span th:each="addedProduct.productPrice.productPriceOnPropertyValueList">
+															<span th:text="${property.productPropertyValue.productProperty.name}"></span> : <span th:text="${property.productPropertyValue.name}"></span>
+													</span> -->
+					
+													<span
+															th:each="a, iterStat : ${addedProduct.productPrice.productPriceOnPropertyValueList}"
+															th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''">
+													</span>
+					
+												</p>
+											</div>
+										</div>
+															
+										<div id="total-cart-cost">
+											<h5 >মোট <span th:text="${totalPrice}"></span> টাকা</h5>
+											<p >ডেলিভারি খরচ <span th:text="${totalDeliverycharge}"></span> টাকা</p>
+											<p class="small" th:if="${nurseryCount > 1}">
+												(<span th:text="${deliverycharge}"></span> টাকা X 
+												<span th:text="${nurseryCount}"></span> টি নার্সারি)
+											</p>
+											<h4 >সর্বমোট <span th:text="${total}"></span> টাকা</h4>
+										</div>
+					
+										
+									</div>
+							</div>
+						</div>
+
+					<div>
+						
 					</div>
 				</form>
 				</div>
 				
 				<div class="col-4">
-					<div id="cart-item-container">
-						<div class="cart-item-row" th:each="addedProduct : ${addedProducts}">
-							<div class="cart-item-top-row">
-								<div class="item-first-col">
-									<h6 class="" th:text="${addedProduct.productPrice.product.name}"></h6>
-									<p class="" th:text="${addedProduct.productPrice.nursery.name}">  </p>
-								</div>
-								<div class="item-second-col">
-		
-										<span th:text="${addedProduct.quantity}"></span> <span>X</span>  <span th:text="${addedProduct.unit_price}"></span><span>টাকা</span>
-		
-								</div>
-								<div class="item-third-col">
-								</div>
-							</div>
-							<div class="cart-item-bottom-row">
-								<p>
-									<!-- <span th:each="addedProduct.productPrice.productPriceOnPropertyValueList">
-											<span th:text="${property.productPropertyValue.productProperty.name}"></span> : <span th:text="${property.productPropertyValue.name}"></span>
-									</span> -->
-	
-									<span
-											th:each="a, iterStat : ${addedProduct.productPrice.productPriceOnPropertyValueList}"
-											th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''">
-									</span>
-	
-								</p>
-							</div>
-						</div>
-											
-						<div id="total-cart-cost">
-							<h5 >মোট <span th:text="${totalPrice}"></span> টাকা</h5>
-							<p >ডেলিভারি খরচ <span th:text="${totalDeliverycharge}"></span> টাকা</p>
-							<p class="small" th:if="${nurseryCount > 1}">
-								(<span th:text="${deliverycharge}"></span> টাকা X 
-								<span th:text="${nurseryCount}"></span> টি নার্সারি)
-							</p>
-							<h4 >সর্বমোট <span th:text="${total}"></span> টাকা</h4>
-						</div>
-						<p class="text-center ">অর্ডারটি ক্যাশ অন ডেলিভারীর ভিত্তিতে পরিশোধ করুন।</p>
+					<div id="total-cart-cost">
+						<h5 >মোট <span th:text="${totalPrice}"></span> টাকা</h5>
+						<p >ডেলিভারি খরচ <span th:text="${totalDeliverycharge}"></span> টাকা</p>
+						<p class="small" th:if="${nurseryCount > 1}">
+							(<span th:text="${deliverycharge}"></span> টাকা X 
+							<span th:text="${nurseryCount}"></span> টি নার্সারি)
+						</p>
+						<h4 >সর্বমোট <span th:text="${total}"></span> টাকা</h4>
+					</div>
+					<p class="text-center ">অর্ডারটি ক্যাশ অন ডেলিভারীর ভিত্তিতে পরিশোধ করুন।</p>
 	
 						
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="button" id="confirm-order" class="btn btn-primary">অর্ডারটি নিশ্চিত করুন</button>
+						</div>
 					</div>
 				</div>
 			</div>

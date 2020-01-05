@@ -85,17 +85,18 @@ $(document).ready(function() {
 		  
 		let phone = $("#phone").val();
 		
-
-		var delivery_address = $("#delivery-address").val();
-		var delivery_district =$("#delivery-district").val()==""?"": $("#delivery-district option:selected").text();
-		var delivery_city = $("#delivery-city").val();
+		selectedDeliveryAddressDiv = $('input[type=radio][name=deliveryaddress-radio]:checked').parent('.radio-container');
+	
+		var delivery_address = $(selectedDeliveryAddressDiv).children(".delivery-address-detail").text(); //$("#delivery-address").val();
+		var delivery_district = $(selectedDeliveryAddressDiv).children(".delivery-district").text(); // $("#delivery-district").val()==""?"": $("#delivery-district option:selected").text();
+		var delivery_city = $(selectedDeliveryAddressDiv).children(".delivery-city").text(); //$("#delivery-city").val();
 		let delivery_notes = $("#delivery-notes").val();
 
 		if($('#same-bill').is(':checked')) {
 			new_billing_address=false
-			var billing_address = $("#delivery-address").val();
-			var billing_district =$("#delivery-district").val()==""?"": $("#delivery-district option:selected").text();
-			var billing_city = $("#delivery-city").val();
+			var billing_address = delivery_address;// $("#delivery-address").val();
+			var billing_district = delivery_district;//$("#delivery-district").val()==""?"": $("#delivery-district option:selected").text();
+			var billing_city = delivery_city;//$("#delivery-city").val();
 		} else {
 
 			var billing_address = $("#billing-address").val();
@@ -151,6 +152,16 @@ function loadPrice() {
 	//2 : upozela type
 	//1 : zela type
 	//0 : bivag type
+
+
+	localStorage.setItem('loc', JSON.stringify(
+		{
+			division : $("#bivag").val() ,
+			district : $("#zela").val(),
+			upozila : $("#upozela").val()
+		}
+	));
+	
 	if($("#upozela").val() && $("#upozela").val()!="0"){
 		demographicDataSt="2-"+$("#upozela").val();
 	}else if($("#zela").val() && $("#zela").val()!="0"){
@@ -158,12 +169,11 @@ function loadPrice() {
 	}else if($("#bivag").val() && $("#bivag").val()!="0"){
 		demographicDataSt="0-"+$("#bivag").val();
 	}
-	 console.log(demographicDataSt);
+
 	var urlSt=`${api_origin}/api/productpricesearch/${productId}/${valueSt}`;
 	if(demographicDataSt){
 		urlSt=`${api_origin}/api/productpricesearch/${productId}/demographicdata/${demographicDataSt}/${valueSt}`;
 	}
-	console.log(urlSt);
 	
 	$.ajax({
 		type: 'GET',

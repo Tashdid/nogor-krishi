@@ -647,7 +647,7 @@ a.contact-button-link span.fa {
 }
 /*buy page */
 #find-nursery {
-	display: flex;
+	/* display: flex; */
     justify-content: space-evenly;
 }
 
@@ -862,4 +862,18 @@ table#price-list tr {
 }
 .qty input:disabled{
     background-color:white;
+}
+
+.hidden-div {
+	/* visibility: hidden; */
+	display: none;
+}
+
+.hide-div {
+	/* visibility: hidden; */
+	display: none;
+}
+
+.place-order-page .card {
+	margin-bottom: 10px;
 }
