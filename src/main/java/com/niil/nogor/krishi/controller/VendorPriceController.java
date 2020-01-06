@@ -223,6 +223,7 @@ public class VendorPriceController extends AbstractController {
 			
 			if (type.getFeedbackSt() != null) {
 				bean.setFeedbackSt(type.getFeedbackSt());
+				bean.setRating(type.getRating());
 				bean.setFeedbackDate(LocalDateTime.now());
 			}
 

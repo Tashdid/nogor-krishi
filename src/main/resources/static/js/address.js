@@ -1,14 +1,43 @@
+$(document).ready(function() {
+	$('input[type=radio][name=deliveryaddress-radio]:first').attr('checked', true);
+	// type:0 for delivery and 1 for billing
+	$("#deliveryAddressBtn").click(function(e) {
+		e.preventDefault();
+		ajaxFormSubmit('delivery', 0);
+	});
 
-// type:0 for delivery and 1 for billing
-$("#deliveryAddressBtn").click(function(e) {
-	e.preventDefault();
-	ajaxFormSubmit('delivery', 0);
+	$("#billingAddressBtn").click(function(e) {
+		e.preventDefault();
+		ajaxFormSubmit('billing', 1);
+	});
+
+
+
+	$("#newdeliveryAddress").click(function(e) {
+		e.preventDefault();
+		addNewAddressDiv('delivery');
+
+	});
+
+	$("#cancelnewdeliveryAddress").click(function(e) {
+		e.preventDefault();
+		cancelNewAddressDiv('delivery');
+
+	});
+
+	$("#newbillingAddress").click(function(e) {
+		e.preventDefault();
+		addNewAddressDiv('billing');
+
+	});
+
+	$("#cancelnewbillingAddress").click(function(e) {
+		e.preventDefault();
+		cancelNewAddressDiv('billing');
+
+	});
 });
 
-$("#billingAddressBtn").click(function(e) {
-	e.preventDefault();
-	ajaxFormSubmit('billing', 1);
-});
 
 function ajaxFormSubmit(prefix, type){
 	var address = $("#"+prefix+"-address").val();
@@ -33,8 +62,24 @@ function ajaxFormSubmit(prefix, type){
 			// @todo handle exepction
 			alert("Successfully Added!");
 			
-			var element=$(".card-body"+prefix+" .bg-faded");
-			var _html="<div class=\"card-block\"><div class=\"card-text\" onclick=\"updateAddress(this,'"+prefix+"','"+data.address+"','"+data.city+"','"+data.district+"')\"><span>"+data.id+": "+data.address+", "+data.city+", "+data.district+"</span></div></div>"
+			var element=$(".card-body"+prefix);
+			// var _html="<div class=\"card-block\"><div class=\"card-text\" onclick=\"updateAddress(this,'"+prefix+"','"+data.address+"','"+data.city+"','"+data.district+"')\"><span>"+data.id+": "+data.address+", "+data.city+", "+data.district+"</span></div></div>"
+			var _html = `
+			<div class="form-check radio-container">
+				<input class="form-check-input deliveryaddress-radio" type="radio" name="deliveryaddress-radio"
+				id="${data.id + '-radio'}" 
+				value="${data.id}" checked="true" />
+				<label class="form-check-label deliveryaddress-radio" for="${data.id + '-radio'}" >
+				${data.address}
+				
+				</label>
+				<span class="delivery-address-detail d-none"> ${data.address}</span>
+				, <span class="delivery-city" >${data.city}</span>
+				, <span class="delivery-district"> ${data.district}</span>
+				<a class="link" href="#">edit</a> .
+				<a class="link" href="#">Delete</a>
+			</div>
+			`;
 			element.append(_html);
 			cancelNewAddressDiv(prefix);
 		}
@@ -61,30 +106,6 @@ function updateAddress(element, prefix, address, city, district){
 		loadThana(prefix, city);
 	}
 }
-
-$("#newdeliveryAddress").click(function(e) {
-	e.preventDefault();
-	addNewAddressDiv('delivery');
-
-});
-
-$("#cancelnewdeliveryAddress").click(function(e) {
-	e.preventDefault();
-	cancelNewAddressDiv('delivery');
-
-});
-
-$("#newbillingAddress").click(function(e) {
-	e.preventDefault();
-	addNewAddressDiv('billing');
-
-});
-
-$("#cancelnewbillingAddress").click(function(e) {
-	e.preventDefault();
-	cancelNewAddressDiv('billing');
-
-});
 
 function addNewAddressDiv(prefix){
 	clearInput(prefix);

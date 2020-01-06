@@ -9,9 +9,9 @@
 		
 		
 		<div class="container mt-5">
-				<div class="row well">
+				<!-- <div class="row well">
 					<h3 class="text-center col mb-0">চেকআউট</h3>
-				</div>
+				</div> -->
 			<div class="row">
 			
 				<!--  Not authenticated -->
@@ -40,52 +40,7 @@
 				<div sec:authorize="isAuthenticated()" class="col-8">
 					<form class="form-horizontal">
 
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">Personal information</h5>
-									<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-									
-
-									<p th:text="${luser.name}" ></p>
-					<button type="button" class="btn btn-link show-div" id="btn-show-userinfo">Edit</button>
-					<button type="button" class="btn btn-link hide-div" id="btn-hide-userinfo">Hide</button>
-
-					<div class="hidden-div" id="hidden-div-userinfo">
-						<div class="form-group">
-							<label class="control-label col-sm-2"  for="Type">ফোন:</label>
-							<div class="col-sm-10">
-	
-								<input class="form-control" id="phone" type="text" th:value="${luser.mobile}" />
-							</div>
-						</div>
-	
-						<div class="form-group">
-							<label class="control-label col-sm-12"  for="Type">ই-মেইল:</label>
-							<div class="col-sm-10">
-	
-								<input class="form-control" name="email" id="email" th:value="${luser.email}" type="text" />
-							</div>
-						</div>
-					</div>
-					<div class="showing-div" id="showing-div-userinfo">
-						<div class="form-group">
-							<label class="control-label col-sm-2"  for="Type">ফোন:</label>
-							<div class="col-sm-10">
-	
-								<span th:text="${luser.mobile}"></span>
-							</div>
-						</div>
-	
-						<div class="form-group">
-							<label class="control-label col-sm-12"  for="Type">ই-মেইল:</label>
-							<div class="col-sm-10">
-									<span th:text="${luser.email}"></span>
-	
-							</div>
-						</div>
-					</div>
-								</div>
-							</div>
+							
 
 					<!-- <h2>বিলের বিস্তারিত</h2> -->
 					<!-- <hr/> -->
@@ -110,11 +65,12 @@
 							<div class="card-body">
 								<h5 class="card-title">ঠিকানা</h5>
 
-								<h6 class="card-subtitle mb-2 text-muted">ডেলিভারি ঠিকানা</h6>
+								<h6 class="card-subtitle mb-2 text-muted mt-1 d-flex justify-content-between">
+									<span>ডেলিভারি ঠিকানা</span>	
+									<button id="newdeliveryAddress" class="btn btn-link"> Add New</button>
+								</h6>
 	
-								<button id="newdeliveryAddress"> Add New</button>
-								<button id="cancelnewdeliveryAddress" style="display: none;"> Cancel</button>
-			
+								
 								<div class="delivery-addressDiv" style="display: none;">
 								
 									<div class="form-group">
@@ -160,13 +116,14 @@
 										</div>
 									</div>
 									
-									<div class="form-group">
-										<button id="deliveryAddressBtn">Save Address</button>
+									<div class="form-group d-flex justify-content-center">
+										<button id="cancelnewdeliveryAddress" class="btn btn-link" style="display: none;"> Cancel</button>
+										<button id="deliveryAddressBtn" class="btn btn-success">Save Address</button>
 									</div>
 								</div>
 								<div class="card-body card-bodydelivery">
 										
-										<span th:unless="${#lists.isEmpty(deliveryAddressList)}">Select from below Address</span>
+										<!-- <span th:unless="${#lists.isEmpty(deliveryAddressList)}">Select from below Address</span> -->
 										<div class="form-check radio-container" th:each="cm : ${deliveryAddressList}" >
 											<input class="form-check-input deliveryaddress-radio" type="radio" name="deliveryaddress-radio" th:id="${cm.id + '-radio'}" 
 											th:value="${cm.id}" />
@@ -175,8 +132,11 @@
 											  
 											</label>
 											<span class="delivery-address-detail d-none" th:text="${cm.address}"></span>
-											zilla: <span class="delivery-city" th:text="${cm.city}"></span>
-											bivag: <span class="delivery-district" th:text="${cm.district}"></span>
+											, <span class="delivery-city" th:text="${cm.city}"></span>
+											, <span class="delivery-district" th:text="${cm.district}"></span>
+											<a class="link" href="#">edit</a> .
+											<a class="link" href="#">Delete</a>
+
 			
 										  </div>
 										<!-- <div class="card bg-faded">
@@ -191,7 +151,7 @@
 								<hr />
 								<h6 class="card-subtitle mb-2 text-muted">বিলের ঠিকানা</h6>
 								<div class="form-check">
-										<input type="checkbox" id="same-bill"/>
+										<input type="checkbox" id="same-bill" checked="true" />
 										<label class="form-check-label" for="same-bill">
 											ডেলিভারি ঠিকানার অনুরূপ
 										</label>
@@ -268,7 +228,57 @@
 										</div>
 							</div>
 						</div>
-						
+						<div class="card">
+								<div class="card-body">
+									
+									<h5 class="card-title">Personal information</h5>
+									<!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+									
+
+									<p  ></p>
+									<p class="card-subtitle mb-2 text-muted mt-1 d-flex justify-content-between">
+										<span>name: <span th:text="${luser.name}"></span></span>		
+										<button type="button" class="btn btn-link show-div" id="btn-show-userinfo">Edit</button>
+										<button type="button" class="btn btn-link hide-div" id="btn-hide-userinfo">Hide</button>
+					
+									</p>
+					
+					<div class="hidden-div" id="hidden-div-userinfo">
+						<div class="form-group">
+							<label class="control-label col-sm-2"  for="Type">ফোন:</label>
+							<div class="col-sm-10">
+	
+								<input class="form-control" id="phone" type="text" th:value="${luser.mobile}" />
+							</div>
+						</div>
+	
+						<div class="form-group">
+							<label class="control-label col-sm-12"  for="Type">ই-মেইল:</label>
+							<div class="col-sm-10">
+	
+								<input class="form-control" name="email" id="email" th:value="${luser.email}" type="text" />
+							</div>
+						</div>
+					</div>
+					<div class="showing-div" id="showing-div-userinfo">
+						<div class="form-group">
+							<label class="control-label col-sm-2"  for="Type">ফোন:</label>
+							<div class="col-sm-10">
+	
+								<span th:text="${luser.mobile}"></span>
+							</div>
+						</div>
+	
+						<div class="form-group">
+							<label class="control-label col-sm-12"  for="Type">ই-মেইল:</label>
+							<div class="col-sm-10">
+									<span th:text="${luser.email}"></span>
+	
+							</div>
+						</div>
+					</div>
+								</div>
+							</div>
 						<div class="card">
 								<div class="card-body">
 									<h5 class="card-title"> payment</h5>

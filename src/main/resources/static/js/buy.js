@@ -174,7 +174,7 @@ function loadPrice() {
 	if(demographicDataSt){
 		urlSt=`${api_origin}/api/productpricesearch/${productId}/demographicdata/${demographicDataSt}/${valueSt}`;
 	}
-	
+	$("#loading").show();
 	$.ajax({
 		type: 'GET',
 		// url:
@@ -182,6 +182,8 @@ function loadPrice() {
 		url: urlSt,
 		
 		success: function(data) {
+			$("#loading").hide();
+
 			body = data.length ? '' : '<tr><td class="msg-buy text-danger">দুঃখিত, কিছু পাওয়া যায়নি। দয়া করে অন্য প্রপার্টি দিয়ে চেষ্টা করুন.</td></tr>';
 			
 			for(i=0; i < data.length; i++) {
@@ -239,7 +241,9 @@ function loadPrice() {
 			
 		},
 		error: function(data) {
-			alert("error");
+			$("#loading").hide();
+
+			alert("Something went wrong!");
 		}
 	
 	});

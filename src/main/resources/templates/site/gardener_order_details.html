@@ -74,7 +74,7 @@
 								</tr>
 								<tr class="summary">
 									<td colspan="4">সর্বমোট:</td>
-									<td><span id="" th:text="${order.payable_amount}"></span>টাকা</td>
+									<td><h6 id="" th:text="${order.payable_amount}"></h6>টাকা</td>
 								</tr>
 							</tfoot>
 						</table>
@@ -154,7 +154,44 @@
 					<div class="card mt-4">
 						<div class="card-header">ফিডব্যাক</div>
 						<div class="card-body">
-							<form class="" id="feedbackUpdateForm"
+
+
+							<div class="text-right" th:object="${order}">
+								<p class="readonly-feedback" th:text="*{feedbackSt}"></p>
+								<!-- <div class="stars starrr" th:attr="data-rating=*{rating != null ?rating:0}" ></div> -->
+								<div class="star" >
+									<span class="glyphicon .glyphicon-star-empty glyphicon-star" th:unless="*{rating == 0}" th:each="i : *{#numbers.sequence( 1, rating )}"></span>
+									<span class="glyphicon glyphicon-star-empty " th:unless="*{rating == 5}" th:each="i : *{#numbers.sequence( rating , 4 )}"></span>
+
+								</div>
+								
+								<a class="btn btn-success" href="#reviews-anchor" id="open-review-box">Leave a Review</a>
+							</div>
+						
+							<div class="row" id="post-review-box" style="display:none;">
+								<div class="col-md-12">
+									<form class="" id="feedbackUpdateForm"
+										th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
+										th:object="${order}" method="post">
+										
+										<input type="hidden" th:field="*{id}" />
+										<input id="ratings-hidden" type="hidden" th:field="*{rating}" /> 
+										<textarea class="form-control animated" 
+										th:field="*{feedbackSt}" id="feedbackSt"
+										cols="50" placeholder="Enter your review here..." rows="5"></textarea>
+						
+										<div class="text-right">
+											<div class="stars starrr" th:attr="data-rating=*{rating!= null?rating:0}" ></div>
+											<a class="btn btn-link" href="#" id="close-review-box" 
+											style="display:none; margin-right: 10px;">
+											Cancel</a>
+											<button class="btn btn-success" type="submit">Save</button>
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<!-- <form class="" id="feedbackUpdateForm"
 								th:action="@{'/vendorprice/vendor-order-detail/update-order'}"
 								th:object="${order}" method="post">
 								
@@ -165,7 +202,7 @@
 								</div>
 								<button type="submit" class="btn btn-primary">Save</button>
 								
-							</form>
+							</form> -->
 						</div>
 					</div>
 				</div>
