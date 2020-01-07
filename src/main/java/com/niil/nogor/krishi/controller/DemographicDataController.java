@@ -1,6 +1,8 @@
 package com.niil.nogor.krishi.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -30,9 +32,30 @@ public class DemographicDataController extends AbstractController {
 	public String updateScreen(@PathVariable Long code, ModelMap model) {
 		DemographicData bean = code == null ? new DemographicData() : demographicDataRepo.findOne(code);
 		if (bean == null) bean = new DemographicData();
+		
+		List<DemographicData>bivaggulo=demographicDataRepo.findAllByParentIdIsNullOrderByNameAsc();
+		List<DemographicData> zelagulo= new ArrayList<DemographicData>();
+		if(bivaggulo!=null && !bivaggulo.isEmpty()) {
+			zelagulo=demographicDataRepo.findAllByParentIdOrderByNameAsc(bivaggulo.get(0).getId());
+		}
+		
+		model.addAttribute("bivaggulo", bivaggulo);
+		model.addAttribute("zelagulo", zelagulo);
+		
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "DemographicData");
-		model.addAttribute("allbeans", demographicDataRepo.findAllByOrderBySequenceAsc());
+		
+		List<DemographicData> allData = demographicDataRepo.findAllByOrderBySequenceAsc();
+		for (DemographicData data : allData) {
+			if (data.getType() != null) {
+				data.setTypeSt(typeStFromType(data.getType()));
+			} else {
+				data.setTypeSt("Invalid");
+			}
+		}
+		
+		model.addAttribute("allbeans", allData);
+		
 		return URL.substring(1);
 	}
 
@@ -47,6 +70,7 @@ public class DemographicDataController extends AbstractController {
 						.build();
 		}
 		bean.setName(type.getName());
+		bean.setType(Byte.parseByte(type.getTypeSt()));
 		bean = demographicDataRepo.save(bean);
 		return "redirect:" + URL + "/" + bean.getId();
 	}
@@ -70,6 +94,21 @@ public class DemographicDataController extends AbstractController {
 		demographicDataRepo.delete(code);
 		return true;
 	}
+	
+	private String typeStFromType (Byte type) {
+		switch(type) {
+			case 0 : 
+				return "বিভাগ";
+			case 1 : 
+				return "জেলা";
+			case 2 : 
+				return "উপজেলা";
+			default:
+				return "invalid";
+		}
+		
+	}
+	
 }
 
 

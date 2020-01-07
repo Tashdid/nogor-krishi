@@ -8,7 +8,7 @@
 		<div class="container" style="margin-top: 15px;">
 			<div class="row">
 				<div class="col-sm-6">
-					<form class="form-horizontal" th:action="@{'/manage/demodata'}" th:object="${bean}" method="post">
+					<form class="form-horizontal" th:action="@{'/manage/demographicdata'}" th:object="${bean}" method="post">
 						<div class="form-group row" th:if="${bean.id ne null}">
 							<label class="col-form-label col-form-label-sm col-sm-4" for="id">Code:</label>
 							<div class="col-sm-2">
@@ -22,9 +22,38 @@
 								<input required="" type="text" class="form-control form-control-sm" th:field="*{name}" />
 							</div>
 						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="name">Type:</label>
+							<div class="col-sm-8">
+								<select class="form-control" th:field="*{typeSt}" required="required" th:onchange="'javascript:loadDemographicData(this)'">
+									<option value="0">বিভাগ</option>
+									<option value="1">জেলা</option>
+									<option value="2">উপজেলা</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group row" id="bivag" style="display: none;">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="name">বিভাগ:</label>
+							<div class="col-sm-8">
+								<select class="form-control" id="bivagselect" th:onchange="'javascript:loadChildDemographicData(this,\'zelaselect\',null,false)'"> <!-- th:field="*{bivag}" -->
+									<option th:value="0" text="Please Select">Please Select</option>
+									<option th:each="bv : ${bivaggulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row" id="zela" style="display: none;">
+							<label class="col-form-label col-form-label-sm col-sm-4" for="name">জেলা:</label>
+							<div class="col-sm-8">
+								<select class="form-control" id="zelaselect" > <!-- th:field="*{bivag}" -->
+									<option th:each="bv : ${zelagulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
+								</select>
+							</div>
+						</div>
+						
 						<div class="col-sm-4 offset-sm-8">
 							<div class="form-group">
-								<a th:if="${bean.id ne null}" type="button" href="/manage/demodata" class="btn btn-warning">New</a>
+								<a th:if="${bean.id ne null}" type="button" href="/manage/demographicdata" class="btn btn-warning">New</a>
 								<button type="submit" class="btn btn-success">Save</button>
 							</div>
 						</div>
@@ -33,14 +62,15 @@
 				<div class="col-sm-6">
 					<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 						class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
-						data-columndefs="sequence,name,buttons,id-false"
-						th:attr="data-actionurl=@{/manage/demodata/table}">
+						data-columndefs="sequence,name,type,buttons,id-false"
+						th:attr="data-actionurl=@{/manage/demographicdata/table}">
 						<thead>
 							<tr>
 								<th>Order</th>
 								<th>Name</th>
+								<th>Type</th>
 								<th>
-									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/demodata'}"><span class="glyphicon glyphicon-plus"></span></a>
+									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/demographicdata'}"><span class="glyphicon glyphicon-plus"></span></a>
 								</th>
 								<th>Code</th>
 							</tr>
@@ -49,9 +79,10 @@
 							<tr th:each="bean : ${allbeans}">
 								<td th:text="${bean.sequence}"></td>
 								<td th:text="${bean.name}"></td>
+								<td th:text="${bean.typeSt}"></td>
 								<td>
-									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/demodata/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
-									<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/demodata/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>
+									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/demographicdata/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+									<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/demographicdata/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>
 								</td>
 								<td th:text="${bean.id}"></td>
 							</tr>
@@ -62,6 +93,8 @@
 
 			<div th:replace="common :: commom-footer" th:remove="tag"></div>
 			<div th:replace="common :: common-js" th:remove="tag"></div>
+			
+			<script th:src="@{/js/demographic.js}" src="js/demographic.js" ></script>
 		</div>
 	</body>
 </html>
