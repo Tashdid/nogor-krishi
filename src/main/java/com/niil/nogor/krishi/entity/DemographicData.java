@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,5 +22,8 @@ public class DemographicData {
 	private Byte type;
 	private Long parentId; 
 	private int sequence;
+	
+	@Transient
+	private String typeSt;
 		
 }
