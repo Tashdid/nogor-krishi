@@ -137,8 +137,18 @@ $(document).ready(function() {
 		localstgLoc = localStorage.getItem('loc');
 		if(localstgLoc == null || localstgLoc == '')
 			$('#locationModal').modal();
-		else
-			location.replace(`${api_origin}/buy/` + $(this).data('pid'));
+		else {
+			localstgLoc = JSON.parse(localStorage.getItem('loc'));
+			if(!localstgLoc.division || !localstgLoc.district || !localstgLoc.upozila) {
+	
+				$('#locationModal').modal();
+
+			} else {
+				location.replace(`${api_origin}/buy/` + $(this).data('pid'));
+
+			}
+
+		}
 	
 	
 	});
@@ -146,7 +156,7 @@ $(document).ready(function() {
 	
 		let division = $("#division").val();
 		let district = $("#district").val();
-		let upozila = $("#upozila").val();
+		let upozila = $("#upozela").val();
 			
 		localStorage.setItem('loc', JSON.stringify(
 			{
@@ -158,6 +168,38 @@ $(document).ready(function() {
 		location.replace(`${api_origin}/buy/` + $(this).data('pid'));
 	
 	});	
+	
+	$(document).on("change", ".nursery-in-upozila", function(){
+	
+		location.replace(`${api_origin}/vendors/` + $(this).val());
+	
+	});	
+	
+
+	$(document).on("click", ".show-div", function(){
+		var btnid = $(this).attr('id');
+		var relation = btnid.replace('btn-show-','');
+
+		$('#hidden-div-' + relation).css('display','flex');
+		$('#showing-div-' + relation).css('display','none');
+
+		$(this).hide();
+		$('#btn-hide-' + relation).show();
+
+	});	
+
+	$(document).on("click", ".hide-div", function(){
+		var btnid = $(this).attr('id');
+		var relation = btnid.replace('btn-hide-','');
+
+		$('#hidden-div-' + relation).css('display','none');
+		$('#showing-div-' + relation).css('display','flex');
+
+		$(this).hide();
+		$('#btn-show-' + relation).show();
+
+	});	
+
 });
 
 // Vue.component('user-name', {

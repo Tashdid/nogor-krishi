@@ -53,6 +53,7 @@ public class SiteController extends AbstractController {
 	@Autowired GardenDesignImagesRepo gardenDesignImagesRepo;
 	@Autowired MaterialRepo materialRepo;
 	@Autowired private APIContentRepo contentRepo;
+	@Autowired DemographicDataRepo demographicDataRepo;
 
 	@RequestMapping
 	public String homePage(final ModelMap model) {
@@ -114,6 +115,18 @@ public class SiteController extends AbstractController {
 				ProductPrice productMaxPrice = productPriceRepo.findTopByProductOrderByPriceDesc(product);
 				model.addAttribute("productMinPrice", productMinPrice);
 				model.addAttribute("productMaxPrice", productMaxPrice);
+				
+				List<DemographicData>bivaggulo=demographicDataRepo.findAllByParentIdIsNullOrderByNameAsc();
+				List<DemographicData> zelagulo= new ArrayList<DemographicData>();
+				if(bivaggulo!=null && !bivaggulo.isEmpty()) {
+					zelagulo=demographicDataRepo.findAllByParentIdOrderByNameAsc(bivaggulo.get(0).getId());
+				}
+				
+				model.addAttribute("bivaggulo", bivaggulo);
+				model.addAttribute("zelagulo", zelagulo);
+				model.addAttribute("upozelagulo", zelagulo!=null && !zelagulo.isEmpty()?demographicDataRepo.findAllByParentIdOrderByNameAsc(zelagulo.get(0).getId()):new ArrayList<>());
+
+
 			}
 
 		} else {

@@ -9,4 +9,8 @@ public interface ProductPriceCustomRepo {
 	
 	List<ProductPrice> getProductPriceListByPropertyValueOrderByQuantityDescPriceAsc(Long productId,List<String> propertyValueIdList);
 	
+	List<ProductPrice> getProductPriceListByPropertyValueAndDemographicDataOrderByQuantityDescPriceAsc(Long productId,List<String> propertyValueIdList, String demographicData) ;
+	
+	List<ProductPrice> getProductPriceListByProductAndDemographicDataOrderByQuantityDescPriceAsc(Long productId, String demographicData) ;
+	
 }

@@ -1,18 +1,24 @@
 package com.niil.nogor.krishi.controller;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
-// import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.httpclient.HttpStatus;
 
 // import javax.servlet.http.HttpServletRequest;
 // import javax.servlet.http.HttpServletResponse;
 // import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 // import org.springframework.util.StringUtils;
@@ -68,7 +74,10 @@ public class EcommerceController extends AbstractController {
 	@Autowired
 	ProductPropertyMappingRepo productPropertyMappingRepo;
 	@Autowired
-	SecurityService securityService;
+	DemographicDataRepo demographicDataRepo;
+	@Autowired SecurityService securityService;
+	@Autowired UserAddressPreferenceRepo userAddressPreferenceRepo;
+
 	@Autowired
 	MailService mailService;
 
@@ -87,7 +96,16 @@ public class EcommerceController extends AbstractController {
 			mapProperty.put(productPropertyMapping.getProductProperty().getName(), propertyValueList);
 			
 		});
-		
+
+		List<DemographicData>bivaggulo=demographicDataRepo.findAllByParentIdIsNullOrderByNameAsc();
+				List<DemographicData> zelagulo= new ArrayList<DemographicData>();
+				if(bivaggulo!=null && !bivaggulo.isEmpty()) {
+					zelagulo=demographicDataRepo.findAllByParentIdOrderByNameAsc(bivaggulo.get(0).getId());
+				}
+				
+		model.addAttribute("bivaggulo", bivaggulo);
+		model.addAttribute("zelagulo", zelagulo);
+		model.addAttribute("upozelagulo", zelagulo!=null && !zelagulo.isEmpty()?demographicDataRepo.findAllByParentIdOrderByNameAsc(zelagulo.get(0).getId()):new ArrayList<>());
 		
         model.addAttribute("mapProperty", mapProperty);
         model.addAttribute("product", product);
@@ -136,7 +154,14 @@ public class EcommerceController extends AbstractController {
 		long nurseryCount = cartDetailsList.stream().map(CartDetails::getProductPrice).map(ProductPrice::getNursery).distinct().count();
 		Settings settings = settingsRepo.findAll().stream().findFirst().orElse(new Settings());
 		
-		model.addAttribute("user", new User());
+		User loggedUser=securityService.findLoggedInUser();
+		if(loggedUser!=null) {
+			model.addAttribute("deliveryAddressList", userAddressPreferenceRepo.findAllByUserAndAddressType(loggedUser,AddressType.DELIVER));
+			model.addAttribute("billingAddressList", userAddressPreferenceRepo.findAllByUserAndAddressType(loggedUser,AddressType.BILLING));
+		}
+		
+		model.addAttribute("districtList", demographicDataRepo.findAllByTypeOrderByNameAsc(new Byte("1")));
+		model.addAttribute("user", loggedUser!=null?loggedUser:new User());
 		model.addAttribute("deliverycharge", settings.getDeliveryCharge());
 		model.addAttribute("totalDeliverycharge", nurseryCount * settings.getDeliveryCharge());
 		model.addAttribute("total", BigDecimal.valueOf( nurseryCount * settings.getDeliveryCharge() ).add(totalPrice));
@@ -165,5 +190,24 @@ public class EcommerceController extends AbstractController {
 
         return "site/confirm_order";
     }
+
+
+
+	@RequestMapping(value = "/get-demographic-data-by-parent/{parentId}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<DemographicData> getDemographicDataByParent(@PathVariable Long parentId) {
+			return demographicDataRepo.findAllByParentIdOrderByNameAsc(parentId);	
+	}
+
+
+	@RequestMapping(value = "/add-user-address-preference", method = RequestMethod.POST)
+	@ResponseBody
+	public UserAddressPreference addUserAddressPreference(@RequestBody UserAddressPreference userAddressPreference) {
+		
+		User loggedUser=securityService.findLoggedInUser();
+		userAddressPreference.setUser(loggedUser);	
+		userAddressPreferenceRepo.save(userAddressPreference);
+		return userAddressPreference;	
+	}
 
 }

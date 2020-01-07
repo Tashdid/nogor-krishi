@@ -23,34 +23,63 @@
 
 					<div class="well">
 
-						<form id="find-nursery" class="form-inline" onsubmit="return mySubmitFunction(event)">
+						<form id="find-nursery" class="">
 							<input th:value="${product.id}" id="product-id" type="hidden" />
-							<div class="form-group" th:each="mp: ${mapProperty}">
-								<label class="control-label col-sm-2" for="Type" th:text="${mp.key}"></label>
-								<div class="col-sm-10">
-									<select  class="form-control d-none property-selection" th:id="'select-' + ${mp.key}" >
-										<option value="0" text="Select"></option>
-										<option th:text="${ap.name}" th:each="ap : ${mp.value}"  th:value="${ap.id}"></option>
-									</select>	
-		
-									<div class="btn-group" role="group" aria-label="..." th:id="'btn-grp-' + ${mp.key}" >
-										<button type="button" class="btn btn-default kk-btn-group" 
-											th:each="ap : ${mp.value}"  
-											th:attr="data-vlu=${ap.id}"
-											th:text="${ap.name}">
-										</button>
-									</div>
-		
+							<div class='form-row d-flex'>
+								<div class="form-group col-md-4">
+									<label class="col-form-label col-form-label-sm col-sm-3" for="city">বিভাগ:</label>
+										<select class="form-control" id="bivag" th:onchange="'javascript:loadChildDemographicData(this,\'zela\',\'upozela\',false)'"> <!-- th:field="*{bivag}" -->
+											<option th:value="0" text="Please Select">Please Select</option>
+											<option th:each="bv : ${bivaggulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
+										</select>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="col-form-label col-form-label-sm col-sm-3" for="city">জেলা:</label>
+										<select class="form-control" id="zela" th:onchange="'javascript:loadChildDemographicData(this,\'upozela\',null, false)'"> <!-- th:field="*{bivag}" -->
+											<option th:each="bv : ${zelagulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
+										</select>
+								</div>
+								<div class="form-group col-md-4">
+									<label class="col-form-label col-form-label-sm col-sm-3" for="city">উপজেলা:</label>
+										<select class="form-control" id="upozela"> <!-- th:field="*{bivag}" -->
+											<option th:each="bv : ${upozelagulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
+										</select>
+								</div>
+									
+							</div>
+
+							<hr />
+
+							<div class="d-flex">
+									<div class="form-group" th:each="mp: ${mapProperty}">
+											<label class="control-label col-sm-2" for="Type" th:text="${mp.key}"></label>
+											<div class="col-sm-10">
+												<select  class="form-control d-none property-selection" th:id="'select-' + ${mp.key}" >
+													<option value="0" text="Select"></option>
+													<option th:text="${ap.name}" th:each="ap : ${mp.value}"  th:value="${ap.id}"></option>
+												</select>	
+					
+												<div class="btn-group" role="group" aria-label="..." th:id="'btn-grp-' + ${mp.key}" >
+													<button type="button" class="btn btn-default kk-btn-group" 
+														th:each="ap : ${mp.value}"  
+														th:attr="data-vlu=${ap.id}"
+														th:text="${ap.name}">
+													</button>
+												</div>
+					
+													
+											</div>
+										</div>
 										
-								</div>
+										
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+											<button type="button" id="get-price" class="btn btn-success">ফিল্টার করুন</button>
+											</div>
+										</div>
 							</div>
 							
 							
-							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-								<button type="button" id="get-price" class="btn btn-success">ফিল্টার করুন</button>
-								</div>
-							</div>
 						</form>
 					</div>
 
@@ -82,7 +111,8 @@
 			
 			
 			<div class="row">
-				<div class="col-sm-12">
+				<div class="col-sm-12 load-container">
+					<div id="loading"></div>
 					<table id="price-list" class="table table-bordered">
 						<tbody>
 							<tr><td class="msg-buy"><span th:text="${product.name}">পণ্যটি</span> কিনতে যেকোনো প্রপার্টি সিলেক্ট করে নার্সারি খুঁজুন ও দাম দেখুন...</td></tr>
@@ -97,7 +127,14 @@
 		<div th:replace="common :: commom-footer" th:remove="tag"></div>
 		<div th:replace="common :: common-js" th:remove="tag"></div>
 		<script th:src="@{/js/buy.js}" src="js/buy.js" ></script>
+		<script th:src="@{/js/nursery.js}" src="js/nursery.js" ></script>
 		<script>
+			localstgLoc = JSON.parse(localStorage.getItem('loc'));
+
+			$("#bivag").val(localstgLoc.division);
+			$("#zela").val(localstgLoc.district);
+			$("#upozela").val(localstgLoc.upozila);
+
 			loadPrice();
 		</script>
 	</body>

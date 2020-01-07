@@ -7,13 +7,13 @@
 
 		<div class="container mt-5">
 			<div class="row">
-				<div class="col-lg-3 product-background" style="position: relative;">
+				<!-- <div class="col-lg-3 product-background" style="position: relative;">
 					<div th:each="ar : ${areas}" style="margin-bottom: 2px; padding-left: 5px;" th:styleappend="${area.id eq ar.id ? ('background-color: yellowgreen;') : ''}"><a class="" th:href="@{'/vendors/' + ${ar.id}}" th:text="${ar.name}">এলিফ্যান্ট রোড</a> <br/></div>
 					<div th:replace="site/vendors :: torulota"></div>
-				</div>
+				</div> -->
 				<!-- product sidebar ends here -->
-				<div class="col-lg-6 pl-5" id="vendors-container">
-					<div class="row" th:with="area=${vendor.area}">
+				<div class="col-lg-9 pl-5" id="vendors-container">
+					<!-- <div class="row" th:with="area=${vendor.area}">
 						<div class="col-8">
 							<p class="lead mb-0">
 								<span class="mr-2" th:text="${area.city.name}">ঢাকা</span>
@@ -21,7 +21,7 @@
 								<span class="mr-2 text-muted" th:text="${area.name}">মিরপুর </span>
 							</p>
 						</div>
-					</div>
+					</div> -->
 					<div class="row no-gutters">
 						<div class="col-6 pl-0 d-inline-block">
 							<div class="mt-2">

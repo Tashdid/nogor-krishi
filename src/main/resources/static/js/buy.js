@@ -1,4 +1,7 @@
 var myMap = {};
+var new_delivery_address=false;
+var new_billing_address=false;
+
 $(document).ready(function() {
 	
 	$(document).on("click", ".add-to-cart", function(){
@@ -81,21 +84,26 @@ $(document).ready(function() {
 	$(document).on("click", "#confirm-order", function(){
 		  
 		let phone = $("#phone").val();
-		let billing_address = $("#billing-address").val();
-		let billing_district = $("#billing-district").val();
-		let billing_city = $("#billing-city").val();
+		
+		selectedDeliveryAddressDiv = $('input[type=radio][name=deliveryaddress-radio]:checked').parent('.radio-container');
+	
+		var delivery_address = $(selectedDeliveryAddressDiv).children(".delivery-address-detail").text(); //$("#delivery-address").val();
+		var delivery_district = $(selectedDeliveryAddressDiv).children(".delivery-district").text(); // $("#delivery-district").val()==""?"": $("#delivery-district option:selected").text();
+		var delivery_city = $(selectedDeliveryAddressDiv).children(".delivery-city").text(); //$("#delivery-city").val();
 		let delivery_notes = $("#delivery-notes").val();
 
 		if($('#same-bill').is(':checked')) {
-			var delivery_address = $("#billing-address").val();
-			var delivery_district = $("#billing-district").val();
-			var delivery_city = $("#billing-city").val();
+			new_billing_address=false
+			var billing_address = delivery_address;// $("#delivery-address").val();
+			var billing_district = delivery_district;//$("#delivery-district").val()==""?"": $("#delivery-district option:selected").text();
+			var billing_city = delivery_city;//$("#delivery-city").val();
 		} else {
-			var delivery_address = $("#delivery-address").val();
-			var delivery_district = $("#delivery-district").val();
-			var delivery_city = $("#delivery-city").val();
-		}
 
+			var billing_address = $("#billing-address").val();
+			var billing_district = $("#billing-district").val()==""?"":$("#billing-district option:selected").text();
+			var billing_city = $("#billing-city").val();
+		}
+		if(delivery_address && billing_address){
 		
 		$.ajax({
 			type: 'POST',
@@ -111,6 +119,8 @@ $(document).ready(function() {
 				delivery_address,
 				delivery_district,
 				delivery_city,
+				new_delivery_address,
+				new_billing_address,
 				delivery_notes
 			}),
 			success: function(data) {
@@ -120,6 +130,9 @@ $(document).ready(function() {
 			}
 		
 		});
+		}else{
+			alert("Insert Valid Address");
+		}
 	
 	});
 
@@ -131,21 +144,46 @@ function loadPrice() {
 	let valueSt="";
 	$.each( myMap, function(index,value){
 			valueSt+="-"+value;
-		})
-		if(valueSt){
+		});
+	if(valueSt){
 			valueSt=valueSt.substring(1);
+	}
+	let demographicDataSt="";
+	//2 : upozela type
+	//1 : zela type
+	//0 : bivag type
+
+
+	localStorage.setItem('loc', JSON.stringify(
+		{
+			division : $("#bivag").val() ,
+			district : $("#zela").val(),
+			upozila : $("#upozela").val()
 		}
-	// console.log(valueSt);
-	var url=`${api_origin}/api/productpricesearch/${productId}/${valueSt}`;
-	console.log(url);
+	));
 	
+	if($("#upozela").val() && $("#upozela").val()!="0"){
+		demographicDataSt="2-"+$("#upozela").val();
+	}else if($("#zela").val() && $("#zela").val()!="0"){
+		demographicDataSt="1-"+$("#zela").val();
+	}else if($("#bivag").val() && $("#bivag").val()!="0"){
+		demographicDataSt="0-"+$("#bivag").val();
+	}
+
+	var urlSt=`${api_origin}/api/productpricesearch/${productId}/${valueSt}`;
+	if(demographicDataSt){
+		urlSt=`${api_origin}/api/productpricesearch/${productId}/demographicdata/${demographicDataSt}/${valueSt}`;
+	}
+	$("#loading").show();
 	$.ajax({
 		type: 'GET',
 		// url:
 		// `${api_origin}/test/price-list/${productId}/saleType/${saleTypeId}`,
-		url: `${api_origin}/api/productpricesearch/${productId}/${valueSt}`,
+		url: urlSt,
 		
 		success: function(data) {
+			$("#loading").hide();
+
 			body = data.length ? '' : '<tr><td class="msg-buy text-danger">দুঃখিত, কিছু পাওয়া যায়নি। দয়া করে অন্য প্রপার্টি দিয়ে চেষ্টা করুন.</td></tr>';
 			
 			for(i=0; i < data.length; i++) {
@@ -203,7 +241,9 @@ function loadPrice() {
 			
 		},
 		error: function(data) {
-			alert("error");
+			$("#loading").hide();
+
+			alert("Something went wrong!");
 		}
 	
 	});

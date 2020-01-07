@@ -2,6 +2,10 @@ body{
 	font-family: -Kohinoor Bangla, Siyam Rupali, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,sans-serif;
 }
 
+a{
+	color: #167806;
+}
+
 #error-container{
 	height: 100%;
 	position: fixed;
@@ -647,7 +651,7 @@ a.contact-button-link span.fa {
 }
 /*buy page */
 #find-nursery {
-	display: flex;
+	/* display: flex; */
     justify-content: space-evenly;
 }
 
@@ -862,4 +866,47 @@ table#price-list tr {
 }
 .qty input:disabled{
     background-color:white;
+}
+
+.hidden-div {
+	/* visibility: hidden; */
+	display: none;
+}
+
+.hide-div {
+	/* visibility: hidden; */
+	display: none;
+}
+
+.place-order-page .card {
+	margin-bottom: 10px;
+}
+
+.animated {
+    -webkit-transition: height 0.2s;
+    -moz-transition: height 0.2s;
+    transition: height 0.2s;
+}
+
+.stars
+{
+    margin: 20px 0;
+    font-size: 24px;
+    color: #167806;
+}
+
+.load-container {
+	position: relative;
+}
+#loading {
+	display: block;
+	position: absolute;
+	background-image: url('../../images/loading.gif');	
+	background-position: center;
+	background-repeat: no-repeat;
+	padding: 5px;
+	height: 50px;
+	width: 50px;
+	left: 45%;
+	top: 30%;
 }

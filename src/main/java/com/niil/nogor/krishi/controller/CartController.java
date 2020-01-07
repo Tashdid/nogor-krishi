@@ -120,7 +120,7 @@ public class CartController extends AbstractController {
 				pp.setProductPrice(null);
 			});
 		});
-		System.out.println(cartDetailsList);
+//		System.out.println(cartDetailsList);
 
 		if (!cartDetailsList.isEmpty()) {
 			return cartDetailsList;

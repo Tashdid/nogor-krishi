@@ -1,5 +1,6 @@
 package com.niil.nogor.krishi.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,13 @@ public class GardenerOrderController extends AbstractController{
 		Orders order = orderRepo.findOne(order_id);
 		List<OrderDetail> orderDetailsList = orderDetailsRepo.findAllByOrders(order);
 		model.addAttribute("orderDetailList", orderDetailsList);
+		order.getDeliveryManagements().forEach(dm->{
+			if(dm.getDeliveryDate()!=null) {
+				SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+				String dateSt=sdf.format(dm.getDeliveryDate());
+				dm.setDeliveryDatest(dateSt);
+			}
+		});
 		model.addAttribute("order", order);
 		return "site/gardener_order_details";
 	}
