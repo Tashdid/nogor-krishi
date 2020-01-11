@@ -1,46 +1,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta th:replace="common :: common-meta" th:remove="tag"/>
-	</head>
-	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="buy" class="hide-checkout place-order-page">
-		
-		<div th:replace="common :: common-menu" th:remove="tag"></div>
-		
-		
-		
-		<div class="container mt-5">
-				<!-- <div class="row well">
+
+<head>
+	<meta th:replace="common :: common-meta" th:remove="tag" />
+</head>
+
+<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="buy" class="hide-checkout place-order-page">
+
+	<div th:replace="common :: common-menu" th:remove="tag"></div>
+
+
+
+	<div class="container mt-5">
+		<!-- <div class="row well">
 					<h3 class="text-center col mb-0">চেকআউট</h3>
 				</div> -->
-			<div class="row">
-			
-				<!--  Not authenticated -->
-				<div sec:authorize="!isAuthenticated()" class="col-8">
-					<div class="col-sm-8" th:with="reqFrom=${#ctx.httpServletRequest.getParameter('reqFrom') eq null ? '' : ('?reqFrom=' + #ctx.httpServletRequest.getParameter('reqFrom'))}">
-						<h3 class="mb-5">দয়া করে লগইন করুন</h3>
-						<form id="loginformm" th:action="@{'/login?redirect=place-order' + ${reqFrom}}" method="POST">
-							<div th:replace="common :: common-login" th:remove="tag"></div>
-						</form>
+		<div class="row">
 
-						<hr/>
-						<h3 class="mb-5 mt-5">অথবা নিবন্ধন করুন</h3>
-						<!-- @todo reuse this form  -->
+			<!--  Not authenticated -->
+			<div sec:authorize="!isAuthenticated()" class="col-8">
+				<div class="col-sm-8" th:with="reqFrom=${#ctx.httpServletRequest.getParameter('reqFrom') eq null ? '' : ('?reqFrom=' + #ctx.httpServletRequest.getParameter('reqFrom'))}">
+					<h3 class="mb-5">দয়া করে লগইন করুন</h3>
+					<form id="loginformm" th:action="@{'/login?redirect=place-order' + ${reqFrom}}" method="POST">
+						<div th:replace="common :: common-login" th:remove="tag"></div>
+					</form>
 
-						<form id="registerform" th:action="@{'/register?redirect=place-order'}" method="post" th:object="${user}">
-							<!-- <div th:if="${error ne null}" class="col-sm-8 offset-sm-3 alert alert-danger" style="text-align: center; padding: 5px;">
+					<hr />
+					<h3 class="mb-5 mt-5">অথবা নিবন্ধন করুন</h3>
+					<!-- @todo reuse this form  -->
+
+					<form id="registerform" th:action="@{'/register?redirect=place-order'}" method="post" th:object="${user}">
+						<!-- <div th:if="${error ne null}" class="col-sm-8 offset-sm-3 alert alert-danger" style="text-align: center; padding: 5px;">
 								<span th:text="${error}">লগ ইন</span>
 							</div> -->
-							<div th:replace="common :: common-registration-form" th:remove="tag"></div>
-							
-							
-						</form>
-					</div>
-				</div>
-				<!--  authenticated -->
-				<div sec:authorize="isAuthenticated()" class="col-8">
-					<form class="form-horizontal">
+						<div th:replace="common :: common-registration-form" th:remove="tag"></div>
 
-							
+
+					</form>
+				</div>
+			</div>
+			<!--  authenticated -->
+			<div sec:authorize="isAuthenticated()" class="col-8">
+				<form class="form-horizontal">
+
+
 
 					<!-- <h2>বিলের বিস্তারিত</h2> -->
 					<!-- <hr/> -->
@@ -52,7 +54,7 @@
 
 						</div>
 					</div> -->
-					
+
 
 					<!-- <div class="card">
 						<div class="card-body">
@@ -60,86 +62,81 @@
 								
 						</div>
 					</div> -->
-					
-					<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">ঠিকানা</h5>
 
-								<h6 class="card-subtitle mb-2 text-muted mt-1 d-flex justify-content-between">
-									<span>ডেলিভারি ঠিকানা</span>	
-									<button id="newdeliveryAddress" class="btn btn-link"> Add New</button>
-								</h6>
-	
-								
-								<div class="delivery-addressDiv" style="display: none;">
-								
-									<div class="form-group">
-										<label class="control-label col-sm-12" for="Type">ঠিকানা
-											:</label>
-										<div class="col-sm-10">
-			
-											<textarea class="form-control " id="delivery-address"></textarea>
-			
-										</div>
-									</div>
-			
-									<div class="form-group">
-										<label class="control-label col-sm-12" for="area">জেলা
-											বাছাই করুন:</label>
-										<div class="col-sm-10">
-			
-											<select name="delivery_district" id="delivery-district"
-												class="form-control district_select select2-hidden-accessible"
-												autocomplete="address-level1"
-												data-placeholder="Select an option…" data-input-classes=""
-												tabindex="-1" aria-hidden="true"
-												onchange="loadThana('delivery','')">
-												<option value="">জেলা বাছাই করুন…</option>
-												<option th:each="district : ${districtList}"
-													th:value="${district.id}" th:text="${district.name}"></option>
-											</select>
-										</div>
-									</div>
-			
-									<div class="form-group">
-										<label class="control-label col-sm-12" for="Type">শহর/থানা/উপজেলা:</label>
-										<div class="col-sm-10">
-			
-											<select name="city" id="delivery-city"
-												class="form-control city_select select2-hidden-accessible delivery-addrss"
-												autocomplete="address-level1"
-												data-placeholder="Select an option…" data-input-classes=""
-												tabindex="-1" aria-hidden="true">
-												<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
-			
-											</select>
-										</div>
-									</div>
-									
-									<div class="form-group d-flex justify-content-center">
-										<button id="cancelnewdeliveryAddress" class="btn btn-link" style="display: none;"> Cancel</button>
-										<button id="deliveryAddressBtn" class="btn btn-success">Save Address</button>
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">ঠিকানা</h5>
+
+							<h6 class="card-subtitle mb-2 text-muted mt-1 d-flex justify-content-between">
+								<span>ডেলিভারি ঠিকানা</span>
+								<button id="newdeliveryAddress" class="btn btn-link pt-0"> নতুন ঠিকানা দিন</button>
+							</h6>
+
+
+							<div class="delivery-addressDiv" style="display: none;">
+
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="Type">ঠিকানা
+										:</label>
+									<div class="col-sm-10">
+										<input type="hidden" id="delivery-address-id" value="" />
+										<textarea class="form-control " id="delivery-address"></textarea>
+
 									</div>
 								</div>
-								<div class="card-body card-bodydelivery">
-										
-										<!-- <span th:unless="${#lists.isEmpty(deliveryAddressList)}">Select from below Address</span> -->
-										<div class="form-check radio-container" th:each="cm : ${deliveryAddressList}" >
-											<input class="form-check-input deliveryaddress-radio" type="radio" name="deliveryaddress-radio" th:id="${cm.id + '-radio'}" 
-											th:value="${cm.id}" />
-											<label class="form-check-label deliveryaddress-radio" th:for="${cm.id + '-radio'}" 
-											th:text="${cm.address}">
-											  
-											</label>
-											<span class="delivery-address-detail d-none" th:text="${cm.address}"></span>
-											, <span class="delivery-city" th:text="${cm.city}"></span>
-											, <span class="delivery-district" th:text="${cm.district}"></span>
-											<a class="link" href="#">edit</a> .
-											<a class="link" href="#">Delete</a>
 
-			
-										  </div>
-										<!-- <div class="card bg-faded">
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="area">জেলা
+										বাছাই করুন:</label>
+									<div class="col-sm-10">
+
+										<select name="delivery_district" id="delivery-district" class="form-control district_select select2-hidden-accessible"
+										 autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1"
+										 aria-hidden="true" onchange="loadThana('delivery','')">
+											<option value="">জেলা বাছাই করুন…</option>
+											<option th:each="district : ${districtList}" th:value="${district.id}" th:text="${district.name}"></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="Type">শহর/থানা/উপজেলা:</label>
+									<div class="col-sm-10">
+
+										<select name="city" id="delivery-city" class="form-control city_select select2-hidden-accessible delivery-addrss"
+										 autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1"
+										 aria-hidden="true">
+											<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
+
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group d-flex justify-content-center">
+									<button id="cancelnewdeliveryAddress" class="btn btn-link" style="display: none;"> বাতিল</button>
+									<button id="deliveryAddressBtn" class="btn btn-success">যোগ করুন</button>
+								</div>
+							</div>
+							<div class="card-body card-bodydelivery">
+
+								<!-- <span th:unless="${#lists.isEmpty(deliveryAddressList)}">Select from below Address</span> -->
+								<div class="form-check radio-container" th:id="${cm.id + '-delivery-address-list'}" th:each="cm : ${deliveryAddressList}">
+									<input class="form-check-input deliveryaddress-radio" type="radio" name="deliveryaddress-radio" th:id="${cm.id + '-radio'}"
+									 th:value="${cm.id}" />
+									<label class="form-check-label deliveryaddress-radio" th:for="${cm.id + '-radio'}" th:text="${cm.address}">
+
+									</label>
+									<span class="delivery-address-detail d-none" th:text="${cm.address}"></span>
+									<p class="small ml-4">
+										<span class="delivery-city" th:text="${cm.city}"></span>
+										, <span class="delivery-district" th:text="${cm.district}"></span>
+										<a class="link editdeliveryAddress" th:attr="data-id=${cm.id}" href="javascript:void(0);">edit</a> .
+										<a class="link deleteAddress" th:attr="data-id=${cm.id}" data-prefix='delivery' href="javascript:void(0);">Delete</a>
+									</p>
+
+
+								</div>
+								<!-- <div class="card bg-faded">
 											<div th:each="cm : ${deliveryAddressList}" class="card-block">
 												<div class="card-text" th:onclick="'javascript:updateAddress(this,\'delivery\',\'' + ${cm.address} + '\',\'' + ${cm.city} + '\',\'' + ${cm.district} + '\')'">
 													<span
@@ -147,56 +144,74 @@
 												</div>
 											</div>
 										</div> -->
-								</div>
-								<hr />
-								<h6 class="card-subtitle mb-2 text-muted">বিলের ঠিকানা</h6>
+							</div>
+							<hr />
+							<h6 class="card-subtitle mb-4 text-muted mt-1 d-flex justify-content-between">
+								<span>বিলের ঠিকানা</span>
+
+							</h6>
+							<!-- <h6 class="card-subtitle mb-2 text-muted">বিলের ঠিকানা</h6> -->
+							<div class="d-flex justify-content-between">
 								<div class="form-check">
-										<input type="checkbox" id="same-bill" checked="true" />
-										<label class="form-check-label" for="same-bill">
-											ডেলিভারি ঠিকানার অনুরূপ
-										</label>
+									<input type="checkbox" id="same-bill" checked="true" />
+									<label class="form-check-label" for="same-bill">
+										ডেলিভারি ঠিকানার অনুরূপ
+									</label>
+								</div>
+								<!-- <button id="newbillingAddress"> Add New</button>
+											<button id="cancelnewbillingAddress" style="display: none;"> Cancel</button> -->
+								<button id="newbillingAddress" class="btn btn-link pt-0"> নতুন ঠিকানা দিন</button>
+
+							</div>
+
+							<div class="billing-addressDiv" style="display: none;">
+
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="Type">ঠিকানা :</label>
+									<div class="col-sm-10">
+										<input type="hidden" id="billing-address-id" value="" />
+
+										<textarea class="form-control billing-addrss" id="billing-address"></textarea>
+
 									</div>
-									<button id="newbillingAddress"> Add New</button>
-									<button id="cancelnewbillingAddress" style="display: none;"> Cancel</button>
-				
-									<div class="billing-addressDiv" style="display: none;">
-									
-									<div class="form-group">
-										<label class="control-label col-sm-12" for="Type">ঠিকানা :</label>
-										<div class="col-sm-10">
-				
-											<textarea class="form-control billing-addrss" id="billing-address"></textarea>
-										
-										</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="area">জেলা বাছাই করুন:</label>
+									<div class="col-sm-10">
+										<select name="district" id="billing-district" class="form-control district_select select2-hidden-accessible billing-addrss"
+										 autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1"
+										 aria-hidden="true" onchange="loadThana('billing','')">
+											<option value="">জেলা বাছাই করুন…</option>
+											<option th:each="district : ${districtList}" th:value="${district.id}" th:text="${district.name}"></option>
+										</select>
 									</div>
-									
-									<div class="form-group">
-										<label class="control-label col-sm-12" for="area">জেলা বাছাই করুন:</label>
-										<div class="col-sm-10">
-											<select name="district" id="billing-district" class="form-control district_select select2-hidden-accessible billing-addrss" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true"  onchange="loadThana('billing','')">
-												<option value="">জেলা বাছাই করুন…</option>
-												<option th:each="district : ${districtList}" th:value="${district.id}" th:text="${district.name}"></option>
-											</select>
-										</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="Type">শহর/থানা/উপজেলা:</label>
+									<div class="col-sm-10">
+
+										<select name="city" id="billing-city" class="form-control city_select select2-hidden-accessible billing-addrss"
+										 autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1"
+										 aria-hidden="true">
+											<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
+
+										</select>
 									</div>
-				
-									<div class="form-group">
-											<label class="control-label col-sm-12"  for="Type">শহর/থানা/উপজেলা:</label>
-										<div class="col-sm-10">
-				
-											<select name="city" id="billing-city" class="form-control city_select select2-hidden-accessible billing-addrss" autocomplete="address-level1" data-placeholder="Select an option…" data-input-classes="" tabindex="-1" aria-hidden="true">
-												<option value="">শহর/থানা/উপজেলা বাছাই করুন…</option>
-												
-											</select>
-										</div>
-									</div>
-									
-										<div class="form-group">
-											<button id="billingAddressBtn">Save Address</button>
-										</div>
-									</div>
-									<div class="card-body card-bodybilling">
-											<span th:unless="${#lists.isEmpty(billingAddressList)}">Select from below Address</span>
+								</div>
+
+								<!-- <div class="form-group">
+											<button id="">Save Address</button>
+										</div> -->
+
+								<div class="form-group d-flex justify-content-center">
+									<button id="cancelnewbillingAddress" class="btn btn-link" style="display: none;"> বাতিল</button>
+									<button id="billingAddressBtn" class="btn btn-success">যোগ করুন</button>
+								</div>
+							</div>
+							<div class="card-body card-bodybilling">
+								<!-- <span th:unless="${#lists.isEmpty(billingAddressList)}">Select from below Address</span>
 											<div class="form-check" th:each="cm : ${billingAddressList}" >
 												<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" 
 												value="option1" />
@@ -212,183 +227,199 @@
 															th:text="${cm.id+': '+cm.address+', '+cm.city+', '+cm.district}"></span> 
 													</div>
 												</div>
-											</div>
-									</div>
-									<hr />
-									<h6 class="card-subtitle mb-2 text-muted">ডেলিভারি নোট:</h6>
+											</div> -->
+								<div class="form-check radio-container" th:id="${cm.id + '-billing-address-list'}" th:each="cm : ${billingAddressList}">
+									<input class="form-check-input billingaddress-radio" type="radio" name="billingaddress-radio" th:id="${cm.id + '-radio'}"
+									 th:value="${cm.id}" />
+									<label class="form-check-label billingaddress-radio" th:for="${cm.id + '-radio'}" th:text="${cm.address}">
 
-									<div class="form-group">
-
-											<!-- <label class="control-label card-subtitle col-sm-12" for="Type"></label> -->
-											<div class="col-sm-12">
-					
-												<textarea class="form-control" id="delivery-notes"></textarea>
-											
-											</div>
-										</div>
-							</div>
-						</div>
-						<div class="card">
-								<div class="card-body">
-									
-									<h5 class="card-title">Personal information</h5>
-									<!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-									
-
-									<p  ></p>
-									<p class="card-subtitle mb-2 text-muted mt-1 d-flex justify-content-between">
-										<span>name: <span th:text="${luser.name}"></span></span>		
-										<button type="button" class="btn btn-link show-div" id="btn-show-userinfo">Edit</button>
-										<button type="button" class="btn btn-link hide-div" id="btn-hide-userinfo">Hide</button>
-					
+									</label>
+									<span class="billing-address-detail d-none" th:text="${cm.address}"></span>
+									<p class="small ml-4">
+										<span class="billing-city" th:text="${cm.city}"></span>
+										, <span class="billing-district" th:text="${cm.district}"></span>
+										<a class="link editbillingAddress" th:attr="data-id=${cm.id}" href="javascript:void(0);">edit</a> .
+										<a class="link deleteAddress" th:attr="data-id=${cm.id}" data-prefix='billing' href="javascript:void(0);">Delete</a>
 									</p>
-					
-					<div class="hidden-div" id="hidden-div-userinfo">
-						<div class="form-group">
-							<label class="control-label col-sm-2"  for="Type">ফোন:</label>
-							<div class="col-sm-10">
-	
-								<input class="form-control" id="phone" type="text" th:value="${luser.mobile}" />
+
+
+								</div>
 							</div>
-						</div>
-	
-						<div class="form-group">
-							<label class="control-label col-sm-12"  for="Type">ই-মেইল:</label>
-							<div class="col-sm-10">
-	
-								<input class="form-control" name="email" id="email" th:value="${luser.email}" type="text" />
+							<hr />
+							<h6 class="card-subtitle mb-3 mt-3 text-muted">ডেলিভারি নোট:</h6>
+
+							<div class="form-group">
+
+								<!-- <label class="control-label card-subtitle col-sm-12" for="Type"></label> -->
+								<div class="col-sm-12">
+
+									<textarea class="form-control" id="delivery-notes"></textarea>
+
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="showing-div" id="showing-div-userinfo">
-						<div class="form-group">
-							<label class="control-label col-sm-2"  for="Type">ফোন:</label>
-							<div class="col-sm-10">
-	
-								<span th:text="${luser.mobile}"></span>
-							</div>
-						</div>
-	
-						<div class="form-group">
-							<label class="control-label col-sm-12"  for="Type">ই-মেইল:</label>
-							<div class="col-sm-10">
-									<span th:text="${luser.email}"></span>
-	
-							</div>
-						</div>
-					</div>
-								</div>
-							</div>
-						<div class="card">
-								<div class="card-body">
-									<h5 class="card-title"> payment</h5>
-									<p class="card-subtitle mb-2 text-muted"> অর্ডারটি ক্যাশ অন ডেলিভারীর ভিত্তিতে পরিশোধ করুন।</p>
-								</div>
-							</div>
-					
 					<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Order Review</h5>
-								<!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-								<div id="cart-item-container">
-										<div class="cart-item-row" th:each="addedProduct : ${addedProducts}">
-											<div class="cart-item-top-row">
-												<div class="item-first-col">
-													<h6 class="" th:text="${addedProduct.productPrice.product.name}"></h6>
-													<p class="" th:text="${addedProduct.productPrice.nursery.name}">  </p>
-												</div>
-												<div class="item-second-col">
-						
-														<span th:text="${addedProduct.quantity}"></span> <span>X</span>  <span th:text="${addedProduct.unit_price}"></span><span>টাকা</span>
-						
-												</div>
-												<div class="item-third-col">
-												</div>
-											</div>
-											<div class="cart-item-bottom-row">
-												<p>
-													<!-- <span th:each="addedProduct.productPrice.productPriceOnPropertyValueList">
+						<div class="card-body">
+
+							<h5 class="card-title">ব্যাক্তিগত তথ্য</h5>
+							<!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+
+
+							<p></p>
+							<p class="card-subtitle mb-2 text-muted mt-1 d-flex justify-content-between">
+								<span>নাম: <span th:text="${luser.name}"></span></span>
+								<button type="button" class="btn btn-link show-div" id="btn-show-userinfo">পরিবর্তন করুন</button>
+								<button type="button" class="btn btn-link hide-div" id="btn-hide-userinfo">Hide</button>
+
+							</p>
+
+							<div class="hidden-div" id="hidden-div-userinfo">
+								<div class="form-group">
+									<label class="control-label col-sm-2" for="Type">ফোন:</label>
+									<div class="col-sm-10">
+
+										<input class="form-control" id="phone" type="text" th:value="${luser.mobile}" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="Type">ই-মেইল:</label>
+									<div class="col-sm-10">
+
+										<input class="form-control" name="email" id="email" th:value="${luser.email}" type="text" />
+									</div>
+								</div>
+							</div>
+							<div class="showing-div" id="showing-div-userinfo">
+								<div class="form-group">
+									<label class="control-label col-sm-2" for="Type">ফোন:</label>
+									<div class="col-sm-10">
+
+										<span th:text="${luser.mobile}"></span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="Type">ই-মেইল:</label>
+									<div class="col-sm-10">
+										<span th:text="${luser.email}"></span>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title"> অর্থ পরিশোধ</h5>
+							<p class="card-subtitle mb-2 text-muted"> অর্ডারটি ক্যাশ অন ডেলিভারীর ভিত্তিতে পরিশোধ করুন।</p>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">অর্ডার রিভিউ</h5>
+							<!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+							<div id="cart-item-container">
+								<div class="cart-item-row" th:each="addedProduct : ${addedProducts}">
+									<div class="cart-item-top-row">
+										<div class="item-first-col">
+											<h6 class="" th:text="${addedProduct.productPrice.product.name}"></h6>
+											<p class="" th:text="${addedProduct.productPrice.nursery.name}"> </p>
+										</div>
+										<div class="item-second-col">
+
+											<span th:text="${addedProduct.quantity}"></span> <span>X</span> <span th:text="${addedProduct.unit_price}"></span><span>টাকা</span>
+
+										</div>
+										<div class="item-third-col">
+										</div>
+									</div>
+									<div class="cart-item-bottom-row">
+										<p>
+											<!-- <span th:each="addedProduct.productPrice.productPriceOnPropertyValueList">
 															<span th:text="${property.productPropertyValue.productProperty.name}"></span> : <span th:text="${property.productPropertyValue.name}"></span>
 													</span> -->
-					
-													<span
-															th:each="a, iterStat : ${addedProduct.productPrice.productPriceOnPropertyValueList}"
-															th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''">
-													</span>
-					
-												</p>
-											</div>
-										</div>
-															
-										<div id="total-cart-cost">
-											<h5 >মোট <span th:text="${totalPrice}"></span> টাকা</h5>
-											<p >ডেলিভারি খরচ <span th:text="${totalDeliverycharge}"></span> টাকা</p>
-											<p class="small" th:if="${nurseryCount > 1}">
-												(<span th:text="${deliverycharge}"></span> টাকা X 
-												<span th:text="${nurseryCount}"></span> টি নার্সারি)
-											</p>
-											<h4 >সর্বমোট <span th:text="${total}"></span> টাকা</h4>
-										</div>
-					
-										
+
+											<span th:each="a, iterStat : ${addedProduct.productPrice.productPriceOnPropertyValueList}" th:text="${a.productPropertyValue.name !=null} ? (!${iterStat.last} ? ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}+',': ${a.productPropertyValue.productProperty.name} +':'+ ${a.productPropertyValue.name}):''">
+											</span>
+
+										</p>
 									</div>
+								</div>
+
+								<div id="total-cart-cost">
+									<h5>মোট <span th:text="${totalPrice}"></span> টাকা</h5>
+									<p>ডেলিভারি খরচ <span th:text="${totalDeliverycharge}"></span> টাকা</p>
+									<p class="small" th:if="${nurseryCount > 1}">
+										(<span th:text="${deliverycharge}"></span> টাকা X
+										<span th:text="${nurseryCount}"></span> টি নার্সারি)
+									</p>
+									<h4>সর্বমোট <span th:text="${total}"></span> টাকা</h4>
+								</div>
+
+
 							</div>
 						</div>
+					</div>
 
 					<div>
-						
+
 					</div>
 				</form>
+			</div>
+
+			<div class="col-4">
+				<div id="total-cart-cost">
+					<h5>মোট <span th:text="${totalPrice}"></span> টাকা</h5>
+					<p>ডেলিভারি খরচ <span th:text="${totalDeliverycharge}"></span> টাকা</p>
+					<p class="small" th:if="${nurseryCount > 1}">
+						(<span th:text="${deliverycharge}"></span> টাকা X
+						<span th:text="${nurseryCount}"></span> টি নার্সারি)
+					</p>
+					<h4>সর্বমোট <span th:text="${total}"></span> টাকা</h4>
 				</div>
-				
-				<div class="col-4">
-					<div id="total-cart-cost">
-						<h5 >মোট <span th:text="${totalPrice}"></span> টাকা</h5>
-						<p >ডেলিভারি খরচ <span th:text="${totalDeliverycharge}"></span> টাকা</p>
-						<p class="small" th:if="${nurseryCount > 1}">
-							(<span th:text="${deliverycharge}"></span> টাকা X 
-							<span th:text="${nurseryCount}"></span> টি নার্সারি)
-						</p>
-						<h4 >সর্বমোট <span th:text="${total}"></span> টাকা</h4>
-					</div>
-					<p class="text-center ">অর্ডারটি ক্যাশ অন ডেলিভারীর ভিত্তিতে পরিশোধ করুন।</p>
-	
-						
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="button" id="confirm-order" class="btn btn-primary">অর্ডারটি নিশ্চিত করুন</button>
-						</div>
+				<p class="text-center ">অর্ডারটি ক্যাশ অন ডেলিভারীর ভিত্তিতে পরিশোধ করুন।</p>
+
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="button" id="confirm-order" class="btn btn-success">অর্ডারটি নিশ্চিত করুন</button>
 					</div>
 				</div>
 			</div>
-
-			
-			
-			
-			
 		</div>
-		
-		
-		<div th:replace="common :: commom-footer" th:remove="tag"></div>
-		<div th:replace="common :: common-js" th:remove="tag"></div>
-		<script th:src="@{/js/buy.js}" src="js/buy.js" ></script>
-		<script th:src="@{/js/address.js}" src="js/address.js" ></script>
-		
-		<script type="text/javascript">
-			
-			$(document).ready(function() {
-				// make cart visible
-				// $('body').addClass('show-cart');
-			});
-		
-		</script>	
-		<style>
-			.register-login {
-				display: none;
-			}
-			#cart-show {
-				display: none;
-			}
-		</style>	
-	</body>
+
+
+
+
+
+	</div>
+
+
+	<div th:replace="common :: commom-footer" th:remove="tag"></div>
+	<div th:replace="common :: common-js" th:remove="tag"></div>
+	<script th:src="@{/js/buy.js}" src="js/buy.js"></script>
+	<script th:src="@{/js/address.js}" src="js/address.js"></script>
+
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+			// make cart visible
+			// $('body').addClass('show-cart');
+		});
+
+	</script>
+	<style>
+		.register-login {
+			display: none;
+		}
+
+		#cart-show {
+			display: none;
+		}
+	</style>
+</body>
+
 </html>

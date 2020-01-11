@@ -20,12 +20,13 @@
 							<label class="col-form-label col-form-label-sm col-sm-4" for="name">Name:</label>
 							<div class="col-sm-8">
 								<input required="" type="text" class="form-control form-control-sm" th:field="*{name}" />
+								<input required="" type="hidden" class="form-control form-control-sm" id="parentId" th:field="*{parentId}" />
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-4" for="name">Type:</label>
 							<div class="col-sm-8">
-								<select class="form-control" th:field="*{typeSt}" required="required" th:onchange="'javascript:loadDemographicData(this)'">
+								<select id="locType" class="form-control" th:field="*{typeSt}" required="required" th:onchange="'javascript:loadDemographicData(this)'">
 									<option value="0">বিভাগ</option>
 									<option value="1">জেলা</option>
 									<option value="2">উপজেলা</option>
@@ -45,7 +46,7 @@
 						<div class="form-group row" id="zela" style="display: none;">
 							<label class="col-form-label col-form-label-sm col-sm-4" for="name">জেলা:</label>
 							<div class="col-sm-8">
-								<select class="form-control" id="zelaselect" > <!-- th:field="*{bivag}" -->
+								<select class="form-control" id="zelaselect" th:onchange="'javascript:setParentId(this)'" > <!-- th:field="*{bivag}" -->
 									<option th:each="bv : ${zelagulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
 								</select>
 							</div>

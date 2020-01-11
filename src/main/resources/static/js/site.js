@@ -135,7 +135,7 @@ $(document).ready(function() {
 	$(document).on("click", "#kinun", function(){
 	
 		localstgLoc = localStorage.getItem('loc');
-		if(localstgLoc == null || localstgLoc == '')
+		if(localstgLoc == null || localstgLoc == '' || !localstgLoc.upozila)
 			$('#locationModal').modal();
 		else {
 			localstgLoc = JSON.parse(localStorage.getItem('loc'));
@@ -207,7 +207,7 @@ $(document).ready(function() {
 // 	template: '<p>Hi {{ name }}</p>'
 //   });
 var vm = new Vue({
-	el: '#cart-container',
+	el: '#cart-manage',
 	data: {
 			   
 		addedProducts : []
@@ -322,6 +322,8 @@ var vm = new Vue({
 						return {
 						 name : a.productPrice.product.name,
 						 nurceryName : a.productPrice.nursery.name,
+						 nurseryId : a.productPrice.nursery.id,
+
 						//  saleType : a.saleType.name,
 						properties : a.productPrice.productPriceOnPropertyValueList,
 		

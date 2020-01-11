@@ -4,29 +4,27 @@
 			<div id="prod-desc-upper">
 				<!--  product image -->
 				<p th:if="${product.image ne null}">
-					<img width="40%" height="100vw" style="margin-bottom: 5px; width:100%" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2" />					
+					<img width="40%" height="100vw" style="margin-bottom: 5px; width:100%" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}"
+					 src="images/tree-lal-shak.png" class="img-fluid pt-2" />
 				</p>
 				<div th:if="${#lists.isEmpty(childProductList)}" id="product-commerce">
 					<!--  product price -->
 					<div id="price-range" class="mb-2">
-							<span
-							class="detail-info-total-value">৳</span>
-						<span th:unless="${productMinPrice eq null}" th:text="${productMinPrice ne null?productMinPrice.price:0}"></span> -
-						<span th:unless="${productMaxPrice eq null}" th:text="${productMaxPrice ne null?productMaxPrice.price :0}"></span> 
-						<span th:unless="${productMaxPrice eq null and productMinPrice eq null}" >টাকা</span>
+						<span class="detail-info-total-value">৳</span>
+						<span th:unless="${productMinPrice eq null}" th:text="${productMinPrice ne null?productMinPrice.price:0}"></span>
+						-
+						<span th:unless="${productMaxPrice eq null}" th:text="${productMaxPrice ne null?productMaxPrice.price :0}"></span>
+						<span th:unless="${productMaxPrice eq null and productMinPrice eq null}">টাকা</span>
 					</div>
-					
+
 					<!--  product buy button -->
 					<div>
-						<button type="button" id="kinun"
-						sec:authorize="${hasRole('ROLE_GARDENER') || !isAuthenticated()}" 
-						class="products btn btn-success" 
-						th:attr="data-pid=${product.id}"
-						>কিনুন </button>
+						<button type="button" id="kinun" sec:authorize="${hasRole('ROLE_GARDENER') || !isAuthenticated()}" class="products btn btn-success"
+						 th:attr="data-pid=${product.id}">কিনুন </button>
 					</div>
 				</div>
 			</div>
-			
+
 			<p th:each="dsc, stat : ${product.detailsList}" align="justify">
 				<span th:utext="${dsc}" th:remove="tag"></span>
 			</p>
@@ -37,36 +35,37 @@
 				হলেও আমাদের বাংলাদেশে কিন্তু আমরা একে সবজি হিসাবে ব্যবহার করি।</p>
 		</div>
 	</div>
-	
-	<div class="col-5" style="padding-left: 20px;" th:if="${NOT #lists.isEmpty(childProductList)}" >
+
+	<div class="col-5" style="padding-left: 20px;" th:if="${NOT #lists.isEmpty(childProductList)}">
 		<div class="form-group">
 			<label class="color-red small" th:text="${product.name}+ 'এর জাত সমূহ'"> </label>
 		</div>
 
 		<div th:each="child : ${childProductList}">
-			<div class="row no-gutters" >
+			<div class="row no-gutters">
 				<div class="col-3">
 					<p th:if="${child.image ne null}">
-					<img width="50%" height="100vw" style="margin-bottom: 5px; width:30%" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(child.image)}" src="images/tree-lal-shak.png" class="img-fluid pt-2" />					
-				</p>
+						<img width="50%" height="100vw" style="margin-bottom: 5px; width:30%" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(child.image)}"
+						 src="images/tree-lal-shak.png" class="img-fluid pt-2" />
+					</p>
 				</div>
 				<div class="col-6 pl-0 d-inline-block">
 					<div class="mt-2">
 						<p class="color-green lead"><a th:href="@{'/products/'+${product.type.id}+'?product=' + ${child.id}}" th:text="${child.name}"></a></p>
-						<br /> 
+						<br />
 					</div>
 				</div>
-	
-<!-- 				<div class="col-4 text-right d-inline-block mt-2" style="vertical-align: top;"> -->
-<!-- 					<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(nursery.type.image)}" src="images/nursery-logo-govt.jpg"/> -->
-<!-- 				</div> -->
+
+				<!-- 				<div class="col-4 text-right d-inline-block mt-2" style="vertical-align: top;"> -->
+				<!-- 					<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(nursery.type.image)}" src="images/nursery-logo-govt.jpg"/> -->
+				<!-- 				</div> -->
 			</div>
 
 		</div>
 	</div>
-	
-	
-	<div class="col-5" style="padding-left: 20px;" th:if="${#lists.isEmpty(childProductList)}" >
+
+
+	<div class="col-5" style="padding-left: 20px;" th:if="${#lists.isEmpty(childProductList)}">
 		<div class="form-group">
 			<label class="color-red small" for="">এই নার্সারিগুলিতে পাওয়া যেতে পারে, </label>
 			<!-- <select class="form-control" id="areaselection">
@@ -83,18 +82,19 @@
 		<div th:each="nursery : ${nurseries}">
 			<div class="row no-gutters nurseries" th:classappend="${nursery.area.id}">
 				<div class="col-1">
-					<i class="fa fa-leaf"
-						style="font-size: 20px; color: #345C05; margin-top: 14px;"></i>
+					<i class="fa fa-leaf" style="font-size: 20px; color: #345C05; margin-top: 14px;"></i>
 				</div>
 				<div class="col-6 pl-0 d-inline-block">
 					<div class="mt-2">
-						<p class="color-green lead"><a th:href="@{'/vendor/' + ${nursery.id}}" th:text="${nursery.name}">মোল্লাপারা সরকারী নার্সারি</a></p>
-						<span th:remove="tag" th:text="${nursery.address}">১০ কাজিপারা এভিনিউ, মিরপুর ১০২০</span><br /> ফোন : <span th:remove="tag" th:text="${nursery.phone}">+৮৮ ০১৭২৩ ৫৭২৮৯৬</span>
+						<p class="color-green lead"><a th:href="@{'/vendor/' + ${nursery.id}}" th:text="${nursery.name}">মোল্লাপারা
+								সরকারী নার্সারি</a></p>
+						<span th:remove="tag" th:text="${nursery.address}">১০ কাজিপারা এভিনিউ, মিরপুর ১০২০</span><br /> ফোন : <span
+						 th:remove="tag" th:text="${nursery.phone}">+৮৮ ০১৭২৩ ৫৭২৮৯৬</span>
 					</div>
 				</div>
-	
+
 				<div class="col-4 text-right d-inline-block mt-2" style="vertical-align: top;">
-					<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(nursery.type.image)}" src="images/nursery-logo-govt.jpg"/>
+					<img th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(nursery.type.image)}" src="images/nursery-logo-govt.jpg" />
 				</div>
 			</div>
 
@@ -107,38 +107,42 @@
 <div class="modal fade" id="locationModal" tabindex="-1" role="dialog" aria-labelledby="locationModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title" id="exampleModalLabel">আপনি কোথায়থেকে কিনতে চাচ্ছেন?</h4>
-		</div>
-		<div class="modal-body">
-			<form>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">আপনি কোথায় থেকে কিনতে চাচ্ছেন?</h4>
+			</div>
+			<div class="modal-body">
+				<form>
 
-				<div class="form-group row">
-					<label class="col-form-label col-form-label-sm col-sm-3" for="city">বিভাগ:</label>
-					<div class="col-sm-3">
-						<select class="form-control" id="division" th:onchange="'javascript:loadChildDemographicData(this,\'zela\',\'upozela\',false)'"> <!-- th:field="*{bivag}" -->
+					<div class="form-group">
+						<label class="col-form-label col-form-label-sm" for="city">বিভাগ:</label>
+						<select class="form-control" id="division" th:onchange="'javascript:loadChildDemographicData(this,\'zela\',\'upozela\',false)'">
+							<!-- th:field="*{bivag}" -->
 							<option th:value="0" text="Please Select">Please Select</option>
 							<option th:each="bv : ${bivaggulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
 						</select>
 					</div>
-					<label class="col-form-label col-form-label-sm col-sm-3" for="city">জেলা:</label>
-					<div class="col-sm-3">
-						<select class="form-control" id="district" th:onchange="'javascript:loadChildDemographicData(this,\'upozela\',null, false)'"> <!-- th:field="*{bivag}" -->
+					<div class="form-group">
+
+						<label class="col-form-label col-form-label-sm" for="city">জেলা:</label>
+						<select class="form-control" id="district" th:onchange="'javascript:loadChildDemographicData(this,\'upozela\',null, false)'">
+							<!-- th:field="*{bivag}" -->
 							<option th:value="0" text="Please Select">Please Select</option>
 							<option th:each="bv : ${zelagulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
 						</select>
 					</div>
-					<label class="col-form-label col-form-label-sm col-sm-3" for="city">উপজেলা:</label>
-					<div class="col-sm-3">
-						<select class="form-control" id="upozela"> <!-- th:field="*{bivag}" -->
+					<div class="form-group">
+
+						<label class="col-form-label col-form-label-sm" for="city">উপজেলা:</label>
+						<select class="form-control" id="upozela">
+							<!-- th:field="*{bivag}" -->
 							<option th:value="0" text="Please Select">Please Select</option>
 							<option th:each="bv : ${upozelagulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
 						</select>
 					</div>
-					
-				</div>
-			<!-- <div class="form-group">
+
+					<!-- </div> -->
+					<!-- <div class="form-group">
 				<label for="recipient-name" class="control-label">বিভাগ:</label>
 				<select  class="form-control" id="division">
 						<option value="1">Dhaka</option>
@@ -162,14 +166,14 @@
 						<option value="3">Khulna</option>
 					</select>	
 			</div> -->
-		
-			</form>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-success" id="setLoc" th:attr="data-pid=${product.id}">Save</button>
-		</div>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success" id="setLoc" th:attr="data-pid=${product.id}">Save</button>
+			</div>
 		</div>
 	</div>
-	</div>
-	<script th:src="@{/js/nursery.js}" src="js/nursery.js" ></script>
+</div>
+<script th:src="@{/js/nursery.js}" src="js/nursery.js"></script>

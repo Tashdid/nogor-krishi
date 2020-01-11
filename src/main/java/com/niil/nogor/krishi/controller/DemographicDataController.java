@@ -71,6 +71,7 @@ public class DemographicDataController extends AbstractController {
 		}
 		bean.setName(type.getName());
 		bean.setType(Byte.parseByte(type.getTypeSt()));
+		bean.setParentId(type.getParentId());
 		bean = demographicDataRepo.save(bean);
 		return "redirect:" + URL + "/" + bean.getId();
 	}

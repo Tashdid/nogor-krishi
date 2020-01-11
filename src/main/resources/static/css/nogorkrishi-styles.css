@@ -789,7 +789,7 @@ table#price-list tr {
     width: 70px;
 }
 
-.hide-cart #cart-container {
+.hide-cart #cart-manage {
 	display: none;
 }
 
