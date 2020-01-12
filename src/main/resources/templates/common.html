@@ -315,8 +315,8 @@
 						</button>
 						<div class="dropdown-menu dropdown-menu-right">
 							
-							<a class="dropdown-item" th:href="@{/manage/area}" href="/manage/area">Area</a>
-							<a class="dropdown-item" th:href="@{/manage/city}" href="/manage/city">City</a>
+							<!-- <a class="dropdown-item" th:href="@{/manage/area}" href="/manage/area">Area</a>
+							<a class="dropdown-item" th:href="@{/manage/city}" href="/manage/city">City</a> -->
 							<a class="dropdown-item" th:href="@{/manage/demographicdata}" href="/manage/demographicdata">বিভাগ, জেলা এবং উপজেলা</a>							
 						</div>
 					</div>
@@ -349,6 +349,7 @@
 		<script th:src="@{/webjars/bootbox/bootbox.js}"></script>
 		<script th:src="@{/js/lib/jquery.contact-buttons.js}" src="js/lib/jquery.contact-buttons.js" ></script>
 		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 		<script th:src="@{/js/nogorkrishi.js}" src="js/nogorkrishi.js" ></script>
 		<script th:src="@{/js/manage.js}" src="js/manage.js" ></script>
 		<script th:src="@{/js/site.js}" src="js/site.js" ></script>
@@ -360,54 +361,58 @@
 				<img th:src="@{/images/btn-create-own-garden.jpg}" class="img-fluid w-100" style="height: 50px;" />
 			</a>
 		</div>
-		<div id="cart-show" sec:authorize="${hasRole('ROLE_GARDENER') || !isAuthenticated()}">
+		<div id="cart-manage">
+			<div id="cart-show" sec:authorize="${hasRole('ROLE_GARDENER') || !isAuthenticated()}">
 				<img src="https://img.icons8.com/material-rounded/48/000000/shopping-cart.png"/>
-		</div>
-		
-		<div id="cart-container">
-			<div id="cart-header">
-				<h5 class="mb-2">আমার কার্ট</h5>
-					<button id="cart-close" href="#" class="btn btn-warning">X</button>
-				</div>
-			<div id="cart-item-container">
-				<div class="cart-item-row" v-for="addedProduct in addedProducts">
-					<div class="cart-item-top-row">
-						<div class="item-first-col">
-							<h6 class="">{{addedProduct.name}}</h6>
-							<p class=""> {{addedProduct.nurceryName}} </p>
+				<p class="small text-center mb-0" v-text="addedProducts.length + ' টি পণ্য'"></p>
+			</div>
+			
+			<div id="cart-container">
+				<div id="cart-header">
+					<h5 class="mb-2">আমার কার্ট</h5>
+						<button id="cart-close" href="#" class="btn btn-warning">X</button>
+					</div>
+				<div id="cart-item-container">
+					<div class="cart-item-row" v-for="addedProduct in addedProducts">
+						<div class="cart-item-top-row">
+							<div class="item-first-col">
+								<h6 class="">{{addedProduct.name}}</h6>
+								<a :href="`/vendor/${addedProduct.nurseryId}`" class=""> {{addedProduct.nurceryName}} </a>
+							</div>
+							<div class="item-second-col">
+	
+									<!-- <input type="number" class="form-control text-center" 
+									v-bind:value = "addedProduct.quantity"
+									v-on:click= "quantityChange(addedProduct)"/> -->
+									<span>{{addedProduct.quantity}} X {{addedProduct.price}} টাকা</span>
+	
+							</div>
+							<div class="item-third-col">
+								<button v-on:click= "removeItem(addedProduct)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+							</div>
 						</div>
-						<div class="item-second-col">
-
-								<!-- <input type="number" class="form-control text-center" 
-								v-bind:value = "addedProduct.quantity"
-								v-on:click= "quantityChange(addedProduct)"/> -->
-								<span>{{addedProduct.quantity}} X {{addedProduct.price}} টাকা</span>
-
-						</div>
-						<div class="item-third-col">
-							<button v-on:click= "removeItem(addedProduct)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+						<div class="cart-item-bottom-row">
+							<p>
+								<span v-for="property in addedProduct.properties">
+									{{property.productPropertyValue.productProperty.name}} : {{property.productPropertyValue.name}}
+								</span>
+							</p>
 						</div>
 					</div>
-					<div class="cart-item-bottom-row">
-						<p>
-							<span v-for="property in addedProduct.properties">
-								{{property.productPropertyValue.productProperty.name}} : {{property.productPropertyValue.name}}
-							</span>
-						</p>
+										
+					<div id="total-cart-cost">
+						<h4 v-if="addedProducts.length">সর্বমোট {{totalPrice}} টাকা</h4>
+						<h4 v-if="!addedProducts.length">আপনি এখনো কিছু কিনেন নি।</h4>
 					</div>
-				</div>
-									
-				<div id="total-cart-cost">
-					<h4 v-if="addedProducts.length">সর্বমোট {{totalPrice}} টাকা</h4>
-					<h4 v-if="!addedProducts.length">আপনি এখনো কিছু কিনেন নি।</h4>
-				</div>
-				<div id="cart-checkout">
-					<a v-if="addedProducts.length" th:href="@{/place-order}" class="btn btn-success btn-block">
-						চেক আউট <i class="fa fa-angle-right"></i>
-					</a>
+					<div id="cart-checkout">
+						<a v-if="addedProducts.length" th:href="@{/place-order}" class="btn btn-success btn-block">
+							চেক আউট <i class="fa fa-angle-right"></i>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
+		
 		
 		<div id="block-ui" style="z-index: 2055; display: none;">
 			<div class="updateProgress"><i class="fa fa-spin fa-spinner"></i></div>

@@ -96,35 +96,35 @@
 					
 						<h5 class="card-header">ডেলিভারি তথ্য</h5>
 						<div class="card-body">
-							<p class="text-center" th:if="${order.deliveryManagements == null||#lists.isEmpty(order.deliveryManagements)}"> ডেলিভারি তথ্য শীঘ্রই জানানো হবে আপনাকে!</p>
+							<p class="text-center" th:if="${order.deliveryManagements == null || #lists.isEmpty(order.deliveryManagements)}" th:text="ডেলিভারি তথ্য শীঘ্রই জানানো হবে আপনাকে!"></p>
 							<div th:unless="${#lists.isEmpty(order.deliveryManagements)}">
-							<div  th:each="cm : ${order.deliveryManagements}">
-							<div th:if="${cm.deliveryDate != null}" class="card bg-faded">
-								<div class="card-block">
-								<div class="card-text">
-										<span>নার্সারি: </span> 
-											<span th:text="${cm.nursery.name}"></span>
-									</div>
-									<div class="card-text">
-										<span>ডেলিভারি অবস্থা: </span> 
-											<span th:text="${cm.status}"></span>
-									</div>
-									
-									<div class="card-text">
-										<span>ডেলিভারি তারিখ: </span> 
-											<span th:text="${cm.deliveryDatest}"></span>
-									</div>
-									<div class="card-text">
-									
-										<span>ডেলিভারিম্যান: </span> 
-										<span class="glyphicon glyphicon-user"></span> 
-										<span th:text="${cm.deliveryPerson.name}"></span> 
-										<br/>
-										<span th:text="${cm.deliveryPerson.phoneNumber}"></span>
-									</div>
+								<div  th:each="cm : ${order.deliveryManagements}">
+									<div th:if="${cm.deliveryDate != null}" class="card bg-faded">
+										<div class="card-block">
+											<div class="card-text">
+												<span>নার্সারি: </span> 
+													<span th:text="${cm.nursery.name}"></span>
+											</div>
+											<div class="card-text">
+												<span>ডেলিভারি অবস্থা: </span> 
+													<span th:text="${cm.status}"></span>
+											</div>
+											
+											<div class="card-text">
+												<span>ডেলিভারি তারিখ: </span> 
+													<span th:text="${cm.deliveryDatest}"></span>
+											</div>
+											<div class="card-text">
+											
+												<span>ডেলিভারিম্যান: </span> 
+												<span class="glyphicon glyphicon-user"></span> 
+												<span th:text="${cm.deliveryPerson.name}"></span> 
+												<br/>
+												<span th:text="${cm.deliveryPerson.phoneNumber}"></span>
+											</div>
+										</div>
+									</div>	
 								</div>
-							</div>
-							</div>
 							</div>
 						</div>
 						
@@ -165,7 +165,7 @@
 
 								</div>
 								
-								<a class="btn btn-success" href="#reviews-anchor" id="open-review-box">Leave a Review</a>
+								<a class="btn btn-success mt-2" href="#reviews-anchor" id="open-review-box">ফিডব্যাক দিন</a>
 							</div>
 						
 							<div class="row" id="post-review-box" style="display:none;">

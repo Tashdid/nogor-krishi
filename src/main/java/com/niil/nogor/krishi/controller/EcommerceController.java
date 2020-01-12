@@ -209,5 +209,29 @@ public class EcommerceController extends AbstractController {
 		userAddressPreferenceRepo.save(userAddressPreference);
 		return userAddressPreference;	
 	}
+	
+	@RequestMapping(value = "/update-user-address-preference/{addressId}", method = RequestMethod.PUT)
+	@ResponseBody
+	public UserAddressPreference updateUserAddressPreference(@PathVariable Long addressId, 
+			@RequestBody UserAddressPreference userAddressPreference) {
+		
+		UserAddressPreference bean = userAddressPreferenceRepo.findOne(addressId);	
+		
+		bean.setAddress(userAddressPreference.getAddress());
+		bean.setCity(userAddressPreference.getCity());
+		bean.setDistrict(userAddressPreference.getDistrict());
+		
+		bean = userAddressPreferenceRepo.save(bean);
+		return bean;	
+	}
 
+	@RequestMapping(value = "/delete-user-address-preference/{addressId}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public Boolean deleteUserAddressPreference(@PathVariable Long addressId) {
+		
+		userAddressPreferenceRepo.delete(addressId);	
+		
+		return true;	
+	}
 }
+
