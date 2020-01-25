@@ -36,7 +36,11 @@ $(document).ready(function() {
 		ajaxFormSubmit($(this));
 
 	});
-
+  $( function() {
+    $( ".datepicker" ).datepicker(
+      { dateFormat: 'dd/mm/yy' }
+    );
+  } );
 
 });
 
@@ -56,11 +60,15 @@ function ajaxFormSubmit(form){
 		url : url,
 		data : form.serialize(),
 		success : function(data) {
-			alert("successfully changed!");
-			location.reload();
+      Swal.fire('successful','', 'success')
+      location.reload();
 		},
 		error:function(data, errorThrown){
-			alert('something went wrong!');
+			Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'কিছু সমস্যা হয়েছে, কিছুক্ষণ পর আবার চেষ্টা করুন'
+      })
 		}
 	});
 }

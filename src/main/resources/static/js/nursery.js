@@ -18,12 +18,16 @@ function loadChildDemographicData(selectElement, targetElementId, dependentEleme
 			if(dependentElement!=null){
 				$("#"+dependentElement).empty();
 			}
-			if(data.length && data[0].type==1){
-				loadChildDemographicData($("#"+targetElementId),dependentElement, null, isPreselectionNeeded);
-			}
+			// if(data.length && data[0].type==1){
+			// 	loadChildDemographicData($("#"+targetElementId),dependentElement, null, isPreselectionNeeded);
+			// }
 		},
 		error: function(data) {
-			alert("error");
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'কিছু সমস্যা হয়েছে, কিছুক্ষণ পর আবার চেষ্টা করুন'
+			})
 		}
 	
 	});

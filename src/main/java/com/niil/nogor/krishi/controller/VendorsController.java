@@ -39,7 +39,10 @@ public class VendorsController extends AbstractController {
 //		model.addAttribute("areas", areas);
 //		Area ar = area == null ? areas.get(0) : area;
 //		model.addAttribute("area", ar);
-		model.addAttribute("vendors", nurseryRepo.findAllByCityOrderBySequenceAsc(cityy));
+		if(cityy != null)
+			model.addAttribute("vendors", nurseryRepo.findAllByCityOrderBySequenceAsc(cityy));
+		else
+			model.addAttribute("vendors", nurseryRepo.findAll());
 		
 		System.out.println(nurseryRepo.findAllByCityOrderBySequenceAsc(cityy));
 		

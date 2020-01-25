@@ -132,76 +132,98 @@
 				<div class="card mt-2">
 					<h5 class="card-header">Delivery Update</h5>
 					<div class="card-body">
-						<form class="form-horizontal" id="deliveryUpdateForm"
-							th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/update-order-delivery'}"
-							th:object="${deliveryManagement}" method="post">
-							<div class="form-group">
-								<label class="">DeliveryDate: <span
-									th:text="${deliveryManagement.deliveryDatest}"></span></label> 
-									<input
-									type="hidden" th:field="*{id}" /> 
-									<input type="text"
-									th:field="*{deliveryDatest}" class="form-control"
-									placeholder="dd/MM/yyyy" />
+						<div class="hidden-div" id="hidden-div-deliveryinfo">
+								<form class="form-horizontal" id="deliveryUpdateForm"
+								th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/update-order-delivery'}"
+								th:object="${deliveryManagement}" method="post">
+								<div class="form-group">
+									<label class="">Delivery Date: </label> 
+										<input
+										type="hidden" th:field="*{id}" /> 
+										<input type="text"
+										th:field="*{deliveryDatest}" class="form-control datepicker" autocomplete="off"
+										 />
+	
+								</div>
+								<div class="form-group">
+									<label class="" for="deliveryPerson">Delivery Person: </label>
+	
+									<select th:value="*{deliveryPerson}"
+										th:field="*{deliveryPerson}" class="form-control">
+										<option th:each="tp : ${deliveryPersonList}"
+											th:value="${tp.id}" th:text="${tp.name}"></option>
+									</select>
+								</div>
+	
+								<button type="submit" class="btn btn-success">Change</button>
+	
+	
+							</form>
+						</div>
 
-							</div>
-							<div class="form-group">
-								<label class="" for="deliveryPerson">Delivery Person: <span
-									th:utext="${deliveryManagement.deliveryPerson!=null?deliveryManagement.deliveryPerson.name:null}"></span></label>
+						<div class="showing-div flex-column " id="showing-div-deliveryinfo">
+							<label class="" for="deliveryPerson">Delivery Person: </label>
+							<span
+								th:utext="${deliveryManagement.deliveryPerson!=null?deliveryManagement.deliveryPerson.name:null}"></span>
+							<br />
+							<label class="">DeliveryDate: </label>
+							<span th:text="${deliveryManagement.deliveryDatest}"></span>								
+						</div>
 
-								<select th:value="*{deliveryPerson}"
-									th:field="*{deliveryPerson}" class="form-control">
-									<option th:each="tp : ${deliveryPersonList}"
-										th:value="${tp.id}" th:text="${tp.name}"></option>
-								</select>
-							</div>
-
-							<button type="submit" class="btn btn-success">Change</button>
-
-
-						</form>
+						<button type="button" class="btn btn-link show-div" id="btn-show-deliveryinfo">পরিবর্তন করুন</button>
+						<button type="button" class="btn btn-link hide-div" id="btn-hide-deliveryinfo">Hide</button>
+						
+						
 					</div>
 				</div>
 
 				<div class="card mt-2">
-					<h5 class="card-header">Notes For Customer</h5>
+					<h5 class="card-header">কাস্টমারের জন্য নোট</h5>
 					<div class="card-body">
-
-						<div th:unless="${#lists.isEmpty(order.notes)}"
-							class="card bg-faded">
-							<div th:each="cm : ${order.notes}" class="card-block">
-								<div class="card-text">
-									<span class="glyphicon glyphicon-user"></span>
-									<!-- <span th:text="${cm.user.name}"></span>  -->
-									<span class="glyphicon glyphicon-time"></span> <span
-										th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(cm.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
-								</div>
-								<div class="card-text mt-2">
-									<div class="blockquote2" th:utext="${cm.notesSt}"></div>
+						
+						<div class="showing-div flex-column " id="showing-div-notes">
+						
+							<div th:unless="${#lists.isEmpty(order.notes)}"
+								class="card bg-faded">
+								<div th:each="cm : ${order.notes}" class="card-block">
+									<div class="card-text">
+										<!-- <span class="glyphicon glyphicon-user"></span> -->
+										<!-- <span th:text="${cm.user.name}"></span>  -->
+										<span class="glyphicon glyphicon-time"></span> <span
+											th:text="${beans.e2bconv.getDateAsBangla(#temporals.format(cm.createdOn, 'dd MMMM yyyy hh:mm a'))}"></span>
+									</div>
+									<div class="card-text mt-2">
+										<div class="blockquote2" th:utext="${cm.notesSt}"></div>
+									</div>
 								</div>
 							</div>
 						</div>
-						<label>Add New Note</label>
-						<form class="form-horizontal" id="notesAddForm"
-							th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/add-notes'}"
-							method="post">
-							<div class="form-group">
-								<textarea class="form-control" id="notesSt" name="notesSt"></textarea>
-							</div>
-							<button type="submit" class="btn btn-success">Save</button>
-
-
-							<div class="form-group ">
-								<div class="col-sm-4 offset-sm-8">
-									<div class="form-group"></div>
+						
+						<div class="hidden-div flex-column " id="hidden-div-notes">
+						
+							<label>নতুন নোট</label>
+							<form class="form-horizontal" id="notesAddForm"
+								th:action="@{'/vendorprice/vendor-order-detail/'+${order.id}+'/add-notes'}"
+								method="post">
+								<div class="form-group">
+									<textarea class="form-control" id="notesSt" name="notesSt"></textarea>
 								</div>
-							</div>
-						</form>
+								<button type="submit" class="btn btn-success">Save</button>
+	
+	
+								
+							</form>
+						</div>
+
+						<button type="button" class="btn btn-link show-div" id="btn-show-notes">নতুন নোট পাঠান</button>
+						<button type="button" class="btn btn-link hide-div" id="btn-hide-notes">Cancel</button>
+						
+						
 					</div>
 				</div>
 
-				<div class="card mt-2">
-					<h5 class="card-header">Feedback From Customer</h5>
+				<div th:unless="${order.feedbackSt == null}" class="card mt-2">
+					<h5 class="card-header">কাস্টমারের ফিডব্যাক</h5>
 					<div class="card-body">
 						<div th:if="${order.feedbackSt != null}" class="card bg-faded">
 							<div class="card-block">
@@ -213,6 +235,11 @@
 								</div>
 								<div class="card-text mt-2">
 									<div class="blockquote2" th:utext="${order.feedbackSt}"></div>
+									<div class="star" >
+										<span class="glyphicon .glyphicon-star-empty glyphicon-star" th:unless="*{order.rating == 0}" th:each="i : *{#numbers.sequence( 1, order.rating )}"></span>
+										<span class="glyphicon glyphicon-star-empty " th:unless="*{order.rating == 5}" th:each="i : *{#numbers.sequence( order.rating , 4 )}"></span>
+	
+									</div>
 								</div>
 							</div>
 						</div>

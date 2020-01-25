@@ -169,9 +169,16 @@ $(document).ready(function() {
 	
 	});	
 	
-	$(document).on("change", ".nursery-in-upozila", function(){
-	
-		location.replace(`${api_origin}/vendors/` + $(this).val());
+	$(document).on("click", "#search-vendors", function(){
+		if($(".nursery-in-upozila").val() != 0 && $(".nursery-in-upozila").val() != "undefined" && $(".nursery-in-upozila").val() != null)
+			location.replace(`${api_origin}/vendors/` + $(".nursery-in-upozila").val());
+		else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'দয়া  করে উপজেলা নির্বাচন করুন ।'
+			  })
+		}
 	
 	});	
 	
