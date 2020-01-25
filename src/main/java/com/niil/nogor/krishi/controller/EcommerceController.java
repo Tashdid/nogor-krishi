@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -27,12 +28,13 @@ import org.springframework.web.bind.annotation.*;
 // import com.niil.nogor.krishi.config.Constants;
 import com.niil.nogor.krishi.entity.*;
 import com.niil.nogor.krishi.repo.*;
+import com.niil.nogor.krishi.service.MailService;
+import com.niil.nogor.krishi.service.SecurityService;
 // import com.niil.nogor.krishi.service.SecurityService;
 // import com.niil.nogor.krishi.view.LArea;
 // import com.niil.nogor.krishi.view.LNursery;
 // import com.niil.nogor.krishi.view.LProduct;
 // import com.niil.nogor.krishi.view.LayoutRQ;
-import com.niil.nogor.krishi.service.SecurityService;
 
 /**
  * @author Himel
@@ -73,9 +75,11 @@ public class EcommerceController extends AbstractController {
 	ProductPropertyMappingRepo productPropertyMappingRepo;
 	@Autowired
 	DemographicDataRepo demographicDataRepo;
-
 	@Autowired SecurityService securityService;
 	@Autowired UserAddressPreferenceRepo userAddressPreferenceRepo;
+
+	@Autowired
+	MailService mailService;
 
     @RequestMapping("/buy/{product}")
     public String buy(@PathVariable Product product, final ModelMap model) {
@@ -169,6 +173,19 @@ public class EcommerceController extends AbstractController {
     @RequestMapping("/order-confirmation/{orderId}")
     public String confirmOrder(@PathVariable String orderId, final ModelMap model) {
 
+    	//email notification
+    	String url = "</br><p>http://www.nogorkrishi.com/gardener/gardener-order-detail/"+orderId+"</p>";
+    	
+    	String toUser=securityService.findLoggedInUser().getEmail();
+    	String subject="Order Confirmation";
+    	String msgText="ধন্যবাদ! আপনার অর্ডারটি আমরা পেয়েছি। \r\n "
+    			+ " অর্ডার নং : "+orderId+"। \r\n খুব শীঘ্রই নার্সারি থেকে আপনার সাথে যোগাযোগ করা হবে। "
+    					+ "\r\n" + 
+    			"আপনার অর্ডারটির ট্র্যাকিং ও ভবিষ্যৎ অনুসন্ধানের জন্য নিচের লিঙ্কে ক্লিক করুন। \r\n"
+    			+ ""+url;
+    	mailService.sendEmail(toUser, subject, msgText);
+    	//
+    	
         model.addAttribute("orderId", orderId);
 
         return "site/confirm_order";
