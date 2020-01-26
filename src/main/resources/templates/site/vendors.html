@@ -17,7 +17,7 @@
 				<!-- <form> -->
 				<div class="form-group">
 					<label class="col-form-label col-form-label-sm col-sm-3" for="city">বিভাগ:</label>
-					<select class="form-control" id="division" th:onchange="'javascript:loadChildDemographicData(this,\'zela\',\'upozela\',false)'">
+					<select class="form-control" id="division" th:onchange="'javascript:loadChildDemographicData(this,\'district\',\'upozela\',false)'">
 						<!-- th:field="*{bivag}" -->
 						<option th:value="0" text="Please Select">Please Select</option>
 						<option th:each="bv : ${bivaggulo}" th:value="${bv.id}" th:text="${bv.name}"></option>
