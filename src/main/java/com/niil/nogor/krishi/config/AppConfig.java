@@ -19,6 +19,7 @@ import com.niil.nogor.krishi.entity.Settings;
 import com.niil.nogor.krishi.repo.SettingsRepo;
 
 import krishi.gov.api.KrishiAPI;
+import krishi.gov.api.KrishiAPIv2;
 
 /**
  * @author Noor
@@ -68,6 +69,11 @@ public class AppConfig {
 	@Bean
 	KrishiAPI krishiAPI(@Value("${krishi.api.url:http://api.krishi.gov.bd/api}") String url) {
 		return KrishiAPI.connect(url);
+	}
+	
+	@Bean
+	KrishiAPIv2 krishiAPIv2(@Value("${krishi.api.url:http://api.krishi.gov.bd/api/external}") String url) {
+		return KrishiAPIv2.connect(url);
 	}
 
 	private Path getPath(Path path) {

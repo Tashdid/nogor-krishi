@@ -21,4 +21,6 @@ public interface ProductTypeRepo extends JpaRepository<ProductType, Long> {
 	ProductType findTopByOrderBySequenceDesc();
 
 	List<ProductType> findAllByLinkedToMaterialIsTrue();
+	
+	ProductType findTopByNameOrderBySequenceDesc(String categoryName);
 }

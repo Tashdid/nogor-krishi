@@ -38,7 +38,7 @@ public class ContentScheduler {
 	@Autowired private APIContentRepo contentRepo;
 	@Autowired private APIOfficerRepo officerRepo;
 
-	@Scheduled(cron="0 0 2 * * *") // Every day at 02:00 am
+	@Scheduled(cron="0 0 3 * * *") // Every day at 03:00 am
 	private void loadContents() {
 		log.debug("Loading contents scheduler starts at {}", LocalDateTime.now());
 		List<Content> contents = new ArrayList<>();

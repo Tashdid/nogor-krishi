@@ -40,5 +40,11 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 	
 	@Query("SELECT p FROM Product p WHERE p.id not in (SELECT pr.parent.id FROM Product pr where pr.parent is not null)")
 	List<Product> findAllAsChildOnly();
+	
+	Product findTopByApiIdOrderBySequenceAsc(Long apiId);
+	
+	Product findTopByCApiIdOrderBySequenceAsc(Long cApiId);
+	
+	List<Product> findAllByApiIdIsNotNullAndParentIsNull();
 
 }

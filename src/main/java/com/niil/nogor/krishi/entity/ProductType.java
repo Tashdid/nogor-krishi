@@ -19,9 +19,10 @@ import lombok.*;
 public class ProductType {
 	private @Id @GeneratedValue Long id;
 	private @Column(nullable=false) String name;
-	private @Column(nullable=false) String alternativeName;
+	private String alternativeName;
 	private @Lob byte[] image;
 	private @Lob byte[] icon;
 	private int sequence;
 	private boolean linkedToMaterial;
+	private String categoryTitle;
 }

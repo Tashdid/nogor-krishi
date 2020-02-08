@@ -7,6 +7,8 @@ import javax.persistence.*;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.*;
 
 /**
@@ -42,6 +44,20 @@ public class Product {
 	@Column(length=10485760)
 	private String benefits;
 	private int sequence;
+	
+	private Long apiId;
+	private Long cApiId;
+	private String scientificName;
+	private String category;
+	private String thumbsnail;
+	
+	private String releasedBy; 
+	private String seriesNo;
+	private String localName;
+	private String productionWithIrrigation;
+	private String productionWithoutIrrigation;
+	private String lifeTime;
+	
 	private @ManyToOne ProductType type;
 
 	private @ManyToOne Product parent;
