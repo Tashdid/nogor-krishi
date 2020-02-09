@@ -69,6 +69,12 @@ public class Product {
 		String lnsp = System.getProperty("line.separator");
 		StringBuilder dt = new StringBuilder();
 		if (StringUtils.isNotEmpty(description)) dt.append(description).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(localName)) dt.append("আঞ্চলিক নামঃ").append(lnsp).append(localName).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(releasedBy)) dt.append("অবমূক্তকারী প্রতিষ্ঠানঃ").append(lnsp).append(releasedBy).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(lifeTime)) dt.append("জীবনকালঃ").append(lnsp).append(lifeTime).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(seriesNo)) dt.append("সিরিজ সংখ্যাঃ").append(lnsp).append(seriesNo).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(productionWithIrrigation)) dt.append("উৎপাদন ( সেচ সহ ) / প্রতি হেক্টরঃ").append(lnsp).append(productionWithIrrigation).append(lnsp).append(lnsp);
+		if (StringUtils.isNotEmpty(productionWithoutIrrigation)) dt.append("উৎপাদন ( সেচ ছাড়া ) / প্রতি হেক্টরঃ").append(lnsp).append(productionWithoutIrrigation).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(benefits)) dt.append("গুণাগুণঃ").append(lnsp).append(benefits).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(usefulVarieties)) dt.append("ছাদের উপযোগী জাতঃ").append(lnsp).append(usefulVarieties).append(lnsp).append(lnsp);
 		if (StringUtils.isNotEmpty(suitableContainer)) dt.append("উপযোগী পাত্রঃ").append(lnsp).append(suitableContainer).append(lnsp).append(lnsp);
@@ -91,6 +97,12 @@ public class Product {
 			dtlst.add("");
 			dtlst.add("");
 		}
+		checkAndaddItem(dtlst, "আঞ্চলিক নামঃ", StringUtils.isEmpty(localName)&&parent!=null?parent.localName:localName);
+		checkAndaddItem(dtlst, "অবমূক্তকারী প্রতিষ্ঠানঃ", StringUtils.isEmpty(releasedBy)&&parent!=null?parent.releasedBy:releasedBy);
+		checkAndaddItem(dtlst, "জীবনকালঃ", StringUtils.isEmpty(lifeTime)&&parent!=null?parent.releasedBy:lifeTime);
+		checkAndaddItem(dtlst, "সিরিজ সংখ্যাঃ", StringUtils.isEmpty(seriesNo)&&parent!=null?parent.seriesNo:seriesNo);
+		checkAndaddItem(dtlst, "উৎপাদন ( সেচ সহ ) / প্রতি হেক্টরঃ", StringUtils.isEmpty(productionWithIrrigation)&&parent!=null?parent.productionWithIrrigation:productionWithIrrigation);
+		checkAndaddItem(dtlst, "উৎপাদন ( সেচ ছাড়া ) / প্রতি হেক্টরঃ", StringUtils.isEmpty(productionWithoutIrrigation)&&parent!=null?parent.productionWithoutIrrigation:productionWithoutIrrigation);
 		checkAndaddItem(dtlst, "গুণাগুণঃ", StringUtils.isEmpty(benefits)&&parent!=null?parent.benefits:benefits);
 		checkAndaddItem(dtlst, "ছাদের উপযোগী জাতঃ", StringUtils.isEmpty(usefulVarieties)&&parent!=null?parent.usefulVarieties:usefulVarieties);
 		checkAndaddItem(dtlst, "উপযোগী পাত্রঃ", StringUtils.isEmpty(suitableContainer)&&parent!=null?parent.suitableContainer:suitableContainer);

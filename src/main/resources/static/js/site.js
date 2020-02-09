@@ -134,7 +134,7 @@ $(document).ready(function() {
 
 	$(document).on("click", "#kinun", function(){
 	
-		localstgLoc = localStorage.getItem('loc');
+		localstgLoc = JSON.parse(localStorage.getItem('loc'));
 		if(localstgLoc == null || localstgLoc == '' || !localstgLoc.upozila)
 			$('#locationModal').modal();
 		else {

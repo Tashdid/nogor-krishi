@@ -384,8 +384,8 @@
 
 
 				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<button type="button" id="confirm-order" class="btn btn-success">অর্ডারটি নিশ্চিত করুন</button>
+					<div class="col-sm-12">
+						<button sec:authorize="isAuthenticated()" type="button" id="confirm-order" class="btn btn-success btn-block">অর্ডারটি নিশ্চিত করুন</button>
 					</div>
 				</div>
 			</div>
