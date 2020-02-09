@@ -132,10 +132,11 @@
 			localstgLoc = JSON.parse(localStorage.getItem('loc'));
 
 			$("#bivag").val(localstgLoc.division);
-			$("#zela").val(localstgLoc.district);
-			$("#upozela").val(localstgLoc.upozila);
+			
+			loadPrice(localstgLoc.division, localstgLoc.district, localstgLoc.upozila);
+			loadDeepChildDemographicData(localstgLoc.division, 'zela', localstgLoc.district);
+			loadDeepChildDemographicData(localstgLoc.district, 'upozela', localstgLoc.upozila);
 
-			loadPrice();
 		</script>
 	</body>
 </html>

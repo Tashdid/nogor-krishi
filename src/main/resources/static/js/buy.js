@@ -67,9 +67,11 @@ $(document).ready(function () {
 
 	$(document).on("click", "#get-price", function () {
 
-		loadPrice();
-
-
+		loadPrice(
+			$("#bivag").val(),
+			$("#zela").val(),
+			$("#upozela").val()
+		);
 	});
 
 	$(document).on("click", "#same-bill", function () {
@@ -146,7 +148,7 @@ $(document).ready(function () {
 
 });
 
-function loadPrice() {
+function loadPrice(bivag , zela, upozela ) {
 	let productId = $("#product-id").val();
 	let valueSt = "";
 	$.each(myMap, function (index, value) {
@@ -163,18 +165,18 @@ function loadPrice() {
 
 	localStorage.setItem('loc', JSON.stringify(
 		{
-			division: $("#bivag").val(),
-			district: $("#zela").val(),
-			upozila: $("#upozela").val()
+			division: bivag,
+			district: zela,
+			upozila: upozela
 		}
 	));
 
-	if ($("#upozela").val() && $("#upozela").val() != "0") {
-		demographicDataSt = "2-" + $("#upozela").val();
-	} else if ($("#zela").val() && $("#zela").val() != "0") {
-		demographicDataSt = "1-" + $("#zela").val();
-	} else if ($("#bivag").val() && $("#bivag").val() != "0") {
-		demographicDataSt = "0-" + $("#bivag").val();
+	if (upozela && upozela != "0") {
+		demographicDataSt = "2-" + upozela;
+	} else if (zela && zela != "0") {
+		demographicDataSt = "1-" + zela;
+	} else if (upozila && upozila != "0") {
+		demographicDataSt = "0-" + upozila;
 	}
 
 	var urlSt = `${api_origin}/api/productpricesearch/${productId}/${valueSt}`;
