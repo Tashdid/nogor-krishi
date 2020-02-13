@@ -33,7 +33,7 @@
 
 			<div class="row" id="gardens">
 				<div class="col-lg-3" th:each="tp : ${types}">
-					<a href="#" th:href="@{'/products/' + ${tp.id}}">
+					<a th:unless="${#lists.isEmpty(tp.image)}" href="#" th:href="@{'/products/' + ${tp.id}}">
 						<img height="265px" width="265px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(tp.image)}" src="images/shak.png" class="img-responsive" />
 						<p class="text-center garden-label"><span th:text="${tp.name}" th:remove="tag">শাক</span><br/><span class="english" th:text="${tp.alternativeName}">Leafy Vegetables</span></p>
 					</a>
