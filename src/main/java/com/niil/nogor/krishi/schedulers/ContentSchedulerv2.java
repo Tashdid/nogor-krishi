@@ -32,7 +32,7 @@ public class ContentSchedulerv2 {
 	@Autowired ProductRepo productRepo;
 
 	@Scheduled(cron="0 0 1 * * *")  //Every day at 1:0:0 am
-	public void loadCategoriesAndCrops() {
+	public void loadCategories() {
 		log.debug("Loading contents scheduler starts at {}", LocalDateTime.now());
 		try {
 
@@ -43,16 +43,16 @@ public class ContentSchedulerv2 {
 			resp.getData().forEach(cat->{
 				ProductType bean;
 				
-				bean = productTypeRepo.findTopByNameOrderBySequenceDesc(cat.getCategoryName());
+				bean = productTypeRepo.findTopByNameOrderBySequenceDesc(cat.getCategoryTitle());
 				
 				if (null == bean) {
 					ProductType lt = productTypeRepo.findTopByOrderBySequenceDesc();
 					int seq = (lt == null ? 0 : lt.getSequence()) + 1;
 					bean = ProductType.builder().sequence(seq).build();
 					
-					bean.setName(cat.getCategoryName());
+					bean.setName(cat.getCategoryTitle());
 				}
-				bean.setCategoryTitle(cat.getCategoryTitle());
+				bean.setAlternativeName(cat.getCategoryName());
 				
 				productTypeRepo.save(bean);
 				
@@ -76,7 +76,7 @@ public class ContentSchedulerv2 {
 		
 		respCrops.getData().forEach(crs ->{
 
-			System.out.println(crs.getName()+"***"+crs.getApiId());
+			//System.out.println(crs.getName()+"***"+crs.getApiId());
 			Product bean;
 			bean = productRepo.findTopByApiIdOrderBySequenceAsc(crs.getApiId());
 			ProductType pType=productTypeRepo.findTopByNameOrderBySequenceDesc(crs.getCategory());
