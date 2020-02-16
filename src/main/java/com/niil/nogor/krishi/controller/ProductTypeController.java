@@ -56,6 +56,7 @@ public class ProductTypeController extends AbstractController {
 		bean.setName(type.getName());
 		bean.setAlternativeName(type.getAlternativeName());
 		bean.setLinkedToMaterial(type.isLinkedToMaterial());
+		bean.setPublished(type.isPublished());
 		bean.setIcon(type.getIconFile() == null || type.getIconFile().isEmpty() ? bean.getIcon() : type.getIconFile().getBytes());
 		bean.setImage(type.getImageFile() == null || type.getImageFile().isEmpty() ? bean.getImage() : type.getImageFile().getBytes());
 		

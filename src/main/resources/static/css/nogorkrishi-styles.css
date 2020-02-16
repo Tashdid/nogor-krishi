@@ -293,12 +293,15 @@ ul.list-blogHeadline li{ margin-bottom: 34px; }
 
 .product-description-text p{ line-height: 24px; margin-bottom: 0.8rem !important; font-size: 16px; }
 
+
 .hoverme img {
 	display: none;
 }
 
 .hoverme:hover img {
 	display: block;
+	position: absolute;
+
 }
 
 #brand-text {

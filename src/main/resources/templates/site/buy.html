@@ -10,8 +10,18 @@
 		<div class="container mt-5">
 			<div class="row">
 				<div class="col-xm-12">
-						<div class="mb-5 d-flex" th:if="${product.image ne null}">
-							<img width="50px" height="100vw" style="margin-right: 15px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid" />					
+						<div class="mb-5 d-flex" >
+							<!-- <img width="50px" height="100vw" style="margin-right: 15px;" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}" src="images/tree-lal-shak.png" class="img-fluid" />					 -->
+							
+							<img th:if="${product.image ne null}" width="40%" height="100vw" style="margin-bottom: 5px; width:100%" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}"
+								src="images/hero-logo.png" 
+								onerror="this.onerror=null;this.src='http://www.nogorkrishi.com/images/hero-logo.png';"
+								class="img-fluid img-respoinsive pt-2" />
+							<img th:if="${product.thumbsnail ne null}" width="40%" height="100vw" style="margin-bottom: 5px; width:100%" th:src="${product.image}"
+								src="images/hero-logo.png" class="img-fluid img-respoinsive pt-2" 
+								onerror="this.onerror=null;this.src='http://www.nogorkrishi.com/images/hero-logo.png';"
+								
+							/>
 							<h3>
 								<a th:href="'/products/' + ${product.type.id} + '?product=' + ${product.id}" 
 								th:text="${product.name}"></a></h3>

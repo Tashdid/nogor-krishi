@@ -57,7 +57,8 @@ public class SiteController extends AbstractController {
 
 	@RequestMapping
 	public String homePage(final ModelMap model) {
-		List<ProductType> types = productTypeRepo.findAllByOrderBySequenceAsc();
+		List<ProductType> types = productTypeRepo.findAllByPublishedTrueOrderBySequenceAsc();
+		
 		model.addAttribute("types", types);
 		List<Area> areas = areaRepo.findAll();
 		model.addAttribute("areas", areas);
@@ -72,7 +73,7 @@ public class SiteController extends AbstractController {
 			@RequestParam(required=false) Material material,
 			final ModelMap model) {
 		model.addAttribute("type", type);
-		model.addAttribute("types", productTypeRepo.findAllByOrderBySequenceAsc());
+		model.addAttribute("types", productTypeRepo.findAllByPublishedTrueOrderBySequenceAsc());
 		if (type != null && type.isLinkedToMaterial()) {
 			if (material == null) {
 				model.addAttribute("products", materialRepo.findAllByOrderBySequenceAsc());
@@ -92,10 +93,10 @@ public class SiteController extends AbstractController {
 		} else if (product != null) {
 			model.addAttribute("type", product.getType());
 			model.addAttribute("product", product);
-			model.addAttribute("nextProduct", productRepo.findTopByTypeAndParentAndSequenceGreaterThanOrderBySequence(product.getType(),product.getParent(), product.getSequence()));
-			model.addAttribute("previousProduct", productRepo.findTopByTypeAndParentAndSequenceLessThanOrderBySequenceDesc(product.getType(),product.getParent(), product.getSequence()));
+			model.addAttribute("nextProduct", productRepo.findTopByTypeAndParentAndPublishedTrueAndSequenceGreaterThanOrderBySequence(product.getType(),product.getParent(), product.getSequence()));
+			model.addAttribute("previousProduct", productRepo.findTopByTypeAndParentAndPublishedTrueAndSequenceLessThanOrderBySequenceDesc(product.getType(),product.getParent(), product.getSequence()));
 			
-			List<Product> childProductList= productRepo.findAllByParentOrderBySequenceAsc(product);
+			List<Product> childProductList= productRepo.findAllByParentAndPublishedTrueOrderBySequenceAsc(product);
 			
 			model.addAttribute("childProductList", childProductList);
 			
@@ -130,7 +131,7 @@ public class SiteController extends AbstractController {
 			}
 
 		} else {
-			model.addAttribute("products", type == null ? productRepo.findAllByParentOrderBySequenceAsc(null) : productRepo.findAllByTypeAndParentOrderBySequenceAsc(type, null));
+			model.addAttribute("products", type == null ? productRepo.findAllByParentAndPublishedTrueOrderBySequenceAsc(null) : productRepo.findAllByTypeAndParentAndPublishedTrueOrderBySequenceAsc(type, null));
 		}
 		return "site/ponno";
 	}

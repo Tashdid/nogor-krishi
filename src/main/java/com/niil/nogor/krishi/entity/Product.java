@@ -57,6 +57,7 @@ public class Product {
 	private String productionWithIrrigation;
 	private String productionWithoutIrrigation;
 	private String lifeTime;
+	private boolean published;
 	
 	private @ManyToOne ProductType type;
 

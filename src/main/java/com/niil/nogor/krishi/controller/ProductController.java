@@ -87,6 +87,8 @@ public class ProductController extends AbstractController {
 		bean.setProductivity(product.getProductivity());
 		bean.setBenefits(product.getBenefits());
 		bean.setType(product.getType());
+		bean.setPublished(product.isPublished());
+		
 
 		bean.setIcon(product.getIconFile() == null || product.getIconFile().isEmpty() ? bean.getIcon() : product.getIconFile().getBytes());
 		bean.setImage(product.getImageFile() == null || product.getImageFile().isEmpty() ? bean.getImage() : product.getImageFile().getBytes());
@@ -115,6 +117,17 @@ public class ProductController extends AbstractController {
 		productRepo.delete(code);
 		cacheRepo.removeAllProductsCache();
 		return true;
+	}
+
+
+	@ResponseBody
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value ="/{product}/toggle", method = RequestMethod.POST)
+	public Boolean contentPublishUnpublish(@PathVariable Product product) {
+		boolean pubstat = !product.isPublished();
+		product.setPublished(pubstat);
+		
+		return productRepo.save(product).isPublished();
 	}
 }
 

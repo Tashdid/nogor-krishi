@@ -132,6 +132,12 @@
 												</div>
 											</div>
 											<div class="form-group row">
+												<label class="control-label col-form-label-sm col-sm-4" for="isPublished">Published?</label>
+												<div class="col-sm-1">
+													<input type="checkbox" class="form-control form-control-sm" th:field="*{published}" />
+												</div>
+											</div>
+											<div class="form-group row">
 												<label class="col-form-label col-form-label-sm col-sm-3" for="icon">আইকনঃ</label>
 												<div class="col-sm-9">
 													<input id="icon" th:required="${bean.id eq null}" type="file" accept=".jpg,.png" class="form-control form-control-sm uploadimg" name="iconFile" />
@@ -190,17 +196,22 @@
 												<td th:text="${bean.sequence}"></td>
 												<td th:text="${bean.name}"></td>
 												<td th:text="${bean.alternativeName}"></td>
-												<td th:attr="title=${bean.details}" th:text="${#strings.length(bean.details) gt 15 ? (#strings.substring(bean.details, 0, 15) + '...') : bean.details}"></td>
+												<td><span th:unless="${bean.details eq null}"  th:attr="title=${bean.details}" th:text="${#strings.length(bean.details) gt 15 ? (#strings.substring(bean.details, 0, 15) + '...') : bean.details}"></span></td>
+												<!-- <td th:unless="${bean.type eq null}" th:text="${bean.type.name}"></td> -->
 												<td th:text="${bean.type.name}"></td>
-												<td th:attr="title=${bean.productivity}" th:text="${#strings.length(bean.productivity) gt 15 ? (#strings.substring(bean.productivity, 0, 15) + '...') : bean.productivity}"></td>
-												<td th:attr="title=${bean.benefits}" th:text="${#strings.length(bean.benefits) gt 15 ? (#strings.substring(bean.benefits, 0, 15) + '...') : bean.benefits}"></td>
+												<td><span th:unless="${bean.productivity eq null}" th:attr="title=${bean.productivity}" th:text="${#strings.length(bean.productivity) gt 15 ? (#strings.substring(bean.productivity, 0, 15) + '...') : bean.productivity}"></span></td>
+												<td><span th:unless="${bean.benefits eq null}"  th:attr="title=${bean.benefits}" th:text="${#strings.length(bean.benefits) gt 15 ? (#strings.substring(bean.benefits, 0, 15) + '...') : bean.benefits}"></span></td>
 												<td><img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.icon)}"/></td>
-												<td class="hoverme">Hover here<img height="165px" width="165px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.image)}"/></td>
+												<td class="hoverme" style="position:absolute">Hover here<img height="165px" width="165px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.image)}"/></td>
 												<td>
 													<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/product/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
 													<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/product/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>
+													<button type="button" class="btn btn-sm pubtog" th:classappend="${bean.published ? 'btn-danger' : 'btn-success'}"
+													th:attr="data-remote=@{'/manage/product/' + ${bean.id} + '/toggle'}"><span class="glyphicon"
+														th:classappend="${bean.published ? 'glyphicon-cloud-download' : 'glyphicon-cloud-upload'}"></span></button>
 												</td>
 												<td th:text="${bean.id}"></td>
+										
 											</tr>
 										</tbody>
 									</table>

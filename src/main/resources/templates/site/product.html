@@ -3,16 +3,23 @@
 		<div class="product-description-text">
 			<div id="prod-desc-upper">
 				<!--  product image -->
-				<p th:if="${product.image ne null}">
-					<img width="40%" height="100vw" style="margin-bottom: 5px; width:100%" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}"
-					 src="images/tree-lal-shak.png" class="img-fluid pt-2" />
+				<p th:if="${product.image ne null OR product.thumbsnail ne null}">
+					<img th:if="${product.image ne null}" width="40%" height="100vw" style="margin-bottom: 5px; width:100%" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(product.image)}"
+					 src="/images/hero-logo.png" 
+					 onerror="this.onerror=null;this.src='http://www.nogorkrishi.com/images/hero-logo.png';"
+					 class="img-fluid pt-2" />
+					 <img th:if="${product.thumbsnail ne null}" width="40%" height="100vw" style="margin-bottom: 5px; width:100%" th:src="${product.image}"
+					 src="/images/hero-logo.png" class="img-fluid pt-2" 
+					 onerror="this.onerror=null;this.src='http://www.nogorkrishi.com/images/hero-logo.png';"
+					 
+					 />
 				</p>
 				<div th:if="${#lists.isEmpty(childProductList)}" id="product-commerce">
 					<!--  product price -->
 					<div id="price-range" class="mb-2">
-						<span class="detail-info-total-value">৳</span>
+						<span th:unless="${productMinPrice eq null and productMaxPrice eq null}" class="detail-info-total-value">৳</span>
 						<span th:unless="${productMinPrice eq null}" th:text="${productMinPrice ne null?productMinPrice.price:0}"></span>
-						-
+						<span th:unless="${productMinPrice eq null and productMaxPrice eq null}">-</span>
 						<span th:unless="${productMaxPrice eq null}" th:text="${productMaxPrice ne null?productMaxPrice.price :0}"></span>
 						<span th:unless="${productMaxPrice eq null and productMinPrice eq null}">টাকা</span>
 					</div>
