@@ -1,7 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta th:replace="common :: common-meta" th:remove="tag"/>
-		<link rel="stylesheet" th:href="@{/css/lib/owl.carousel.min.css}" href="css/lib/owl.carousel.min.css"></link>
+		
+		<link rel="stylesheet" th:href="@{/css/lib/owl.carousel.min.css}" href="css/lib/owl.carousel.min.css"></link>		
+		<link rel="stylesheet" th:href="@{/css/lib/owl.theme.default.css}" href="css/lib/owl.theme.default.css"></link>		
+
 	</head>
 	<body th:with="BASE64=${T(org.apache.tomcat.util.codec.binary.Base64)}" data-page="home">
 		<div th:replace="common :: common-menu" th:remove="tag"></div>
@@ -14,7 +17,7 @@
 				</div>
 			</div>
 	
-			<div id="intro-carousel" class="owl-carousel" >
+			<div id="intro-carousel" class="owl-carousel owl-theme" >
 				<div th:each="ci : ${cbeans}" class="item" th:style="'background-image:url(' + ${'data:image/png;base64,' + BASE64.encodeBase64String(ci.image.image)} + ');'" style="background-image: url('images/hero-bg.jpg');"></div>
 			</div>
 		</section>
@@ -218,7 +221,6 @@
 				// Intro background carousel
 				$("#intro-carousel").owlCarousel({
 					autoplay: true,
-					dots: true,
 					loop: true,
 					animateOut: 'fadeOut',
 					items: 1

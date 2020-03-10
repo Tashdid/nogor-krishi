@@ -172,7 +172,7 @@
 								<div class="col-sm-12" style="margin-top: 15px;">
 									<table th:if="${allbeans ne null and !#lists.isEmpty(allbeans)}"
 										class="dttable reorder table table-striped table-bordered" cellspacing="0" width="100%"
-										data-columndefs="sequence,name,alternativeName,details,type-true-filter,productivity,benefits,icon,image,buttons,id-false"
+										data-columndefs="sequence,name,alternativeName,details,type-true-filter,productivity,benefits,icon,buttons,id-false"
 										th:attr="data-actionurl=@{/manage/product/table}">
 										<thead>
 											<tr>
@@ -184,7 +184,7 @@
 												<th>Productivity</th>
 												<th>Benefits</th>
 												<th>Icon</th>
-												<th>Image</th>
+												<!-- <th>Image</th> -->
 												<th>
 													<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/product'}"><span class="glyphicon glyphicon-plus"></span></a>
 												</th>
@@ -202,7 +202,7 @@
 												<td><span th:unless="${bean.productivity eq null}" th:attr="title=${bean.productivity}" th:text="${#strings.length(bean.productivity) gt 15 ? (#strings.substring(bean.productivity, 0, 15) + '...') : bean.productivity}"></span></td>
 												<td><span th:unless="${bean.benefits eq null}"  th:attr="title=${bean.benefits}" th:text="${#strings.length(bean.benefits) gt 15 ? (#strings.substring(bean.benefits, 0, 15) + '...') : bean.benefits}"></span></td>
 												<td><img height="35px" width="35px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.icon)}"/></td>
-												<td class="hoverme" style="position:absolute">Hover here<img height="165px" width="165px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.image)}"/></td>
+												<!-- <td class="hoverme" style="position:absolute">Hover here<img height="165px" width="165px" th:src="${'data:image/png;base64,' + BASE64.encodeBase64String(bean.image)}"/></td> -->
 												<td>
 													<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/product/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
 													<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/product/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>
