@@ -1,21 +1,34 @@
-function loadDemographicData(selectElement){
+$(document).ready(function() {
+	loadDemographicData($("#locType"), true);
+});
+
+function loadDemographicData(selectElement, isEditing = false){
 	
 	var cValue = $(selectElement).val()
 	switch(cValue){
 		case "0": // bivag
-		$("#bivag").hide();
-		$("#zela").hide();
-		$('#parentId').val('');
+			$("#bivag").hide();
+			$("#zela").hide();
+			$('#parentId').val('');
 		break;
 		case "1": // zilla
-		$("#bivag").show();
-		$("#zela").hide();
-		$('#parentId').val($('#bivagselect').val());
+			$("#bivag").show();
+			$("#zela").hide();
+			if (isEditing) {
+				$('#bivagselect').val($("#parentId").val());
+			}
+			$('#parentId').val($('#bivagselect').val());
 		break;
 		case "2": // upozilla
-		$("#bivag").show();
-		$("#zela").show();
-		$('#parentId').val($('#zelaselect').val());
+			$("#bivag").show();
+			$("#zela").show();
+			if (isEditing) {
+				$('#bivagselect').val($("#parentBivagId").val());
+				loadChildDemographicData($("#bivagselect"),"zelaselect", null, false, true);
+				
+			}else{
+				$('#parentId').val($('#zelaselect').val());
+			}
 		break;
 	}
 }
@@ -25,7 +38,8 @@ function setParentId(_this) {
 		$('#parentId').val($(_this).val());
 	}
 }
-function loadChildDemographicData(selectElement, targetElementId, dependentElement, isPreselectionNeeded){
+
+function loadChildDemographicData(selectElement, targetElementId, dependentElement, isPreselectionNeeded, isEditing = false){
 
 	if($('#locType').val() == 1) {
 		$('#parentId').val($(selectElement).val());
@@ -48,6 +62,10 @@ function loadChildDemographicData(selectElement, targetElementId, dependentEleme
 
 				if(dependentElement!=null){
 					$("#"+dependentElement).empty();
+				}
+				if(isEditing){
+					$('#zelaselect').val($("#parentId").val());
+					$('#parentId').val($('#zelaselect').val());
 				}
 				// if(data.length && data[0].type==1){
 				// 	loadChildDemographicData($("#"+targetElementId),dependentElement, null, isPreselectionNeeded);

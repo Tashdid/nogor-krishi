@@ -25,5 +25,9 @@ public class DemographicData {
 	
 	@Transient
 	private String typeSt;
+	@Transient
+	private String typeStringForTable;
+	@Transient
+	private String parentBivagId;
 		
 }

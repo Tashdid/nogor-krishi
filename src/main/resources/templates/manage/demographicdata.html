@@ -21,12 +21,13 @@
 							<div class="col-sm-8">
 								<input required="" type="text" class="form-control form-control-sm" th:field="*{name}" />
 								<input required="" type="hidden" class="form-control form-control-sm" id="parentId" th:field="*{parentId}" />
+								<input type="hidden" class="form-control form-control-sm" id="parentBivagId" th:field="*{parentBivagId}" />
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-form-label-sm col-sm-4" for="name">Type:</label>
 							<div class="col-sm-8">
-								<select id="locType" class="form-control" th:field="*{typeSt}" required="required" th:onchange="'javascript:loadDemographicData(this)'">
+								<select id="locType" class="form-control" th:field="*{typeSt}" th:value="*{typeSt}" required="required" th:onchange="'javascript:loadDemographicData(this)'">
 									<option value="0">বিভাগ</option>
 									<option value="1">জেলা</option>
 									<option value="2">উপজেলা</option>
@@ -80,7 +81,7 @@
 							<tr th:each="bean : ${allbeans}">
 								<td th:text="${bean.sequence}"></td>
 								<td th:text="${bean.name}"></td>
-								<td th:text="${bean.typeSt}"></td>
+								<td th:text="${bean.typeStringForTable}"></td>
 								<td>
 									<a class="btn btn-info btn-sm pull-right" th:href="@{'/manage/demographicdata/' + ${bean.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
 									<button type="button" class="btn btn-danger btn-sm pull-right rmvbtn" th:attr="data-remote=@{'/manage/demographicdata/' + ${bean.id}}"><span class="glyphicon glyphicon-trash"></span></button>

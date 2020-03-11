@@ -42,15 +42,19 @@ public class DemographicDataController extends AbstractController {
 		model.addAttribute("bivaggulo", bivaggulo);
 		model.addAttribute("zelagulo", zelagulo);
 		
+		bean.setTypeSt(bean.getType()+"");
+		if(bean.getTypeSt().equals("2")) { //only for upzilla
+			bean.setParentBivagId( demographicDataRepo.findOne(bean.getParentId()).getParentId()+"");
+		}
 		model.addAttribute("bean", bean);
 		model.addAttribute("brand", "DemographicData");
 		
 		List<DemographicData> allData = demographicDataRepo.findAllByOrderBySequenceAsc();
 		for (DemographicData data : allData) {
 			if (data.getType() != null) {
-				data.setTypeSt(typeStFromType(data.getType()));
+				data.setTypeStringForTable(typeStFromType(data.getType()));
 			} else {
-				data.setTypeSt("Invalid");
+				data.setTypeStringForTable("Invalid");
 			}
 		}
 		
